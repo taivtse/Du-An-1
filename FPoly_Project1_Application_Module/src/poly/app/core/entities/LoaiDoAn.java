@@ -49,6 +49,11 @@ public class LoaiDoAn  implements java.io.Serializable {
         this.doAns = doAns;
     }
 
+    @Override
+    public String toString() {
+        return ten;
+    }
+
 
 
 

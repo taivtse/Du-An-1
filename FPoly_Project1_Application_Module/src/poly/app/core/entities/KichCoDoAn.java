@@ -51,6 +51,11 @@ public class KichCoDoAn  implements java.io.Serializable {
         this.doAnChiTiets = doAnChiTiets;
     }
 
+    @Override
+    public String toString() {
+        return ten;
+    }
+
 
 
 

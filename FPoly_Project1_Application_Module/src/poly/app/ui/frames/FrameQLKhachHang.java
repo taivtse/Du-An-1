@@ -5,6 +5,17 @@
  */
 package poly.app.ui.frames;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import javax.swing.table.DefaultTableModel;
+import poly.app.core.daoimpl.KhachHangDaoImpl;
+import poly.app.core.entities.KhachHang;
+import poly.app.ui.dialogs.DialogCapNhatKhachHang;
+import poly.app.ui.dialogs.DialogThemKhachHang;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -12,7 +23,8 @@ import poly.app.ui.utils.TableRendererUtil;
  * @author vothanhtai
  */
 public class FrameQLKhachHang extends javax.swing.JFrame {
-
+    
+    List<KhachHang> listKH = new ArrayList<>();
     /**
      * Creates new form FrameQLNhanVien
      */
@@ -41,11 +53,19 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        chkTen = new javax.swing.JCheckBox();
+        txtTen = new javax.swing.JTextField();
+        chkNgayDangKy = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        dcTuNgay = new com.toedter.calendar.JDateChooser();
+        dcDenNgay = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        btnTimKiem = new javax.swing.JButton();
+        btnDatLai = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKhachHang = new javax.swing.JTable();
@@ -61,13 +81,84 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel1.setText("Tra cứu khách hàng");
 
+        chkTen.setSelected(true);
+        chkTen.setText("Theo tên");
+        chkTen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTenActionPerformed(evt);
+            }
+        });
+
+        txtTen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenActionPerformed(evt);
+            }
+        });
+        txtTen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTenKeyReleased(evt);
+            }
+        });
+
+        chkNgayDangKy.setText("Theo ngày đăng ký");
+        chkNgayDangKy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkNgayDangKyActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Từ ngày");
+
+        dcTuNgay.setEnabled(false);
+        dcTuNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dcTuNgayPropertyChange(evt);
+            }
+        });
+
+        dcDenNgay.setEnabled(false);
+        dcDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dcDenNgayPropertyChange(evt);
+            }
+        });
+
+        jLabel3.setText("Đến ngày");
+
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
+
+        btnDatLai.setText("Đặt lại");
+        btnDatLai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDatLaiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnTimKiem)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDatLai))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel2)
+                        .addComponent(chkNgayDangKy)
+                        .addComponent(chkTen)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                        .addComponent(txtTen)
+                        .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -75,7 +166,25 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(557, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(chkTen)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(chkNgayDangKy)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dcTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnTimKiem)
+                    .addComponent(btnDatLai))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -84,11 +193,19 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
 
         btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
-
-        jButton1.setText("Xoá");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -99,8 +216,6 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -109,8 +224,7 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
-                    .addComponent(btnSua)
-                    .addComponent(jButton1))
+                    .addComponent(btnSua))
                 .addContainerGap())
         );
 
@@ -141,6 +255,9 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             }
         });
         tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKhachHangMouseClicked(evt);
+            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblKhachHangMouseReleased(evt);
             }
@@ -160,7 +277,7 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -239,20 +356,160 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        loadDataToTable();
+        loadAllDataToTable();
     }//GEN-LAST:event_formWindowOpened
 
     private void tblKhachHangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_tblKhachHangMouseReleased
 
-    
-    
-    public void loadDataToTable(){
-//        Đổ dữ liệu từ database vào table
-//        Code không quá 10 dòng
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
+        new DialogThemKhachHang(null, true).setVisible(true);
+        listKH = new KhachHangDaoImpl().getAll();
+        loadDataToTable(search());
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        String idKH = (String) tblKhachHang.getValueAt(tblKhachHang.getSelectedRow(), 0);
+        new DialogCapNhatKhachHang(this, true, idKH).setVisible(true);
+        listKH = new KhachHangDaoImpl().getAll();
+        loadDataToTable(search());
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
+        if ( evt.getClickCount() >= 2 ) {
+            String id = this.tblKhachHang.getValueAt(this.tblKhachHang.getSelectedRow(), 0).toString();
+            new DialogCapNhatKhachHang(this, true, id).setVisible(true);
+            listKH = new KhachHangDaoImpl().getAll();
+            loadDataToTable(search());
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblKhachHangMouseClicked
+
+    private void chkTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenActionPerformed
+        // TODO add your handling code here:
+        if (chkTen.isSelected()) {
+            txtTen.setEnabled(true);
+        } else {
+            txtTen.setText("");
+            txtTen.setEnabled(false);
+            loadDataToTable(search());
+        }
+    }//GEN-LAST:event_chkTenActionPerformed
+
+    private void chkNgayDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNgayDangKyActionPerformed
+        if (chkNgayDangKy.isSelected()) {
+            dcTuNgay.setEnabled(true);
+            dcDenNgay.setEnabled(true);
+        } else {         
+            dcTuNgay.setDate(null);
+            dcDenNgay.setDate(null);
+            dcTuNgay.setEnabled(false);
+            dcDenNgay.setEnabled(false);
+            loadDataToTable(search());
+        }
+    }//GEN-LAST:event_chkNgayDangKyActionPerformed
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+            
+    }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void txtTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenActionPerformed
+
+    private void txtTenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKeyReleased
+        // TODO add your handling code here:
+        loadDataToTable(search());
+    }//GEN-LAST:event_txtTenKeyReleased
+
+    private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
+        // TODO add your handling code here:
+        if ( chkNgayDangKy.isSelected() ) {
+            Date min = dcTuNgay.getDate();
+            Date max = dcDenNgay.getDate();
+            if ( min != null && max != null ) {
+                if ( max.compareTo(min) < 0 ) {
+                    dcTuNgay.setDate(max);
+                }
+            }
+            loadDataToTable(search());
+        }
+    }//GEN-LAST:event_dcTuNgayPropertyChange
+
+    private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
+        // TODO add your handling code here:
+        if (chkNgayDangKy.isSelected()){
+            Date min = dcTuNgay.getDate();
+            Date max = dcDenNgay.getDate();
+            if ( min != null && max != null ) {
+                if ( min.compareTo(max) > 0 ) {
+                    dcDenNgay.setDate(min);
+                }
+            }
+            loadDataToTable(search());
+        }
+    }//GEN-LAST:event_dcDenNgayPropertyChange
+
+    private void btnDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLaiActionPerformed
+        // TODO add your handling code here:
+        txtTen.setText("");
+        dcTuNgay.setDate(null);
+        dcDenNgay.setDate(null);
+    }//GEN-LAST:event_btnDatLaiActionPerformed
+
+    public void loadDataToTable( List<KhachHang> listKhachHang ) {
+        DefaultTableModel modelTblKH = (DefaultTableModel) tblKhachHang.getModel();
+        modelTblKH.setRowCount(0);
+        
+        for (KhachHang kh : listKhachHang) {
+            Object[] record = new Object[]{
+                kh.getId(),
+                kh.getHoTen(),
+                kh.getSoCmnd(),
+                kh.getSoDienThoai(),
+                kh.getEmail(),
+                kh.getDiaChi(),
+                kh.getNgayDangKy(),
+                kh.getNgaySinh(),
+                kh.isGioiTinhNam() ? "Nam" : "Nữ"
+            };
+            modelTblKH.addRow(record);
+        }
     }
     
+    public void loadAllDataToTable() {
+        KhachHangDaoImpl khachHangDaoImpl = new KhachHangDaoImpl();
+        listKH = khachHangDaoImpl.getAll();
+        loadDataToTable(listKH);
+    }
+    
+    public List<KhachHang> search() {
+        List<KhachHang> listKhachHangTimKiem = new ArrayList<KhachHang>();
+        Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
+
+        min = min==null? dcTuNgay.getMinSelectableDate() : min;
+        max = max==null? dcDenNgay.getMaxSelectableDate() : max ;
+        
+        LocalDate localDate = min.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        min = java.sql.Date.valueOf(localDate);
+        
+        localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        max = java.sql.Date.valueOf(localDate);
+        
+        for ( KhachHang kh : listKH ) {
+            if ( 
+                    kh.getHoTen().toLowerCase().contains(txtTen.getText().toLowerCase())
+                    && kh.getNgayDangKy().compareTo(min) >= 0
+                    && kh.getNgayDangKy().compareTo(max) <= 0
+            ) {
+                listKhachHangTimKiem.add(kh);
+            }
+        }
+        return listKhachHangTimKiem;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -291,10 +548,17 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
+    private javax.swing.JButton btnDatLai;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnTimKiem;
+    private javax.swing.JCheckBox chkNgayDangKy;
+    private javax.swing.JCheckBox chkTen;
+    private com.toedter.calendar.JDateChooser dcDenNgay;
+    private com.toedter.calendar.JDateChooser dcTuNgay;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -302,5 +566,6 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblKhachHang;
+    private javax.swing.JTextField txtTen;
     // End of variables declaration//GEN-END:variables
 }

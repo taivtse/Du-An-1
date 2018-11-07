@@ -5,6 +5,23 @@
  */
 package poly.app.ui.frames;
 
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import org.hibernate.HibernateException;
+import poly.app.core.daoimpl.PhimDaoImpl;
+import poly.app.core.entities.Phim;
+import poly.app.core.helper.DialogHelper;
+import poly.app.ui.dialogs.DialogCapNhatPhim;
 import poly.app.ui.dialogs.DialogThemPhim;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -17,10 +34,14 @@ public class FrameQLPhim extends javax.swing.JFrame {
     /**
      * Creates new form FrameQLNhanVien
      */
+    
+    List<Phim> listPhim;
+    
     public FrameQLPhim() {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
+        loadAllDataToTable();
     }
 
     private void reRenderUI() {
@@ -28,6 +49,10 @@ public class FrameQLPhim extends javax.swing.JFrame {
         TableRendererUtil tblRenderer1 = new TableRendererUtil(tblPhim);
         tblRenderer1.setCellEditable(false);
         tblRenderer1.changeHeaderStyle();
+    }
+    
+    public JPanel getMainPanel(){
+        return pnMain;
     }
 
     /**
@@ -39,9 +64,18 @@ public class FrameQLPhim extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnMain = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        chkTenPhim = new javax.swing.JCheckBox();
+        txtTenPhim = new javax.swing.JTextField();
+        chkKhoangThoiGian = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        dcTuNgay = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        dcDenNgay = new com.toedter.calendar.JDateChooser();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
@@ -57,10 +91,72 @@ public class FrameQLPhim extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
         });
+
+        pnMain.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setOpaque(false);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel1.setText("Tra cứu phim");
+
+        chkTenPhim.setText("Theo tên phim");
+        chkTenPhim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTenPhimActionPerformed(evt);
+            }
+        });
+
+        txtTenPhim.setEditable(false);
+        txtTenPhim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenPhimActionPerformed(evt);
+            }
+        });
+        txtTenPhim.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTenPhimKeyReleased(evt);
+            }
+        });
+
+        chkKhoangThoiGian.setText("Theo khoảng thời gian");
+        chkKhoangThoiGian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkKhoangThoiGianActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Từ ngày");
+
+        dcTuNgay.setEnabled(false);
+        dcTuNgay.setOpaque(false);
+        dcTuNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dcTuNgayPropertyChange(evt);
+            }
+        });
+
+        jLabel3.setText("Đến ngày");
+
+        dcDenNgay.setEnabled(false);
+        dcDenNgay.setOpaque(false);
+        dcDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dcDenNgayPropertyChange(evt);
+            }
+        });
+
+        jButton2.setText("Đặt lại");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Tìm");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -68,15 +164,47 @@ public class FrameQLPhim extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(chkKhoangThoiGian)
+                    .addComponent(chkTenPhim)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                    .addComponent(txtTenPhim)
+                    .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(62, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(557, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(chkTenPhim)
+                .addGap(18, 18, 18)
+                .addComponent(txtTenPhim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(chkKhoangThoiGian)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dcTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -93,8 +221,18 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
         btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Xoá");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -105,7 +243,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -139,6 +277,11 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tblPhim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPhimMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblPhim);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -154,7 +297,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -177,7 +320,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnCollapse.setBackground(new java.awt.Color(51, 51, 51));
+        btnCollapse.setBackground(new java.awt.Color(52, 83, 104));
         btnCollapse.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnCollapse.setForeground(new java.awt.Color(255, 255, 255));
         btnCollapse.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -190,19 +333,19 @@ public class FrameQLPhim extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnMainLayout = new javax.swing.GroupLayout(pnMain);
+        pnMain.setLayout(pnMainLayout);
+        pnMainLayout.setHorizontalGroup(
+            pnMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnMainLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCollapse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnMainLayout.setVerticalGroup(
+            pnMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -212,11 +355,11 @@ public class FrameQLPhim extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -233,24 +376,213 @@ public class FrameQLPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        loadDataToTable();
+        loadAllDataToTable();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         new DialogThemPhim(this, true).setVisible(true);
+        loadAllDataToTable();
     }//GEN-LAST:event_btnThemActionPerformed
 
+    private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
+        if ( evt.getClickCount() >= 2 ) {
+            int index = tblPhim.getSelectedRow();
+            String id = tblPhim.getValueAt(index, 0) + "";
+            new DialogCapNhatPhim(this, true, id).setVisible(true);
+            listPhim = new PhimDaoImpl().getPhimHienCo();
+            loadDataToTable(searchAdvance());
+        }
+    }//GEN-LAST:event_tblPhimMouseClicked
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int index = tblPhim.getSelectedRow();
+        if ( index < 0 ) {
+            new DialogHelper().message(this, "Vui long chọn dòng cần sửa !", DialogHelper.ERROR_MESSAGE);
+        } else {
+            String id = tblPhim.getValueAt(index, 0) + "";
+            new DialogCapNhatPhim(this, true, id).setVisible(true);
+            loadAllDataToTable();
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        boolean checkDelete = DialogHelper.confirm(this, "Bạn chắc chắn muốn xóa phim ?");
+        if ( !checkDelete ) return;
+        int index = tblPhim.getSelectedRow();
+        if ( index >= 0 ) {
+            if ( deletePhim(index) ) {
+                listPhim = new PhimDaoImpl().getPhimHienCo();
+                loadDataToTable(searchAdvance());
+                new DialogHelper().message(this, "Xóa thành công ^^", DialogHelper.INFORMATION_MESSAGE);
+            } else {
+                new DialogHelper().message(this, "Xóa thất bại !!", DialogHelper.ERROR_MESSAGE);
+            }
+        } else {
+            new DialogHelper().message(this, "Vui lòng chọn dòng muốn xóa !", HEIGHT);
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void chkTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenPhimActionPerformed
+        // TODO add your handling code here:
+        if ( chkTenPhim.isSelected() ) {
+            txtTenPhim.setEditable(true);
+        } else {
+            txtTenPhim.setEditable(false);
+            txtTenPhim.setText("");
+            loadDataToTable(searchAdvance());
+        }
+    }//GEN-LAST:event_chkTenPhimActionPerformed
+
+    private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected() ) {
+            dcTuNgay.setEnabled(true);
+            dcDenNgay.setEnabled(true);
+        } else {
+            dcTuNgay.setDate(null);
+            dcDenNgay.setDate(null);
+            dcTuNgay.setEnabled(false);
+            dcDenNgay.setEnabled(false);
+            loadDataToTable(searchAdvance());
+        }
+    }//GEN-LAST:event_chkKhoangThoiGianActionPerformed
+
+    private void txtTenPhimKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenPhimKeyReleased
+        // TODO add your handling code here:
+        loadDataToTable(searchAdvance());
+    }//GEN-LAST:event_txtTenPhimKeyReleased
+
+    private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected()) {
+            Date min = dcTuNgay.getDate();
+            Date max = dcDenNgay.getDate();
+            if ( min != null && max != null ) {
+                if ( min.compareTo(max) > 0 ) {
+                    dcTuNgay.setDate(max);
+                }
+            }
+            loadDataToTable(searchAdvance());
+        }
+    }//GEN-LAST:event_dcTuNgayPropertyChange
+
+    private void txtTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenPhimActionPerformed
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected()) {
+            loadDataToTable(searchAdvance());
+        }
+    }//GEN-LAST:event_txtTenPhimActionPerformed
+
+    private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected()) {
+            Date min = dcTuNgay.getDate();
+            Date max = dcDenNgay.getDate();
+            if ( min != null && max != null ) {
+                if ( min.compareTo(max) > 0 ) {
+                    dcDenNgay.setDate(min);
+                }
+            }
+            loadDataToTable(searchAdvance());
+        }
+    }//GEN-LAST:event_dcDenNgayPropertyChange
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        txtTenPhim.setText("");
+        dcTuNgay.setDate(null);
+        dcDenNgay.setDate(null);
+        loadDataToTable(searchAdvance());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        loadAllDataToTable();
+    }//GEN-LAST:event_formWindowActivated
+
+    public List<Phim> searchByTen() {
+        String tenTimKiem = txtTenPhim.getText().toLowerCase();
+        if ( !tenTimKiem.equals("") ) {
+            List<Phim> listPhimTheoTen = new ArrayList<>();
+            for ( Phim phim : listPhim ) {
+                if ( phim.getTen().toLowerCase().contains(tenTimKiem) ) {
+                    listPhimTheoTen.add(phim);
+                }
+            }
+            return listPhimTheoTen;
+        }
+        return listPhim;
+    }
+    
+    public List<Phim> searchAdvance() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Phim> listPhimTimKiem = new ArrayList<Phim>();
+        Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
+
+        min = min==null? dcTuNgay.getMinSelectableDate() : min;
+        max = max==null? dcDenNgay.getMaxSelectableDate() : max ;
+        
+        LocalDate localDate = min.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        min = java.sql.Date.valueOf(localDate);
+        
+        localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        max = java.sql.Date.valueOf(localDate);
+        
+        for ( Phim phim : listPhim ) {
+            if ( 
+                    phim.getTen().toLowerCase().contains(txtTenPhim.getText().toLowerCase())
+                    && phim.getNgayCongChieu().compareTo(min) >= 0
+                    && phim.getNgayCongChieu().compareTo(max) <= 0
+            ) {
+                listPhimTimKiem.add(phim);
+            }
+        }
+        return listPhimTimKiem;
+    }
+    
+    public void loadDataToTable(List<Phim> listPhimHienThi) {
+        DefaultTableModel modelTable = (DefaultTableModel) tblPhim.getModel();
+        modelTable.setRowCount(0);
+        for ( Phim phim : listPhimHienThi ) {
+            Object[] record = new Object[]{
+                phim.getId(),
+                phim.getTen(),
+                phim.getThoiLuong(),
+                phim.getGioiHanTuoi(),
+                phim.getNgayCongChieu(),
+                phim.getNgonNgu(),
+                phim.getDienVien(),
+                phim.getQuocGia(),
+                phim.getNhaSanXuat(),
+                phim.getTrangThai()
+            };
+            modelTable.addRow(record);
+        }
+    }
+    
+    public boolean deletePhim(int id) {
+        Phim phim = listPhim.get(id);
+        phim.setDaXoa(true);
+        try {
+            return new PhimDaoImpl().update(phim);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return false;
+        }    
+    }
     
     
-    public void loadDataToTable(){
-//        Đổ dữ liệu từ database vào table
-//        Code không quá 10 dòng
+    public void loadAllDataToTable(){
+        listPhim = new PhimDaoImpl().getPhimHienCo();
+        loadDataToTable(listPhim);
     }
     
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -276,7 +608,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -289,14 +621,23 @@ public class FrameQLPhim extends javax.swing.JFrame {
     private javax.swing.JLabel btnCollapse;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
+    private javax.swing.JCheckBox chkKhoangThoiGian;
+    private javax.swing.JCheckBox chkTenPhim;
+    private com.toedter.calendar.JDateChooser dcDenNgay;
+    private com.toedter.calendar.JDateChooser dcTuNgay;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel pnMain;
     private javax.swing.JTable tblPhim;
+    private javax.swing.JTextField txtTenPhim;
     // End of variables declaration//GEN-END:variables
 }

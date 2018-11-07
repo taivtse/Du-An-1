@@ -5,7 +5,16 @@
  */
 package poly.app.ui.dialogs;
 
+import java.util.Date;
+import poly.app.core.daoimpl.LoaiPhimDaoImpl;
+import poly.app.core.entities.LoaiPhim;
+import poly.app.core.entities.NguoiDung;
+import java.util.List;
+import java.util.Map;
+import javax.swing.DefaultComboBoxModel;
+import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.entities.Phim;
+import poly.app.core.helper.DialogHelper;
 
 /**
  *
@@ -23,20 +32,55 @@ public class DialogThemPhim extends javax.swing.JDialog {
     }
     
     private void loadLoaiPhimToCombobox(){
-        
+        List<LoaiPhim> listLoaiPhim = new LoaiPhimDaoImpl().getAll();
+        DefaultComboBoxModel modelCboTheLoai = (DefaultComboBoxModel) cboTheLoai.getModel();
+        for ( LoaiPhim loaiPhim : listLoaiPhim ) {
+            modelCboTheLoai.addElement(loaiPhim);
+        }
+        modelCboTheLoai.setSelectedItem(listLoaiPhim.get(0));
     }
     
     private Phim getModelFromInput(){
 //        code lay phim tu input
-
-        return null;
+        
+        Phim phim = new Phim();
+        phim.setId("PH"+new Date().getTime());
+        phim.setTen(txtTen.getText());
+        phim.setThoiLuong((int)spnThoiLuong.getValue());
+        phim.setGioiHanTuoi((int)spnGioiHanTuoi.getValue());
+        phim.setNgayCongChieu(dcNgayChieu.getDate());
+        phim.setNgonNgu(cboNgonNgu.getSelectedItem().toString());
+        phim.setNhaSanXuat(cboNSX.getSelectedItem().toString());
+        phim.setDienVien(txtDienVien.getText());
+        phim.setQuocGia(cboQuocGia.getSelectedItem().toString());
+        phim.setTrangThai(cboTrangThai.getSelectedItem().toString());
+        phim.setLoaiPhim((LoaiPhim)cboTheLoai.getSelectedItem());
+        phim.setTomTat(txtTomTat.getText());
+        phim.setDaXoa(false);
+        return phim;
+    }
+    
+    private void clearForm() {
+        txtTen.setText("");
+        spnThoiLuong.setValue(0);
+        spnGioiHanTuoi.setValue(0);
+        dcNgayChieu.setDate(new Date());
+        cboNgonNgu.setSelectedIndex(0);
+        cboNSX.setSelectedIndex(0);
+        txtDienVien.setText("");
+        cboQuocGia.setSelectedIndex(0);
+        cboTrangThai.setSelectedIndex(0);
+        cboTheLoai.setSelectedIndex(0);
+        txtTomTat.setText("");
     }
     
     private boolean insertModelToDatabase(){
 //        goi ham getModelFromInput
+        Phim phim = getModelFromInput();
         try {
-
+            return new PhimDaoImpl().insert(phim);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -70,10 +114,10 @@ public class DialogThemPhim extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtTomTat = new javax.swing.JTextArea();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboNSX = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtDienVien = new javax.swing.JTextArea();
-        cboVaiTro2 = new javax.swing.JComboBox<>();
+        cboQuocGia = new javax.swing.JComboBox<>();
         spnThoiLuong = new javax.swing.JSpinner();
         spnGioiHanTuoi = new javax.swing.JSpinner();
         dcNgayChieu = new com.toedter.calendar.JDateChooser();
@@ -115,6 +159,11 @@ public class DialogThemPhim extends javax.swing.JDialog {
         });
 
         btnHuy.setText("Huỷ");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
 
         jLabel11.setText("Thể loại");
 
@@ -124,13 +173,13 @@ public class DialogThemPhim extends javax.swing.JDialog {
         txtTomTat.setRows(5);
         jScrollPane1.setViewportView(txtTomTat);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hãng phim A", "Hãng phim B" }));
+        cboNSX.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hãng phim A", "Hãng phim B" }));
 
         txtDienVien.setColumns(10);
         txtDienVien.setRows(5);
         jScrollPane2.setViewportView(txtDienVien);
 
-        cboVaiTro2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Anh", "Nga", "Mỹ", "Trung Quốc", "Hàn Quốc" }));
+        cboQuocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Anh", "Nga", "Mỹ", "Trung Quốc", "Hàn Quốc" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -163,7 +212,7 @@ public class DialogThemPhim extends javax.swing.JDialog {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(cboNSX, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(43, 43, 43)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -179,7 +228,7 @@ public class DialogThemPhim extends javax.swing.JDialog {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cboTrangThai, 0, 163, Short.MAX_VALUE)
                                     .addComponent(jScrollPane2)
-                                    .addComponent(cboVaiTro2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(cboQuocGia, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(64, 64, 64)
                                 .addComponent(btnLuu)
@@ -213,7 +262,7 @@ public class DialogThemPhim extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel4)
                                 .addComponent(jLabel8)
-                                .addComponent(cboVaiTro2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cboQuocGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(dcNgayChieu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,13 +275,13 @@ public class DialogThemPhim extends javax.swing.JDialog {
                             .addComponent(jLabel11)
                             .addComponent(cboTheLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(cboNgonNgu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cboNgonNgu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cboNSX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -264,11 +313,17 @@ public class DialogThemPhim extends javax.swing.JDialog {
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         if (insertModelToDatabase()){
-            
+            DialogHelper.message(null, "Thêm phim thành công ^^", DialogHelper.INFORMATION_MESSAGE);
+            this.dispose();
         }else{
-            
+            DialogHelper.message(null, "Thêm phim thất bại !!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLuuActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,12 +373,12 @@ public class DialogThemPhim extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
+    private javax.swing.JComboBox<String> cboNSX;
     private javax.swing.JComboBox<String> cboNgonNgu;
+    private javax.swing.JComboBox<String> cboQuocGia;
     private javax.swing.JComboBox<String> cboTheLoai;
     private javax.swing.JComboBox<String> cboTrangThai;
-    private javax.swing.JComboBox<String> cboVaiTro2;
     private com.toedter.calendar.JDateChooser dcNgayChieu;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

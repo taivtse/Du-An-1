@@ -6,22 +6,21 @@
 package poly.app.ui.frames;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
+import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
-import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.DoAnDaoImpl;
 import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.helper.DialogHelper;
-import poly.app.core.helper.TableStructureHelper;
+import poly.app.ui.dialogs.DialogCapNhatDoAn;
 import poly.app.ui.dialogs.DialogThemDoAn;
+import poly.app.ui.dialogs.DialogCapNhatDoAnChiTiet;
+import poly.app.ui.dialogs.DialogThemDoAnChiTiet;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -30,6 +29,11 @@ import poly.app.ui.utils.TableRendererUtil;
  */
 public class FrameQLDoAn extends javax.swing.JFrame {
 
+    List<DoAn> listDoAn = new ArrayList<>();
+    List<DoAnChiTiet> listDoAnCT = new ArrayList<>();
+    Map<String, DoAn> mapDoAn = new HashMap<String, DoAn>();
+    ButtonGroup btngr = new ButtonGroup();
+
     /**
      * Creates new form FrameQLNhanVien
      */
@@ -37,6 +41,9 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
+        btngr.add(rdoDangDuocBan);
+        btngr.add(rdoDaNgungBan);
+        btngr.add(rdoTatCa);
         this.loadDataToTable();
     }
 
@@ -63,12 +70,18 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        txtTraCuuDoAn = new javax.swing.JTextField();
+        rdoDangDuocBan = new javax.swing.JRadioButton();
+        rdoDaNgungBan = new javax.swing.JRadioButton();
+        rdoTatCa = new javax.swing.JRadioButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        btnSuaKichCo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDoAn = new javax.swing.JTable();
@@ -86,21 +99,84 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel1.setText("Tra cứu đồ ăn");
 
+        txtTraCuuDoAn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTraCuuDoAnKeyReleased(evt);
+            }
+        });
+
+        rdoDangDuocBan.setText("Đang được bán");
+        rdoDangDuocBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoDangDuocBanActionPerformed(evt);
+            }
+        });
+
+        rdoDaNgungBan.setText("Đã ngưng bán");
+        rdoDaNgungBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoDaNgungBanActionPerformed(evt);
+            }
+        });
+
+        rdoTatCa.setSelected(true);
+        rdoTatCa.setText("Tất cả");
+        rdoTatCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoTatCaActionPerformed(evt);
+            }
+        });
+
+        jCheckBox1.setText("Theo trạng thái");
+
+        jCheckBox2.setText("Theo tên");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rdoTatCa)
+                                    .addComponent(rdoDaNgungBan)
+                                    .addComponent(rdoDangDuocBan)
+                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 9, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtTraCuuDoAn))))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(557, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addComponent(jCheckBox2)
+                .addGap(18, 18, 18)
+                .addComponent(txtTraCuuDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jCheckBox1)
+                .addGap(2, 2, 2)
+                .addComponent(rdoTatCa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rdoDangDuocBan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rdoDaNgungBan, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -117,10 +193,26 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
-
-        jButton1.setText("Xoá");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Thêm kích cỡ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        btnSuaKichCo.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btnSuaKichCo.setText("Sửa");
+        btnSuaKichCo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaKichCoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -131,11 +223,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addGap(24, 24, 24))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSuaKichCo)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,8 +236,8 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
                     .addComponent(btnSua)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(btnSuaKichCo))
                 .addContainerGap())
         );
 
@@ -157,14 +249,14 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã đồ ăn", "Tên đồ ăn", "Loại đồ ăn"
+                "Mã đồ ăn", "Tên đồ ăn", "Trạng  Thái", "Loại đồ ăn"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -188,7 +280,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Kích cỡ", "Đơn giá", "Đang bán"
+                "Kích cỡ", "Đơn giá", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
@@ -197,6 +289,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        tblDoAnChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDoAnChiTietMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblDoAnChiTiet);
@@ -209,7 +306,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(
@@ -217,7 +314,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addGap(10, 10, 10))
         );
@@ -305,16 +402,55 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDoAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoAnMouseClicked
-        this.loadDoAnChiTiet();
+        if (evt.getClickCount() >= 2) {
+            this.updateDA();
+        } else {
+            this.loadDoAnChiTiet();
+        }
     }//GEN-LAST:event_tblDoAnMouseClicked
-    List<DoAn> listDoAn = new ArrayList<>();
-    List<DoAnChiTiet> listDoAnCT = new ArrayList<>();
-    Map<String, Object> mapDoAn = new HashMap<String, Object>();
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        this.updateDA();
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnSuaKichCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaKichCoActionPerformed
+        this.updateDACT();
+    }//GEN-LAST:event_btnSuaKichCoActionPerformed
+
+    private void txtTraCuuDoAnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTraCuuDoAnKeyReleased
+        if (txtTraCuuDoAn.getText().equals("")) {
+            this.loadDataToTable();
+        } else {
+//            this.searchDA();
+            this.searchDoAnByName();
+        }
+    }//GEN-LAST:event_txtTraCuuDoAnKeyReleased
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.insertDACT();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tblDoAnChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoAnChiTietMouseClicked
+        if(evt.getClickCount()>=2)
+        {
+            this.updateDACT();
+        }
+    }//GEN-LAST:event_tblDoAnChiTietMouseClicked
+
+    private void rdoTatCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTatCaActionPerformed
+        
+        
+    }//GEN-LAST:event_rdoTatCaActionPerformed
+
+    private void rdoDangDuocBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDangDuocBanActionPerformed
+        this.filterDangDuocBan(searchDoAnByName());
+    }//GEN-LAST:event_rdoDangDuocBanActionPerformed
+
+    private void rdoDaNgungBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaNgungBanActionPerformed
+       this.filterDaNgungBan(searchDoAnByName());
+    }//GEN-LAST:event_rdoDaNgungBanActionPerformed
+
     public void loadDataToTable() {
-//        Đổ dữ liệu từ database vào table
-//        Code không quá 10 dòng
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
         DoAnDaoImpl doAnDao = new DoAnDaoImpl();
@@ -323,6 +459,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             Object[] record = new Object[]{
                 fill.getId(),
                 fill.getTen(),
+                fill.isDangBan() ? "Đang được bán" : "Đã ngưng bán",
                 fill.getLoaiDoAn().getTen()
             };
             modelDA.addRow(record);
@@ -335,22 +472,167 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         String id = (String) tblDoAn.getValueAt(index, 0);
         DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
         modelDACT.setRowCount(0);
-        DoAn doan = (DoAn)mapDoAn.get(id);
+        
+        DoAnDaoImpl doAnDao = new DoAnDaoImpl();
+        listDoAn = doAnDao.getAll();
+        for (DoAn fill : listDoAn) {
+            mapDoAn.put(fill.getId(), fill);
+        }
+        
+        DoAn doan = (DoAn) mapDoAn.get(id);
         Set<DoAnChiTiet> dact = doan.getDoAnChiTiets();
-        for(DoAnChiTiet fill : dact)
-        {
+        for (DoAnChiTiet fill : dact) {
             Object[] record = new Object[]{
                 fill.getKichCoDoAn().getTen(),
                 fill.getDonGia(),
-                fill.isTrangThai()?"Đang được bán":"Đã ngưng bán"
+                fill.isDangBan() ? "Đang được bán" : "Đã ngưng bán"
             };
             modelDACT.addRow(record);
         }
-
     }
-    public void insertDA()
-    {
+
+    public void insertDA() {
         new DialogThemDoAn(this, true).setVisible(true);
+        this.loadDataToTable();
+    }
+
+    public void updateDA() {
+        if(tblDoAn.getSelectedRow()<0)
+        {
+            DialogHelper.message(this, "Chưa chọn đồ ăn !", DialogHelper.ERROR_MESSAGE);
+        }
+        String idDA = (String) tblDoAn.getValueAt(tblDoAn.getSelectedRow(), 0);
+        new DialogCapNhatDoAn(this, true, mapDoAn.get(idDA)).setVisible(true);
+        this.loadDataToTable();
+        this.searchDoAnByName();
+    }
+
+    public void searchDA() {
+        DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
+        modelDA.setRowCount(0);
+        DoAnDaoImpl search = new DoAnDaoImpl();
+        Map<String, Object> mapSearch = new HashMap<String, Object>();
+        mapSearch.put("ten", txtTraCuuDoAn.getText());
+        List<DoAn> listSearch = search.getByProperties(mapSearch);
+        for (DoAn fill : listSearch) {
+            Object[] record = new Object[]{
+                fill.getId(),
+                fill.getTen(),
+                fill.isDangBan() ? "Đang được bán" : "Đã ngưng bán",
+                fill.getLoaiDoAn().getTen()
+            };
+            modelDA.addRow(record);
+        }
+    }
+
+    public Map<String, DoAn>  searchDoAnByName() {
+        Map<String, DoAn> mapSearchByName = new HashMap<String, DoAn>();
+        DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
+        modelDA.setRowCount(0);
+        for (Entry<String, DoAn> entry : mapDoAn.entrySet()) {
+            if (entry.getValue().getTen().toLowerCase().contains(txtTraCuuDoAn.getText().toLowerCase()))  {
+                DoAn doAn = entry.getValue();
+                Object[] record = new Object[]{
+                    doAn.getId(),
+                    doAn.getTen(),
+                    doAn.isDangBan()?"Đang được bán":"Đã ngưng bán",
+                    doAn.getLoaiDoAn().getTen()
+                };
+                modelDA.addRow(record);
+                mapSearchByName.put(doAn.getId(), doAn);
+            }
+
+        }
+        return mapSearchByName;
+    }
+    public void filterDangDuocBan(Map<String, DoAn> mapSearch)
+    {
+        DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
+        modelDA.setRowCount(0);
+        for (Entry<String, DoAn> entry : mapSearch.entrySet()) {
+            if (entry.getValue().isDangBan().compareTo(true)==0)  {
+                DoAn doAn = entry.getValue();
+                Object[] record = new Object[]{
+                    doAn.getId(),
+                    doAn.getTen(),
+                    doAn.isDangBan()?"Đang đươc bán":"Đã ngưng bán",
+                    doAn.getLoaiDoAn().getTen()
+                };
+                modelDA.addRow(record);
+            }
+
+        }
+    }
+    public void filterDaNgungBan(Map<String, DoAn> mapSearch)
+    {
+        DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
+        modelDA.setRowCount(0);
+        for (Entry<String, DoAn> entry : mapSearch.entrySet()) {
+            if (entry.getValue().isDangBan().compareTo(false)==0)  {
+                DoAn doAn = entry.getValue();
+                Object[] record = new Object[]{
+                    doAn.getId(),
+                    doAn.getTen(),
+                    doAn.isDangBan()?"Đang đươc bán":"Đã ngưng bán",
+                    doAn.getLoaiDoAn().getTen()
+                };
+                modelDA.addRow(record);
+            }
+
+        }
+    }
+    public void insertDACT() {
+        
+        if(tblDoAn.getSelectedRow()<0)
+        {
+            DialogHelper.message(this, "Chưa chọn đồ ăn !", DialogHelper.ERROR_MESSAGE);
+        }
+        else
+        {
+            String idDA = (String) tblDoAn.getValueAt(tblDoAn.getSelectedRow(), 0);
+            DoAn doAn = (DoAn) mapDoAn.get(idDA);
+            new DialogThemDoAnChiTiet(this, true, doAn).setVisible(true);
+            this.loadDoAnChiTiet();
+        }
+            
+    }
+    public void updateDACT() {
+        
+        int indexDA = tblDoAn.getSelectedRow();
+        String idDA = (String) tblDoAn.getValueAt(indexDA, 0);
+        int indexDACT = tblDoAnChiTiet.getSelectedRow();
+        
+        
+        DoAn doan = (DoAn) mapDoAn.get(idDA);
+        Set<DoAnChiTiet> doanchitiet = doan.getDoAnChiTiets();
+
+        if(indexDACT < 0)
+        {
+            DialogHelper.message(this, "Chưa chọn cỡ !", DialogHelper.ERROR_MESSAGE);
+        }
+        else
+        {
+            String dactTen = (String) tblDoAnChiTiet.getValueAt(indexDACT, 0);
+            for(DoAnChiTiet item : doanchitiet)
+            {
+                if (item.getKichCoDoAn().getTen().equals(dactTen)){
+                    DialogHelper.message(this, item.getKichCoDoAn().getTen() , DialogHelper.INFORMATION_MESSAGE);
+                    new DialogCapNhatDoAnChiTiet(this, true, item).setVisible(true);
+                    this.loadDoAnChiTiet();
+                    break;
+                }
+            }
+        }
+        
+//        if(index<0)
+//        {
+//            DialogHelper.message(this, "Chưa chọn đồ ăn !", DialogHelper.ERROR_MESSAGE);
+//        }
+//        else
+//        {
+//            new DialogCapNhatDoAnChiTiet(this, true, doanchitiet).setVisible(true);
+//        }
+//        this.loadDataToTable();
     }
 
     /**
@@ -394,9 +676,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
     private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnSuaKichCo;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -405,7 +689,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JRadioButton rdoDaNgungBan;
+    private javax.swing.JRadioButton rdoDangDuocBan;
+    private javax.swing.JRadioButton rdoTatCa;
     private javax.swing.JTable tblDoAn;
     private javax.swing.JTable tblDoAnChiTiet;
+    private javax.swing.JTextField txtTraCuuDoAn;
     // End of variables declaration//GEN-END:variables
 }

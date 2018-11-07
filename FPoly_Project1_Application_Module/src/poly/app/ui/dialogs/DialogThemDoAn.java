@@ -30,44 +30,43 @@ public class DialogThemDoAn extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         this.setTitle("Thêm Đồ Ăn");
     }
-    
-    private void loadLoaiDoAnToCombobox(){
-        
+
+    private void loadLoaiDoAnToCombobox() {
+
         DefaultComboBoxModel modelComboBox = (DefaultComboBoxModel) cboLoaiDoAn.getModel();
         modelComboBox.removeAllElements();
         LoaiDoAnDaoImpl lda = new LoaiDoAnDaoImpl();
         List<LoaiDoAn> listLDA = lda.getAll();
-        for(LoaiDoAn fill : listLDA)
-        {
+        for (LoaiDoAn fill : listLDA) {
             modelComboBox.addElement(fill);
         }
     }
-    
-    private DoAn getModelFromInput(){
+
+    private DoAn getModelFromInput() {
 //        code lay do an tu input
 //        Ma do an se co dang: DA01293411 hoac NU123412418716 tuy theo loai
 //        vidu neu la nuoc uong: "NU" + new Date().getTime();
         DoAn model = new DoAn();
         model.setTen(txtTen.getText());
-        model.setLoaiDoAn((LoaiDoAn)cboLoaiDoAn.getSelectedItem());
-        LoaiDoAn lda = (LoaiDoAn) cboLoaiDoAn.getSelectedItem();
-        if(lda.getId()==1)
-        {
-            model.setId("DA"+new Date().getTime());
+        model.setLoaiDoAn((LoaiDoAn) cboLoaiDoAn.getSelectedItem());
+        if (cboLoaiDoAn.getSelectedItem().toString().equals("Đang được bán")) {
+            model.setDangBan(true);
+        } else {
+            model.setDangBan(false);
         }
-        else
-        {
-            model.setId("NU"+ new Date().getTime());
-        }
+        
+        String maLoai = ((LoaiDoAn) cboLoaiDoAn.getModel().getSelectedItem()).getId();
+        model.setId(maLoai + System.currentTimeMillis());
+
         return model;
     }
-    
-    private boolean insertModelToDatabase(){
+
+    private boolean insertModelToDatabase() {
 //        goi ham getNguoiDungFromInput
         try {
-            DoAnDaoImpl dad = new DoAnDaoImpl();
-            dad.insert(getModelFromInput());
-            JOptionPane.showMessageDialog(this, "Thêm dữ liệu thành công !");
+            DoAnDaoImpl insertDoAn = new DoAnDaoImpl();
+            insertDoAn.insert(getModelFromInput());
+            return true;
         } catch (Exception e) {
         }
         return false;
@@ -184,14 +183,15 @@ public class DialogThemDoAn extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        loadLoaiDoAnToCombobox();
+        this.loadLoaiDoAnToCombobox();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (insertModelToDatabase()){
-
-        }else{
-            
+        if (insertModelToDatabase()) {
+            this.dispose();
+            DialogHelper.message(this, "Thêm dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
+        } else {
+            DialogHelper.message(this, "Thêm dữ liệu thất bại !", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 

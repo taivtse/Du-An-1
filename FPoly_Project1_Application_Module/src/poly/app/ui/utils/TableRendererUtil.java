@@ -23,7 +23,7 @@ public class TableRendererUtil {
     public TableRendererUtil(JTable jTable) {
         this.jTable = jTable;
         
-//        Lay header cua table va
+//        Lay header cua table
         tableHeader = new Vector();
         for (int i = 0; i < jTable.getColumnCount(); i++) {
             tableHeader.add(jTable.getColumnName(i));
