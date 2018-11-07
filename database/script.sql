@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `do_an`;
 CREATE TABLE `do_an` (
   `id` varchar(15) NOT NULL,
   `ten` varchar(45) NOT NULL,
-  `dang_ban` bit(1) DEFAULT b'1',
+  `dang_ban` bit(1) NOT NULL,
   `loai_do_an_id` varchar(5) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_DOAN_LOAIDOAN_idx` (`loai_do_an_id`),
@@ -66,9 +66,47 @@ CREATE TABLE `do_an` (
 
 LOCK TABLES `do_an` WRITE;
 /*!40000 ALTER TABLE `do_an` DISABLE KEYS */;
-INSERT INTO `do_an` VALUES ('DA001','Bắp rang bơ',_binary '','DA'),('DA002','Đùi gà',_binary '','DA'),('DA1541342381451','haha',_binary '','DA'),('NU003','Coca',_binary '','NU'),('NU004','Pepsi',_binary '','NU');
+INSERT INTO `do_an` VALUES ('DA001','Bắp rang bơ',_binary '','DA'),('DA002','Đùi gà',_binary '','DA'),('DA003','asda',_binary '','DA'),('NU003','Coca',_binary '','NU'),('NU004','Pepsi',_binary '','NU');
 /*!40000 ALTER TABLE `do_an` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `do_an_BEFORE_INSERT` BEFORE INSERT ON `do_an` FOR EACH ROW BEGIN
+	-- do dai cua chuoi so
+    SET @numLenght := 3;
+    
+    -- lay id lon nhat trong bang
+    SET @prevId := (SELECT id FROM do_an WHERE loai_do_an_id LIKE CONCAT(new.loai_do_an_id, '%')  ORDER BY id DESC LIMIT 1);
+	
+    -- neu bang chua co du lieu, thi lay la 000000000
+    if @prevId = NULL then
+		SET @prevId := '00000';
+	END IF;
+    
+    -- lay phan so tu chuoi id
+    SET @num := RIGHT(@prevId, @numLenght);
+    
+    -- tang phan so len 1 don vi
+	SET @num := CAST(@num AS UNSIGNED) + 1;
+
+	-- them so 0 vao truoc num cho du n ky tu
+    SET @num := LPAD(@num, @numLenght, '0');
+    
+    -- cap nhat lai id moi
+	SET new.id := CONCAT(new.loai_do_an_id, @num);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `do_an_chi_tiet`
@@ -86,8 +124,8 @@ CREATE TABLE `do_an_chi_tiet` (
   PRIMARY KEY (`id`),
   KEY `FK_DOANCHITIET_DOAN_idx` (`do_an_id`),
   KEY `FK_DOANCHITIET_KICHCODOAN_idx` (`kich_co_do_an_id`),
-  CONSTRAINT `FK_DOANCHITIET_DOAN` FOREIGN KEY (`do_an_id`) REFERENCES `do_an` (`id`),
-  CONSTRAINT `FK_DOANCHITIET_KICHCODOAN` FOREIGN KEY (`kich_co_do_an_id`) REFERENCES `kich_co_do_an` (`id`)
+  CONSTRAINT `FK_DOANCHITIET_DOAN` FOREIGN KEY (`do_an_id`) REFERENCES `do_an` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_DOANCHITIET_KICHCODOAN` FOREIGN KEY (`kich_co_do_an_id`) REFERENCES `kich_co_do_an` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -118,8 +156,8 @@ CREATE TABLE `ghe_ngoi` (
   PRIMARY KEY (`id`),
   KEY `FK_GHE_PHONGCHIEU_idx` (`phong_chieu_id`),
   KEY `FK_GHE_LOAIGHE_idx` (`loai_ghe_id`),
-  CONSTRAINT `FK_GHE_LOAIGHE` FOREIGN KEY (`loai_ghe_id`) REFERENCES `loai_ghe` (`id`),
-  CONSTRAINT `FK_GHE_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`)
+  CONSTRAINT `FK_GHE_LOAIGHE` FOREIGN KEY (`loai_ghe_id`) REFERENCES `loai_ghe` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_GHE_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -129,7 +167,7 @@ CREATE TABLE `ghe_ngoi` (
 
 LOCK TABLES `ghe_ngoi` WRITE;
 /*!40000 ALTER TABLE `ghe_ngoi` DISABLE KEYS */;
-INSERT INTO `ghe_ngoi` VALUES (1,'A',1,_binary '\0',1,'NC'),(2,'A',2,_binary '\0',1,'NC'),(3,'B',1,_binary '\0',1,'NC'),(4,'B',2,_binary '\0',1,'NC'),(5,'A',1,_binary '\0',2,'SC'),(6,'A',2,_binary '\0',2,'NC'),(7,'A',3,_binary '\0',2,'NC'),(8,'A',4,_binary '\0',2,'DC'),(9,'B',1,_binary '\0',2,'SC'),(10,'B',2,_binary '\0',2,'NC'),(11,'B',3,_binary '\0',2,'NC'),(12,'B',4,_binary '\0',2,'DC');
+INSERT INTO `ghe_ngoi` VALUES (1,'A',1,_binary '\0',1,'GT'),(2,'A',2,_binary '\0',1,'GT'),(3,'B',1,_binary '\0',1,'GT'),(4,'B',2,_binary '\0',1,'GT'),(5,'A',1,_binary '\0',2,'GV'),(6,'A',2,_binary '\0',2,'GT'),(7,'A',3,_binary '\0',2,'GT'),(8,'A',4,_binary '\0',2,'GD'),(9,'B',1,_binary '\0',2,'GV'),(10,'B',2,_binary '\0',2,'GT'),(11,'B',3,_binary '\0',2,'GT'),(12,'B',4,_binary '\0',2,'GD');
 /*!40000 ALTER TABLE `ghe_ngoi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,7 +209,7 @@ CREATE TABLE `hoa_don` (
   `nhan_vien_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_HOADON_NGUOIDUNG_idx` (`nhan_vien_id`),
-  CONSTRAINT `FK_HOADON_NGUOIDUNG` FOREIGN KEY (`nhan_vien_id`) REFERENCES `nguoi_dung` (`id`)
+  CONSTRAINT `FK_HOADON_NGUOIDUNG` FOREIGN KEY (`nhan_vien_id`) REFERENCES `nguoi_dung` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -181,9 +219,50 @@ CREATE TABLE `hoa_don` (
 
 LOCK TABLES `hoa_don` WRITE;
 /*!40000 ALTER TABLE `hoa_don` DISABLE KEYS */;
-INSERT INTO `hoa_don` VALUES ('HD001','2018-04-04','US002'),('HD002','2018-04-04','US001');
+INSERT INTO `hoa_don` VALUES ('HD00000001','2018-04-04','AD00001'),('HD00000002','2018-04-04','EM00001');
 /*!40000 ALTER TABLE `hoa_don` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `hoa_don_BEFORE_INSERT` BEFORE INSERT ON `hoa_don` FOR EACH ROW BEGIN
+	-- do dai cua chuoi so
+    SET @numLenght := 8;
+
+	-- lay id moi duoc them vao
+    SET @str := 'HD';
+    
+    -- lay id lon nhat trong bang
+    SET @prevId := (SELECT id FROM hoa_don ORDER BY id DESC LIMIT 1);
+	
+    -- neu bang chua co du lieu, thi lay la 000000000
+    if @prevId = NULL then
+		SET @prevId := LPAD(0, @numLenght, '0');
+	END IF;
+    
+    -- lay phan so tu chuoi id
+    SET @num := RIGHT(@prevId, @numLenght);
+    
+    -- tang phan so len 1 don vi
+	SET @num := CAST(@num AS UNSIGNED) + 1;
+
+	-- them so 0 vao truoc num cho du n ky tu
+    SET @num := LPAD(@num, @numLenght, '0');
+    
+    -- cap nhat lai id moi
+	SET new.id := CONCAT(@str, @num);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `hoa_don_chi_tiet`
@@ -202,7 +281,7 @@ CREATE TABLE `hoa_don_chi_tiet` (
   KEY `FK_HOADONCHITIET_HOADON_idx` (`hoa_don_id`),
   KEY `FK_HOADONCHITIET_DOAN_idx` (`do_an_chi_tiet_id`),
   CONSTRAINT `FK_HOADONCHITIET_DOANCHITIET` FOREIGN KEY (`do_an_chi_tiet_id`) REFERENCES `do_an_chi_tiet` (`id`),
-  CONSTRAINT `FK_HOADONCHITIET_HOADON` FOREIGN KEY (`hoa_don_id`) REFERENCES `hoa_don` (`id`)
+  CONSTRAINT `FK_HOADONCHITIET_HOADON` FOREIGN KEY (`hoa_don_id`) REFERENCES `hoa_don` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -212,7 +291,7 @@ CREATE TABLE `hoa_don_chi_tiet` (
 
 LOCK TABLES `hoa_don_chi_tiet` WRITE;
 /*!40000 ALTER TABLE `hoa_don_chi_tiet` DISABLE KEYS */;
-INSERT INTO `hoa_don_chi_tiet` VALUES (1,2,60000,2,'HD001'),(2,3,267000,4,'HD002');
+INSERT INTO `hoa_don_chi_tiet` VALUES (1,2,60000,2,'HD00000001'),(2,3,267000,4,'HD00000002');
 /*!40000 ALTER TABLE `hoa_don_chi_tiet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,9 +324,50 @@ CREATE TABLE `khach_hang` (
 
 LOCK TABLES `khach_hang` WRITE;
 /*!40000 ALTER TABLE `khach_hang` DISABLE KEYS */;
-INSERT INTO `khach_hang` VALUES ('CU001','Trần Lê Thanh Tinh','1234','12345','0123456789','thinhtlt@gmail.com','HCM','2017-02-02','1997-02-02',_binary '\0'),('CU002','Trần Vĩ Khang','12345','12345','0123456789','khangtv@gmail.com','HCM','2018-02-02','1999-02-02',_binary '');
+INSERT INTO `khach_hang` VALUES ('KH00001','Trần Lê Thanh Thinh','1234','vB7CqMsk5S','0123456789','thinhtlt@gmail.com','HCM','2017-02-02','1997-02-02',_binary '\0'),('KH00002','Trần Vĩ Khang','12345','12345','0123456789','khangtv@gmail.com','HCM','2018-02-02','1999-02-02',_binary ''),('KH00003','vo thanh tai','ad','6N1kz7R62p','adsf','ads','adfads','2018-11-22','2018-11-08',_binary '');
 /*!40000 ALTER TABLE `khach_hang` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `khach_hang_BEFORE_INSERT` BEFORE INSERT ON `khach_hang` FOR EACH ROW BEGIN
+	-- do dai cua chuoi so
+    SET @numLenght := 5;
+
+	-- cai dat tien to
+    SET @str := 'KH';
+    
+    -- lay id lon nhat trong bang
+    SET @prevId := (SELECT id FROM khach_hang ORDER BY id DESC LIMIT 1);
+	
+    -- neu bang chua co du lieu, thi lay la 000000000
+    if @prevId = NULL then
+		SET @prevId := LPAD(0, @numLenght, '0');
+	END IF;
+    
+    -- lay phan so tu chuoi id
+    SET @num := RIGHT(@prevId, @numLenght);
+    
+    -- tang phan so len 1 don vi
+	SET @num := CAST(@num AS UNSIGNED) + 1;
+
+	-- them so 0 vao truoc num cho du n ky tu
+    SET @num := LPAD(@num, @numLenght, '0');
+    
+    -- cap nhat lai id moi
+	SET new.id := CONCAT(@str, @num);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `kich_co_do_an`
@@ -318,7 +438,7 @@ CREATE TABLE `loai_ghe` (
 
 LOCK TABLES `loai_ghe` WRITE;
 /*!40000 ALTER TABLE `loai_ghe` DISABLE KEYS */;
-INSERT INTO `loai_ghe` VALUES ('DC','Ghế đôi',20000),('NC','Ghế thường',0),('SC','Ghế vip',30000);
+INSERT INTO `loai_ghe` VALUES ('GD','Ghế đôi',20000),('GT','Ghế thường',0),('GV','Ghế vip',30000);
 /*!40000 ALTER TABLE `loai_ghe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +488,7 @@ CREATE TABLE `nguoi_dung` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `so_cmnd_UNIQUE` (`so_cmnd`),
   KEY `FK_NGUOIDUNG_VAITRO_idx` (`vai_tro_id`),
-  CONSTRAINT `FK_NGUOIDUNG_VAITRO` FOREIGN KEY (`vai_tro_id`) REFERENCES `vai_tro` (`id`)
+  CONSTRAINT `FK_NGUOIDUNG_VAITRO` FOREIGN KEY (`vai_tro_id`) REFERENCES `vai_tro` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -378,9 +498,47 @@ CREATE TABLE `nguoi_dung` (
 
 LOCK TABLES `nguoi_dung` WRITE;
 /*!40000 ALTER TABLE `nguoi_dung` DISABLE KEYS */;
-INSERT INTO `nguoi_dung` VALUES ('US001','Lưu Tuấn Cường','12345','123','0367428198','cuonglt@gmail.com','BTH','2018-01-01',_binary '',_binary '\0','AD'),('US002','Võ Thành Tài','12345','456','0123456789','taivt@gmail.com','HCM','2017-01-01',_binary '',_binary '\0','EM'),('US003','Trần Light','12345','789','0123456789','tranlight@gmail.com','TN','2016-01-01',_binary '\0',_binary '\0','MA');
+INSERT INTO `nguoi_dung` VALUES ('AD00001','Võ Thành Tài','12345','456','0123456789','taivt@gmail.com','HCM','2017-01-01',_binary '',_binary '\0','AD'),('EM00001','Lưu Tuấn Cường','12345','123','0367428198','cuonglt@gmail.com','BTH','2018-01-01',_binary '',_binary '\0','EM'),('MA00001','Trần Light','12345','789','0123456789','tranlight@gmail.com','TN','2016-01-01',_binary '\0',_binary '\0','MA');
 /*!40000 ALTER TABLE `nguoi_dung` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `nguoi_dung_BEFORE_INSERT` BEFORE INSERT ON `nguoi_dung` FOR EACH ROW BEGIN
+	-- do dai cua chuoi so
+    SET @numLenght := 5;
+    
+    -- lay id lon nhat trong bang
+    SET @prevId := (SELECT id FROM nguoi_dung WHERE vai_tro_id LIKE CONCAT(new.vai_tro_id, '%')  ORDER BY id DESC LIMIT 1);
+	
+    -- neu bang chua co du lieu, thi lay la 000000000
+    if @prevId = NULL then
+		SET @prevId := '00000';
+	END IF;
+    
+    -- lay phan so tu chuoi id
+    SET @num := RIGHT(@prevId, @numLenght);
+    
+    -- tang phan so len 1 don vi
+	SET @num := CAST(@num AS UNSIGNED) + 1;
+
+	-- them so 0 vao truoc num cho du n ky tu
+    SET @num := LPAD(@num, @numLenght, '0');
+    
+    -- cap nhat lai id moi
+	SET new.id := CONCAT(new.vai_tro_id, @num);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `phim`
@@ -396,10 +554,10 @@ CREATE TABLE `phim` (
   `gioi_han_tuoi` int(10) unsigned NOT NULL,
   `ngay_cong_chieu` date NOT NULL,
   `ngon_ngu` varchar(20) NOT NULL,
-  `dien_vien` varchar(100) NOT NULL,
+  `dien_vien` varchar(100) DEFAULT NULL,
   `quoc_gia` varchar(45) NOT NULL,
   `nha_san_xuat` varchar(45) NOT NULL,
-  `tom_tat` varchar(1000) NOT NULL,
+  `tom_tat` varchar(1000) DEFAULT NULL,
   `trang_thai` varchar(10) NOT NULL,
   `da_xoa` bit(1) DEFAULT b'0',
   `loai_phim_id` int(10) unsigned NOT NULL,
@@ -415,9 +573,50 @@ CREATE TABLE `phim` (
 
 LOCK TABLES `phim` WRITE;
 /*!40000 ALTER TABLE `phim` DISABLE KEYS */;
-INSERT INTO `phim` VALUES ('1','Phim con heo',60,18,'2018-12-14','Japanese','Japan','JAPAN','Japan.co.ltd','Hấp dẫn, lên máu','chuachieu',_binary '\0',1),('2','Phim con người',90,6,'2018-12-01','Vietnamese','Vietnam','VIETNAM','Viet.co.ltd','Bình thường','dangchieu',_binary '\0',2);
+INSERT INTO `phim` VALUES ('1','Phim con chó',60,18,'2018-12-14','Tiếng Việt','Japan','Việt Nam','Hãng phim A','Hấp dẫn, lên máu','Đang chiếu',_binary '\0',1),('2','Phim con người',90,6,'2018-12-01','Vietnamese','Vietnam','VIETNAM','Viet.co.ltd','Bình thường','dangchieu',_binary '\0',2),('PH00000003','adsfa',31,12,'2018-02-02','asf','asdf','asdf','asdf','asd','adsf',_binary '\0',1),('PH00000004','sda',12,123,'2018-02-02','asd','sd','ads','adsf','adsf','asd',_binary '\0',2),('PH00000005','asd',10,10,'2018-11-01','Tiếng Việt','asdfad','Nga','Hãng phim A','asdfad','Đang chiếu',_binary '\0',2);
 /*!40000 ALTER TABLE `phim` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `phim_BEFORE_INSERT` BEFORE INSERT ON `phim` FOR EACH ROW BEGIN
+	-- do dai cua chuoi so
+    SET @numLenght := 5;
+
+	-- cai dat tien to
+    SET @str := 'PH';
+    
+    -- lay id lon nhat trong bang
+    SET @prevId := (SELECT id FROM phim ORDER BY id DESC LIMIT 1);
+	
+    -- neu bang chua co du lieu, thi lay la 000000000
+    if @prevId = NULL then
+		SET @prevId := LPAD(0, @numLenght, '0');
+	END IF;
+    
+    -- lay phan so tu chuoi id
+    SET @num := RIGHT(@prevId, @numLenght);
+    
+    -- tang phan so len 1 don vi
+	SET @num := CAST(@num AS UNSIGNED) + 1;
+
+	-- them so 0 vao truoc num cho du n ky tu
+    SET @num := LPAD(@num, @numLenght, '0');
+    
+    -- cap nhat lai id moi
+	SET new.id := CONCAT(@str, @num);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `phong_chieu`
@@ -452,7 +651,7 @@ DROP TABLE IF EXISTS `suat_chieu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `suat_chieu` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` varchar(15) NOT NULL,
   `gio_bat_dau` time NOT NULL,
   `gio_ket_thuc` time NOT NULL,
   `ngay_chieu` date NOT NULL,
@@ -466,7 +665,7 @@ CREATE TABLE `suat_chieu` (
   CONSTRAINT `FK_SUATCHIEU_DINHDANGPHIM` FOREIGN KEY (`dinh_dang_phim_id`) REFERENCES `dinh_dang_phim` (`id`),
   CONSTRAINT `FK_SUATCHIEU_PHIM` FOREIGN KEY (`phim_id`) REFERENCES `phim` (`id`),
   CONSTRAINT `FK_SUATCHIEU_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -475,9 +674,50 @@ CREATE TABLE `suat_chieu` (
 
 LOCK TABLES `suat_chieu` WRITE;
 /*!40000 ALTER TABLE `suat_chieu` DISABLE KEYS */;
-INSERT INTO `suat_chieu` VALUES (1,'20:00:00','22:00:00','2018-11-11','1',1,'3D'),(2,'09:00:00','11:00:00','2018-12-12','2',2,'IMAX');
+INSERT INTO `suat_chieu` VALUES ('SC00000001','20:00:00','22:00:00','2018-11-11','1',1,'3D'),('SC00000002','09:00:00','11:00:00','2018-12-12','2',2,'IMAX'),('SC00000003','10:00:00','12:00:00','2018-02-02','1',2,'3D');
 /*!40000 ALTER TABLE `suat_chieu` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `suat_chieu_BEFORE_INSERT` BEFORE INSERT ON `suat_chieu` FOR EACH ROW BEGIN
+	-- do dai cua chuoi so
+    SET @numLenght := 8;
+
+	-- cai dat tien to
+    SET @str := 'SC';
+    
+    -- lay id lon nhat trong bang
+    SET @prevId := (SELECT id FROM suat_chieu ORDER BY id DESC LIMIT 1);
+	
+    -- neu bang chua co du lieu, thi lay la 000000000
+    if @prevId = NULL then
+		SET @prevId := LPAD(0, @numLenght, '0');
+	END IF;
+    
+    -- lay phan so tu chuoi id
+    SET @num := RIGHT(@prevId, @numLenght);
+    
+    -- tang phan so len 1 don vi
+	SET @num := CAST(@num AS UNSIGNED) + 1;
+
+	-- them so 0 vao truoc num cho du n ky tu
+    SET @num := LPAD(@num, @numLenght, '0');
+    
+    -- cap nhat lai id moi
+	SET new.id := CONCAT(@str, @num);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `vai_tro`
@@ -514,19 +754,19 @@ CREATE TABLE `ve_ban` (
   `id` varchar(15) NOT NULL,
   `ngay_ban` date NOT NULL,
   `tong_tien` int(10) unsigned NOT NULL,
-  `suat_chieu_id` int(10) unsigned NOT NULL,
+  `suat_chieu_id` varchar(15) NOT NULL,
   `gia_ve_id` int(10) unsigned NOT NULL,
   `ghe_id` int(10) unsigned NOT NULL,
   `nhan_vien_id` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_VEBAN_SUATCHIEU_idx` (`suat_chieu_id`),
   KEY `FK_VEBAN_GIAVE_idx` (`gia_ve_id`),
   KEY `FK_VEBAN_GHE_idx` (`ghe_id`),
   KEY `FK_VEBAN_NGUOIDUNG_idx` (`nhan_vien_id`),
-  CONSTRAINT `FK_VEBAN_GHE` FOREIGN KEY (`ghe_id`) REFERENCES `ghe_ngoi` (`id`),
-  CONSTRAINT `FK_VEBAN_GIAVE` FOREIGN KEY (`gia_ve_id`) REFERENCES `gia_ve` (`id`),
-  CONSTRAINT `FK_VEBAN_NGUOIDUNG` FOREIGN KEY (`nhan_vien_id`) REFERENCES `nguoi_dung` (`id`),
-  CONSTRAINT `FK_VEBAN_SUATCHIEU` FOREIGN KEY (`suat_chieu_id`) REFERENCES `suat_chieu` (`id`)
+  KEY `FK_VEBAN_SUATCHIEU_idx` (`suat_chieu_id`),
+  CONSTRAINT `FK_VEBAN_GHE` FOREIGN KEY (`ghe_id`) REFERENCES `ghe_ngoi` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_VEBAN_GIAVE` FOREIGN KEY (`gia_ve_id`) REFERENCES `gia_ve` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_VEBAN_NGUOIDUNG` FOREIGN KEY (`nhan_vien_id`) REFERENCES `nguoi_dung` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_VEBAN_SUATCHIEU` FOREIGN KEY (`suat_chieu_id`) REFERENCES `suat_chieu` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -536,9 +776,50 @@ CREATE TABLE `ve_ban` (
 
 LOCK TABLES `ve_ban` WRITE;
 /*!40000 ALTER TABLE `ve_ban` DISABLE KEYS */;
-INSERT INTO `ve_ban` VALUES ('VB001','2018-11-11',1,1,2,10,'US002'),('VB002','2018-12-12',1,2,3,2,'US003'),('VB003','2018-12-12',1,1,2,2,NULL);
+INSERT INTO `ve_ban` VALUES ('VE00000001','2018-11-11',1,'SC00000001',2,10,'AD00001'),('VE00000002','2018-12-12',1,'SC00000002',3,2,'MA00001'),('VE00000003','2018-02-02',1,'SC00000002',2,2,'MA00001');
 /*!40000 ALTER TABLE `ve_ban` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `ve_ban_BEFORE_INSERT` BEFORE INSERT ON `ve_ban` FOR EACH ROW BEGIN
+	-- do dai cua chuoi so
+    SET @numLenght := 8;
+
+	-- cai dat tien to
+    SET @str := 'VE';
+    
+    -- lay id lon nhat trong bang
+    SET @prevId := (SELECT id FROM ve_ban ORDER BY id DESC LIMIT 1);
+	
+    -- neu bang chua co du lieu, thi lay la 000000000
+    if @prevId = NULL then
+		SET @prevId := LPAD(0, @numLenght, '0');
+	END IF;
+    
+    -- lay phan so tu chuoi id
+    SET @num := RIGHT(@prevId, @numLenght);
+    
+    -- tang phan so len 1 don vi
+	SET @num := CAST(@num AS UNSIGNED) + 1;
+
+	-- them so 0 vao truoc num cho du n ky tu
+    SET @num := LPAD(@num, @numLenght, '0');
+    
+    -- cap nhat lai id moi
+	SET new.id := CONCAT(@str, @num);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `ve_dat`
@@ -565,6 +846,31 @@ LOCK TABLES `ve_dat` WRITE;
 /*!40000 ALTER TABLE `ve_dat` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ve_dat` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `ve_dat_BEFORE_INSERT` BEFORE INSERT ON `ve_dat` FOR EACH ROW BEGIN
+	
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Dumping events for database 'du_an_1'
+--
+
+--
+-- Dumping routines for database 'du_an_1'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -575,4 +881,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-05 20:31:13
+-- Dump completed on 2018-11-07 20:28:46
