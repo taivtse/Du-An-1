@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 5, 2018 2:07:27 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="poly.app.core.entities.VeDat" table="ve_dat" catalog="du_an_1" optimistic-lock="version">
         <id name="id" type="string">

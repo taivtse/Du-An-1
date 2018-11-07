@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 5, 2018 2:07:27 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="poly.app.core.entities.DoAn" table="do_an" catalog="du_an_1" optimistic-lock="version">
         <id name="id" type="string">
@@ -9,13 +9,13 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="loaiDoAn" class="poly.app.core.entities.LoaiDoAn" fetch="join">
-            <column name="loai_do_an_id" not-null="true" />
+            <column name="loai_do_an_id" length="5" not-null="true" />
         </many-to-one>
         <property name="ten" type="string">
             <column name="ten" length="45" not-null="true" />
         </property>
-        <property name="dangBan" type="java.lang.Boolean">
-            <column name="dang_ban" />
+        <property name="dangBan" type="boolean">
+            <column name="dang_ban" not-null="true" />
         </property>
         <set name="doAnChiTiets" table="do_an_chi_tiet" inverse="true" lazy="false" fetch="select">
             <key>

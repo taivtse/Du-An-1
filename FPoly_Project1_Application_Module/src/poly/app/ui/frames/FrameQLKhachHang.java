@@ -109,14 +109,18 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
 
         jLabel2.setText("Từ ngày");
 
+        dcTuNgay.setDateFormatString("dd-MM-yyyy");
         dcTuNgay.setEnabled(false);
+        dcTuNgay.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
         dcTuNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dcTuNgayPropertyChange(evt);
             }
         });
 
+        dcDenNgay.setDateFormatString("dd-MM-yyyy");
         dcDenNgay.setEnabled(false);
+        dcDenNgay.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
         dcDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dcDenNgayPropertyChange(evt);
@@ -236,14 +240,14 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã khách hàng", "Họ và tên", "Số cmnd", "Số điện thoại", "Email", "Địa chỉ", "Ngày đăng ký", "Ngày sinh", "Giới tính"
+                "Stt", "Mã khách hàng", "Họ và tên", "Số cmnd", "Số điện thoại", "Email", "Địa chỉ", "Ngày đăng ký", "Ngày sinh", "Giới tính"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                true, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -364,14 +368,13 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_tblKhachHangMouseReleased
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
         new DialogThemKhachHang(null, true).setVisible(true);
         listKH = new KhachHangDaoImpl().getAll();
         loadDataToTable(search());
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        String idKH = (String) tblKhachHang.getValueAt(tblKhachHang.getSelectedRow(), 0);
+        String idKH = (String) tblKhachHang.getValueAt(tblKhachHang.getSelectedRow(), 1);
         new DialogCapNhatKhachHang(this, true, idKH).setVisible(true);
         listKH = new KhachHangDaoImpl().getAll();
         loadDataToTable(search());
@@ -379,16 +382,14 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         if ( evt.getClickCount() >= 2 ) {
-            String id = this.tblKhachHang.getValueAt(this.tblKhachHang.getSelectedRow(), 0).toString();
+            String id = this.tblKhachHang.getValueAt(this.tblKhachHang.getSelectedRow(), 1).toString();
             new DialogCapNhatKhachHang(this, true, id).setVisible(true);
             listKH = new KhachHangDaoImpl().getAll();
             loadDataToTable(search());
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
     private void chkTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenActionPerformed
-        // TODO add your handling code here:
         if (chkTen.isSelected()) {
             txtTen.setEnabled(true);
         } else {
@@ -420,12 +421,10 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTenActionPerformed
 
     private void txtTenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKeyReleased
-        // TODO add your handling code here:
         loadDataToTable(search());
     }//GEN-LAST:event_txtTenKeyReleased
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
-        // TODO add your handling code here:
         if ( chkNgayDangKy.isSelected() ) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
@@ -439,7 +438,6 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
-        // TODO add your handling code here:
         if (chkNgayDangKy.isSelected()){
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
@@ -453,7 +451,6 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
     private void btnDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLaiActionPerformed
-        // TODO add your handling code here:
         txtTen.setText("");
         dcTuNgay.setDate(null);
         dcDenNgay.setDate(null);
@@ -463,8 +460,10 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         DefaultTableModel modelTblKH = (DefaultTableModel) tblKhachHang.getModel();
         modelTblKH.setRowCount(0);
         
-        for (KhachHang kh : listKhachHang) {
+        for (int i = 0; i < listKhachHang.size(); i++) {
+            KhachHang kh = listKhachHang.get(i);
             Object[] record = new Object[]{
+                i + 1,
                 kh.getId(),
                 kh.getHoTen(),
                 kh.getSoCmnd(),

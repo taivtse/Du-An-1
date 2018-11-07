@@ -1,5 +1,5 @@
 package poly.app.core.entities;
-// Generated Nov 5, 2018 2:07:26 PM by Hibernate Tools 4.3.1
+// Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1
 
 
 

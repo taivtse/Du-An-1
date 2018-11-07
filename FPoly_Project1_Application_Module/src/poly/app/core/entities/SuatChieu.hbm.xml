@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 5, 2018 2:07:27 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="poly.app.core.entities.SuatChieu" table="suat_chieu" catalog="du_an_1" optimistic-lock="version">
-        <id name="id" type="int">
-            <column name="id" />
-            <generator class="assigned" />
+        <id name="id" type="string">
+            <column name="id" length="15" />
+            <generator class="identity" />
         </id>
         <many-to-one name="dinhDangPhim" class="poly.app.core.entities.DinhDangPhim" fetch="select">
             <column name="dinh_dang_phim_id" length="5" not-null="true" />
@@ -28,7 +28,7 @@
         </property>
         <set name="veBans" table="ve_ban" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="suat_chieu_id" not-null="true" />
+                <column name="suat_chieu_id" length="15" not-null="true" />
             </key>
             <one-to-many class="poly.app.core.entities.VeBan" />
         </set>

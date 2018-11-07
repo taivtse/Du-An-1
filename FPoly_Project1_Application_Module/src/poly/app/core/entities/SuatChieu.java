@@ -1,5 +1,5 @@
 package poly.app.core.entities;
-// Generated Nov 5, 2018 2:07:26 PM by Hibernate Tools 4.3.1
+// Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class SuatChieu  implements java.io.Serializable {
 
 
-     private int id;
+     private String id;
      private DinhDangPhim dinhDangPhim;
      private Phim phim;
      private PhongChieu phongChieu;
@@ -25,8 +25,7 @@ public class SuatChieu  implements java.io.Serializable {
     }
 
 	
-    public SuatChieu(int id, DinhDangPhim dinhDangPhim, Phim phim, PhongChieu phongChieu, Date gioBatDau, Date gioKetThuc, Date ngayChieu) {
-        this.id = id;
+    public SuatChieu(DinhDangPhim dinhDangPhim, Phim phim, PhongChieu phongChieu, Date gioBatDau, Date gioKetThuc, Date ngayChieu) {
         this.dinhDangPhim = dinhDangPhim;
         this.phim = phim;
         this.phongChieu = phongChieu;
@@ -34,8 +33,7 @@ public class SuatChieu  implements java.io.Serializable {
         this.gioKetThuc = gioKetThuc;
         this.ngayChieu = ngayChieu;
     }
-    public SuatChieu(int id, DinhDangPhim dinhDangPhim, Phim phim, PhongChieu phongChieu, Date gioBatDau, Date gioKetThuc, Date ngayChieu, Set<VeBan> veBans) {
-       this.id = id;
+    public SuatChieu(DinhDangPhim dinhDangPhim, Phim phim, PhongChieu phongChieu, Date gioBatDau, Date gioKetThuc, Date ngayChieu, Set<VeBan> veBans) {
        this.dinhDangPhim = dinhDangPhim;
        this.phim = phim;
        this.phongChieu = phongChieu;
@@ -45,11 +43,11 @@ public class SuatChieu  implements java.io.Serializable {
        this.veBans = veBans;
     }
    
-    public int getId() {
+    public String getId() {
         return this.id;
     }
     
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     public DinhDangPhim getDinhDangPhim() {

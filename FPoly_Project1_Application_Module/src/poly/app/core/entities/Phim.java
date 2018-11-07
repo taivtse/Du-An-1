@@ -1,5 +1,5 @@
 package poly.app.core.entities;
-// Generated Nov 5, 2018 2:07:26 PM by Hibernate Tools 4.3.1
+// Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -31,7 +31,7 @@ public class Phim  implements java.io.Serializable {
     }
 
 	
-    public Phim(String id, LoaiPhim loaiPhim, String ten, int thoiLuong, int gioiHanTuoi, Date ngayCongChieu, String ngonNgu, String dienVien, String quocGia, String nhaSanXuat, String tomTat, String trangThai) {
+    public Phim(String id, LoaiPhim loaiPhim, String ten, int thoiLuong, int gioiHanTuoi, Date ngayCongChieu, String ngonNgu, String quocGia, String nhaSanXuat, String trangThai) {
         this.id = id;
         this.loaiPhim = loaiPhim;
         this.ten = ten;
@@ -39,10 +39,8 @@ public class Phim  implements java.io.Serializable {
         this.gioiHanTuoi = gioiHanTuoi;
         this.ngayCongChieu = ngayCongChieu;
         this.ngonNgu = ngonNgu;
-        this.dienVien = dienVien;
         this.quocGia = quocGia;
         this.nhaSanXuat = nhaSanXuat;
-        this.tomTat = tomTat;
         this.trangThai = trangThai;
     }
     public Phim(String id, LoaiPhim loaiPhim, String ten, int thoiLuong, int gioiHanTuoi, Date ngayCongChieu, String ngonNgu, String dienVien, String quocGia, String nhaSanXuat, String tomTat, String trangThai, Boolean daXoa, Set<SuatChieu> suatChieus) {
@@ -146,7 +144,7 @@ public class Phim  implements java.io.Serializable {
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
-    public Boolean isDaXoa() {
+    public Boolean getDaXoa() {
         return this.daXoa;
     }
     

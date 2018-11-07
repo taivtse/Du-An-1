@@ -5,11 +5,7 @@
  */
 package poly.app.ui.dialogs;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
 import poly.app.core.daoimpl.KhachHangDaoImpl;
 import poly.app.core.entities.KhachHang;
 import poly.app.core.helper.DialogHelper;
@@ -24,9 +20,8 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
     /**
      * Creates new form DialogThemNhanVien
      */
-
     ButtonGroup btngr = new ButtonGroup();
-    
+
     public DialogThemKhachHang(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -34,11 +29,10 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
         btngr.add(rdoNam);
         btngr.add(rdoNu);
     }
-   
-    
 
-    private KhachHang getModelFromInput(){
+    private KhachHang getModelFromInput() {
         KhachHang khachHang = new KhachHang();
+        khachHang.setId("");
         khachHang.setHoTen(this.txtHoTen.getText());
         khachHang.setMatKhau(StringUtil.randomString());
         khachHang.setDiaChi(this.txtDiaChi.getText());
@@ -48,23 +42,16 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
         khachHang.setGioiTinh(this.rdoNam.isSelected());
         khachHang.setEmail(this.txtEmail.getText());
         khachHang.setNgaySinh(this.dcNgaySinh.getDate());
-        khachHang.setId("KH" + new Date().getTime());
-//        code lay khach hang tu input
-//        nho set mat khau cho khach hang
-//        Get mat khau bang StringUtil.randomString()
-//        Khach Hang dung se co dang: KH01293411
-//        cach lam ma Khach Hang: "KH" + new Date().getTime();
-
         return khachHang;
     }
-    
-    private boolean insertModelToDatabase(){
-//        goi ham getNguoiDungFromInput
-    KhachHang khachHang = getModelFromInput();
+
+    private boolean insertModelToDatabase() {
+        KhachHang khachHang = getModelFromInput();
         try {
-            new KhachHangDaoImpl().insert(khachHang);   
+            new KhachHangDaoImpl().insert(khachHang);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -124,6 +111,8 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
 
         rdoNu.setText("Nữ");
 
+        dcNgayVaoLam.setDateFormatString("dd-MM-yyyy");
+
         btnLuu.setText("Lưu");
         btnLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +128,8 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
         });
 
         jLabel11.setText("Ngày sinh");
+
+        dcNgaySinh.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -234,16 +225,15 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (insertModelToDatabase()){
+        if (insertModelToDatabase()) {
             DialogHelper.message(this, "Thêm thành công", DialogHelper.INFORMATION_MESSAGE);
-            
-        }else{
+            this.dispose();
+        } else {
             DialogHelper.message(this, "Thêm thất bại", DialogHelper.ERROR_MESSAGE);
-            
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 

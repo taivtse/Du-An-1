@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 5, 2018 2:07:27 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="poly.app.core.entities.Phim" table="phim" catalog="du_an_1" optimistic-lock="version">
         <id name="id" type="string">
@@ -27,7 +27,7 @@
             <column name="ngon_ngu" length="20" not-null="true" />
         </property>
         <property name="dienVien" type="string">
-            <column name="dien_vien" length="100" not-null="true" />
+            <column name="dien_vien" length="100" />
         </property>
         <property name="quocGia" type="string">
             <column name="quoc_gia" length="45" not-null="true" />
@@ -36,7 +36,7 @@
             <column name="nha_san_xuat" length="45" not-null="true" />
         </property>
         <property name="tomTat" type="string">
-            <column name="tom_tat" length="1000" not-null="true" />
+            <column name="tom_tat" length="1000" />
         </property>
         <property name="trangThai" type="string">
             <column name="trang_thai" length="10" not-null="true" />

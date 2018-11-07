@@ -1,5 +1,5 @@
 package poly.app.core.entities;
-// Generated Nov 5, 2018 2:07:26 PM by Hibernate Tools 4.3.1
+// Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,19 +14,20 @@ public class DoAn  implements java.io.Serializable {
      private String id;
      private LoaiDoAn loaiDoAn;
      private String ten;
-     private Boolean dangBan;
+     private boolean dangBan;
      private Set<DoAnChiTiet> doAnChiTiets = new HashSet<DoAnChiTiet>(0);
 
     public DoAn() {
     }
 
 	
-    public DoAn(String id, LoaiDoAn loaiDoAn, String ten) {
+    public DoAn(String id, LoaiDoAn loaiDoAn, String ten, boolean dangBan) {
         this.id = id;
         this.loaiDoAn = loaiDoAn;
         this.ten = ten;
+        this.dangBan = dangBan;
     }
-    public DoAn(String id, LoaiDoAn loaiDoAn, String ten, Boolean dangBan, Set<DoAnChiTiet> doAnChiTiets) {
+    public DoAn(String id, LoaiDoAn loaiDoAn, String ten, boolean dangBan, Set<DoAnChiTiet> doAnChiTiets) {
        this.id = id;
        this.loaiDoAn = loaiDoAn;
        this.ten = ten;
@@ -59,7 +60,7 @@ public class DoAn  implements java.io.Serializable {
         return this.dangBan;
     }
     
-    public void setDangBan(Boolean dangBan) {
+    public void setDangBan(boolean dangBan) {
         this.dangBan = dangBan;
     }
     public Set<DoAnChiTiet> getDoAnChiTiets() {
