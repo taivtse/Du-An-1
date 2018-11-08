@@ -43,19 +43,24 @@ public class DialogThemDoAn extends javax.swing.JDialog {
     }
 
     private DoAn getModelFromInput() {
+//        code lay do an tu input
+//        Ma do an se co dang: DA01293411 hoac NU123412418716 tuy theo loai
+//        vidu neu la nuoc uong: "NU" + new Date().getTime();
         DoAn model = new DoAn();
         model.setTen(txtTen.getText());
-        model.setLoaiDoAn((LoaiDoAn) cboLoaiDoAn.getModel().getSelectedItem());
+        model.setLoaiDoAn((LoaiDoAn) cboLoaiDoAn.getSelectedItem());
         if (cboLoaiDoAn.getSelectedItem().toString().equals("Đang được bán")) {
             model.setDangBan(true);
         } else {
             model.setDangBan(false);
         }
-                
+        model.setId("");
+
         return model;
     }
 
     private boolean insertModelToDatabase() {
+//        goi ham getNguoiDungFromInput
         try {
             DoAnDaoImpl insertDoAn = new DoAnDaoImpl();
             insertDoAn.insert(getModelFromInput());
@@ -181,8 +186,8 @@ public class DialogThemDoAn extends javax.swing.JDialog {
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         if (insertModelToDatabase()) {
-            DialogHelper.message(this, "Thêm dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
+            DialogHelper.message(this, "Thêm dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
         } else {
             DialogHelper.message(this, "Thêm dữ liệu thất bại !", DialogHelper.ERROR_MESSAGE);
         }

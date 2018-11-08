@@ -6,17 +6,25 @@
 package poly.app.ui.frames;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Vector;
+import java.util.stream.Collectors;
 import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
+import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.DoAnDaoImpl;
 import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.helper.DialogHelper;
+import poly.app.core.helper.TableStructureHelper;
 import poly.app.ui.dialogs.DialogCapNhatDoAn;
 import poly.app.ui.dialogs.DialogThemDoAn;
 import poly.app.ui.dialogs.DialogCapNhatDoAnChiTiet;
@@ -33,6 +41,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     List<DoAnChiTiet> listDoAnCT = new ArrayList<>();
     Map<String, DoAn> mapDoAn = new HashMap<String, DoAn>();
     ButtonGroup btngr = new ButtonGroup();
+    ButtonGroup btnLDA = new ButtonGroup();
 
     /**
      * Creates new form FrameQLNhanVien
@@ -41,10 +50,20 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
+        this.loadDataToTable();
+        this.setRadio();
+    }
+
+    public void setRadio() {
         btngr.add(rdoDangDuocBan);
         btngr.add(rdoDaNgungBan);
-        btngr.add(rdoTatCa);
-        this.loadDataToTable();
+        rdoDangDuocBan.setEnabled(false);
+        rdoDaNgungBan.setEnabled(false);
+
+        btnLDA.add(rdoDoAnNhanh);
+        btnLDA.add(rdoDoUong);
+        rdoDoAnNhanh.setEnabled(false);
+        rdoDoUong.setEnabled(false);
     }
 
     private void reRenderUI() {
@@ -73,14 +92,16 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         txtTraCuuDoAn = new javax.swing.JTextField();
         rdoDangDuocBan = new javax.swing.JRadioButton();
         rdoDaNgungBan = new javax.swing.JRadioButton();
-        rdoTatCa = new javax.swing.JRadioButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        chkTheoTrangThai = new javax.swing.JCheckBox();
+        chkTheoTen = new javax.swing.JCheckBox();
+        rdoDoUong = new javax.swing.JRadioButton();
+        rdoDoAnNhanh = new javax.swing.JRadioButton();
+        chkTheoLoaiDoAn = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnThemKichCo = new javax.swing.JButton();
         btnSuaKichCo = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -105,6 +126,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
 
+        rdoDangDuocBan.setSelected(true);
         rdoDangDuocBan.setText("Đang được bán");
         rdoDangDuocBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,17 +141,42 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
 
-        rdoTatCa.setSelected(true);
-        rdoTatCa.setText("Tất cả");
-        rdoTatCa.addActionListener(new java.awt.event.ActionListener() {
+        chkTheoTrangThai.setText("Theo trạng thái");
+        chkTheoTrangThai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoTatCaActionPerformed(evt);
+                chkTheoTrangThaiActionPerformed(evt);
             }
         });
 
-        jCheckBox1.setText("Theo trạng thái");
+        chkTheoTen.setSelected(true);
+        chkTheoTen.setText("Theo tên");
+        chkTheoTen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTheoTenActionPerformed(evt);
+            }
+        });
 
-        jCheckBox2.setText("Theo tên");
+        rdoDoUong.setText("Đồ uống");
+        rdoDoUong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoDoUongActionPerformed(evt);
+            }
+        });
+
+        rdoDoAnNhanh.setSelected(true);
+        rdoDoAnNhanh.setText("Đồ ăn nhanh");
+        rdoDoAnNhanh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoDoAnNhanhActionPerformed(evt);
+            }
+        });
+
+        chkTheoLoaiDoAn.setText("Theo loại đồ ăn");
+        chkTheoLoaiDoAn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTheoLoaiDoAnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -138,44 +185,56 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTraCuuDoAn)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(chkTheoTen)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rdoTatCa)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(rdoDaNgungBan)
-                                    .addComponent(rdoDangDuocBan)
-                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(rdoDangDuocBan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(chkTheoTrangThai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(16, 16, 16)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 9, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtTraCuuDoAn))))
+                                .addContainerGap()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rdoDoUong)
+                                    .addComponent(rdoDoAnNhanh))))
+                        .addGap(0, 9, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chkTheoLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addComponent(jCheckBox2)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
+                .addComponent(chkTheoTen)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtTraCuuDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jCheckBox1)
-                .addGap(2, 2, 2)
-                .addComponent(rdoTatCa)
+                .addComponent(chkTheoTrangThai)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rdoDangDuocBan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(rdoDaNgungBan, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chkTheoLoaiDoAn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rdoDoAnNhanh)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(rdoDoUong, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -199,10 +258,10 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Thêm kích cỡ");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnThemKichCo.setText("Thêm kích cỡ");
+        btnThemKichCo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnThemKichCoActionPerformed(evt);
             }
         });
 
@@ -224,7 +283,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(btnThemKichCo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSuaKichCo)
                 .addContainerGap())
@@ -236,7 +295,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
                     .addComponent(btnSua)
-                    .addComponent(jButton2)
+                    .addComponent(btnThemKichCo)
                     .addComponent(btnSuaKichCo))
                 .addContainerGap())
         );
@@ -249,14 +308,14 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã đồ ăn", "Tên đồ ăn", "Trạng  Thái", "Loại đồ ăn"
+                "STT", "Mã đồ ăn", "Tên đồ ăn", "Trạng  Thái", "Loại đồ ăn"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -402,11 +461,15 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDoAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoAnMouseClicked
-        if (evt.getClickCount() >= 2) {
-            this.updateDA();
-        } else {
-            this.loadDoAnChiTiet();
+        if (tblDoAn.getSelectedRow() >= 0) {
+            if (evt.getClickCount() >= 2) {
+                this.updateDA();
+                this.searchDoAnByName();
+            } else {
+                this.loadDoAnChiTiet();
+            }
         }
+
     }//GEN-LAST:event_tblDoAnMouseClicked
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -426,37 +489,62 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtTraCuuDoAnKeyReleased
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnThemKichCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemKichCoActionPerformed
         this.insertDACT();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnThemKichCoActionPerformed
 
     private void tblDoAnChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoAnChiTietMouseClicked
-        if(evt.getClickCount()>=2)
-        {
-            this.updateDACT();
+        if (tblDoAnChiTiet.getSelectedRow() >= 0) {
+            if (evt.getClickCount() >= 2) {
+                this.updateDACT();
+            }
         }
     }//GEN-LAST:event_tblDoAnChiTietMouseClicked
-
-    private void rdoTatCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTatCaActionPerformed
-        
-        
-    }//GEN-LAST:event_rdoTatCaActionPerformed
 
     private void rdoDangDuocBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDangDuocBanActionPerformed
         this.filterDangDuocBan(searchDoAnByName());
     }//GEN-LAST:event_rdoDangDuocBanActionPerformed
 
     private void rdoDaNgungBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaNgungBanActionPerformed
-       this.filterDaNgungBan(searchDoAnByName());
+        this.filterDaNgungBan(searchDoAnByName());
     }//GEN-LAST:event_rdoDaNgungBanActionPerformed
 
+    private void chkTheoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenActionPerformed
+        txtTraCuuDoAn.setText("");
+        txtTraCuuDoAn.setEditable(chkTheoTen.isSelected());
+    }//GEN-LAST:event_chkTheoTenActionPerformed
+
+    private void rdoDoUongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDoUongActionPerformed
+        this.filterDoUong(this.searchDoAnByName());
+    }//GEN-LAST:event_rdoDoUongActionPerformed
+
+    private void rdoDoAnNhanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDoAnNhanhActionPerformed
+        this.filterDoAnhNhanh(this.searchDoAnByName());
+
+    }//GEN-LAST:event_rdoDoAnNhanhActionPerformed
+
+    private void chkTheoTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTrangThaiActionPerformed
+        rdoDangDuocBan.setEnabled(chkTheoTrangThai.isSelected());
+        rdoDaNgungBan.setEnabled(chkTheoTrangThai.isSelected());
+        this.searchDoAnByName();
+    }//GEN-LAST:event_chkTheoTrangThaiActionPerformed
+
+    private void chkTheoLoaiDoAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoLoaiDoAnActionPerformed
+        rdoDoAnNhanh.setEnabled(chkTheoLoaiDoAn.isSelected());
+        rdoDoUong.setEnabled(chkTheoLoaiDoAn.isSelected());
+        this.searchDoAnByName();
+    }//GEN-LAST:event_chkTheoLoaiDoAnActionPerformed
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void loadDataToTable() {
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
         DoAnDaoImpl doAnDao = new DoAnDaoImpl();
         listDoAn = doAnDao.getAll();
+        int i = 1;
         for (DoAn fill : listDoAn) {
             Object[] record = new Object[]{
+                i++,
                 fill.getId(),
                 fill.getTen(),
                 fill.isDangBan() ? "Đang được bán" : "Đã ngưng bán",
@@ -469,19 +557,18 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
     public void loadDoAnChiTiet() {
         int index = tblDoAn.getSelectedRow();
-        String id = (String) tblDoAn.getValueAt(index, 0);
+        String id = (String) tblDoAn.getValueAt(index, 1);
         DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
         modelDACT.setRowCount(0);
-        
-        DoAnDaoImpl doAnDao = new DoAnDaoImpl();
-        listDoAn = doAnDao.getAll();
-        for (DoAn fill : listDoAn) {
-            mapDoAn.put(fill.getId(), fill);
-        }
-        
+
         DoAn doan = (DoAn) mapDoAn.get(id);
         Set<DoAnChiTiet> dact = doan.getDoAnChiTiets();
-        for (DoAnChiTiet fill : dact) {
+
+        List<DoAnChiTiet> dactList = dact.stream()
+                .sorted(Comparator.comparing(DoAnChiTiet::getDonGia)) //comparator - how you want to sort it
+                .collect(Collectors.toList());
+
+        for (DoAnChiTiet fill : dactList) {
             Object[] record = new Object[]{
                 fill.getKichCoDoAn().getTen(),
                 fill.getDonGia(),
@@ -497,14 +584,16 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }
 
     public void updateDA() {
-        if(tblDoAn.getSelectedRow()<0)
-        {
+        int index = tblDoAn.getSelectedRow();
+        if (tblDoAn.getSelectedRow() < 0) {
             DialogHelper.message(this, "Chưa chọn đồ ăn !", DialogHelper.ERROR_MESSAGE);
         }
-        String idDA = (String) tblDoAn.getValueAt(tblDoAn.getSelectedRow(), 0);
+        String idDA = (String) tblDoAn.getValueAt(index, 1);
         new DialogCapNhatDoAn(this, true, mapDoAn.get(idDA)).setVisible(true);
+        DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
+        modelDACT.setRowCount(0);
         this.loadDataToTable();
-        this.searchDoAnByName();
+
     }
 
     public void searchDA() {
@@ -525,114 +614,127 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         }
     }
 
-    public Map<String, DoAn>  searchDoAnByName() {
-        Map<String, DoAn> mapSearchByName = new HashMap<String, DoAn>();
+    public Map<String, DoAn> searchDoAnByName() {
+        Map<String, DoAn> mapSearchDoAn = new HashMap<>();
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
-        for (Entry<String, DoAn> entry : mapDoAn.entrySet()) {
-            if (entry.getValue().getTen().toLowerCase().contains(txtTraCuuDoAn.getText().toLowerCase()))  {
+        {
+            for (Entry<String, DoAn> entry : mapDoAn.entrySet()) {
+                if (entry.getValue().getTen().toLowerCase().contains(txtTraCuuDoAn.getText().toLowerCase())) {
+                    DoAn doAn = entry.getValue();
+                    mapSearchDoAn.put(doAn.getId(), doAn);
+                }
+            }
+        }
+
+        if (rdoDangDuocBan.isSelected() && rdoDangDuocBan.isEnabled()) {
+            mapSearchDoAn = this.filterDangDuocBan(mapDoAn);
+        }
+        if (rdoDaNgungBan.isSelected() && rdoDaNgungBan.isEnabled()) {
+            mapSearchDoAn = this.filterDaNgungBan(mapSearchDoAn);
+        }
+        if (rdoDoAnNhanh.isSelected() && rdoDoAnNhanh.isEnabled()) {
+            mapSearchDoAn = this.filterDoAnhNhanh(mapSearchDoAn);
+        }
+        if (rdoDoUong.isSelected() && rdoDoUong.isEnabled()) {
+            mapSearchDoAn = this.filterDoUong(mapSearchDoAn);
+        }
+
+        int i = 1;
+        for (Entry<String, DoAn> entry : mapSearchDoAn.entrySet()) {
+            if (entry.getValue().getTen().toLowerCase().contains(txtTraCuuDoAn.getText().toLowerCase())) {
                 DoAn doAn = entry.getValue();
                 Object[] record = new Object[]{
+                    i++,
                     doAn.getId(),
                     doAn.getTen(),
-                    doAn.isDangBan()?"Đang được bán":"Đã ngưng bán",
+                    doAn.isDangBan() ? "Đang đươc bán" : "Đã ngưng bán",
                     doAn.getLoaiDoAn().getTen()
                 };
                 modelDA.addRow(record);
-                mapSearchByName.put(doAn.getId(), doAn);
             }
-
         }
-        return mapSearchByName;
+        return mapSearchDoAn;
     }
-    public void filterDangDuocBan(Map<String, DoAn> mapSearch)
-    {
-        DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
-        modelDA.setRowCount(0);
+
+    public Map<String, DoAn> filterDangDuocBan(Map<String, DoAn> mapSearch) {
+        Map<String, DoAn> filter = new HashMap<>();
         for (Entry<String, DoAn> entry : mapSearch.entrySet()) {
-            if (entry.getValue().isDangBan().compareTo(true)==0)  {
+            if (entry.getValue().isDangBan().compareTo(true) == 0) {
                 DoAn doAn = entry.getValue();
-                Object[] record = new Object[]{
-                    doAn.getId(),
-                    doAn.getTen(),
-                    doAn.isDangBan()?"Đang đươc bán":"Đã ngưng bán",
-                    doAn.getLoaiDoAn().getTen()
-                };
-                modelDA.addRow(record);
+                filter.put(doAn.getId(), doAn);
             }
-
         }
+        return filter;
     }
-    public void filterDaNgungBan(Map<String, DoAn> mapSearch)
-    {
-        DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
-        modelDA.setRowCount(0);
+
+    public Map<String, DoAn> filterDaNgungBan(Map<String, DoAn> mapSearch) {
+        Map<String, DoAn> filter = new HashMap<>();
         for (Entry<String, DoAn> entry : mapSearch.entrySet()) {
-            if (entry.getValue().isDangBan().compareTo(false)==0)  {
+            if (entry.getValue().isDangBan().compareTo(false) == 0) {
                 DoAn doAn = entry.getValue();
-                Object[] record = new Object[]{
-                    doAn.getId(),
-                    doAn.getTen(),
-                    doAn.isDangBan()?"Đang đươc bán":"Đã ngưng bán",
-                    doAn.getLoaiDoAn().getTen()
-                };
-                modelDA.addRow(record);
+                filter.put(doAn.getId(), doAn);
             }
-
         }
+        return filter;
     }
+
+    public Map<String, DoAn> filterDoAnhNhanh(Map<String, DoAn> mapSearch) {
+        Map<String, DoAn> filter = new HashMap<>();
+        for (Entry<String, DoAn> entry : mapSearch.entrySet()) {
+            if (entry.getValue().getLoaiDoAn().getId().compareTo("DA") == 0) {
+                DoAn doAn = entry.getValue();
+                filter.put(doAn.getId(), doAn);
+            }
+        }
+        return filter;
+    }
+
+    public Map<String, DoAn> filterDoUong(Map<String, DoAn> mapSearch) {
+        Map<String, DoAn> filter = new HashMap<>();
+        for (Entry<String, DoAn> entry : mapSearch.entrySet()) {
+            if (entry.getValue().getLoaiDoAn().getId().compareTo("NU") == 0) {
+                DoAn doAn = entry.getValue();
+                filter.put(doAn.getId(), doAn);
+            }
+        }
+        return filter;
+    }
+
     public void insertDACT() {
-        
-        if(tblDoAn.getSelectedRow()<0)
-        {
+
+        if (tblDoAn.getSelectedRow() < 0) {
             DialogHelper.message(this, "Chưa chọn đồ ăn !", DialogHelper.ERROR_MESSAGE);
-        }
-        else
-        {
-            String idDA = (String) tblDoAn.getValueAt(tblDoAn.getSelectedRow(), 0);
+        } else {
+            String idDA = (String) tblDoAn.getValueAt(tblDoAn.getSelectedRow(), 1);
             DoAn doAn = (DoAn) mapDoAn.get(idDA);
             new DialogThemDoAnChiTiet(this, true, doAn).setVisible(true);
             this.loadDoAnChiTiet();
         }
-            
+
     }
+
     public void updateDACT() {
-        
+
         int indexDA = tblDoAn.getSelectedRow();
-        String idDA = (String) tblDoAn.getValueAt(indexDA, 0);
+        String idDA = (String) tblDoAn.getValueAt(indexDA, 1);
         int indexDACT = tblDoAnChiTiet.getSelectedRow();
-        
-        
+
         DoAn doan = (DoAn) mapDoAn.get(idDA);
         Set<DoAnChiTiet> doanchitiet = doan.getDoAnChiTiets();
 
-        if(indexDACT < 0)
-        {
+        if (indexDACT < 0) {
             DialogHelper.message(this, "Chưa chọn cỡ !", DialogHelper.ERROR_MESSAGE);
-        }
-        else
-        {
+        } else {
             String dactTen = (String) tblDoAnChiTiet.getValueAt(indexDACT, 0);
-            for(DoAnChiTiet item : doanchitiet)
-            {
-                if (item.getKichCoDoAn().getTen().equals(dactTen)){
-                    DialogHelper.message(this, item.getKichCoDoAn().getTen() , DialogHelper.INFORMATION_MESSAGE);
+            for (DoAnChiTiet item : doanchitiet) {
+                if (item.getKichCoDoAn().getTen().equals(dactTen)) {
                     new DialogCapNhatDoAnChiTiet(this, true, item).setVisible(true);
                     this.loadDoAnChiTiet();
                     break;
                 }
             }
         }
-        
-//        if(index<0)
-//        {
-//            DialogHelper.message(this, "Chưa chọn đồ ăn !", DialogHelper.ERROR_MESSAGE);
-//        }
-//        else
-//        {
-//            new DialogCapNhatDoAnChiTiet(this, true, doanchitiet).setVisible(true);
-//        }
-//        this.loadDataToTable();
     }
 
     /**
@@ -678,9 +780,10 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnSuaKichCo;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JButton btnThemKichCo;
+    private javax.swing.JCheckBox chkTheoLoaiDoAn;
+    private javax.swing.JCheckBox chkTheoTen;
+    private javax.swing.JCheckBox chkTheoTrangThai;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -691,7 +794,8 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JRadioButton rdoDaNgungBan;
     private javax.swing.JRadioButton rdoDangDuocBan;
-    private javax.swing.JRadioButton rdoTatCa;
+    private javax.swing.JRadioButton rdoDoAnNhanh;
+    private javax.swing.JRadioButton rdoDoUong;
     private javax.swing.JTable tblDoAn;
     private javax.swing.JTable tblDoAnChiTiet;
     private javax.swing.JTextField txtTraCuuDoAn;

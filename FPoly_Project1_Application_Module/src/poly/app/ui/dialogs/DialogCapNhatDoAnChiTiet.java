@@ -23,21 +23,22 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
      * Creates new form DialogCapNhatDoAnChiTiet
      */
     DoAnChiTiet doAnChiTiet;
+
     public DialogCapNhatDoAnChiTiet(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    
+
     public DialogCapNhatDoAnChiTiet(java.awt.Frame parent, boolean modal, DoAnChiTiet doanchitiet) {
         this(parent, modal);
-       
+
         this.doAnChiTiet = doanchitiet;
         setLocationRelativeTo(null);
-        this.setModelToInput();
         this.loadDataToComboBox();
+        this.setModelToInput();
     }
-    public void loadDataToComboBox()
-    {
+
+    public void loadDataToComboBox() {
         DefaultComboBoxModel modelComboBox = (DefaultComboBoxModel) cboKichCo.getModel();
         modelComboBox.removeAllElements();
         KichCoDoAnDaoImpl kcda = new KichCoDoAnDaoImpl();
@@ -46,15 +47,16 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
             modelComboBox.addElement(fill);
         }
     }
-    public void setModelToInput()
-    {
+
+    public void setModelToInput() {
         txtDoAn.setText(doAnChiTiet.getDoAn().getTen());
         ftfDonGia.setValue(doAnChiTiet.getDonGia());
         txtDoAn.setEditable(false);
+        cboKichCo.getModel().setSelectedItem(doAnChiTiet.getKichCoDoAn());
         cboKichCo.setEditable(false);
     }
-    public DoAnChiTiet getModelFromInput()
-    {
+
+    public DoAnChiTiet getModelFromInput() {
         doAnChiTiet.setDonGia(Integer.parseInt(ftfDonGia.getValue().toString()));
         if (cboTrangThai.getSelectedItem().toString().equals("Đang được bán")) {
             doAnChiTiet.setDangBan(true);
@@ -63,20 +65,18 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         }
         return doAnChiTiet;
     }
-    public boolean updateModelToDatabase()
-    {
-        try
-        {
+
+    public boolean updateModelToDatabase() {
+        try {
             DoAnChiTietDaoImpl updateDACT = new DoAnChiTietDaoImpl();
             updateDACT.update(getModelFromInput());
             return true;
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             DialogHelper.message(this, e.getMessage(), DialogHelper.INFORMATION_MESSAGE);
         }
         return false;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,6 +106,10 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
 
         jLabel3.setText("Giá  bán");
 
+        txtDoAn.setEnabled(false);
+
+        cboKichCo.setEnabled(false);
+
         ftfDonGia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
 
         btnCapNhat.setText("Cập nhật");
@@ -116,6 +120,11 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         });
 
         jButton2.setText("Huỷ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Trạng thái");
 
@@ -189,17 +198,17 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
-        if(this.updateModelToDatabase())
-        {
-            this.dispose();
+        if (this.updateModelToDatabase()) {
             DialogHelper.message(this, "Cập nhật dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
-        }
-        else
-        {
+            this.dispose();
+        } else {
             DialogHelper.message(this, "Cập nhật dữ liệu thất bại !", DialogHelper.ERROR_MESSAGE);
         }
-   
     }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
