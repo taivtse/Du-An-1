@@ -11,10 +11,10 @@
         <many-to-one name="dinhDangPhim" class="poly.app.core.entities.DinhDangPhim" fetch="select">
             <column name="dinh_dang_phim_id" length="5" not-null="true" />
         </many-to-one>
-        <many-to-one name="phim" class="poly.app.core.entities.Phim" fetch="select">
+        <many-to-one name="phim" class="poly.app.core.entities.Phim" fetch="join">
             <column name="phim_id" length="15" not-null="true" />
         </many-to-one>
-        <many-to-one name="phongChieu" class="poly.app.core.entities.PhongChieu" fetch="select">
+        <many-to-one name="phongChieu" class="poly.app.core.entities.PhongChieu" fetch="join">
             <column name="phong_chieu_id" not-null="true" />
         </many-to-one>
         <property name="gioBatDau" type="time">

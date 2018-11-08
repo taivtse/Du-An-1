@@ -8,10 +8,10 @@
             <column name="id" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="doAnChiTiet" class="poly.app.core.entities.DoAnChiTiet" fetch="select">
+        <many-to-one name="doAnChiTiet" class="poly.app.core.entities.DoAnChiTiet" fetch="join">
             <column name="do_an_chi_tiet_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="hoaDon" class="poly.app.core.entities.HoaDon" fetch="select">
+        <many-to-one name="hoaDon" class="poly.app.core.entities.HoaDon" fetch="join">
             <column name="hoa_don_id" length="15" not-null="true" />
         </many-to-one>
         <property name="soLuong" type="int">

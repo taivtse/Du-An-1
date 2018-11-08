@@ -8,16 +8,16 @@
             <column name="id" length="15" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="gheNgoi" class="poly.app.core.entities.GheNgoi" fetch="select">
+        <many-to-one name="gheNgoi" class="poly.app.core.entities.GheNgoi" fetch="join">
             <column name="ghe_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="giaVe" class="poly.app.core.entities.GiaVe" fetch="select">
+        <many-to-one name="giaVe" class="poly.app.core.entities.GiaVe" fetch="join">
             <column name="gia_ve_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="nguoiDung" class="poly.app.core.entities.NguoiDung" fetch="select">
+        <many-to-one name="nguoiDung" class="poly.app.core.entities.NguoiDung" fetch="join">
             <column name="nhan_vien_id" length="15" />
         </many-to-one>
-        <many-to-one name="suatChieu" class="poly.app.core.entities.SuatChieu" fetch="select">
+        <many-to-one name="suatChieu" class="poly.app.core.entities.SuatChieu" fetch="join">
             <column name="suat_chieu_id" length="15" not-null="true" />
         </many-to-one>
         <property name="ngayBan" type="date">

@@ -61,7 +61,10 @@ public class LoaiGhe  implements java.io.Serializable {
         this.gheNgois = gheNgois;
     }
 
-
+    @Override
+    public String toString() {
+        return tenGhe;
+    }
 
 
 }

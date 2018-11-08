@@ -10,7 +10,7 @@
                 <param name="property">veBan</param>
             </generator>
         </id>
-        <many-to-one name="khachHang" class="poly.app.core.entities.KhachHang" fetch="select">
+        <many-to-one name="khachHang" class="poly.app.core.entities.KhachHang" fetch="join">
             <column name="khach_hang_id" length="15" not-null="true" />
         </many-to-one>
         <one-to-one name="veBan" class="poly.app.core.entities.VeBan" constrained="true"></one-to-one>

@@ -8,13 +8,13 @@
             <column name="id" length="15" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="nguoiDung" class="poly.app.core.entities.NguoiDung" fetch="select">
+        <many-to-one name="nguoiDung" class="poly.app.core.entities.NguoiDung" fetch="join">
             <column name="nhan_vien_id" length="15" not-null="true" />
         </many-to-one>
         <property name="ngayBan" type="date">
             <column name="ngay_ban" length="10" not-null="true" />
         </property>
-        <set name="hoaDonChiTiets" table="hoa_don_chi_tiet" inverse="true" lazy="true" fetch="select">
+        <set name="hoaDonChiTiets" table="hoa_don_chi_tiet" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="hoa_don_id" length="15" not-null="true" />
             </key>
