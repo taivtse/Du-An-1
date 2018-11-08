@@ -26,7 +26,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameQLSuatChieu extends javax.swing.JFrame {
+public class FrameQLVeBan extends javax.swing.JFrame {
 
     /**
      * Creates new form FrameQLNhanVien
@@ -34,7 +34,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     
     List<Phim> listPhim;
     
-    public FrameQLSuatChieu() {
+    public FrameQLVeBan() {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
@@ -64,8 +64,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         pnMain = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        chkTenPhim = new javax.swing.JCheckBox();
-        txtTenPhim = new javax.swing.JTextField();
+        chkTheoTenPhim = new javax.swing.JCheckBox();
+        txtTheoMaVe = new javax.swing.JTextField();
         chkKhoangThoiGian = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         dcTuNgay = new com.toedter.calendar.JDateChooser();
@@ -73,15 +73,10 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         dcDenNgay = new com.toedter.calendar.JDateChooser();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        chkKhoangThoiGian1 = new javax.swing.JCheckBox();
-        cboTatCa = new javax.swing.JRadioButton();
-        cboDangChieu = new javax.swing.JRadioButton();
-        cboDaChieu = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnSua = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSuatChieu = new javax.swing.JTable();
@@ -102,24 +97,24 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         jPanel2.setOpaque(false);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        jLabel1.setText("Tra cứu suất chiếu");
+        jLabel1.setText("Tra cứu vé bán");
 
-        chkTenPhim.setText("Theo tên phim");
-        chkTenPhim.addActionListener(new java.awt.event.ActionListener() {
+        chkTheoTenPhim.setText("Theo mã vé bán");
+        chkTheoTenPhim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkTenPhimActionPerformed(evt);
+                chkTheoTenPhimActionPerformed(evt);
             }
         });
 
-        txtTenPhim.setEditable(false);
-        txtTenPhim.addActionListener(new java.awt.event.ActionListener() {
+        txtTheoMaVe.setEditable(false);
+        txtTheoMaVe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTenPhimActionPerformed(evt);
+                txtTheoMaVeActionPerformed(evt);
             }
         });
-        txtTenPhim.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTheoMaVe.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTenPhimKeyReleased(evt);
+                txtTheoMaVeKeyReleased(evt);
             }
         });
 
@@ -159,46 +154,32 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
 
         jButton3.setText("Tìm");
 
-        chkKhoangThoiGian1.setText("Theo trạng thái");
-        chkKhoangThoiGian1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkKhoangThoiGian1ActionPerformed(evt);
-            }
-        });
-
-        cboTatCa.setText("Tất cả");
-
-        cboDangChieu.setText("Đang chiếu");
-
-        cboDaChieu.setText("Đã chiếu");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(62, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addGap(34, 34, 34))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cboDaChieu)
-                    .addComponent(cboDangChieu)
-                    .addComponent(cboTatCa)
-                    .addComponent(chkKhoangThoiGian1)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton2))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(chkKhoangThoiGian)
+                                .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel2)
-                        .addComponent(chkKhoangThoiGian)
-                        .addComponent(chkTenPhim)
+                        .addComponent(chkTheoTenPhim)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                        .addComponent(txtTenPhim)
-                        .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtTheoMaVe)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,18 +187,10 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(chkTenPhim)
+                .addComponent(chkTheoTenPhim)
                 .addGap(18, 18, 18)
-                .addComponent(txtTenPhim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTheoMaVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(chkKhoangThoiGian1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboTatCa)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboDangChieu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboDaChieu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(chkKhoangThoiGian)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
@@ -231,47 +204,26 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(74, 74, 74))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel4.setOpaque(false);
 
-        btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Xem chi tiết");
 
-        btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        btnSua.setText("Sửa");
-        btnSua.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("Xoá");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jButton4.setText("In vé");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(btnThem)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSua)
-                .addGap(18, 18, 18)
+                .addGap(17, 17, 17)
                 .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -279,9 +231,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem)
-                    .addComponent(btnSua)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
 
@@ -293,11 +244,11 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Mã suất chiếu", "Mã phim", "Tên phim", "Ngày chiếu", "Giờ chiếu", "Định dạng", "Ngôn ngữ", "Phòng chiếu", "Trạng thái"
+                "STT", "Mã vé", "Mã suất chiếu", "Vị trí ghế", "Ngày bán", "Giá vé", "Nhân viên bán"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -406,11 +357,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         loadAllDataToTable();
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        new DialogThemPhim(this, true).setVisible(true);
-        loadAllDataToTable();
-    }//GEN-LAST:event_btnThemActionPerformed
-
     private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
         if ( evt.getClickCount() >= 2 ) {
             int index = tblSuatChieu.getSelectedRow();
@@ -421,46 +367,16 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblSuatChieuMouseClicked
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        int index = tblSuatChieu.getSelectedRow();
-        if ( index < 0 ) {
-            new DialogHelper().message(this, "Vui long chọn dòng cần sửa !", DialogHelper.ERROR_MESSAGE);
-        } else {
-            String id = tblSuatChieu.getValueAt(index, 0) + "";
-            new DialogCapNhatPhim(this, true, id).setVisible(true);
-            loadAllDataToTable();
-        }
-    }//GEN-LAST:event_btnSuaActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void chkTheoTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenPhimActionPerformed
         // TODO add your handling code here:
-        boolean checkDelete = DialogHelper.confirm(this, "Bạn chắc chắn muốn xóa phim ?");
-        if ( !checkDelete ) return;
-        int index = tblSuatChieu.getSelectedRow();
-        if ( index >= 0 ) {
-            if ( deletePhim(index) ) {
-                listPhim = new PhimDaoImpl().getPhimHienCo();
-                loadDataToTable(searchAdvance());
-                new DialogHelper().message(this, "Xóa thành công ^^", DialogHelper.INFORMATION_MESSAGE);
-            } else {
-                new DialogHelper().message(this, "Xóa thất bại !!", DialogHelper.ERROR_MESSAGE);
-            }
+        if ( chkTheoTenPhim.isSelected() ) {
+            txtTheoMaVe.setEditable(true);
         } else {
-            new DialogHelper().message(this, "Vui lòng chọn dòng muốn xóa !", HEIGHT);
-        }
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void chkTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenPhimActionPerformed
-        // TODO add your handling code here:
-        if ( chkTenPhim.isSelected() ) {
-            txtTenPhim.setEditable(true);
-        } else {
-            txtTenPhim.setEditable(false);
-            txtTenPhim.setText("");
+            txtTheoMaVe.setEditable(false);
+            txtTheoMaVe.setText("");
             loadDataToTable(searchAdvance());
         }
-    }//GEN-LAST:event_chkTenPhimActionPerformed
+    }//GEN-LAST:event_chkTheoTenPhimActionPerformed
 
     private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed
         // TODO add your handling code here:
@@ -476,10 +392,10 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chkKhoangThoiGianActionPerformed
 
-    private void txtTenPhimKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenPhimKeyReleased
+    private void txtTheoMaVeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTheoMaVeKeyReleased
         // TODO add your handling code here:
         loadDataToTable(searchAdvance());
-    }//GEN-LAST:event_txtTenPhimKeyReleased
+    }//GEN-LAST:event_txtTheoMaVeKeyReleased
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
         // TODO add your handling code here:
@@ -495,12 +411,12 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
-    private void txtTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenPhimActionPerformed
+    private void txtTheoMaVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTheoMaVeActionPerformed
         // TODO add your handling code here:
         if ( chkKhoangThoiGian.isSelected()) {
             loadDataToTable(searchAdvance());
         }
-    }//GEN-LAST:event_txtTenPhimActionPerformed
+    }//GEN-LAST:event_txtTheoMaVeActionPerformed
 
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
         // TODO add your handling code here:
@@ -518,7 +434,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        txtTenPhim.setText("");
+        txtTheoMaVe.setText("");
         dcTuNgay.setDate(null);
         dcDenNgay.setDate(null);
         loadDataToTable(searchAdvance());
@@ -528,12 +444,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         loadAllDataToTable();
     }//GEN-LAST:event_formWindowActivated
 
-    private void chkKhoangThoiGian1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGian1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chkKhoangThoiGian1ActionPerformed
-
     public List<Phim> searchByTen() {
-        String tenTimKiem = txtTenPhim.getText().toLowerCase();
+        String tenTimKiem = txtTheoMaVe.getText().toLowerCase();
         if ( !tenTimKiem.equals("") ) {
             List<Phim> listPhimTheoTen = new ArrayList<>();
             for ( Phim phim : listPhim ) {
@@ -562,7 +474,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         
         for ( Phim phim : listPhim ) {
             if ( 
-                    phim.getTen().toLowerCase().contains(txtTenPhim.getText().toLowerCase())
+                    phim.getTen().toLowerCase().contains(txtTheoMaVe.getText().toLowerCase())
                     && phim.getNgayCongChieu().compareTo(min) >= 0
                     && phim.getNgayCongChieu().compareTo(max) <= 0
             ) {
@@ -627,14 +539,22 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameQLSuatChieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameQLSuatChieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameQLSuatChieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameQLSuatChieu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -647,26 +567,21 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrameQLSuatChieu().setVisible(true);
+                new FrameQLVeBan().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
-    private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnThem;
-    private javax.swing.JRadioButton cboDaChieu;
-    private javax.swing.JRadioButton cboDangChieu;
-    private javax.swing.JRadioButton cboTatCa;
     private javax.swing.JCheckBox chkKhoangThoiGian;
-    private javax.swing.JCheckBox chkKhoangThoiGian1;
-    private javax.swing.JCheckBox chkTenPhim;
+    private javax.swing.JCheckBox chkTheoTenPhim;
     private com.toedter.calendar.JDateChooser dcDenNgay;
     private com.toedter.calendar.JDateChooser dcTuNgay;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -677,6 +592,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnMain;
     private javax.swing.JTable tblSuatChieu;
-    private javax.swing.JTextField txtTenPhim;
+    private javax.swing.JTextField txtTheoMaVe;
     // End of variables declaration//GEN-END:variables
 }

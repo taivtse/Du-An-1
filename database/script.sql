@@ -56,7 +56,7 @@ CREATE TABLE `do_an` (
   `loai_do_an_id` varchar(5) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_DOAN_LOAIDOAN_idx` (`loai_do_an_id`),
-  CONSTRAINT `FK_DOAN_LOAIDOAN` FOREIGN KEY (`loai_do_an_id`) REFERENCES `loai_do_an` (`id`)
+  CONSTRAINT `FK_DOAN_LOAIDOAN` FOREIGN KEY (`loai_do_an_id`) REFERENCES `loai_do_an` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -66,7 +66,7 @@ CREATE TABLE `do_an` (
 
 LOCK TABLES `do_an` WRITE;
 /*!40000 ALTER TABLE `do_an` DISABLE KEYS */;
-INSERT INTO `do_an` VALUES ('DA001','Bắp rang bơ',_binary '','DA'),('DA002','Đùi gà',_binary '','DA'),('DA003','asda',_binary '','DA'),('NU003','Coca',_binary '','NU'),('NU004','Pepsi',_binary '','NU');
+INSERT INTO `do_an` VALUES ('DA001','Bắp rang bơ',_binary '','DA'),('DA002','Đùi gà',_binary '','DA'),('DA003','aasdadas',_binary '','DA'),('DA004','asd',_binary '\0','DA'),('DA005','hahaa',_binary '\0','DA'),('NU003','Coca',_binary '','NU'),('NU004','Pepsi',_binary '','NU'),('NU005','haha',_binary '\0','NU');
 /*!40000 ALTER TABLE `do_an` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -126,7 +126,7 @@ CREATE TABLE `do_an_chi_tiet` (
   KEY `FK_DOANCHITIET_KICHCODOAN_idx` (`kich_co_do_an_id`),
   CONSTRAINT `FK_DOANCHITIET_DOAN` FOREIGN KEY (`do_an_id`) REFERENCES `do_an` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_DOANCHITIET_KICHCODOAN` FOREIGN KEY (`kich_co_do_an_id`) REFERENCES `kich_co_do_an` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +135,7 @@ CREATE TABLE `do_an_chi_tiet` (
 
 LOCK TABLES `do_an_chi_tiet` WRITE;
 /*!40000 ALTER TABLE `do_an_chi_tiet` DISABLE KEYS */;
-INSERT INTO `do_an_chi_tiet` VALUES (1,20000,_binary '','DA001','S'),(2,30000,_binary '','DA001','M'),(3,40000,_binary '','DA001','L'),(4,89000,_binary '','DA002','S'),(5,139000,_binary '','DA002','M'),(6,169000,_binary '','DA002','L'),(7,10000,_binary '','NU003','S'),(8,15000,_binary '','NU003','M'),(9,25000,_binary '','NU003','L'),(10,10000,_binary '','NU004','S'),(11,15000,_binary '','NU004','M'),(12,25000,_binary '','NU004','L');
+INSERT INTO `do_an_chi_tiet` VALUES (1,20000,_binary '','DA001','S'),(2,30000,_binary '','DA001','M'),(3,40000,_binary '','DA001','L'),(4,89000,_binary '','DA002','S'),(5,139000,_binary '','DA002','M'),(6,169000,_binary '','DA002','L'),(7,10000,_binary '','NU003','S'),(8,150000,_binary '\0','NU003','M'),(9,25000,_binary '','NU003','L'),(10,10000,_binary '','NU004','S'),(11,15000,_binary '','NU004','M'),(12,25000,_binary '','NU004','L'),(13,20000,_binary '\0','NU005','M'),(14,10000,_binary '','NU005','S'),(15,100000,_binary '\0','NU005','L'),(16,222,_binary '','DA004','L'),(17,20000,_binary '','DA004','M');
 /*!40000 ALTER TABLE `do_an_chi_tiet` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,7 +280,7 @@ CREATE TABLE `hoa_don_chi_tiet` (
   PRIMARY KEY (`id`),
   KEY `FK_HOADONCHITIET_HOADON_idx` (`hoa_don_id`),
   KEY `FK_HOADONCHITIET_DOAN_idx` (`do_an_chi_tiet_id`),
-  CONSTRAINT `FK_HOADONCHITIET_DOANCHITIET` FOREIGN KEY (`do_an_chi_tiet_id`) REFERENCES `do_an_chi_tiet` (`id`),
+  CONSTRAINT `FK_HOADONCHITIET_DOANCHITIET` FOREIGN KEY (`do_an_chi_tiet_id`) REFERENCES `do_an_chi_tiet` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_HOADONCHITIET_HOADON` FOREIGN KEY (`hoa_don_id`) REFERENCES `hoa_don` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -563,7 +563,7 @@ CREATE TABLE `phim` (
   `loai_phim_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_PHIM_LOAIPHIM_idx` (`loai_phim_id`),
-  CONSTRAINT `FK_PHIM_LOAIPHIM` FOREIGN KEY (`loai_phim_id`) REFERENCES `loai_phim` (`id`)
+  CONSTRAINT `FK_PHIM_LOAIPHIM` FOREIGN KEY (`loai_phim_id`) REFERENCES `loai_phim` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -573,7 +573,7 @@ CREATE TABLE `phim` (
 
 LOCK TABLES `phim` WRITE;
 /*!40000 ALTER TABLE `phim` DISABLE KEYS */;
-INSERT INTO `phim` VALUES ('1','Phim con chó',60,18,'2018-12-14','Tiếng Việt','Japan','Việt Nam','Hãng phim A','Hấp dẫn, lên máu','Đang chiếu',_binary '\0',1),('2','Phim con người',90,6,'2018-12-01','Vietnamese','Vietnam','VIETNAM','Viet.co.ltd','Bình thường','dangchieu',_binary '\0',2),('PH00000003','adsfa',31,12,'2018-02-02','asf','asdf','asdf','asdf','asd','adsf',_binary '\0',1),('PH00000004','sda',12,123,'2018-02-02','asd','sd','ads','adsf','adsf','asd',_binary '\0',2),('PH00000005','asd',10,10,'2018-11-01','Tiếng Việt','asdfad','Nga','Hãng phim A','asdfad','Đang chiếu',_binary '\0',2);
+INSERT INTO `phim` VALUES ('1','Phim con chó',60,18,'2018-12-14','Tiếng Việt','Japan','Việt Nam','Hãng phim A','Hấp dẫn, lên máu','Đang chiếu',_binary '\0',1),('2','Phim con người',90,6,'2018-12-01','Vietnamese','Vietnam','VIETNAM','Viet.co.ltd','Bình thường','dangchieu',_binary '\0',2),('PH00000003','adsfa',31,12,'2018-02-02','asf','asdf','asdf','asdf','asd','adsf',_binary '\0',1),('PH00000004','sda',12,123,'2018-02-02','asd','sd','ads','adsf','adsf','asd',_binary '\0',2),('PH00000005','asd',10,10,'2018-11-01','Tiếng Việt','asdfad','Nga','Hãng phim A','asdfad','Đang chiếu',_binary '\0',2),('PH00006','ad',10,10,'2018-11-16','Tiếng Việt','asdf','Anh','Hãng phim A','asdfasd','Đang chiếu',_binary '\0',2),('PH00007','asd',10,10,'2018-11-16','Tiếng Việt','dasdfas','Việt Nam','Hãng phim A','asdfas','Đang chiếu',_binary '\0',1);
 /*!40000 ALTER TABLE `phim` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -662,9 +662,9 @@ CREATE TABLE `suat_chieu` (
   KEY `FK_SUATCHIEU_PHONGCHIEU_idx` (`phong_chieu_id`),
   KEY `FK_SUATCHIEU_DINHDANGPHIM_idx` (`dinh_dang_phim_id`),
   KEY `FK_SUATCHIEU_PHIM_idx` (`phim_id`),
-  CONSTRAINT `FK_SUATCHIEU_DINHDANGPHIM` FOREIGN KEY (`dinh_dang_phim_id`) REFERENCES `dinh_dang_phim` (`id`),
-  CONSTRAINT `FK_SUATCHIEU_PHIM` FOREIGN KEY (`phim_id`) REFERENCES `phim` (`id`),
-  CONSTRAINT `FK_SUATCHIEU_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`)
+  CONSTRAINT `FK_SUATCHIEU_DINHDANGPHIM` FOREIGN KEY (`dinh_dang_phim_id`) REFERENCES `dinh_dang_phim` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_SUATCHIEU_PHIM` FOREIGN KEY (`phim_id`) REFERENCES `phim` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_SUATCHIEU_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -833,8 +833,8 @@ CREATE TABLE `ve_dat` (
   `khach_hang_id` varchar(15) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_VEDAT_KHACHANG_idx` (`khach_hang_id`),
-  CONSTRAINT `FK_VEDAT_KHACHANG` FOREIGN KEY (`khach_hang_id`) REFERENCES `khach_hang` (`id`),
-  CONSTRAINT `FK_VEDAT_VEBAN` FOREIGN KEY (`id`) REFERENCES `ve_ban` (`id`)
+  CONSTRAINT `FK_VEDAT_KHACHANG` FOREIGN KEY (`khach_hang_id`) REFERENCES `khach_hang` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_VEDAT_VEBAN` FOREIGN KEY (`id`) REFERENCES `ve_ban` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -844,6 +844,7 @@ CREATE TABLE `ve_dat` (
 
 LOCK TABLES `ve_dat` WRITE;
 /*!40000 ALTER TABLE `ve_dat` DISABLE KEYS */;
+INSERT INTO `ve_dat` VALUES ('VE00000003','KH00001');
 /*!40000 ALTER TABLE `ve_dat` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -881,4 +882,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-07 20:28:46
+-- Dump completed on 2018-11-08 18:22:26

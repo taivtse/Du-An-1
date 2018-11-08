@@ -34,9 +34,8 @@ public class FrameQLPhim extends javax.swing.JFrame {
     /**
      * Creates new form FrameQLNhanVien
      */
-    
     List<Phim> listPhim;
-    
+
     public FrameQLPhim() {
         initComponents();
         setLocationRelativeTo(null);
@@ -50,8 +49,8 @@ public class FrameQLPhim extends javax.swing.JFrame {
         tblRenderer1.setCellEditable(false);
         tblRenderer1.changeHeaderStyle();
     }
-    
-    public JPanel getMainPanel(){
+
+    public JPanel getMainPanel() {
         return pnMain;
     }
 
@@ -74,7 +73,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
         dcTuNgay = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         dcDenNgay = new com.toedter.calendar.JDateChooser();
-        jButton2 = new javax.swing.JButton();
+        btnDatLai = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -149,10 +148,10 @@ public class FrameQLPhim extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Đặt lại");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnDatLai.setText("Đặt lại");
+        btnDatLai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnDatLaiActionPerformed(evt);
             }
         });
 
@@ -178,7 +177,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 .addContainerGap(62, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnDatLai)
                 .addGap(34, 34, 34))
         );
         jPanel2Layout.setVerticalGroup(
@@ -202,7 +201,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(btnDatLai)
                     .addComponent(jButton3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -266,11 +265,11 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã phim", "Tên phim", "Thời lượng", "Giới hạn tuổi", "Ngày chiếu", "Ngôn ngữ", "Diễn viên", "Quốc gia", "Nhà sản xuất", "Trạng thái"
+                "STT", "Mã phim", "Tên phim", "Thời lượng", "Giới hạn tuổi", "Ngày chiếu", "Ngôn ngữ", "Diễn viên", "Quốc gia", "Nhà sản xuất", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -385,7 +384,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
-        if ( evt.getClickCount() >= 2 ) {
+        if (evt.getClickCount() >= 2) {
             int index = tblPhim.getSelectedRow();
             String id = tblPhim.getValueAt(index, 0) + "";
             new DialogCapNhatPhim(this, true, id).setVisible(true);
@@ -396,7 +395,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         int index = tblPhim.getSelectedRow();
-        if ( index < 0 ) {
+        if (index < 0) {
             new DialogHelper().message(this, "Vui long chọn dòng cần sửa !", DialogHelper.ERROR_MESSAGE);
         } else {
             String id = tblPhim.getValueAt(index, 0) + "";
@@ -408,10 +407,12 @@ public class FrameQLPhim extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         boolean checkDelete = DialogHelper.confirm(this, "Bạn chắc chắn muốn xóa phim ?");
-        if ( !checkDelete ) return;
+        if (!checkDelete) {
+            return;
+        }
         int index = tblPhim.getSelectedRow();
-        if ( index >= 0 ) {
-            if ( deletePhim(index) ) {
+        if (index >= 0) {
+            if (deletePhim(index)) {
                 listPhim = new PhimDaoImpl().getPhimHienCo();
                 loadDataToTable(searchAdvance());
                 new DialogHelper().message(this, "Xóa thành công ^^", DialogHelper.INFORMATION_MESSAGE);
@@ -419,14 +420,14 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 new DialogHelper().message(this, "Xóa thất bại !!", DialogHelper.ERROR_MESSAGE);
             }
         } else {
-            new DialogHelper().message(this, "Vui lòng chọn dòng muốn xóa !", HEIGHT);
+            new DialogHelper().message(this, "Vui lòng chọn dòng muốn xóa !", DialogHelper.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void chkTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenPhimActionPerformed
         // TODO add your handling code here:
-        if ( chkTenPhim.isSelected() ) {
+        if (chkTenPhim.isSelected()) {
             txtTenPhim.setEditable(true);
         } else {
             txtTenPhim.setEditable(false);
@@ -437,7 +438,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected() ) {
+        if (chkKhoangThoiGian.isSelected()) {
             dcTuNgay.setEnabled(true);
             dcDenNgay.setEnabled(true);
         } else {
@@ -456,11 +457,11 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected()) {
+        if (chkKhoangThoiGian.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
-            if ( min != null && max != null ) {
-                if ( min.compareTo(max) > 0 ) {
+            if (min != null && max != null) {
+                if (min.compareTo(max) > 0) {
                     dcTuNgay.setDate(max);
                 }
             }
@@ -470,18 +471,18 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     private void txtTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenPhimActionPerformed
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected()) {
+        if (chkKhoangThoiGian.isSelected()) {
             loadDataToTable(searchAdvance());
         }
     }//GEN-LAST:event_txtTenPhimActionPerformed
 
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected()) {
+        if (chkKhoangThoiGian.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
-            if ( min != null && max != null ) {
-                if ( min.compareTo(max) > 0 ) {
+            if (min != null && max != null) {
+                if (min.compareTo(max) > 0) {
                     dcDenNgay.setDate(min);
                 }
             }
@@ -489,13 +490,13 @@ public class FrameQLPhim extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLaiActionPerformed
         // TODO add your handling code here:
         txtTenPhim.setText("");
         dcTuNgay.setDate(null);
         dcDenNgay.setDate(null);
         loadDataToTable(searchAdvance());
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnDatLaiActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         loadAllDataToTable();
@@ -503,10 +504,10 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     public List<Phim> searchByTen() {
         String tenTimKiem = txtTenPhim.getText().toLowerCase();
-        if ( !tenTimKiem.equals("") ) {
+        if (!tenTimKiem.equals("")) {
             List<Phim> listPhimTheoTen = new ArrayList<>();
-            for ( Phim phim : listPhim ) {
-                if ( phim.getTen().toLowerCase().contains(tenTimKiem) ) {
+            for (Phim phim : listPhim) {
+                if (phim.getTen().toLowerCase().contains(tenTimKiem)) {
                     listPhimTheoTen.add(phim);
                 }
             }
@@ -514,38 +515,37 @@ public class FrameQLPhim extends javax.swing.JFrame {
         }
         return listPhim;
     }
-    
+
     public List<Phim> searchAdvance() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<Phim> listPhimTimKiem = new ArrayList<Phim>();
         Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
 
-        min = min==null? dcTuNgay.getMinSelectableDate() : min;
-        max = max==null? dcDenNgay.getMaxSelectableDate() : max ;
-        
+        min = min == null ? dcTuNgay.getMinSelectableDate() : min;
+        max = max == null ? dcDenNgay.getMaxSelectableDate() : max;
+
         LocalDate localDate = min.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         min = java.sql.Date.valueOf(localDate);
-        
+
         localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         max = java.sql.Date.valueOf(localDate);
-        
-        for ( Phim phim : listPhim ) {
-            if ( 
-                    phim.getTen().toLowerCase().contains(txtTenPhim.getText().toLowerCase())
+
+        for (Phim phim : listPhim) {
+            if (phim.getTen().toLowerCase().contains(txtTenPhim.getText().toLowerCase())
                     && phim.getNgayCongChieu().compareTo(min) >= 0
-                    && phim.getNgayCongChieu().compareTo(max) <= 0
-            ) {
+                    && phim.getNgayCongChieu().compareTo(max) <= 0) {
                 listPhimTimKiem.add(phim);
             }
         }
         return listPhimTimKiem;
     }
-    
+
     public void loadDataToTable(List<Phim> listPhimHienThi) {
         DefaultTableModel modelTable = (DefaultTableModel) tblPhim.getModel();
         modelTable.setRowCount(0);
-        for ( Phim phim : listPhimHienThi ) {
+        int i = 0;
+        for (Phim phim : listPhimHienThi) {
             Object[] record = new Object[]{
+                i++,
                 phim.getId(),
                 phim.getTen(),
                 phim.getThoiLuong(),
@@ -560,7 +560,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
             modelTable.addRow(record);
         }
     }
-    
+
     public boolean deletePhim(int id) {
         Phim phim = listPhim.get(id);
         phim.setDaXoa(true);
@@ -569,20 +569,19 @@ public class FrameQLPhim extends javax.swing.JFrame {
         } catch (HibernateException e) {
             e.printStackTrace();
             return false;
-        }    
+        }
     }
-    
-    
-    public void loadAllDataToTable(){
+
+    public void loadAllDataToTable() {
         listPhim = new PhimDaoImpl().getPhimHienCo();
         loadDataToTable(listPhim);
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -608,7 +607,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -619,6 +618,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
+    private javax.swing.JButton btnDatLai;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JCheckBox chkKhoangThoiGian;
@@ -626,7 +626,6 @@ public class FrameQLPhim extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dcDenNgay;
     private com.toedter.calendar.JDateChooser dcTuNgay;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

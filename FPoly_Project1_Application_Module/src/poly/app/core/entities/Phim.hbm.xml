@@ -44,7 +44,7 @@
         <property name="daXoa" type="java.lang.Boolean">
             <column name="da_xoa" />
         </property>
-        <set name="suatChieus" table="suat_chieu" inverse="true" lazy="true" fetch="select">
+        <set name="suatChieus" table="suat_chieu" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="phim_id" length="15" not-null="true" />
             </key>
