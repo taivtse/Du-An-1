@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 9, 2018 10:03:06 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="poly.app.core.entities.NguoiDung" table="nguoi_dung" catalog="du_an_1" optimistic-lock="version">
+    <class name="poly.app.core.entities.NguoiDung" table="nguoi_dung" catalog="du_an_1">
         <id name="id" type="string">
             <column name="id" length="15" />
-            <generator class="assigned" />
+            <generator class="assigned"></generator>
         </id>
         <many-to-one name="vaiTro" class="poly.app.core.entities.VaiTro" fetch="join">
             <column name="vai_tro_id" length="2" not-null="true" />

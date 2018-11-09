@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 9, 2018 10:03:06 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="poly.app.core.entities.PhongChieu" table="phong_chieu" catalog="du_an_1" optimistic-lock="version">
+    <class name="poly.app.core.entities.PhongChieu" table="phong_chieu" catalog="du_an_1">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
-            <generator class="identity" />
+            <generator class="identity"></generator>
         </id>
         <property name="soLuongDay" type="int">
             <column name="so_luong_day" not-null="true" />
@@ -19,6 +19,12 @@
                 <column name="phong_chieu_id" not-null="true" />
             </key>
             <one-to-many class="poly.app.core.entities.SuatChieu" />
+        </set>
+        <set name="soDoGheNgois" table="so_do_ghe_ngoi" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="phong_chieu_id" not-null="true" />
+            </key>
+            <one-to-many class="poly.app.core.entities.SoDoGheNgoi" />
         </set>
         <set name="gheNgois" table="ghe_ngoi" inverse="true" lazy="true" fetch="select">
             <key>

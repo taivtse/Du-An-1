@@ -5,17 +5,51 @@
  */
 package poly.app.ui.frames;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author vothanhtai
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class NewJFrame extends javax.swing.JFrame implements ActionListener {
 
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
         initComponents();
+        int i = 10;
+        int j = 16;
+
+        int buttonWitdth = 50;
+
+        final JButton[][] buttonHolder = new JButton[i][j];
+        jPanel1.setLayout(new GridLayout(i, j, 2, 2));
+
+        for (int m = 0; m < i; m++) {
+            for (int n = 0; n < j; n++) {
+                buttonHolder[m][n] = new JButton((m + 1) + "-" + (n + 1) + "");
+                
+                buttonHolder[m][n].setMinimumSize(new Dimension(buttonWitdth, buttonWitdth));
+                buttonHolder[m][n].setPreferredSize(new Dimension(buttonWitdth, buttonWitdth));
+                buttonHolder[m][n].setMaximumSize(new Dimension(buttonWitdth, buttonWitdth));
+                
+                buttonHolder[m][n].setOpaque(true);
+                buttonHolder[m][n].setBackground(Color.decode("#000"));
+                buttonHolder[m][n].setMargin(new Insets(0, 0, 0, 0));
+
+//                buttonHolder[m][n].setActionCommand(m + "-" + n + "");
+                buttonHolder[m][n].addActionListener(this);
+                jPanel1.add(buttonHolder[m][n]);
+            }
+        }
     }
 
     /**
@@ -27,17 +61,34 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 463, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 303, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 63, Short.MAX_VALUE))
         );
 
         pack();
@@ -54,7 +105,7 @@ public class NewJFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -79,5 +130,14 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JButton button = (JButton) e.getSource();
+        String command = button.getActionCommand();
+
+        JOptionPane.showMessageDialog(this, button.getText());
+    }
 }

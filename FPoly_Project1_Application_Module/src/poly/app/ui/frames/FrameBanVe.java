@@ -61,9 +61,6 @@ public class FrameBanVe extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnBan = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        lblTongTien = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDaChon = new javax.swing.JTable();
@@ -89,20 +86,20 @@ public class FrameBanVe extends javax.swing.JFrame {
         tblDoAn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
         tblDoAn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Mã đồ ăn", "Tên đồ ăn", "Kích cỡ", "Đơn giá"
+                "STT", "Tên phim"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -152,12 +149,6 @@ public class FrameBanVe extends javax.swing.JFrame {
 
         btnBan.setText("Bán");
 
-        btnXoa.setText("Xoá");
-
-        jLabel2.setText("Tổng tiền:");
-
-        lblTongTien.setText("10,000");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -165,23 +156,13 @@ public class FrameBanVe extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(btnBan)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnXoa)
-                .addGap(14, 14, 14))
+                .addContainerGap(500, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBan)
-                    .addComponent(btnXoa)
-                    .addComponent(jLabel2)
-                    .addComponent(lblTongTien))
+                .addComponent(btnBan)
                 .addContainerGap())
         );
 
@@ -442,9 +423,7 @@ public class FrameBanVe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBan;
     private javax.swing.JLabel btnCollapse;
-    private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -452,7 +431,6 @@ public class FrameBanVe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNgayHienTai;
-    private javax.swing.JLabel lblTongTien;
     private javax.swing.JPanel pnMain;
     private javax.swing.JTable tblDaChon;
     private javax.swing.JTable tblDoAn;

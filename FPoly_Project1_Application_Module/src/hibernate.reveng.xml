@@ -60,4 +60,5 @@ Contributor(s):
   <table-filter match-name="do_an"/>
   <table-filter match-name="loai_phim"/>
   <table-filter match-name="ve_dat"/>
+  <table-filter match-name="so_do_ghe_ngoi"/>
 </hibernate-reverse-engineering>
