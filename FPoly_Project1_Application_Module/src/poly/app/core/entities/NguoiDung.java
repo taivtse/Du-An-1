@@ -23,6 +23,7 @@ public class NguoiDung  implements java.io.Serializable {
      private Date ngayVaoLam;
      private boolean gioiTinh;
      private Boolean dangLam;
+     private String hinhAnh;
      private Set<VeBan> veBans = new HashSet<VeBan>(0);
      private Set<HoaDon> hoaDons = new HashSet<HoaDon>(0);
 
@@ -135,6 +136,15 @@ public class NguoiDung  implements java.io.Serializable {
     public void setDangLam(Boolean dangLam) {
         this.dangLam = dangLam;
     }
+    
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+    
     public Set<VeBan> getVeBans() {
         return this.veBans;
     }

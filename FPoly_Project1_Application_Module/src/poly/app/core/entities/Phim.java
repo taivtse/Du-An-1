@@ -25,6 +25,7 @@ public class Phim  implements java.io.Serializable {
      private String tomTat;
      private String trangThai;
      private Boolean daXoa;
+     private String hinhAnh;
      private Set<SuatChieu> suatChieus = new HashSet<SuatChieu>(0);
 
     public Phim() {
@@ -151,6 +152,15 @@ public class Phim  implements java.io.Serializable {
     public void setDaXoa(Boolean daXoa) {
         this.daXoa = daXoa;
     }
+
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
     public Set<SuatChieu> getSuatChieus() {
         return this.suatChieus;
     }
