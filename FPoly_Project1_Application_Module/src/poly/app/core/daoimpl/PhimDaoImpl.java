@@ -25,8 +25,8 @@ public class PhimDaoImpl extends AbstractDao<String, Phim> implements PhimDao{
         try {
             Query query = session.createQuery("FROM Phim WHERE id IN(SELECT DISTINCT phim FROM SuatChieu WHERE ngayChieu = CURRENT_DATE)");
             list = query.list();
-        } catch (HibernateException e) {
-            throw e;
+        } catch (HibernateException ex) {
+            throw ex;
         }finally{
             session.close();
         }

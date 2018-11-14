@@ -3,25 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.frames;
+package poly.app.ui.frames.main;
 
+import poly.app.ui.frames.quanly.FrameQLPhim;
 import java.awt.CardLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import javax.swing.JLabel;
 import poly.app.ui.utils.ColorUtil;
+import poly.app.ui.custom.ClosableTabbedPane;
 
 /**
  *
  * @author vothanhtai
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainRunningFrame extends javax.swing.JFrame {
 
     private final JLabel[] btnToolBarArr;
+
     /**
      * Creates new form MainFrame
      */
-    public MainFrame() {
+    public MainRunningFrame() {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
@@ -30,16 +31,16 @@ public class MainFrame extends javax.swing.JFrame {
         toolBarContainer.add(jToolBar2, "toolbar2");
         toolBarContainer.add(jToolBar3, "toolbar3");
     }
-    
-    private void setBtnToolBarClickEvent(JLabel btnToolBar){
+
+    private void setBtnToolBarClickEvent(JLabel btnToolBar) {
         for (JLabel btn : btnToolBarArr) {
             btn.setBackground(ColorUtil.TOOLBAR_BACKGROUND_COLOR_DEFAULT);
             btn.setForeground(ColorUtil.TOOLBAR_FOREGROUND_COLOR_DEFAULT);
         }
-        
+
         btnToolBar.setBackground(ColorUtil.TOOLBAR_BACKGROUND_COLOR_SELECTED);
         btnToolBar.setForeground(ColorUtil.TOOLBAR_FOREGROUND_COLOR_SELECTED);
-        
+
         btnToolBar.repaint();
         btnToolBar.validate();
     }
@@ -336,9 +337,12 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(131, 137, 150));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jPanel3.setOpaque(false);
 
         tbpMainContent.setBackground(new java.awt.Color(255, 255, 255));
+        tbpMainContent.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        tbpMainContent.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tbpMainContent.setOpaque(true);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -425,21 +429,21 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnToolBarDanhMucMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolBarDanhMucMouseReleased
         setBtnToolBarClickEvent(btnToolBarDanhMuc);
-        ((CardLayout)toolBarContainer.getLayout()).show(toolBarContainer, "toolbar1");
+        ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar1");
     }//GEN-LAST:event_btnToolBarDanhMucMouseReleased
 
     private void btnToolBarBanHangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolBarBanHangMouseReleased
         setBtnToolBarClickEvent(btnToolBarBanHang);
-        ((CardLayout)toolBarContainer.getLayout()).show(toolBarContainer, "toolbar2");
+        ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar2");
     }//GEN-LAST:event_btnToolBarBanHangMouseReleased
 
     private void btnToolBarThongKeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolBarThongKeMouseReleased
         setBtnToolBarClickEvent(btnToolBarThongKe);
-        ((CardLayout)toolBarContainer.getLayout()).show(toolBarContainer, "toolbar3");
+        ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar3");
     }//GEN-LAST:event_btnToolBarThongKeMouseReleased
 
     private void itemDanhMucToolBarPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarPhimActionPerformed
-        
+        tbpMainContent.addTab("Quản lý phim", new FrameQLPhim().getMainPanel());
     }//GEN-LAST:event_itemDanhMucToolBarPhimActionPerformed
 
     private void itemDanhMucToolBarSuatChieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarSuatChieuActionPerformed
@@ -491,20 +495,21 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new MainRunningFrame().setVisible(true);
             }
         });
     }

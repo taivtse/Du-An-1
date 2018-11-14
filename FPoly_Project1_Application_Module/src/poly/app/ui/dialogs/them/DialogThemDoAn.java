@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs;
+package poly.app.ui.dialogs.them;
 
 import java.util.Date;
 import java.util.List;

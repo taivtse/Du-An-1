@@ -16,26 +16,23 @@ public class GheNgoi  implements java.io.Serializable {
      private PhongChieu phongChieu;
      private String viTriDay;
      private int viTriCot;
-     private boolean daChon;
      private Set<VeBan> veBans = new HashSet<VeBan>(0);
 
     public GheNgoi() {
     }
 
 	
-    public GheNgoi(LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot, boolean daChon) {
+    public GheNgoi(LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot) {
         this.loaiGhe = loaiGhe;
         this.phongChieu = phongChieu;
         this.viTriDay = viTriDay;
         this.viTriCot = viTriCot;
-        this.daChon = daChon;
     }
-    public GheNgoi(LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot, boolean daChon, Set<VeBan> veBans) {
+    public GheNgoi(LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot, Set<VeBan> veBans) {
        this.loaiGhe = loaiGhe;
        this.phongChieu = phongChieu;
        this.viTriDay = viTriDay;
        this.viTriCot = viTriCot;
-       this.daChon = daChon;
        this.veBans = veBans;
     }
    
@@ -73,13 +70,6 @@ public class GheNgoi  implements java.io.Serializable {
     
     public void setViTriCot(int viTriCot) {
         this.viTriCot = viTriCot;
-    }
-    public boolean isDaChon() {
-        return this.daChon;
-    }
-    
-    public void setDaChon(boolean daChon) {
-        this.daChon = daChon;
     }
     public Set<VeBan> getVeBans() {
         return this.veBans;

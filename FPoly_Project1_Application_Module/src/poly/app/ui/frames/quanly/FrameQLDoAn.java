@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.frames;
+package poly.app.ui.frames.quanly;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -19,10 +19,10 @@ import poly.app.core.daoimpl.DoAnDaoImpl;
 import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.helper.DialogHelper;
-import poly.app.ui.dialogs.DialogCapNhatDoAn;
-import poly.app.ui.dialogs.DialogThemDoAn;
-import poly.app.ui.dialogs.DialogCapNhatDoAnChiTiet;
-import poly.app.ui.dialogs.DialogThemDoAnChiTiet;
+import poly.app.ui.dialogs.capnhat.DialogCapNhatDoAn;
+import poly.app.ui.dialogs.them.DialogThemDoAn;
+import poly.app.ui.dialogs.capnhat.DialogCapNhatDoAnChiTiet;
+import poly.app.ui.dialogs.them.DialogThemDoAnChiTiet;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**

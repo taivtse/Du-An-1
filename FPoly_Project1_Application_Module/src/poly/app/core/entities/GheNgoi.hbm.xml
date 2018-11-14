@@ -20,9 +20,6 @@
         <property name="viTriCot" type="int">
             <column name="vi_tri_cot" not-null="true" />
         </property>
-        <property name="daChon" type="boolean">
-            <column name="da_chon" not-null="true" />
-        </property>
         <set name="veBans" table="ve_ban" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="ghe_id" not-null="true" />

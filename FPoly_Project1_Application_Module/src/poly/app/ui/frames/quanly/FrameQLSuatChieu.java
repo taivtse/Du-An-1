@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.frames;
+package poly.app.ui.frames.quanly;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -18,8 +18,8 @@ import org.hibernate.HibernateException;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.helper.DialogHelper;
-import poly.app.ui.dialogs.DialogCapNhatPhim;
-import poly.app.ui.dialogs.DialogThemPhim;
+import poly.app.ui.dialogs.capnhat.DialogCapNhatPhim;
+import poly.app.ui.dialogs.them.DialogThemPhim;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**

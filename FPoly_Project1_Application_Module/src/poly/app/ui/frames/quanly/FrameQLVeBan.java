@@ -3,42 +3,53 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.frames;
+package poly.app.ui.frames.quanly;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import poly.app.core.daoimpl.KhachHangDaoImpl;
-import poly.app.core.entities.KhachHang;
-import poly.app.ui.dialogs.DialogCapNhatKhachHang;
-import poly.app.ui.dialogs.DialogThemKhachHang;
+import org.hibernate.HibernateException;
+import poly.app.core.daoimpl.PhimDaoImpl;
+import poly.app.core.entities.Phim;
+import poly.app.core.helper.DialogHelper;
+import poly.app.ui.dialogs.capnhat.DialogCapNhatPhim;
+import poly.app.ui.dialogs.them.DialogThemPhim;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
  *
  * @author vothanhtai
  */
-public class FrameQLKhachHang extends javax.swing.JFrame {
-    
-    List<KhachHang> listKH = new ArrayList<>();
+public class FrameQLVeBan extends javax.swing.JFrame {
+
     /**
      * Creates new form FrameQLNhanVien
      */
-    public FrameQLKhachHang() {
+    
+    List<Phim> listPhim;
+    
+    public FrameQLVeBan() {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
+        loadAllDataToTable();
     }
 
     private void reRenderUI() {
         //        Render lại giao diện cho table
-        TableRendererUtil tblRenderer = new TableRendererUtil(tblKhachHang);
-        tblRenderer.setCellEditable(false);
-        tblRenderer.changeHeaderStyle();
+        TableRendererUtil tblRenderer1 = new TableRendererUtil(tblSuatChieu);
+        tblRenderer1.setCellEditable(false);
+        tblRenderer1.changeHeaderStyle();
+    }
+    
+    public JPanel getMainPanel(){
+        return pnMain;
     }
 
     /**
@@ -50,25 +61,25 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnMain = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        chkTen = new javax.swing.JCheckBox();
-        txtTen = new javax.swing.JTextField();
-        chkNgayDangKy = new javax.swing.JCheckBox();
+        chkTheoTenPhim = new javax.swing.JCheckBox();
+        txtTheoMaVe = new javax.swing.JTextField();
+        chkKhoangThoiGian = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         dcTuNgay = new com.toedter.calendar.JDateChooser();
-        dcDenNgay = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
-        btnTimKiem = new javax.swing.JButton();
-        btnDatLai = new javax.swing.JButton();
+        dcDenNgay = new com.toedter.calendar.JDateChooser();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnSua = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblKhachHang = new javax.swing.JTable();
+        tblSuatChieu = new javax.swing.JTable();
         btnCollapse = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,72 +87,72 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
         });
+
+        pnMain.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setOpaque(false);
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        jLabel1.setText("Tra cứu khách hàng");
+        jLabel1.setText("Tra cứu vé bán");
 
-        chkTen.setSelected(true);
-        chkTen.setText("Theo tên");
-        chkTen.addActionListener(new java.awt.event.ActionListener() {
+        chkTheoTenPhim.setText("Theo mã vé bán");
+        chkTheoTenPhim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkTenActionPerformed(evt);
+                chkTheoTenPhimActionPerformed(evt);
             }
         });
 
-        txtTen.addActionListener(new java.awt.event.ActionListener() {
+        txtTheoMaVe.setEditable(false);
+        txtTheoMaVe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTenActionPerformed(evt);
+                txtTheoMaVeActionPerformed(evt);
             }
         });
-        txtTen.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTheoMaVe.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTenKeyReleased(evt);
+                txtTheoMaVeKeyReleased(evt);
             }
         });
 
-        chkNgayDangKy.setText("Theo ngày đăng ký");
-        chkNgayDangKy.addActionListener(new java.awt.event.ActionListener() {
+        chkKhoangThoiGian.setText("Theo khoảng thời gian");
+        chkKhoangThoiGian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkNgayDangKyActionPerformed(evt);
+                chkKhoangThoiGianActionPerformed(evt);
             }
         });
 
         jLabel2.setText("Từ ngày");
 
-        dcTuNgay.setDateFormatString("dd-MM-yyyy");
         dcTuNgay.setEnabled(false);
-        dcTuNgay.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        dcTuNgay.setOpaque(false);
         dcTuNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dcTuNgayPropertyChange(evt);
             }
         });
 
-        dcDenNgay.setDateFormatString("dd-MM-yyyy");
+        jLabel3.setText("Đến ngày");
+
         dcDenNgay.setEnabled(false);
-        dcDenNgay.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        dcDenNgay.setOpaque(false);
         dcDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 dcDenNgayPropertyChange(evt);
             }
         });
 
-        jLabel3.setText("Đến ngày");
-
-        btnTimKiem.setText("Tìm kiếm");
-        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Đặt lại");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimKiemActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
-        btnDatLai.setText("Đặt lại");
-        btnDatLai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDatLaiActionPerformed(evt);
-            }
-        });
+        jButton3.setText("Tìm");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -150,20 +161,25 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnTimKiem)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDatLai))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButton2))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2)
+                                .addComponent(chkKhoangThoiGian)
+                                .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel2)
-                        .addComponent(chkNgayDangKy)
-                        .addComponent(chkTen)
+                        .addComponent(chkTheoTenPhim)
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                        .addComponent(txtTen)
-                        .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(txtTheoMaVe)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,23 +187,23 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(chkTen)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chkTheoTenPhim)
+                .addGap(18, 18, 18)
+                .addComponent(txtTheoMaVe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(chkNgayDangKy)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkKhoangThoiGian)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dcTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTimKiem)
-                    .addComponent(btnDatLai))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -195,31 +211,19 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
 
         jPanel4.setOpaque(false);
 
-        btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Xem chi tiết");
 
-        btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        btnSua.setText("Sửa");
-        btnSua.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaActionPerformed(evt);
-            }
-        });
+        jButton4.setText("In vé");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(btnThem)
+                .addGap(17, 17, 17)
+                .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSua)
+                .addComponent(jButton4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -227,46 +231,36 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem)
-                    .addComponent(btnSua))
+                    .addComponent(jButton1)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
 
         jPanel5.setOpaque(false);
 
-        tblKhachHang.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
-        tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
+        tblSuatChieu.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        tblSuatChieu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Stt", "Mã khách hàng", "Họ và tên", "Số cmnd", "Số điện thoại", "Email", "Địa chỉ", "Ngày đăng ký", "Ngày sinh", "Giới tính"
+                "STT", "Mã vé", "Mã suất chiếu", "Vị trí ghế", "Ngày bán", "Giá vé", "Nhân viên bán"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false, false, false, false
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
         });
-        tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblSuatChieu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblKhachHangMouseClicked(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblKhachHangMouseReleased(evt);
+                tblSuatChieuMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblKhachHang);
+        jScrollPane1.setViewportView(tblSuatChieu);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -281,7 +275,7 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -304,7 +298,7 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnCollapse.setBackground(new java.awt.Color(51, 51, 51));
+        btnCollapse.setBackground(new java.awt.Color(52, 83, 104));
         btnCollapse.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
         btnCollapse.setForeground(new java.awt.Color(255, 255, 255));
         btnCollapse.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -317,19 +311,19 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnMainLayout = new javax.swing.GroupLayout(pnMain);
+        pnMain.setLayout(pnMainLayout);
+        pnMainLayout.setHorizontalGroup(
+            pnMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnMainLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCollapse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnMainLayout.setVerticalGroup(
+            pnMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -339,11 +333,11 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -363,82 +357,70 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         loadAllDataToTable();
     }//GEN-LAST:event_formWindowOpened
 
-    private void tblKhachHangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblKhachHangMouseReleased
-
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        new DialogThemKhachHang(null, true).setVisible(true);
-        listKH = new KhachHangDaoImpl().getAll();
-        loadDataToTable(search());
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        String idKH = (String) tblKhachHang.getValueAt(tblKhachHang.getSelectedRow(), 1);
-        new DialogCapNhatKhachHang(this, true, idKH).setVisible(true);
-        listKH = new KhachHangDaoImpl().getAll();
-        loadDataToTable(search());
-    }//GEN-LAST:event_btnSuaActionPerformed
-
-    private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
+    private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
         if ( evt.getClickCount() >= 2 ) {
-            String id = this.tblKhachHang.getValueAt(this.tblKhachHang.getSelectedRow(), 1).toString();
-            new DialogCapNhatKhachHang(this, true, id).setVisible(true);
-            listKH = new KhachHangDaoImpl().getAll();
-            loadDataToTable(search());
+            int index = tblSuatChieu.getSelectedRow();
+            String id = tblSuatChieu.getValueAt(index, 0) + "";
+            new DialogCapNhatPhim(this, true, id).setVisible(true);
+            listPhim = new PhimDaoImpl().getPhimHienCo();
+            loadDataToTable(searchAdvance());
         }
-    }//GEN-LAST:event_tblKhachHangMouseClicked
+    }//GEN-LAST:event_tblSuatChieuMouseClicked
 
-    private void chkTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenActionPerformed
-        if (chkTen.isSelected()) {
-            txtTen.setEnabled(true);
+    private void chkTheoTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenPhimActionPerformed
+        // TODO add your handling code here:
+        if ( chkTheoTenPhim.isSelected() ) {
+            txtTheoMaVe.setEditable(true);
         } else {
-            txtTen.setText("");
-            txtTen.setEnabled(false);
-            loadDataToTable(search());
+            txtTheoMaVe.setEditable(false);
+            txtTheoMaVe.setText("");
+            loadDataToTable(searchAdvance());
         }
-    }//GEN-LAST:event_chkTenActionPerformed
+    }//GEN-LAST:event_chkTheoTenPhimActionPerformed
 
-    private void chkNgayDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkNgayDangKyActionPerformed
-        if (chkNgayDangKy.isSelected()) {
+    private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected() ) {
             dcTuNgay.setEnabled(true);
             dcDenNgay.setEnabled(true);
-        } else {         
+        } else {
             dcTuNgay.setDate(null);
             dcDenNgay.setDate(null);
             dcTuNgay.setEnabled(false);
             dcDenNgay.setEnabled(false);
-            loadDataToTable(search());
+            loadDataToTable(searchAdvance());
         }
-    }//GEN-LAST:event_chkNgayDangKyActionPerformed
+    }//GEN-LAST:event_chkKhoangThoiGianActionPerformed
 
-    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
-            
-    }//GEN-LAST:event_btnTimKiemActionPerformed
-
-    private void txtTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenActionPerformed
+    private void txtTheoMaVeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTheoMaVeKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTenActionPerformed
-
-    private void txtTenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKeyReleased
-        loadDataToTable(search());
-    }//GEN-LAST:event_txtTenKeyReleased
+        loadDataToTable(searchAdvance());
+    }//GEN-LAST:event_txtTheoMaVeKeyReleased
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
-        if ( chkNgayDangKy.isSelected() ) {
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
             if ( min != null && max != null ) {
-                if ( max.compareTo(min) < 0 ) {
+                if ( min.compareTo(max) > 0 ) {
                     dcTuNgay.setDate(max);
                 }
             }
-            loadDataToTable(search());
+            loadDataToTable(searchAdvance());
         }
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
+    private void txtTheoMaVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTheoMaVeActionPerformed
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected()) {
+            loadDataToTable(searchAdvance());
+        }
+    }//GEN-LAST:event_txtTheoMaVeActionPerformed
+
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
-        if (chkNgayDangKy.isSelected()){
+        // TODO add your handling code here:
+        if ( chkKhoangThoiGian.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
             if ( min != null && max != null ) {
@@ -446,46 +428,39 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                     dcDenNgay.setDate(min);
                 }
             }
-            loadDataToTable(search());
+            loadDataToTable(searchAdvance());
         }
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
-    private void btnDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLaiActionPerformed
-        txtTen.setText("");
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        txtTheoMaVe.setText("");
         dcTuNgay.setDate(null);
         dcDenNgay.setDate(null);
-    }//GEN-LAST:event_btnDatLaiActionPerformed
+        loadDataToTable(searchAdvance());
+    }//GEN-LAST:event_jButton2ActionPerformed
 
-    public void loadDataToTable( List<KhachHang> listKhachHang ) {
-        DefaultTableModel modelTblKH = (DefaultTableModel) tblKhachHang.getModel();
-        modelTblKH.setRowCount(0);
-        
-        for (int i = 0; i < listKhachHang.size(); i++) {
-            KhachHang kh = listKhachHang.get(i);
-            Object[] record = new Object[]{
-                i + 1,
-                kh.getId(),
-                kh.getHoTen(),
-                kh.getSoCmnd(),
-                kh.getSoDienThoai(),
-                kh.getEmail(),
-                kh.getDiaChi(),
-                kh.getNgayDangKy(),
-                kh.getNgaySinh(),
-                kh.isGioiTinhNam() ? "Nam" : "Nữ"
-            };
-            modelTblKH.addRow(record);
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        loadAllDataToTable();
+    }//GEN-LAST:event_formWindowActivated
+
+    public List<Phim> searchByTen() {
+        String tenTimKiem = txtTheoMaVe.getText().toLowerCase();
+        if ( !tenTimKiem.equals("") ) {
+            List<Phim> listPhimTheoTen = new ArrayList<>();
+            for ( Phim phim : listPhim ) {
+                if ( phim.getTen().toLowerCase().contains(tenTimKiem) ) {
+                    listPhimTheoTen.add(phim);
+                }
+            }
+            return listPhimTheoTen;
         }
+        return listPhim;
     }
     
-    public void loadAllDataToTable() {
-        KhachHangDaoImpl khachHangDaoImpl = new KhachHangDaoImpl();
-        listKH = khachHangDaoImpl.getAll();
-        loadDataToTable(listKH);
-    }
-    
-    public List<KhachHang> search() {
-        List<KhachHang> listKhachHangTimKiem = new ArrayList<KhachHang>();
+    public List<Phim> searchAdvance() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Phim> listPhimTimKiem = new ArrayList<Phim>();
         Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
 
         min = min==null? dcTuNgay.getMinSelectableDate() : min;
@@ -497,22 +472,60 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         max = java.sql.Date.valueOf(localDate);
         
-        for ( KhachHang kh : listKH ) {
+        for ( Phim phim : listPhim ) {
             if ( 
-                    kh.getHoTen().toLowerCase().contains(txtTen.getText().toLowerCase())
-                    && kh.getNgayDangKy().compareTo(min) >= 0
-                    && kh.getNgayDangKy().compareTo(max) <= 0
+                    phim.getTen().toLowerCase().contains(txtTheoMaVe.getText().toLowerCase())
+                    && phim.getNgayCongChieu().compareTo(min) >= 0
+                    && phim.getNgayCongChieu().compareTo(max) <= 0
             ) {
-                listKhachHangTimKiem.add(kh);
+                listPhimTimKiem.add(phim);
             }
         }
-        return listKhachHangTimKiem;
+        return listPhimTimKiem;
     }
-
+    
+    public void loadDataToTable(List<Phim> listPhimHienThi) {
+        DefaultTableModel modelTable = (DefaultTableModel) tblSuatChieu.getModel();
+        modelTable.setRowCount(0);
+        for ( Phim phim : listPhimHienThi ) {
+            Object[] record = new Object[]{
+                phim.getId(),
+                phim.getTen(),
+                phim.getThoiLuong(),
+                phim.getGioiHanTuoi(),
+                phim.getNgayCongChieu(),
+                phim.getNgonNgu(),
+                phim.getDienVien(),
+                phim.getQuocGia(),
+                phim.getNhaSanXuat(),
+                phim.getTrangThai()
+            };
+            modelTable.addRow(record);
+        }
+    }
+    
+    public boolean deletePhim(int id) {
+        Phim phim = listPhim.get(id);
+        phim.setDaXoa(true);
+        try {
+            return new PhimDaoImpl().update(phim);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return false;
+        }    
+    }
+    
+    
+    public void loadAllDataToTable(){
+        listPhim = new PhimDaoImpl().getPhimHienCo();
+        loadDataToTable(listPhim);
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -526,45 +539,59 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameQLKhachHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameQLKhachHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameQLKhachHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameQLKhachHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
-
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrameQLKhachHang().setVisible(true);
+                new FrameQLVeBan().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
-    private javax.swing.JButton btnDatLai;
-    private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnTimKiem;
-    private javax.swing.JCheckBox chkNgayDangKy;
-    private javax.swing.JCheckBox chkTen;
+    private javax.swing.JCheckBox chkKhoangThoiGian;
+    private javax.swing.JCheckBox chkTheoTenPhim;
     private com.toedter.calendar.JDateChooser dcDenNgay;
     private com.toedter.calendar.JDateChooser dcTuNgay;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblKhachHang;
-    private javax.swing.JTextField txtTen;
+    private javax.swing.JPanel pnMain;
+    private javax.swing.JTable tblSuatChieu;
+    private javax.swing.JTextField txtTheoMaVe;
     // End of variables declaration//GEN-END:variables
 }

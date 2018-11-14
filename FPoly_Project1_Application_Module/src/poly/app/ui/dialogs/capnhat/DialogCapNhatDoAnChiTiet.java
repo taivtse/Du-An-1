@@ -3,44 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs;
+package poly.app.ui.dialogs.capnhat;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.KichCoDoAnDaoImpl;
-import poly.app.core.daoimpl.LoaiDoAnDaoImpl;
-import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.entities.KichCoDoAn;
-import poly.app.core.entities.LoaiDoAn;
 import poly.app.core.helper.DialogHelper;
 
 /**
  *
  * @author vothanhtai
  */
-public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
+public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
 
     /**
-     * Creates new form DialogThemDoAnChiTiet
+     * Creates new form DialogCapNhatDoAnChiTiet
      */
-    DoAn doAn;
+    DoAnChiTiet doAnChiTiet;
 
-    public DialogThemDoAnChiTiet(java.awt.Frame parent, boolean modal) {
+    public DialogCapNhatDoAnChiTiet(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
-    public DialogThemDoAnChiTiet(java.awt.Frame parent, boolean modal, DoAn doan) {
-        super(parent, modal);
-        initComponents();
+    public DialogCapNhatDoAnChiTiet(java.awt.Frame parent, boolean modal, DoAnChiTiet doanchitiet) {
+        this(parent, modal);
+
+        this.doAnChiTiet = doanchitiet;
         setLocationRelativeTo(null);
-        this.doAn = doan;
-        this.setModelToInput();
         this.loadDataToComboBox();
+        this.setModelToInput();
     }
 
     public void loadDataToComboBox() {
@@ -54,41 +49,30 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
     }
 
     public void setModelToInput() {
-        txtTen.setText(doAn.getTen());
-        txtTen.setEditable(false);
+        txtDoAn.setText(doAnChiTiet.getDoAn().getTen());
+        ftfDonGia.setValue(doAnChiTiet.getDonGia());
+        txtDoAn.setEditable(false);
+        cboKichCo.getModel().setSelectedItem(doAnChiTiet.getKichCoDoAn());
+        cboKichCo.setEditable(false);
     }
 
     public DoAnChiTiet getModelFromInput() {
-        DoAnChiTiet model = new DoAnChiTiet();
-        model.setKichCoDoAn((KichCoDoAn) cboKichCo.getSelectedItem());
-        model.setDoAn(doAn);
-        model.setDonGia(Integer.parseInt(ftfDonGia.getValue().toString()));
-
+        doAnChiTiet.setDonGia(Integer.parseInt(ftfDonGia.getValue().toString()));
         if (cboTrangThai.getSelectedItem().toString().equals("Đang được bán")) {
-            model.setDangBan(true);
+            doAnChiTiet.setDangBan(true);
         } else {
-            model.setDangBan(false);
+            doAnChiTiet.setDangBan(false);
         }
-
-        return model;
+        return doAnChiTiet;
     }
 
-    public boolean insertDACT() {
+    public boolean updateModelToDatabase() {
         try {
-            Set<DoAnChiTiet> dact = doAn.getDoAnChiTiets();
-            DoAnChiTiet model = getModelFromInput();
-
-            for (DoAnChiTiet item : dact) {
-                if (item.getKichCoDoAn().getId().equals(model.getKichCoDoAn().getId())) {
-                    DialogHelper.message(this, "Đã có " + model.getKichCoDoAn().getTen().toUpperCase() + " trong " + doAn.getTen().toUpperCase(), HEIGHT);
-                    return false;
-                }
-            }
-            DoAnChiTietDaoImpl insertDACT = new DoAnChiTietDaoImpl();
-            insertDACT.insert(model);
+            DoAnChiTietDaoImpl updateDACT = new DoAnChiTietDaoImpl();
+            updateDACT.update(getModelFromInput());
             return true;
         } catch (Exception e) {
-            
+            DialogHelper.message(this, e.getMessage(), DialogHelper.INFORMATION_MESSAGE);
         }
         return false;
     }
@@ -106,11 +90,11 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtTen = new javax.swing.JTextField();
+        txtDoAn = new javax.swing.JTextField();
         cboKichCo = new javax.swing.JComboBox<>();
         ftfDonGia = new javax.swing.JFormattedTextField();
-        btnThem = new javax.swing.JButton();
-        btnHuy = new javax.swing.JButton();
+        btnCapNhat = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         cboTrangThai = new javax.swing.JComboBox<>();
 
@@ -122,19 +106,23 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
 
         jLabel3.setText("Giá  bán");
 
+        txtDoAn.setEnabled(false);
+
+        cboKichCo.setEnabled(false);
+
         ftfDonGia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
 
-        btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnCapNhat.setText("Cập nhật");
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnCapNhatActionPerformed(evt);
             }
         });
 
-        btnHuy.setText("Huỷ");
-        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setText("Huỷ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -159,14 +147,14 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cboTrangThai, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtTen)
+                                .addComponent(txtDoAn)
                                 .addComponent(cboKichCo, 0, 191, Short.MAX_VALUE)
                                 .addComponent(ftfDonGia))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnThem)
+                        .addComponent(btnCapNhat)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnHuy)))
+                        .addComponent(jButton2)))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -175,7 +163,7 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -190,8 +178,8 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
                     .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem)
-                    .addComponent(btnHuy))
+                    .addComponent(btnCapNhat)
+                    .addComponent(jButton2))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
 
@@ -209,19 +197,18 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        if (this.insertDACT()) {
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        if (this.updateModelToDatabase()) {
+            DialogHelper.message(this, "Cập nhật dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
-            DialogHelper.message(this, "Thêm dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
         } else {
-            
+            DialogHelper.message(this, "Cập nhật dữ liệu thất bại !", DialogHelper.ERROR_MESSAGE);
         }
+    }//GEN-LAST:event_btnCapNhatActionPerformed
 
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnHuyActionPerformed
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,20 +227,21 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogThemDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogCapNhatDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogThemDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogCapNhatDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogThemDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogCapNhatDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogThemDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogCapNhatDoAnChiTiet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DialogThemDoAnChiTiet dialog = new DialogThemDoAnChiTiet(new javax.swing.JFrame(), true);
+                DialogCapNhatDoAnChiTiet dialog = new DialogCapNhatDoAnChiTiet(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -266,16 +254,16 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHuy;
-    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnCapNhat;
     private javax.swing.JComboBox<String> cboKichCo;
     private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JFormattedTextField ftfDonGia;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtTen;
+    private javax.swing.JTextField txtDoAn;
     // End of variables declaration//GEN-END:variables
 }
