@@ -67,7 +67,7 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
     }
 
     @Override
-    public List<T> getByProperties(Map<String, Object> conditions, String sortExpression, String sortDirection, Integer offset, Integer limit) {
+    public List<T> getByProperties(Map<String, Object> conditions, List<String> sortExpressions, String sortDirection, Integer offset, Integer limit) {
         List<T> list;
         Session session = this.getSession();
         try {
@@ -78,10 +78,12 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
                 }
             }
 
-            if (sortExpression != null && sortDirection != null) {
-                Order order = sortDirection.equalsIgnoreCase(CoreConstant.SORT_ASC)
+            if (sortExpressions != null && sortDirection != null) {
+                for (String sortExpression : sortExpressions) {
+                    Order order = sortDirection.equalsIgnoreCase(CoreConstant.SORT_ASC)
                         ? Order.asc(sortExpression) : Order.desc(sortExpression);
                 cr.addOrder(order);
+                }
             }
 
 //            set start position offset

@@ -12,7 +12,6 @@ public class LoaiGhe implements java.io.Serializable {
     private String id;
     private String tenGhe;
     private int phuThu;
-    private Set<SoDoGheNgoi> soDoGheNgois = new HashSet<SoDoGheNgoi>(0);
     private Set<GheNgoi> gheNgois = new HashSet<GheNgoi>(0);
 
     public LoaiGhe() {
@@ -24,11 +23,10 @@ public class LoaiGhe implements java.io.Serializable {
         this.phuThu = phuThu;
     }
 
-    public LoaiGhe(String id, String tenGhe, int phuThu, Set<SoDoGheNgoi> soDoGheNgois, Set<GheNgoi> gheNgois) {
+    public LoaiGhe(String id, String tenGhe, int phuThu, Set<GheNgoi> gheNgois) {
         this.id = id;
         this.tenGhe = tenGhe;
         this.phuThu = phuThu;
-        this.soDoGheNgois = soDoGheNgois;
         this.gheNgois = gheNgois;
     }
 
@@ -54,14 +52,6 @@ public class LoaiGhe implements java.io.Serializable {
 
     public void setPhuThu(int phuThu) {
         this.phuThu = phuThu;
-    }
-
-    public Set<SoDoGheNgoi> getSoDoGheNgois() {
-        return soDoGheNgois;
-    }
-
-    public void setSoDoGheNgois(Set<SoDoGheNgoi> soDoGheNgois) {
-        this.soDoGheNgois = soDoGheNgois;
     }
 
     public Set<GheNgoi> getGheNgois() {

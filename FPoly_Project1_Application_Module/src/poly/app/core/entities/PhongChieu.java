@@ -15,7 +15,6 @@ public class PhongChieu  implements java.io.Serializable {
      private int soLuongDay;
      private int soLuongCot;
      private Set<SuatChieu> suatChieus = new HashSet<SuatChieu>(0);
-     private Set<SoDoGheNgoi> soDoGheNgois = new HashSet<SoDoGheNgoi>(0);
      private Set<GheNgoi> gheNgois = new HashSet<GheNgoi>(0);
 
     public PhongChieu() {
@@ -27,11 +26,10 @@ public class PhongChieu  implements java.io.Serializable {
         this.soLuongCot = soLuongCot;
     }
     
-    public PhongChieu(int soLuongDay, int soLuongCot, Set<SuatChieu> suatChieus, Set<SoDoGheNgoi> soDoGheNgois, Set<GheNgoi> gheNgois) {
+    public PhongChieu(int soLuongDay, int soLuongCot, Set<SuatChieu> suatChieus, Set<GheNgoi> gheNgois) {
        this.soLuongDay = soLuongDay;
        this.soLuongCot = soLuongCot;
        this.suatChieus = suatChieus;
-       this.soDoGheNgois = soDoGheNgois;
        this.gheNgois = gheNgois;
     }
    
@@ -64,14 +62,6 @@ public class PhongChieu  implements java.io.Serializable {
         this.suatChieus = suatChieus;
     }
 
-    public Set<SoDoGheNgoi> getSoDoGheNgois() {
-        return soDoGheNgois;
-    }
-
-    public void setSoDoGheNgois(Set<SoDoGheNgoi> soDoGheNgois) {
-        this.soDoGheNgois = soDoGheNgois;
-    }
-    
     public Set<GheNgoi> getGheNgois() {
         return this.gheNgois;
     }

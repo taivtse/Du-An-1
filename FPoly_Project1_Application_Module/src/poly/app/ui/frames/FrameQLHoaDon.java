@@ -5,15 +5,21 @@
  */
 package poly.app.ui.frames;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
+import poly.app.core.daoimpl.HoaDonDaoImpl;
 import poly.app.core.entities.DoAn;
-import poly.app.core.entities.DoAnChiTiet;
+import poly.app.core.entities.HoaDon;
+import poly.app.core.entities.HoaDonChiTiet;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -22,11 +28,9 @@ import poly.app.ui.utils.TableRendererUtil;
  */
 public class FrameQLHoaDon extends javax.swing.JFrame {
 
-    List<DoAn> listDoAn = new ArrayList<>();
-    List<DoAnChiTiet> listDoAnCT = new ArrayList<>();
-    Map<String, DoAn> mapDoAn = new HashMap<String, DoAn>();
-    ButtonGroup btngr = new ButtonGroup();
-    ButtonGroup btnLDA = new ButtonGroup();
+    List<HoaDon> listHoaDon = new ArrayList<>();
+    List<HoaDonChiTiet> listHoaDonCT = new ArrayList<>();
+    Map<String, HoaDon> mapHoaDon = new HashMap<String, HoaDon>();
 
     /**
      * Creates new form FrameQLNhanVien
@@ -61,7 +65,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtMahoaDon = new javax.swing.JTextField();
+        txtMaHoaDon = new javax.swing.JTextField();
         chkTheoMaHoaDon = new javax.swing.JCheckBox();
         chkKhoangThoiGian = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
@@ -71,6 +75,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        btnRefresh = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHoaDon = new javax.swing.JTable();
@@ -88,9 +93,9 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel1.setText("Tra cứu hoá đơn");
 
-        txtMahoaDon.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtMaHoaDon.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtMahoaDonKeyReleased(evt);
+                txtMaHoaDonKeyReleased(evt);
             }
         });
 
@@ -142,7 +147,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMahoaDon)
+                            .addComponent(txtMaHoaDon)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -163,7 +168,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(chkTheoMaHoaDon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtMahoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(chkKhoangThoiGian)
                 .addGap(18, 18, 18)
@@ -182,6 +187,18 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
         jPanel4.setOpaque(false);
 
         jButton1.setText("In hoá đơn");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -190,7 +207,9 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRefresh)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,6 +217,9 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnRefresh))
         );
 
         jPanel5.setOpaque(false);
@@ -265,7 +287,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(
@@ -282,10 +304,12 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -318,8 +342,9 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCollapse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -357,20 +382,20 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
-
+        this.loadHoaDonChiTiet();
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
-    private void txtMahoaDonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMahoaDonKeyReleased
-
-    }//GEN-LAST:event_txtMahoaDonKeyReleased
+    private void txtMaHoaDonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaHoaDonKeyReleased
+        this.searchHD();
+    }//GEN-LAST:event_txtMaHoaDonKeyReleased
 
     private void tblHoaDonChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChiTietMouseClicked
 
     }//GEN-LAST:event_tblHoaDonChiTietMouseClicked
 
     private void chkTheoMaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoMaHoaDonActionPerformed
-        txtMahoaDon.setText("");
-        txtMahoaDon.setEditable(chkTheoMaHoaDon.isSelected());
+        txtMaHoaDon.setText("");
+        txtMaHoaDon.setEditable(chkTheoMaHoaDon.isSelected());
     }//GEN-LAST:event_chkTheoMaHoaDonActionPerformed
 
     private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed
@@ -392,8 +417,9 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
             if (min != null && max != null) {
                 if (min.compareTo(max) > 0) {
                     dcTuNgay.setDate(max);
-                }
+                }           
             }
+            this.searchHD();
         }
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
@@ -406,22 +432,108 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                     dcDenNgay.setDate(min);
                 }
             }
+            this.searchHD();
         }
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
-    
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        DefaultTableModel modelHDCT = (DefaultTableModel) tblHoaDonChiTiet.getModel();
+        modelHDCT.setRowCount(0);
+        this.loadDataToTable();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.printHoaDon();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void loadDataToTable() {
-        DefaultTableModel modelDA = (DefaultTableModel) tblHoaDon.getModel();
-        modelDA.setRowCount(0);
+        DefaultTableModel modelHD = (DefaultTableModel) tblHoaDon.getModel();
+        modelHD.setRowCount(0);
+        HoaDonDaoImpl hoaDonDao = new HoaDonDaoImpl();
+        listHoaDon.clear();
+        listHoaDon = hoaDonDao.getAll();
+        Set<HoaDonChiTiet> setHDCT = new HashSet<HoaDonChiTiet>();
+        int i = 1;
+
+        for (HoaDon fill : listHoaDon) {
+            int tongTienHD = 0;
+            setHDCT = fill.getHoaDonChiTiets();
+            for (HoaDonChiTiet hdct : setHDCT) {
+                tongTienHD += hdct.getTongTien();
+            }
+            Object[] record = new Object[]{
+                i++,
+                fill.getId(),
+                fill.getNgayBan(),
+                tongTienHD,
+                fill.getNguoiDung().getHoTen()
+            };
+            modelHD.addRow(record);
+            mapHoaDon.put(fill.getId(), fill);
+        }
 
     }
 
     public void loadHoaDonChiTiet() {
         int index = tblHoaDon.getSelectedRow();
         String id = (String) tblHoaDon.getValueAt(index, 1);
-        DefaultTableModel modelDACT = (DefaultTableModel) tblHoaDonChiTiet.getModel();
-        modelDACT.setRowCount(0);
+        DefaultTableModel modelHDCT = (DefaultTableModel) tblHoaDonChiTiet.getModel();
+        modelHDCT.setRowCount(0);
+        HoaDon hd = mapHoaDon.get(id);
+        Set<HoaDonChiTiet> setHDCT = hd.getHoaDonChiTiets();
+        int i = 1;
+        for (HoaDonChiTiet hdct : setHDCT) {
+            Object[] record = new Object[]{
+                i++,
+                hdct.getDoAnChiTiet().getDoAn().getTen(),
+                hdct.getDoAnChiTiet().getKichCoDoAn().getTen(),
+                hdct.getSoLuong(),
+                hdct.getDoAnChiTiet().getDonGia()
+            };
+            modelHDCT.addRow(record);
+        }
+    }
 
+    public void searchHD() {
+        //tao bien doi tuong cann thiet
+        DefaultTableModel modelHD = (DefaultTableModel) tblHoaDon.getModel();
+        modelHD.setRowCount(0);
+
+        int i = 1;
+        //get Date tu filed
+        Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
+        //check ngay tren filed
+        min = min == null ? dcTuNgay.getMinSelectableDate() : min;
+        max = max == null ? dcDenNgay.getMaxSelectableDate() : max;
+        //chuyen sang ngay thang nawm thao DB
+        LocalDate localDate = min.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        min = java.sql.Date.valueOf(localDate);
+        localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        max = java.sql.Date.valueOf(localDate);
+
+        for (Map.Entry<String, HoaDon> entry : mapHoaDon.entrySet()) {
+            int tongTienHD = 0;
+            HoaDon hd = entry.getValue();
+            if (hd.getId().toLowerCase().contains(txtMaHoaDon.getText().toLowerCase())) {
+                
+                if (hd.getNgayBan().compareTo(min) >= 0 && hd.getNgayBan().compareTo(max) <= 0) {
+                    for (HoaDonChiTiet hdct : hd.getHoaDonChiTiets()) {
+                        tongTienHD += hdct.getTongTien();
+                    }
+                    Object[] record = new Object[]{
+                        i++,
+                        hd.getId(),
+                        hd.getNgayBan(),
+                        tongTienHD,
+                        hd.getNguoiDung().getHoTen()
+                    };
+                    modelHD.addRow(record);
+                }
+            }
+        }
+    }
+    public void printHoaDon()
+    {
         
     }
 
@@ -469,6 +581,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JCheckBox chkKhoangThoiGian;
     private javax.swing.JCheckBox chkTheoMaHoaDon;
     private com.toedter.calendar.JDateChooser dcDenNgay;
@@ -486,6 +599,6 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblHoaDonChiTiet;
-    private javax.swing.JTextField txtMahoaDon;
+    private javax.swing.JTextField txtMaHoaDon;
     // End of variables declaration//GEN-END:variables
 }

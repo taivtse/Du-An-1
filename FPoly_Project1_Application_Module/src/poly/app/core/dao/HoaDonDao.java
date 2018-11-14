@@ -5,15 +5,13 @@
  */
 package poly.app.core.dao;
 
-import java.util.List;
 import poly.app.core.data.dao.GenericDao;
-import poly.app.core.entities.Phim;
+import poly.app.core.entities.HoaDon;
 
 /**
  *
- * @author Light
+ * @author MrCuong
  */
-public interface PhimDao extends GenericDao<String, Phim>{
-    public List<Phim> getPhimHienCo();
-    public List<Phim> getPhimDangChieu();
+public interface HoaDonDao extends GenericDao<String, HoaDon>{
+    public HoaDon getNewestHoaDon();
 }

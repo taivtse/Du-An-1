@@ -438,7 +438,7 @@ CREATE TABLE `loai_ghe` (
 
 LOCK TABLES `loai_ghe` WRITE;
 /*!40000 ALTER TABLE `loai_ghe` DISABLE KEYS */;
-INSERT INTO `loai_ghe` VALUES ('GD','Ghế đôi',20000),('GT','Ghế thường',0),('GV','Ghế vip',30000);
+INSERT INTO `loai_ghe` VALUES ('GD','Ghế đôi',20000),('GT','Ghế thường',0),('GV','Ghế đặc biệt',30000);
 /*!40000 ALTER TABLE `loai_ghe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -630,7 +630,7 @@ CREATE TABLE `phong_chieu` (
   `so_luong_day` int(10) unsigned NOT NULL,
   `so_luong_cot` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -639,8 +639,41 @@ CREATE TABLE `phong_chieu` (
 
 LOCK TABLES `phong_chieu` WRITE;
 /*!40000 ALTER TABLE `phong_chieu` DISABLE KEYS */;
-INSERT INTO `phong_chieu` VALUES (1,10,18),(2,10,18);
+INSERT INTO `phong_chieu` VALUES (1,12,18),(2,12,18),(3,10,16),(4,10,16);
 /*!40000 ALTER TABLE `phong_chieu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `so_do_ghe_ngoi`
+--
+
+DROP TABLE IF EXISTS `so_do_ghe_ngoi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `so_do_ghe_ngoi` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `day_bat_dau` varchar(1) NOT NULL,
+  `cot_bat_dau` int(10) unsigned NOT NULL,
+  `day_ket_thuc` varchar(1) NOT NULL,
+  `cot_ket_thuc` int(10) unsigned NOT NULL,
+  `loai_ghe_id` varchar(2) NOT NULL,
+  `phong_chieu_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_SODOPHONGCHEU_LOAIGHE_idx` (`loai_ghe_id`),
+  KEY `FK_SODOPHONGCHIEU_PHONGCHIEU_idx` (`phong_chieu_id`),
+  CONSTRAINT `FK_SODOPHONGCHEU_LOAIGHE` FOREIGN KEY (`loai_ghe_id`) REFERENCES `loai_ghe` (`id`),
+  CONSTRAINT `FK_SODOPHONGCHIEU_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `so_do_ghe_ngoi`
+--
+
+LOCK TABLES `so_do_ghe_ngoi` WRITE;
+/*!40000 ALTER TABLE `so_do_ghe_ngoi` DISABLE KEYS */;
+INSERT INTO `so_do_ghe_ngoi` VALUES (1,'D',5,'G',14,'GV',1),(2,'H',5,'L',14,'GD',1),(3,'D',5,'G',14,'GV',2),(4,'H',5,'L',14,'GD',2),(5,'D',4,'F',13,'GV',3),(6,'G',4,'J',13,'GD',3);
+/*!40000 ALTER TABLE `so_do_ghe_ngoi` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -674,7 +707,7 @@ CREATE TABLE `suat_chieu` (
 
 LOCK TABLES `suat_chieu` WRITE;
 /*!40000 ALTER TABLE `suat_chieu` DISABLE KEYS */;
-INSERT INTO `suat_chieu` VALUES ('SC00000001','20:00:00','22:00:00','2018-11-11','1',1,'3D'),('SC00000002','09:00:00','11:00:00','2018-12-12','2',2,'IMAX'),('SC00000003','10:00:00','12:00:00','2018-02-02','1',2,'3D');
+INSERT INTO `suat_chieu` VALUES ('SC00000001','23:30:00','00:00:00','2018-11-10','1',1,'3D'),('SC00000002','00:00:00','00:00:00','2018-12-12','2',2,'IMAX'),('SC00000003','10:30:00','00:00:00','2018-11-10','1',2,'2D');
 /*!40000 ALTER TABLE `suat_chieu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -882,4 +915,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-08 18:22:26
+-- Dump completed on 2018-11-11 12:42:37

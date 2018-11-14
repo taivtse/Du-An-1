@@ -6,7 +6,7 @@
     <class name="poly.app.core.entities.SuatChieu" table="suat_chieu" catalog="du_an_1" optimistic-lock="version">
         <id name="id" type="string">
             <column name="id" length="15" />
-            <generator class="identity" />
+            <generator class="assigned" />
         </id>
         <many-to-one name="dinhDangPhim" class="poly.app.core.entities.DinhDangPhim" fetch="join">
             <column name="dinh_dang_phim_id" length="5" not-null="true" />
@@ -17,11 +17,11 @@
         <many-to-one name="phongChieu" class="poly.app.core.entities.PhongChieu" fetch="join">
             <column name="phong_chieu_id" not-null="true" />
         </many-to-one>
-        <property name="gioBatDau" type="time">
-            <column name="gio_bat_dau" length="16" not-null="true" />
+        <property name="gioBatDau" type="timestamp">
+            <column name="gio_bat_dau" length="26" not-null="true" />
         </property>
-        <property name="gioKetThuc" type="time">
-            <column name="gio_ket_thuc" length="16" not-null="true" />
+        <property name="gioKetThuc" type="timestamp">
+            <column name="gio_ket_thuc" length="26" not-null="true" />
         </property>
         <property name="ngayChieu" type="date">
             <column name="ngay_chieu" length="10" not-null="true" />

@@ -6,25 +6,19 @@
 package poly.app.ui.frames;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
 import java.util.stream.Collectors;
 import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
-import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.DoAnDaoImpl;
 import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.helper.DialogHelper;
-import poly.app.core.helper.TableStructureHelper;
 import poly.app.ui.dialogs.DialogCapNhatDoAn;
 import poly.app.ui.dialogs.DialogThemDoAn;
 import poly.app.ui.dialogs.DialogCapNhatDoAnChiTiet;
@@ -502,25 +496,29 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDoAnChiTietMouseClicked
 
     private void rdoDangDuocBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDangDuocBanActionPerformed
-        this.filterDangDuocBan(searchDoAnByName());
+
+        this.searchDoAnByName();
     }//GEN-LAST:event_rdoDangDuocBanActionPerformed
 
     private void rdoDaNgungBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaNgungBanActionPerformed
-        this.filterDaNgungBan(searchDoAnByName());
+
+        this.searchDoAnByName();
     }//GEN-LAST:event_rdoDaNgungBanActionPerformed
 
     private void chkTheoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenActionPerformed
         txtTraCuuDoAn.setText("");
         txtTraCuuDoAn.setEditable(chkTheoTen.isSelected());
+        this.searchDoAnByName();
     }//GEN-LAST:event_chkTheoTenActionPerformed
 
     private void rdoDoUongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDoUongActionPerformed
-        this.filterDoUong(this.searchDoAnByName());
+
+        this.searchDoAnByName();
     }//GEN-LAST:event_rdoDoUongActionPerformed
 
     private void rdoDoAnNhanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDoAnNhanhActionPerformed
-        this.filterDoAnhNhanh(this.searchDoAnByName());
 
+        this.searchDoAnByName();
     }//GEN-LAST:event_rdoDoAnNhanhActionPerformed
 
     private void chkTheoTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTrangThaiActionPerformed
@@ -614,7 +612,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         }
     }
 
-    public Map<String, DoAn> searchDoAnByName() {
+    public void searchDoAnByName() {
         Map<String, DoAn> mapSearchDoAn = new HashMap<>();
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
@@ -642,7 +640,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         int i = 1;
         for (Entry<String, DoAn> entry : mapSearchDoAn.entrySet()) {
-            if (entry.getValue().getTen().toLowerCase().contains(txtTraCuuDoAn.getText().toLowerCase())) {
                 DoAn doAn = entry.getValue();
                 Object[] record = new Object[]{
                     i++,
@@ -652,9 +649,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                     doAn.getLoaiDoAn().getTen()
                 };
                 modelDA.addRow(record);
-            }
         }
-        return mapSearchDoAn;
     }
 
     public Map<String, DoAn> filterDangDuocBan(Map<String, DoAn> mapSearch) {

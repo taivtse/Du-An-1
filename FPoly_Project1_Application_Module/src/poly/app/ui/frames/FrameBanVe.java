@@ -5,12 +5,17 @@
  */
 package poly.app.ui.frames;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.HibernateException;
 import poly.app.core.daoimpl.PhimDaoImpl;
+import poly.app.core.daoimpl.SuatChieuDaoImpl;
 import poly.app.core.entities.Phim;
+import poly.app.core.entities.SuatChieu;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -19,27 +24,33 @@ import poly.app.ui.utils.TableRendererUtil;
  */
 public class FrameBanVe extends javax.swing.JFrame {
 
+    Map<String, Phim> phimMap = new HashMap<>();
+    Map<String, SuatChieu> suatChieuMap = new HashMap<>();
+
     /**
      * Creates new form FrameQLNhanVien
      */
-    
-    List<Phim> listPhim;
-    
+
     public FrameBanVe() {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
-        loadAllDataToTable();
     }
 
     private void reRenderUI() {
         //        Render lại giao diện cho table
-        TableRendererUtil tblRenderer1 = new TableRendererUtil(tblDaChon);
-        tblRenderer1.setCellEditable(false);
-        tblRenderer1.changeHeaderStyle();
+        TableRendererUtil tblRenderer = new TableRendererUtil(tblSuatChieu);
+        tblRenderer.setCellEditable(false);
+        tblRenderer.changeHeaderStyle();
+
+        tblRenderer = new TableRendererUtil(tblPhim);
+        tblRenderer.setCellEditable(false);
+        tblRenderer.changeHeaderStyle();
+
+        lblNgayHienTai.setText("Ngày: " + new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
     }
-    
-    public JPanel getMainPanel(){
+
+    public JPanel getMainPanel() {
         return pnMain;
     }
 
@@ -56,14 +67,14 @@ public class FrameBanVe extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblDoAn = new javax.swing.JTable();
+        tblPhim = new javax.swing.JTable();
         lblNgayHienTai = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnBan = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblDaChon = new javax.swing.JTable();
+        tblSuatChieu = new javax.swing.JTable();
         btnCollapse = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -83,23 +94,23 @@ public class FrameBanVe extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel1.setText("Danh sách phim đang chiếu");
 
-        tblDoAn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
-        tblDoAn.setModel(new javax.swing.table.DefaultTableModel(
+        tblPhim.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        tblPhim.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "STT", "Tên phim"
+                "STT", "Mã phim", "Tên phim"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -110,7 +121,12 @@ public class FrameBanVe extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tblDoAn);
+        tblPhim.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPhimMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblPhim);
 
         lblNgayHienTai.setText("Ngày:");
 
@@ -168,29 +184,29 @@ public class FrameBanVe extends javax.swing.JFrame {
 
         jPanel5.setOpaque(false);
 
-        tblDaChon.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
-        tblDaChon.setModel(new javax.swing.table.DefaultTableModel(
+        tblSuatChieu.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        tblSuatChieu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "Mã vé", "Mã suất chiếu", "Vị trí ghế", "Ngày bán", "Giá vé", "Nhân viên bán"
+                "STT", "Mã suất chiếu", "Giờ chiếu", "Định dạng", "Ngôn ngữ", "Phòng chiếu", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        tblDaChon.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblSuatChieu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblDaChonMouseClicked(evt);
+                tblSuatChieuMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblDaChon);
+        jScrollPane1.setViewportView(tblSuatChieu);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -287,45 +303,68 @@ public class FrameBanVe extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-
+        loadDataToTablePhim();
     }//GEN-LAST:event_formWindowOpened
 
-    private void tblDaChonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDaChonMouseClicked
+    private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
 
-    }//GEN-LAST:event_tblDaChonMouseClicked
+    }//GEN-LAST:event_tblSuatChieuMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
 
     }//GEN-LAST:event_formWindowActivated
 
-    public void loadDataToTable(List<Phim> listPhimHienThi) {
-        DefaultTableModel modelTable = (DefaultTableModel) tblDaChon.getModel();
+    private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
+        String tenPhim = (String) tblPhim.getValueAt(tblPhim.getSelectedRow(), 1);
+        loadDataToTableSuatChieu(phimMap.get(tenPhim));
+    }//GEN-LAST:event_tblPhimMouseClicked
+
+    private void loadDataToTableSuatChieu(Phim phim) {
+        DefaultTableModel modelTable = (DefaultTableModel) tblSuatChieu.getModel();
         modelTable.setRowCount(0);
-        
+        List<SuatChieu> list = new SuatChieuDaoImpl().getSuatChieuHienTaiByPhim(phim);
+
+        int i = 1;
+        for (SuatChieu suatChieu : list) {
+            String trangThai = suatChieu.getGioBatDau().compareTo(new Date()) > 0 ? "Sắp chiếu" : "Đã chiếu";
+            if (suatChieu.getGioKetThuc().compareTo(new Date()) > 0) {
+                trangThai = "Đang chiếu";
+            }
+            modelTable.addRow(
+                    new Object[]{
+                        i++,
+                        suatChieu.getId(),
+                        new SimpleDateFormat("HH:mm:ss").format(suatChieu.getGioBatDau()),
+                        suatChieu.getDinhDangPhim().getId(),
+                        suatChieu.getPhim().getNgonNgu(),
+                        "Phòng " + suatChieu.getPhongChieu().getId(),
+                        trangThai
+                    });
+
+            suatChieuMap.put(suatChieu.getId(), suatChieu);
+        }
     }
-    
-    public boolean deletePhim(int id) {
-        Phim phim = listPhim.get(id);
-        phim.setDaXoa(true);
-        try {
-            return new PhimDaoImpl().update(phim);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            return false;
-        }    
+
+    public void loadDataToTablePhim() {
+        DefaultTableModel modelTable = (DefaultTableModel) tblPhim.getModel();
+        modelTable.setRowCount(0);
+        int i = 1;
+        for (Phim phim : new PhimDaoImpl().getPhimDangChieu()) {
+            modelTable.addRow(
+                    new Object[]{
+                        i++,
+                        phim.getId(),
+                        phim.getTen()
+                    });
+            phimMap.put(phim.getId(), phim);
+        }
     }
-    
-    
-    public void loadAllDataToTable(){
-        listPhim = new PhimDaoImpl().getPhimHienCo();
-        loadDataToTable(listPhim);
-    }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -411,7 +450,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -432,7 +471,7 @@ public class FrameBanVe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblNgayHienTai;
     private javax.swing.JPanel pnMain;
-    private javax.swing.JTable tblDaChon;
-    private javax.swing.JTable tblDoAn;
+    private javax.swing.JTable tblPhim;
+    private javax.swing.JTable tblSuatChieu;
     // End of variables declaration//GEN-END:variables
 }

@@ -336,6 +336,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(131, 137, 150));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         jPanel3.setOpaque(false);
 
         tbpMainContent.setBackground(new java.awt.Color(255, 255, 255));

@@ -23,16 +23,14 @@ public class GheNgoi  implements java.io.Serializable {
     }
 
 	
-    public GheNgoi(int id, LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot, boolean daChon) {
-        this.id = id;
+    public GheNgoi(LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot, boolean daChon) {
         this.loaiGhe = loaiGhe;
         this.phongChieu = phongChieu;
         this.viTriDay = viTriDay;
         this.viTriCot = viTriCot;
         this.daChon = daChon;
     }
-    public GheNgoi(int id, LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot, boolean daChon, Set<VeBan> veBans) {
-       this.id = id;
+    public GheNgoi(LoaiGhe loaiGhe, PhongChieu phongChieu, String viTriDay, int viTriCot, boolean daChon, Set<VeBan> veBans) {
        this.loaiGhe = loaiGhe;
        this.phongChieu = phongChieu;
        this.viTriDay = viTriDay;

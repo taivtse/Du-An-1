@@ -14,12 +14,6 @@
         <property name="phuThu" type="int">
             <column name="phu_thu" not-null="true" />
         </property>
-        <set name="soDoGheNgois" table="so_do_ghe_ngoi" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="loai_ghe_id" length="2" not-null="true" />
-            </key>
-            <one-to-many class="poly.app.core.entities.SoDoGheNgoi" />
-        </set>
         <set name="gheNgois" table="ghe_ngoi" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="loai_ghe_id" length="2" not-null="true" />

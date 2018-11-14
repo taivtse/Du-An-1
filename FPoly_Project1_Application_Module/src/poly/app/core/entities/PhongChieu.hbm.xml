@@ -20,12 +20,6 @@
             </key>
             <one-to-many class="poly.app.core.entities.SuatChieu" />
         </set>
-        <set name="soDoGheNgois" table="so_do_ghe_ngoi" inverse="true" lazy="false" fetch="select">
-            <key>
-                <column name="phong_chieu_id" not-null="true" />
-            </key>
-            <one-to-many class="poly.app.core.entities.SoDoGheNgoi" />
-        </set>
         <set name="gheNgois" table="ghe_ngoi" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="phong_chieu_id" not-null="true" />
