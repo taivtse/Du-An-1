@@ -6,13 +6,21 @@
 package poly.app.ui.frames.main;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Vector;
+import javax.swing.AbstractButton;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import poly.app.ui.custom.JComboBoxListener;
 
 /**
  *
@@ -20,11 +28,68 @@ import javax.swing.JOptionPane;
  */
 public class NewJFrame extends javax.swing.JFrame implements ActionListener {
 
+    Vector vectorSearch = new Vector();
+
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
         initComponents();
+        
+        vectorSearch.add("Vo Thanh Tai");
+        vectorSearch.add("Tran Vi Khang");
+        vectorSearch.add("Tran Duy Quan");
+        vectorSearch.add("Pham Cong Tien");
+        
+        
+        reRenderUI();
+    }
+    
+    private void reRenderUI(){
+        for (Component component : cbo.getComponents()) {
+            if (component instanceof AbstractButton) {
+                if (component.isVisible()) {
+                    component.setVisible(false);
+                }
+            }
+        }
+        
+        cbo.setModel(new DefaultComboBoxModel(vectorSearch));
+        cbo.setSelectedIndex(-1);
+        
+        JTextField text = (JTextField) cbo.getEditor().getEditorComponent();
+        text.setFocusable(true);
+        text.setText("");
+        text.addKeyListener(new JComboBoxListener(cbo, vectorSearch));
+        cbo.getEditor().getEditorComponent().addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                ((JTextField) cbo.getEditor().getEditorComponent()).setFocusable(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+    }
+
+    private void abc() {
         int i = 10;
         int j = 16;
 
@@ -36,11 +101,11 @@ public class NewJFrame extends javax.swing.JFrame implements ActionListener {
         for (int m = 0; m < i; m++) {
             for (int n = 0; n < j; n++) {
                 buttonHolder[m][n] = new JButton((m + 1) + "-" + (n + 1) + "");
-                
+
                 buttonHolder[m][n].setMinimumSize(new Dimension(buttonWitdth, buttonWitdth));
                 buttonHolder[m][n].setPreferredSize(new Dimension(buttonWitdth, buttonWitdth));
                 buttonHolder[m][n].setMaximumSize(new Dimension(buttonWitdth, buttonWitdth));
-                
+
                 buttonHolder[m][n].setOpaque(true);
                 buttonHolder[m][n].setBackground(Color.decode("#000"));
                 buttonHolder[m][n].setMargin(new Insets(0, 0, 0, 0));
@@ -62,18 +127,32 @@ public class NewJFrame extends javax.swing.JFrame implements ActionListener {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        cbo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        cbo.setEditable(true);
+        cbo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cboMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 463, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(154, Short.MAX_VALUE)
+                .addComponent(cbo, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 303, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addComponent(cbo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(178, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -93,6 +172,11 @@ public class NewJFrame extends javax.swing.JFrame implements ActionListener {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cboMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboMouseClicked
+        System.out.println("asdfasd");
+        ((JTextField) cbo.getEditor().getEditorComponent()).setFocusable(true);
+    }//GEN-LAST:event_cboMouseClicked
 
     /**
      * @param args the command line arguments
@@ -130,6 +214,7 @@ public class NewJFrame extends javax.swing.JFrame implements ActionListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbo;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 

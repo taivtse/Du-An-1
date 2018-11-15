@@ -18,6 +18,21 @@ USE `du_an_1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `dinh_dang_phim`
+--
+
+DROP TABLE IF EXISTS `dinh_dang_phim`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `dinh_dang_phim` (
+  `id` varchar(5) NOT NULL,
+  `ten` varchar(20) NOT NULL,
+  `phu_thu` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `dinh_dang_phim`
 --
 
@@ -26,6 +41,24 @@ LOCK TABLES `dinh_dang_phim` WRITE;
 INSERT INTO `dinh_dang_phim` VALUES ('2D','Định dạng 2D',0),('3D','Định dạng 3D',20000),('4D','Định dạng 4D',35000),('IMAX','Định dạng IMAX',50000);
 /*!40000 ALTER TABLE `dinh_dang_phim` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `do_an`
+--
+
+DROP TABLE IF EXISTS `do_an`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `do_an` (
+  `id` varchar(15) NOT NULL,
+  `ten` varchar(45) NOT NULL,
+  `dang_ban` bit(1) NOT NULL,
+  `loai_do_an_id` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_DOAN_LOAIDOAN_idx` (`loai_do_an_id`),
+  CONSTRAINT `FK_DOAN_LOAIDOAN` FOREIGN KEY (`loai_do_an_id`) REFERENCES `loai_do_an` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `do_an`
@@ -75,6 +108,27 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `do_an_chi_tiet`
+--
+
+DROP TABLE IF EXISTS `do_an_chi_tiet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `do_an_chi_tiet` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `don_gia` int(10) unsigned NOT NULL,
+  `dang_ban` bit(1) DEFAULT b'1',
+  `do_an_id` varchar(15) NOT NULL,
+  `kich_co_do_an_id` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_DOANCHITIET_DOAN_idx` (`do_an_id`),
+  KEY `FK_DOANCHITIET_KICHCODOAN_idx` (`kich_co_do_an_id`),
+  CONSTRAINT `FK_DOANCHITIET_DOAN` FOREIGN KEY (`do_an_id`) REFERENCES `do_an` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_DOANCHITIET_KICHCODOAN` FOREIGN KEY (`kich_co_do_an_id`) REFERENCES `kich_co_do_an` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `do_an_chi_tiet`
 --
 
@@ -82,6 +136,27 @@ LOCK TABLES `do_an_chi_tiet` WRITE;
 /*!40000 ALTER TABLE `do_an_chi_tiet` DISABLE KEYS */;
 /*!40000 ALTER TABLE `do_an_chi_tiet` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `ghe_ngoi`
+--
+
+DROP TABLE IF EXISTS `ghe_ngoi`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `ghe_ngoi` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `vi_tri_day` varchar(1) NOT NULL,
+  `vi_tri_cot` int(10) unsigned NOT NULL,
+  `phong_chieu_id` int(10) unsigned NOT NULL,
+  `loai_ghe_id` varchar(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_GHE_PHONGCHIEU_idx` (`phong_chieu_id`),
+  KEY `FK_GHE_LOAIGHE_idx` (`loai_ghe_id`),
+  CONSTRAINT `FK_GHE_LOAIGHE` FOREIGN KEY (`loai_ghe_id`) REFERENCES `loai_ghe` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_GHE_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=377 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ghe_ngoi`
@@ -94,6 +169,21 @@ INSERT INTO `ghe_ngoi` VALUES (1,'A',1,1,'GT'),(2,'A',2,1,'GT'),(3,'A',3,1,'GT')
 UNLOCK TABLES;
 
 --
+-- Table structure for table `gia_ve`
+--
+
+DROP TABLE IF EXISTS `gia_ve`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `gia_ve` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ten` varchar(45) NOT NULL,
+  `don_gia` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `gia_ve`
 --
 
@@ -102,6 +192,23 @@ LOCK TABLES `gia_ve` WRITE;
 INSERT INTO `gia_ve` VALUES (1,'Trẻ em',30000),(2,'Học sinh, sinh viên',45000),(3,'Người lớn',60000);
 /*!40000 ALTER TABLE `gia_ve` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `hoa_don`
+--
+
+DROP TABLE IF EXISTS `hoa_don`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `hoa_don` (
+  `id` varchar(15) NOT NULL,
+  `ngay_ban` date NOT NULL,
+  `nhan_vien_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_HOADON_NGUOIDUNG_idx` (`nhan_vien_id`),
+  CONSTRAINT `FK_HOADON_NGUOIDUNG` FOREIGN KEY (`nhan_vien_id`) REFERENCES `nguoi_dung` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `hoa_don`
@@ -154,6 +261,27 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `hoa_don_chi_tiet`
+--
+
+DROP TABLE IF EXISTS `hoa_don_chi_tiet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `hoa_don_chi_tiet` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `so_luong` int(10) unsigned NOT NULL,
+  `tong_tien` int(10) unsigned NOT NULL,
+  `do_an_chi_tiet_id` int(10) unsigned NOT NULL,
+  `hoa_don_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_HOADONCHITIET_HOADON_idx` (`hoa_don_id`),
+  KEY `FK_HOADONCHITIET_DOAN_idx` (`do_an_chi_tiet_id`),
+  CONSTRAINT `FK_HOADONCHITIET_DOANCHITIET` FOREIGN KEY (`do_an_chi_tiet_id`) REFERENCES `do_an_chi_tiet` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_HOADONCHITIET_HOADON` FOREIGN KEY (`hoa_don_id`) REFERENCES `hoa_don` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `hoa_don_chi_tiet`
 --
 
@@ -161,6 +289,29 @@ LOCK TABLES `hoa_don_chi_tiet` WRITE;
 /*!40000 ALTER TABLE `hoa_don_chi_tiet` DISABLE KEYS */;
 /*!40000 ALTER TABLE `hoa_don_chi_tiet` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `khach_hang`
+--
+
+DROP TABLE IF EXISTS `khach_hang`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `khach_hang` (
+  `id` varchar(15) NOT NULL,
+  `ho_ten` varchar(45) NOT NULL,
+  `so_cmnd` varchar(20) NOT NULL,
+  `mat_khau` varchar(45) NOT NULL,
+  `so_dien_thoai` varchar(15) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  `dia_chi` varchar(100) DEFAULT NULL,
+  `ngay_dang_ky` date NOT NULL,
+  `ngay_sinh` date DEFAULT NULL,
+  `gioi_tinh` bit(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `so_cmnd_UNIQUE` (`so_cmnd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `khach_hang`
@@ -213,6 +364,20 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `kich_co_do_an`
+--
+
+DROP TABLE IF EXISTS `kich_co_do_an`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `kich_co_do_an` (
+  `id` varchar(10) NOT NULL,
+  `ten` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `kich_co_do_an`
 --
 
@@ -221,6 +386,20 @@ LOCK TABLES `kich_co_do_an` WRITE;
 INSERT INTO `kich_co_do_an` VALUES ('L','Cỡ lớn'),('M','Cỡ vừa'),('S','Cỡ nhỏ');
 /*!40000 ALTER TABLE `kich_co_do_an` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `loai_do_an`
+--
+
+DROP TABLE IF EXISTS `loai_do_an`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `loai_do_an` (
+  `id` varchar(5) NOT NULL,
+  `ten` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `loai_do_an`
@@ -233,6 +412,21 @@ INSERT INTO `loai_do_an` VALUES ('BK','Bánh kẹo'),('DA','Đồ ăn nhanh'),('
 UNLOCK TABLES;
 
 --
+-- Table structure for table `loai_ghe`
+--
+
+DROP TABLE IF EXISTS `loai_ghe`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `loai_ghe` (
+  `id` varchar(2) NOT NULL,
+  `ten_ghe` varchar(20) NOT NULL,
+  `phu_thu` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `loai_ghe`
 --
 
@@ -243,6 +437,20 @@ INSERT INTO `loai_ghe` VALUES ('GD','Ghế đôi',20000),('GT','Ghế thường'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `loai_phim`
+--
+
+DROP TABLE IF EXISTS `loai_phim`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `loai_phim` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ten` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `loai_phim`
 --
 
@@ -251,6 +459,33 @@ LOCK TABLES `loai_phim` WRITE;
 INSERT INTO `loai_phim` VALUES (1,'Phim tình cảm'),(2,'Phim hài hước'),(3,'Phim hành động'),(4,'Phim hoạt hình'),(5,'Phim tài liệu'),(6,'Phim võ thuật'),(7,'Phim viễn tưởng'),(8,'Phim bí ẩn, siêu nhiên'),(9,'Phim tài liệu'),(10,'Phim kinh dị');
 /*!40000 ALTER TABLE `loai_phim` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `nguoi_dung`
+--
+
+DROP TABLE IF EXISTS `nguoi_dung`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `nguoi_dung` (
+  `id` varchar(15) NOT NULL,
+  `ho_ten` varchar(45) NOT NULL,
+  `mat_khau` varchar(45) NOT NULL,
+  `so_cmnd` varchar(20) NOT NULL,
+  `so_dien_thoai` varchar(15) NOT NULL,
+  `email` varchar(45) NOT NULL,
+  `dia_chi` varchar(100) NOT NULL,
+  `ngay_vao_lam` date NOT NULL,
+  `gioi_tinh` bit(1) NOT NULL,
+  `dang_lam` bit(1) DEFAULT b'1',
+  `hinh_anh` varchar(100) DEFAULT NULL,
+  `vai_tro_id` varchar(2) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `so_cmnd_UNIQUE` (`so_cmnd`),
+  KEY `FK_NGUOIDUNG_VAITRO_idx` (`vai_tro_id`),
+  CONSTRAINT `FK_NGUOIDUNG_VAITRO` FOREIGN KEY (`vai_tro_id`) REFERENCES `vai_tro` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `nguoi_dung`
@@ -298,6 +533,34 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `phim`
+--
+
+DROP TABLE IF EXISTS `phim`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `phim` (
+  `id` varchar(15) NOT NULL,
+  `ten` varchar(100) NOT NULL,
+  `thoi_luong` int(10) unsigned NOT NULL,
+  `gioi_han_tuoi` int(10) unsigned NOT NULL,
+  `ngay_cong_chieu` date NOT NULL,
+  `ngon_ngu` varchar(20) NOT NULL,
+  `dien_vien` varchar(100) DEFAULT NULL,
+  `quoc_gia` varchar(45) NOT NULL,
+  `nha_san_xuat` varchar(45) NOT NULL,
+  `tom_tat` varchar(1000) DEFAULT NULL,
+  `trang_thai` varchar(10) NOT NULL,
+  `da_xoa` bit(1) DEFAULT b'0',
+  `hinh_anh` varchar(100) DEFAULT NULL,
+  `loai_phim_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_PHIM_LOAIPHIM_idx` (`loai_phim_id`),
+  CONSTRAINT `FK_PHIM_LOAIPHIM` FOREIGN KEY (`loai_phim_id`) REFERENCES `loai_phim` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `phim`
@@ -351,6 +614,21 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `phong_chieu`
+--
+
+DROP TABLE IF EXISTS `phong_chieu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `phong_chieu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `so_luong_day` int(10) unsigned NOT NULL,
+  `so_luong_cot` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `phong_chieu`
 --
 
@@ -359,6 +637,31 @@ LOCK TABLES `phong_chieu` WRITE;
 INSERT INTO `phong_chieu` VALUES (1,12,18),(2,10,16);
 /*!40000 ALTER TABLE `phong_chieu` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `suat_chieu`
+--
+
+DROP TABLE IF EXISTS `suat_chieu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `suat_chieu` (
+  `id` varchar(15) NOT NULL,
+  `gio_bat_dau` timestamp NOT NULL,
+  `gio_ket_thuc` timestamp NOT NULL,
+  `ngay_chieu` date NOT NULL,
+  `phim_id` varchar(15) NOT NULL,
+  `phong_chieu_id` int(10) unsigned NOT NULL,
+  `dinh_dang_phim_id` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_SUATCHIEU_PHONGCHIEU_idx` (`phong_chieu_id`),
+  KEY `FK_SUATCHIEU_DINHDANGPHIM_idx` (`dinh_dang_phim_id`),
+  KEY `FK_SUATCHIEU_PHIM_idx` (`phim_id`),
+  CONSTRAINT `FK_SUATCHIEU_DINHDANGPHIM` FOREIGN KEY (`dinh_dang_phim_id`) REFERENCES `dinh_dang_phim` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_SUATCHIEU_PHIM` FOREIGN KEY (`phim_id`) REFERENCES `phim` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_SUATCHIEU_PHONGCHIEU` FOREIGN KEY (`phong_chieu_id`) REFERENCES `phong_chieu` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `suat_chieu`
@@ -411,6 +714,20 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `vai_tro`
+--
+
+DROP TABLE IF EXISTS `vai_tro`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `vai_tro` (
+  `id` varchar(2) NOT NULL,
+  `ten` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `vai_tro`
 --
 
@@ -419,6 +736,33 @@ LOCK TABLES `vai_tro` WRITE;
 INSERT INTO `vai_tro` VALUES ('NV','Nhân viên bán hàng'),('QL','Nhân viên quản lý'),('TR','Quản lý rạp');
 /*!40000 ALTER TABLE `vai_tro` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `ve_ban`
+--
+
+DROP TABLE IF EXISTS `ve_ban`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `ve_ban` (
+  `id` varchar(15) NOT NULL,
+  `ngay_ban` date NOT NULL,
+  `tong_tien` int(10) unsigned NOT NULL,
+  `suat_chieu_id` varchar(15) NOT NULL,
+  `gia_ve_id` int(10) unsigned NOT NULL,
+  `ghe_id` int(10) unsigned NOT NULL,
+  `nhan_vien_id` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_VEBAN_GIAVE_idx` (`gia_ve_id`),
+  KEY `FK_VEBAN_GHE_idx` (`ghe_id`),
+  KEY `FK_VEBAN_NGUOIDUNG_idx` (`nhan_vien_id`),
+  KEY `FK_VEBAN_SUATCHIEU_idx` (`suat_chieu_id`),
+  CONSTRAINT `FK_VEBAN_GHENGOI` FOREIGN KEY (`ghe_id`) REFERENCES `ghe_ngoi` (`id`),
+  CONSTRAINT `FK_VEBAN_GIAVE` FOREIGN KEY (`gia_ve_id`) REFERENCES `gia_ve` (`id`),
+  CONSTRAINT `FK_VEBAN_NGUOIDUNG` FOREIGN KEY (`nhan_vien_id`) REFERENCES `nguoi_dung` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_VEBAN_SUATCHIEU` FOREIGN KEY (`suat_chieu_id`) REFERENCES `suat_chieu` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `ve_ban`
@@ -471,6 +815,23 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
+-- Table structure for table `ve_dat`
+--
+
+DROP TABLE IF EXISTS `ve_dat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `ve_dat` (
+  `id` varchar(15) NOT NULL,
+  `khach_hang_id` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_VEDAT_KHACHANG_idx` (`khach_hang_id`),
+  CONSTRAINT `FK_VEDAT_KHACHANG` FOREIGN KEY (`khach_hang_id`) REFERENCES `khach_hang` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_VEDAT_VEBAN` FOREIGN KEY (`id`) REFERENCES `ve_ban` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `ve_dat`
 --
 
@@ -496,4 +857,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-14 16:03:17
+-- Dump completed on 2018-11-14 18:17:56
