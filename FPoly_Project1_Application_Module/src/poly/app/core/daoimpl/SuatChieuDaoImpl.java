@@ -21,8 +21,6 @@ public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements 
         try {
             Criteria cr = session.createCriteria(this.getPersistenceClass());
             cr.add(Restrictions.eq("phim", phim));
-            cr.add(Restrictions.eq("ngayChieu", new Date()));
-//            cr.add(Restrictions.gt("gioBatDau", new Date()));
             cr.addOrder(Order.asc("gioBatDau"));
             
 
