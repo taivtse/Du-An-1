@@ -39,6 +39,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
     public FrameQLPhim() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Quản lý phim");
         reRenderUI();
         loadAllDataToTable();
     }
@@ -207,8 +208,6 @@ public class FrameQLPhim extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel4.setOpaque(false);
 
         btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnThem.setText("Thêm");

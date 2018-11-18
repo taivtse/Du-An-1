@@ -44,11 +44,8 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         cboLoaiDoAn = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
-        rdoKhoangThoiGian = new javax.swing.JRadioButton();
         rdoTheoThang = new javax.swing.JRadioButton();
         rdoTheoNam = new javax.swing.JRadioButton();
-        dcTuNgay = new com.toedter.calendar.JDateChooser();
-        dcDenNgay = new com.toedter.calendar.JDateChooser();
         dboTheoThang = new javax.swing.JComboBox<>();
         cboNamTheoThang = new javax.swing.JComboBox<>();
         cboTheoNam = new javax.swing.JComboBox<>();
@@ -95,15 +92,10 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Theo thời gian"), "Theo thời gian"));
 
-        rdoKhoangThoiGian.setText("Theo khoảng thời gian");
-
+        rdoTheoThang.setSelected(true);
         rdoTheoThang.setText("Theo tháng");
 
         rdoTheoNam.setText("Theo năm");
-
-        dcTuNgay.setOpaque(false);
-
-        dcDenNgay.setOpaque(false);
 
         dboTheoThang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
 
@@ -113,33 +105,19 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(rdoKhoangThoiGian)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cboTheoNam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(rdoTheoThang, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rdoTheoNam, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(dboTheoThang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboNamTheoThang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(cboTheoNam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(rdoTheoThang, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdoTheoNam, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dboTheoThang, 0, 120, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addComponent(cboNamTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(rdoKhoangThoiGian)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dcTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addComponent(rdoTheoThang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -149,7 +127,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
                 .addComponent(rdoTheoNam)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboTheoNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -395,8 +373,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboNamTheoThang;
     private javax.swing.JComboBox<String> cboTheoNam;
     private javax.swing.JComboBox<String> dboTheoThang;
-    private com.toedter.calendar.JDateChooser dcDenNgay;
-    private com.toedter.calendar.JDateChooser dcTuNgay;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -407,7 +383,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton rdoKhoangThoiGian;
     private javax.swing.JRadioButton rdoTheoNam;
     private javax.swing.JRadioButton rdoTheoThang;
     private javax.swing.JTable tblThongKe;

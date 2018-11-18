@@ -110,7 +110,7 @@
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                    <TitledBorder title="Theo lo&#x1ea1;i &#x111;&#x1ed3; &#x103;n"/>
+                    <TitledBorder title="Theo lo&#x1ea1;i phim"/>
                   </Border>
                 </Property>
               </Properties>
@@ -120,7 +120,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="cboLoaiDoAn" max="32767" attributes="0"/>
+                          <Component id="cboLoaiPhim" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -129,14 +129,14 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Component id="cboLoaiDoAn" min="-2" max="-2" attributes="0"/>
+                          <Component id="cboLoaiPhim" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="16" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JComboBox" name="cboLoaiDoAn">
+                <Component class="javax.swing.JComboBox" name="cboLoaiPhim">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
@@ -168,26 +168,14 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="rdoKhoangThoiGian" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="cboTheoNam" max="32767" attributes="0"/>
-                                      <Component id="rdoTheoThang" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="rdoTheoNam" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="dcTuNgay" alignment="1" pref="120" max="32767" attributes="0"/>
-                                      <Component id="dboTheoThang" alignment="1" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace pref="43" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="cboNamTheoThang" max="32767" attributes="0"/>
-                                      <Component id="dcDenNgay" max="32767" attributes="0"/>
-                                  </Group>
-                              </Group>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="cboTheoNam" max="32767" attributes="0"/>
+                              <Component id="rdoTheoThang" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdoTheoNam" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="dboTheoThang" alignment="1" pref="120" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace pref="43" max="32767" attributes="0"/>
+                          <Component id="cboNamTheoThang" min="-2" pref="119" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -196,13 +184,6 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="rdoKhoangThoiGian" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="dcTuNgay" min="-2" max="-2" attributes="0"/>
-                              <Component id="dcDenNgay" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="rdoTheoThang" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -213,35 +194,21 @@
                           <Component id="rdoTheoNam" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="cboTheoNam" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="64" max="32767" attributes="0"/>
+                          <EmptySpace pref="143" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JRadioButton" name="rdoKhoangThoiGian">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Theo kho&#x1ea3;ng th&#x1edd;i gian"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JRadioButton" name="rdoTheoThang">
                   <Properties>
+                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Theo th&#xe1;ng"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="rdoTheoNam">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Theo n&#x103;m"/>
-                  </Properties>
-                </Component>
-                <Component class="com.toedter.calendar.JDateChooser" name="dcTuNgay">
-                  <Properties>
-                    <Property name="opaque" type="boolean" value="false"/>
-                  </Properties>
-                </Component>
-                <Component class="com.toedter.calendar.JDateChooser" name="dcDenNgay">
-                  <Properties>
-                    <Property name="opaque" type="boolean" value="false"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="dboTheoThang">
@@ -417,10 +384,11 @@
                           <Font name="Helvetica Neue" size="13" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="4" rowCount="0">
+                          <Table columnCount="5" rowCount="0">
                             <Column editable="false" title="STT" type="java.lang.Integer"/>
-                            <Column editable="false" title="T&#xea;n &#x111;&#x1ed3; &#x103;n" type="java.lang.String"/>
-                            <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng b&#xe1;n ra" type="java.lang.Integer"/>
+                            <Column editable="false" title="T&#xea;n phim" type="java.lang.String"/>
+                            <Column editable="false" title="Ng&#xe0;y c&#xf4;ng chi&#x1ebf;u " type="java.lang.String"/>
+                            <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng v&#xe9; b&#xe1;n " type="java.lang.Integer"/>
                             <Column editable="false" title="Doanh thu" type="java.lang.Integer"/>
                           </Table>
                         </Property>

@@ -129,7 +129,8 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {
-            session.update(entity);
+            T mappedEntity = (T) session.merge(entity);
+            session.update(mappedEntity);
             transaction.commit();
             return true;
         } catch (HibernateException ex) {

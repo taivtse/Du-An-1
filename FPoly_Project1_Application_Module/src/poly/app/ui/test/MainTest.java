@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.frames.main;
+package poly.app.ui.test;
 
 import poly.app.ui.frames.quanly.FrameQLPhim;
 import java.awt.CardLayout;
 import java.awt.Component;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
@@ -21,7 +18,7 @@ import poly.app.ui.frames.quanly.FrameQLDoAn;
  *
  * @author vothanhtai
  */
-public class MainRunningFrame extends javax.swing.JFrame {
+public class MainTest extends javax.swing.JFrame {
 
     private final JLabel[] btnToolBarArr;
     private FrameQLPhim frameQLPhim;
@@ -30,10 +27,10 @@ public class MainRunningFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
-    public MainRunningFrame() {
+    public MainTest() {
         loadHibernateSession();
-        initComponents();
         renderChildFrame();
+        initComponents();
         this.btnToolBarArr = new JLabel[]{btnToolBarDanhMuc, btnToolBarBanHang, btnToolBarThongKe};
         reRenderUI();
     }
@@ -101,15 +98,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarVe = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
         jPanel3 = new javax.swing.JPanel();
-        tbpMainContent = new ClosableTabbedPane();
+        tbpMainContent = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(222, 225, 230));
-
-        jPanel2.setBackground(new java.awt.Color(222, 225, 230));
 
         jPanel4.setBackground(new java.awt.Color(52, 83, 104));
 
@@ -382,11 +375,6 @@ public class MainRunningFrame extends javax.swing.JFrame {
                 tbpMainContentStateChanged(evt);
             }
         });
-        tbpMainContent.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tbpMainContentMouseEntered(evt);
-            }
-        });
         jPanel3.add(tbpMainContent);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -530,12 +518,8 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itemBanHangToolBarVeActionPerformed
 
     private void tbpMainContentStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbpMainContentStateChanged
-        System.out.println(tbpMainContent.getSelectedIndex());
+        return;
     }//GEN-LAST:event_tbpMainContentStateChanged
-
-    private void tbpMainContentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbpMainContentMouseEntered
-        
-    }//GEN-LAST:event_tbpMainContentMouseEntered
 
     /**
      * @param args the command line arguments
@@ -554,21 +538,23 @@ public class MainRunningFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainRunningFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainTest.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainRunningFrame().setVisible(true);
+                new MainTest().setVisible(true);
             }
         });
     }
@@ -595,7 +581,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
-    private ClosableTabbedPane tbpMainContent;
+    private javax.swing.JTabbedPane tbpMainContent;
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 
