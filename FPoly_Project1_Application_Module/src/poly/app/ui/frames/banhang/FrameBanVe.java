@@ -16,6 +16,9 @@ import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.daoimpl.SuatChieuDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.helper.DateHelper;
+import poly.app.core.helper.DialogHelper;
+import poly.app.ui.dialogs.DialogChonGheNgoi;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -30,7 +33,6 @@ public class FrameBanVe extends javax.swing.JFrame {
     /**
      * Creates new form FrameQLNhanVien
      */
-
     public FrameBanVe() {
         initComponents();
         setLocationRelativeTo(null);
@@ -163,7 +165,12 @@ public class FrameBanVe extends javax.swing.JFrame {
 
         jPanel4.setOpaque(false);
 
-        btnBan.setText("Bán");
+        btnBan.setText("Chọn ghế ngồi");
+        btnBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -172,7 +179,7 @@ public class FrameBanVe extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(btnBan)
-                .addContainerGap(500, Short.MAX_VALUE))
+                .addContainerGap(439, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,21 +322,37 @@ public class FrameBanVe extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
-        String tenPhim = (String) tblPhim.getValueAt(tblPhim.getSelectedRow(), 1);
-        loadDataToTableSuatChieu(phimMap.get(tenPhim));
+        if (tblPhim.getRowCount() >= 0) {
+            String tenPhim = (String) tblPhim.getValueAt(tblPhim.getSelectedRow(), 1);
+            loadDataToTableSuatChieu(phimMap.get(tenPhim));
+        }
     }//GEN-LAST:event_tblPhimMouseClicked
 
+    private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
+        int index = tblSuatChieu.getSelectedRow();
+        String trangThai = (String) tblSuatChieu.getValueAt(index, 6);
+        if (trangThai.equals("Đã chiếu")) {
+            DialogHelper.message(this, "Suất chiếu vừa chọn đã chiếu. \nVui lòng chọn suất chiếu khác!", DialogHelper.ERROR_MESSAGE);
+        }else{
+            String suatChieuId = (String) tblSuatChieu.getValueAt(index, 1);
+            new DialogChonGheNgoi(this, true, suatChieuMap.get(suatChieuId)).setVisible(true);
+        }
+    }//GEN-LAST:event_btnBanActionPerformed
+
     private void loadDataToTableSuatChieu(Phim phim) {
+        suatChieuMap.clear();
         DefaultTableModel modelTable = (DefaultTableModel) tblSuatChieu.getModel();
         modelTable.setRowCount(0);
-        List<SuatChieu> list = new SuatChieuDaoImpl().getSuatChieuHienTaiByPhim(phim);
 
         int i = 1;
-        for (SuatChieu suatChieu : list) {
+        for (SuatChieu suatChieu : new SuatChieuDaoImpl().getSuatChieuHienTaiByPhim(phim)) {
+            
             String trangThai = suatChieu.getGioBatDau().compareTo(new Date()) > 0 ? "Sắp chiếu" : "Đã chiếu";
-            if (suatChieu.getGioKetThuc().compareTo(new Date()) > 0) {
+            if (suatChieu.getGioKetThuc().compareTo(new Date()) > 0 
+                    && DateHelper.getDiffDays(suatChieu.getGioKetThuc(), new Date()) == 0) {
                 trangThai = "Đang chiếu";
             }
+            
             modelTable.addRow(
                     new Object[]{
                         i++,
@@ -387,69 +410,7 @@ public class FrameBanVe extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FrameBanVe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

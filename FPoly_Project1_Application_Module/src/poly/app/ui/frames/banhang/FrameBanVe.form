@@ -216,7 +216,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                           <Component id="btnBan" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="500" max="32767" attributes="0"/>
+                          <EmptySpace pref="439" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -233,8 +233,11 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnBan">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="B&#xe1;n"/>
+                    <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n gh&#x1ebf; ng&#x1ed3;i"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBanActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
