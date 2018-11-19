@@ -101,15 +101,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarVe = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
         jPanel3 = new javax.swing.JPanel();
-        tbpMainContent = new ClosableTabbedPane();
+        tbpMainContent = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(222, 225, 230));
-
-        jPanel2.setBackground(new java.awt.Color(222, 225, 230));
 
         jPanel4.setBackground(new java.awt.Color(52, 83, 104));
 
@@ -595,7 +591,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
-    private ClosableTabbedPane tbpMainContent;
+    private javax.swing.JTabbedPane tbpMainContent;
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 

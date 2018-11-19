@@ -139,8 +139,8 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnBanVe = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -188,24 +188,23 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         jLabel9.setBackground(new java.awt.Color(244, 170, 36));
         jLabel9.setOpaque(true);
 
-        jPanel3.setBackground(new java.awt.Color(222, 225, 230));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setText("Bán vé");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBanVe.setText("Bán vé");
+        btnBanVe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBanVeActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new java.awt.GridBagConstraints());
+        jPanel3.add(btnBanVe, new java.awt.GridBagConstraints());
 
-        jButton2.setText("Huỷ");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnHuy.setText("Huỷ");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnHuyActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton2, new java.awt.GridBagConstraints());
+        jPanel3.add(btnHuy, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -254,7 +253,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(pnGheNgoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -271,16 +270,20 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnBanVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanVeActionPerformed
+        if (selectedGheNgoiMap.size() > 0) {
+            new DialogThongTinVeBan(null, true, suatChieu, selectedGheNgoiMap).setVisible(true);
+        }else{
+            DialogHelper.message(this, "Vui lòng chọn ghế!", DialogHelper.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBanVeActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         suatChieu = null;
         gheNgoiMap.clear();
         selectedGheNgoiMap.clear();
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -325,8 +328,8 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnBanVe;
+    private javax.swing.JButton btnHuy;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

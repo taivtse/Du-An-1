@@ -341,6 +341,8 @@ public class FrameBanVe extends javax.swing.JFrame {
                 String suatChieuId = (String) tblSuatChieu.getValueAt(index, 1);
                 new DialogChonGheNgoi(this, true, suatChieuMap.get(suatChieuId)).setVisible(true);
             }
+        }else{
+            DialogHelper.message(this, "Vui lòng chọn suất chiếu!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBanActionPerformed
 

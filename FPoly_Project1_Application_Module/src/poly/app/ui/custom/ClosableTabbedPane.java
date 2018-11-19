@@ -265,7 +265,7 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
 //    TAI's CODE
     private void selectedTabChange() {
         for (int i = 0; i < this.getTabCount(); i++) {
-            this.setBackgroundAt(i, Color.decode("#DEE1E6"));
+            this.setBackgroundAt(i, Color.decode("#EEEEEE"));
         }
 
         if (this.getTabCount() > 0) {

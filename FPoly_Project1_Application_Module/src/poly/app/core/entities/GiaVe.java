@@ -59,8 +59,10 @@ public class GiaVe  implements java.io.Serializable {
         this.veBans = veBans;
     }
 
-
-
+    @Override
+    public String toString() {
+        return ten;
+    }
 
 }
 
