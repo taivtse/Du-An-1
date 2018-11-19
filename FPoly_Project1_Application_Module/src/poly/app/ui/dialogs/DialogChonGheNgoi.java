@@ -5,33 +5,21 @@
  */
 package poly.app.ui.dialogs;
 
-import java.awt.Button;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import poly.app.core.daoimpl.GheNgoiDaoImpl;
-import poly.app.core.daoimpl.PhongChieuDaoImpl;
 import poly.app.core.entities.GheNgoi;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.helper.DialogHelper;
+import poly.app.ui.utils.ColorUtil;
 
 /**
  *
@@ -41,7 +29,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
 
     SuatChieu suatChieu;
     Map<String, GheNgoi> gheNgoiMap = new HashMap<>();
-    List<GheNgoi> selectedGheNgoi = new ArrayList<>();
+    Map<String, GheNgoi> selectedGheNgoiMap = new HashMap<>();
 
     /**
      * Creates new form DialogChonGheNgoi
@@ -50,10 +38,10 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-    
+
     public DialogChonGheNgoi(java.awt.Frame parent, boolean modal, SuatChieu suatChieu) {
         this(parent, modal);
-        
+
         this.suatChieu = suatChieu;
         loadGheNgoiToMap();
         renderSeats();
@@ -61,13 +49,14 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
 
     private void renderSeats() {
         int gheNgoiButtonWidth = 45;
-        int gheNgoiButtonHeight = 32;
-        
+        int gheNgoiButtonHeight = 35;
+
         PhongChieu phongChieu = suatChieu.getPhongChieu();
         pnGheNgoi.setLayout(new GridLayout(phongChieu.getSoLuongDay(), phongChieu.getSoLuongCot(), 4, 4));
-        
+
         for (int row = 0; row < phongChieu.getSoLuongDay(); row++) {
             for (int col = 1; col <= phongChieu.getSoLuongCot(); col++) {
+//                create a seat shape
                 JLabel gheNgoiButton = new JLabel(((char) (65 + row)) + "" + col);
                 gheNgoiButton.setMinimumSize(new Dimension(gheNgoiButtonWidth, gheNgoiButtonHeight));
                 gheNgoiButton.setPreferredSize(new Dimension(gheNgoiButtonWidth, gheNgoiButtonHeight));
@@ -80,15 +69,38 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
 
                 gheNgoiButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+//                set background and foreground color for the seat
                 if (gheNgoiMap.get(((char) (65 + row)) + "" + col).getLoaiGhe().getId().equals("GT")) {
-                    gheNgoiButton.setBackground(Color.decode("#DDDDDD"));
+                    gheNgoiButton.setBackground(ColorUtil.NORMAL_SEAT_COLOR);
+                    gheNgoiButton.setForeground(ColorUtil.NORMAL_SEAT_FOREGROUND_COLOR);
                 } else {
-                    gheNgoiButton.setBackground(Color.decode("#3198FC"));
+                    gheNgoiButton.setBackground(ColorUtil.VIP_SEAT_COLOR);
+                    gheNgoiButton.setForeground(ColorUtil.VIP_SEAT_FOREGROUND_COLOR);
                 }
 
+//                add click event for selectable seats
                 gheNgoiButton.addMouseListener(new MouseAdapter() {
                     public void mouseClicked(MouseEvent e) {
-                        selectedGheNgoi.add(gheNgoiMap.get(gheNgoiButton.getText()));
+                        if (gheNgoiButton.getBackground().equals(ColorUtil.SEAT_COLOR_SELECTED)) {
+//                        Revert from selected seat to unselected
+                            if (selectedGheNgoiMap.get(gheNgoiButton.getText()).getLoaiGhe().getId().equals("GT")) {
+                                gheNgoiButton.setBackground(ColorUtil.NORMAL_SEAT_COLOR);
+                                gheNgoiButton.setForeground(ColorUtil.NORMAL_SEAT_FOREGROUND_COLOR);
+                            } else {
+                                gheNgoiButton.setBackground(ColorUtil.VIP_SEAT_COLOR);
+                                gheNgoiButton.setForeground(ColorUtil.VIP_SEAT_FOREGROUND_COLOR);
+                            }
+                            selectedGheNgoiMap.remove(gheNgoiButton.getText());
+                        } else {
+//                        Selected the seat
+                            if (selectedGheNgoiMap.size() >= 5) {
+                                DialogHelper.message(null, "Số ghế ngồi trong 1 lần chọn không vượt quá 5 ghế", DialogHelper.ERROR_MESSAGE);
+                            } else {
+                                gheNgoiButton.setBackground(ColorUtil.SEAT_COLOR_SELECTED);
+                                gheNgoiButton.setForeground(ColorUtil.SEAT_FOREGROUND_COLOR_SELECTED);
+                                selectedGheNgoiMap.put(gheNgoiButton.getText(), gheNgoiMap.get(gheNgoiButton.getText()));
+                            }
+                        }
                     }
                 });
 
@@ -131,6 +143,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -154,15 +167,10 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         jLabel7.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("SCREEN");
+        jLabel7.setText("MÀN HÌNH");
         jLabel7.setOpaque(true);
 
         pnGheNgoi.setOpaque(false);
-        pnGheNgoi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pnGheNgoiMouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout pnGheNgoiLayout = new javax.swing.GroupLayout(pnGheNgoi);
         pnGheNgoi.setLayout(pnGheNgoiLayout);
@@ -177,16 +185,26 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
 
         jLabel8.setText("Ghế đang chọn");
 
-        jLabel9.setBackground(new java.awt.Color(255, 192, 35));
+        jLabel9.setBackground(new java.awt.Color(244, 170, 36));
         jLabel9.setOpaque(true);
 
         jPanel3.setBackground(new java.awt.Color(222, 225, 230));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jButton1.setText("Bán vé");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel3.add(jButton1, new java.awt.GridBagConstraints());
 
         jButton2.setText("Huỷ");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel3.add(jButton2, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -253,11 +271,16 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void pnGheNgoiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnGheNgoiMouseClicked
-        pnGheNgoi.setPreferredSize(new Dimension(900, 400));
-        pnGheNgoi.setSize(new Dimension(900, 400));
-        pack();
-    }//GEN-LAST:event_pnGheNgoiMouseClicked
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        suatChieu = null;
+        gheNgoiMap.clear();
+        selectedGheNgoiMap.clear();
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

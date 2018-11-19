@@ -314,7 +314,9 @@ public class FrameBanVe extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
-
+        if (evt.getClickCount() >= 2 && tblSuatChieu.getSelectedRow() >=0 ) {
+            btnBanActionPerformed(null);
+        }
     }//GEN-LAST:event_tblSuatChieuMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -322,20 +324,23 @@ public class FrameBanVe extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
-        if (tblPhim.getRowCount() >= 0) {
+        if (tblPhim.getRowCount() > 0) {
             String tenPhim = (String) tblPhim.getValueAt(tblPhim.getSelectedRow(), 1);
             loadDataToTableSuatChieu(phimMap.get(tenPhim));
-        }
+        }        
     }//GEN-LAST:event_tblPhimMouseClicked
 
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
-        int index = tblSuatChieu.getSelectedRow();
-        String trangThai = (String) tblSuatChieu.getValueAt(index, 6);
-        if (trangThai.equals("Đã chiếu")) {
-            DialogHelper.message(this, "Suất chiếu vừa chọn đã chiếu. \nVui lòng chọn suất chiếu khác!", DialogHelper.ERROR_MESSAGE);
-        }else{
-            String suatChieuId = (String) tblSuatChieu.getValueAt(index, 1);
-            new DialogChonGheNgoi(this, true, suatChieuMap.get(suatChieuId)).setVisible(true);
+        if (tblSuatChieu.getRowCount() > 0 && tblSuatChieu.getSelectedRow() >= 0) {
+            int index = tblSuatChieu.getSelectedRow();
+            String trangThai = (String) tblSuatChieu.getValueAt(index, 6);
+            
+            if (trangThai.equals("Đã chiếu")) {
+                DialogHelper.message(this, "Suất vừa chọn đã chiếu. \nVui lòng chọn suất chiếu khác!", DialogHelper.ERROR_MESSAGE);
+            } else {
+                String suatChieuId = (String) tblSuatChieu.getValueAt(index, 1);
+                new DialogChonGheNgoi(this, true, suatChieuMap.get(suatChieuId)).setVisible(true);
+            }
         }
     }//GEN-LAST:event_btnBanActionPerformed
 
@@ -346,13 +351,13 @@ public class FrameBanVe extends javax.swing.JFrame {
 
         int i = 1;
         for (SuatChieu suatChieu : new SuatChieuDaoImpl().getSuatChieuHienTaiByPhim(phim)) {
-            
+
             String trangThai = suatChieu.getGioBatDau().compareTo(new Date()) > 0 ? "Sắp chiếu" : "Đã chiếu";
-            if (suatChieu.getGioKetThuc().compareTo(new Date()) > 0 
+            if (suatChieu.getGioKetThuc().compareTo(new Date()) > 0
                     && DateHelper.getDiffDays(suatChieu.getGioKetThuc(), new Date()) == 0) {
                 trangThai = "Đang chiếu";
             }
-            
+
             modelTable.addRow(
                     new Object[]{
                         i++,
