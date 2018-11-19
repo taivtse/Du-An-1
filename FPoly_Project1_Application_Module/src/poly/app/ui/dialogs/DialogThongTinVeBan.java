@@ -21,10 +21,13 @@ import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.GiaVeDaoImpl;
+import poly.app.core.daoimpl.VeBanDaoImpl;
 import poly.app.core.entities.GheNgoi;
 import poly.app.core.entities.GiaVe;
 import poly.app.core.entities.LoaiGhe;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.entities.VeBan;
+import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -199,7 +202,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
         jLabel1.setText("Thông tin vé bán");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
-        jLabel3.setText("Vui lòng kiểm tra kỹ trước khi in");
+        jLabel3.setText("Vui lòng kiểm tra trước khi in");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -210,7 +213,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,16 +323,17 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
         jPanel4.add(btnInVe, new java.awt.GridBagConstraints());
 
         btnHuy.setText("Huỷ");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnHuy, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,8 +372,12 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtMaSuatChieu, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,12 +431,31 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInVeActionPerformed
-        // TODO add your handling code here:
+        for (int i = 0; i < tblThongTin.getRowCount(); i++) {
+            GheNgoi gheNgoi = selectedGheNgoiMap.get(tblThongTin.getValueAt(i, 1));
+            GiaVe giaVe = (GiaVe) tblThongTin.getValueAt(i, 3);
+            int tongTien = Integer.parseInt(txtTongTien.getText().replace(",", ""));
+            
+            VeBan veBan = new VeBan("", gheNgoi, giaVe, suatChieu, new Date(), tongTien);
+            veBan.setNguoiDung(ShareHelper.USER);
+            try {
+                new VeBanDaoImpl().insert(veBan);
+                DialogHelper.message(null, "Thêm vé bán thành công", DialogHelper.INFORMATION_MESSAGE);
+                this.dispose();
+            } catch (Exception e) {
+                e.printStackTrace();
+                DialogHelper.message(null, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnInVeActionPerformed
 
     private void tblThongTinKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblThongTinKeyPressed
         evt.consume();
     }//GEN-LAST:event_tblThongTinKeyPressed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments

@@ -12,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JLabel;
 import poly.app.core.daoimpl.GheNgoiDaoImpl;
@@ -54,6 +55,8 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         PhongChieu phongChieu = suatChieu.getPhongChieu();
         pnGheNgoi.setLayout(new GridLayout(phongChieu.getSoLuongDay(), phongChieu.getSoLuongCot(), 4, 4));
 
+        List<GheNgoi> gheNgoiDaDatList = new GheNgoiDaoImpl().getGheNgoiDaDatBySuatChieu(suatChieu);
+
         for (int row = 0; row < phongChieu.getSoLuongDay(); row++) {
             for (int col = 1; col <= phongChieu.getSoLuongCot(); col++) {
 //                create a seat shape
@@ -78,31 +81,46 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
                     gheNgoiButton.setForeground(ColorUtil.VIP_SEAT_FOREGROUND_COLOR);
                 }
 
+                boolean isReserved = false;
+                for (GheNgoi gheNgoi : gheNgoiDaDatList) {
+                    if ((gheNgoi.getViTriDay() + gheNgoi.getViTriCot()).equals(gheNgoiButton.getText())) {
+                        isReserved = true;
+                        break;
+                    }
+                }
+
+                if (isReserved) {
+                    gheNgoiButton.setBackground(ColorUtil.RESERVED_SEAT_COLOR);
+                    gheNgoiButton.setForeground(ColorUtil.RESERVED_SEAT_FOREGROUND_COLOR);
+                    
+                    gheNgoiButton.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                } else {
 //                add click event for selectable seats
-                gheNgoiButton.addMouseListener(new MouseAdapter() {
-                    public void mouseClicked(MouseEvent e) {
-                        if (gheNgoiButton.getBackground().equals(ColorUtil.SEAT_COLOR_SELECTED)) {
+                    gheNgoiButton.addMouseListener(new MouseAdapter() {
+                        public void mouseClicked(MouseEvent e) {
+                            if (gheNgoiButton.getBackground().equals(ColorUtil.SEAT_COLOR_SELECTED)) {
 //                        Revert from selected seat to unselected
-                            if (selectedGheNgoiMap.get(gheNgoiButton.getText()).getLoaiGhe().getId().equals("GT")) {
-                                gheNgoiButton.setBackground(ColorUtil.NORMAL_SEAT_COLOR);
-                                gheNgoiButton.setForeground(ColorUtil.NORMAL_SEAT_FOREGROUND_COLOR);
+                                if (selectedGheNgoiMap.get(gheNgoiButton.getText()).getLoaiGhe().getId().equals("GT")) {
+                                    gheNgoiButton.setBackground(ColorUtil.NORMAL_SEAT_COLOR);
+                                    gheNgoiButton.setForeground(ColorUtil.NORMAL_SEAT_FOREGROUND_COLOR);
+                                } else {
+                                    gheNgoiButton.setBackground(ColorUtil.VIP_SEAT_COLOR);
+                                    gheNgoiButton.setForeground(ColorUtil.VIP_SEAT_FOREGROUND_COLOR);
+                                }
+                                selectedGheNgoiMap.remove(gheNgoiButton.getText());
                             } else {
-                                gheNgoiButton.setBackground(ColorUtil.VIP_SEAT_COLOR);
-                                gheNgoiButton.setForeground(ColorUtil.VIP_SEAT_FOREGROUND_COLOR);
-                            }
-                            selectedGheNgoiMap.remove(gheNgoiButton.getText());
-                        } else {
 //                        Selected the seat
-                            if (selectedGheNgoiMap.size() >= 5) {
-                                DialogHelper.message(null, "Số ghế ngồi trong 1 lần chọn không vượt quá 5 ghế", DialogHelper.ERROR_MESSAGE);
-                            } else {
-                                gheNgoiButton.setBackground(ColorUtil.SEAT_COLOR_SELECTED);
-                                gheNgoiButton.setForeground(ColorUtil.SEAT_FOREGROUND_COLOR_SELECTED);
-                                selectedGheNgoiMap.put(gheNgoiButton.getText(), gheNgoiMap.get(gheNgoiButton.getText()));
+                                if (selectedGheNgoiMap.size() >= 5) {
+                                    DialogHelper.message(null, "Số ghế ngồi trong 1 lần chọn không vượt quá 5 ghế", DialogHelper.ERROR_MESSAGE);
+                                } else {
+                                    gheNgoiButton.setBackground(ColorUtil.SEAT_COLOR_SELECTED);
+                                    gheNgoiButton.setForeground(ColorUtil.SEAT_FOREGROUND_COLOR_SELECTED);
+                                    selectedGheNgoiMap.put(gheNgoiButton.getText(), gheNgoiMap.get(gheNgoiButton.getText()));
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
 
                 pnGheNgoi.add(gheNgoiButton);
             }
@@ -273,15 +291,12 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
     private void btnBanVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanVeActionPerformed
         if (selectedGheNgoiMap.size() > 0) {
             new DialogThongTinVeBan(null, true, suatChieu, selectedGheNgoiMap).setVisible(true);
-        }else{
+        } else {
             DialogHelper.message(this, "Vui lòng chọn ghế!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBanVeActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        suatChieu = null;
-        gheNgoiMap.clear();
-        selectedGheNgoiMap.clear();
         this.dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 
