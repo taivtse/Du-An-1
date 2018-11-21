@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs;
+package poly.app.ui.dialogs.banhang;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -440,11 +440,11 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
             veBan.setNguoiDung(ShareHelper.USER);
             try {
                 new VeBanDaoImpl().insert(veBan);
-                DialogHelper.message(null, "Thêm vé bán thành công", DialogHelper.INFORMATION_MESSAGE);
+                DialogHelper.message(this, "Thêm vé bán thành công", DialogHelper.INFORMATION_MESSAGE);
                 this.dispose();
             } catch (Exception e) {
                 e.printStackTrace();
-                DialogHelper.message(null, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);
+                DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnInVeActionPerformed

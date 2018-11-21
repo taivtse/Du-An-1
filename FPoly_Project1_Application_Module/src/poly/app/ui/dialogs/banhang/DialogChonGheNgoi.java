@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs;
+package poly.app.ui.dialogs.banhang;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -291,6 +291,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
     private void btnBanVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanVeActionPerformed
         if (selectedGheNgoiMap.size() > 0) {
             new DialogThongTinVeBan(null, true, suatChieu, selectedGheNgoiMap).setVisible(true);
+            this.dispose();
         } else {
             DialogHelper.message(this, "Vui lòng chọn ghế!", DialogHelper.ERROR_MESSAGE);
         }

@@ -18,7 +18,7 @@ import poly.app.core.entities.Phim;
 import poly.app.core.entities.SuatChieu;
 import poly.app.core.helper.DateHelper;
 import poly.app.core.helper.DialogHelper;
-import poly.app.ui.dialogs.DialogChonGheNgoi;
+import poly.app.ui.dialogs.banhang.DialogChonGheNgoi;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -324,7 +324,7 @@ public class FrameBanVe extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
-        if (tblPhim.getRowCount() > 0) {
+        if (tblPhim.getSelectedRow() >= 0) {
             String tenPhim = (String) tblPhim.getValueAt(tblPhim.getSelectedRow(), 1);
             loadDataToTableSuatChieu(phimMap.get(tenPhim));
         }        
