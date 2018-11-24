@@ -5,16 +5,12 @@
  */
 package poly.app.ui.frames.main;
 
-import poly.app.ui.frames.quanly.FrameQLPhim;
 import java.awt.CardLayout;
-import java.awt.Component;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
+import poly.app.ui.frames.FrameQLPhim;
 import poly.app.ui.frames.quanly.FrameQLDoAn;
 
 /**
@@ -101,12 +97,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarVe = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
         jPanel3 = new javax.swing.JPanel();
-        tbpMainContent = new javax.swing.JTabbedPane();
+        tbpMainContent = new ClosableTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
         jPanel4.setBackground(new java.awt.Color(52, 83, 104));
 
@@ -228,7 +223,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemDanhMucToolBarThucAn.setBackground(new java.awt.Color(255, 255, 255));
         itemDanhMucToolBarThucAn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         itemDanhMucToolBarThucAn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/popcorn.png"))); // NOI18N
-        itemDanhMucToolBarThucAn.setText("Thức ăn");
+        itemDanhMucToolBarThucAn.setText("Đồ ăn");
         itemDanhMucToolBarThucAn.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         itemDanhMucToolBarThucAn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         itemDanhMucToolBarThucAn.setFocusable(false);
@@ -374,16 +369,6 @@ public class MainRunningFrame extends javax.swing.JFrame {
         tbpMainContent.setBackground(new java.awt.Color(255, 255, 255));
         tbpMainContent.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         tbpMainContent.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        tbpMainContent.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                tbpMainContentStateChanged(evt);
-            }
-        });
-        tbpMainContent.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                tbpMainContentMouseEntered(evt);
-            }
-        });
         jPanel3.add(tbpMainContent);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -526,14 +511,6 @@ public class MainRunningFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_itemBanHangToolBarVeActionPerformed
 
-    private void tbpMainContentStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbpMainContentStateChanged
-        System.out.println(tbpMainContent.getSelectedIndex());
-    }//GEN-LAST:event_tbpMainContentStateChanged
-
-    private void tbpMainContentMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbpMainContentMouseEntered
-        
-    }//GEN-LAST:event_tbpMainContentMouseEntered
-
     /**
      * @param args the command line arguments
      */
@@ -592,7 +569,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
-    private javax.swing.JTabbedPane tbpMainContent;
+    private ClosableTabbedPane tbpMainContent;
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 
