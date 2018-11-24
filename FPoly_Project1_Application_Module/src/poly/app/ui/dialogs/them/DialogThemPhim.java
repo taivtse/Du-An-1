@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs.them;
+package poly.app.ui.dialogs;
 
 import java.util.Date;
 import poly.app.core.daoimpl.LoaiPhimDaoImpl;
@@ -41,8 +41,10 @@ public class DialogThemPhim extends javax.swing.JDialog {
     }
     
     private Phim getModelFromInput(){
+//        code lay phim tu input
+        
         Phim phim = new Phim();
-        phim.setId("");
+        phim.setId("PH"+new Date().getTime());
         phim.setTen(txtTen.getText());
         phim.setThoiLuong((int)spnThoiLuong.getValue());
         phim.setGioiHanTuoi((int)spnGioiHanTuoi.getValue());
@@ -58,7 +60,22 @@ public class DialogThemPhim extends javax.swing.JDialog {
         return phim;
     }
     
+    private void clearForm() {
+        txtTen.setText("");
+        spnThoiLuong.setValue(0);
+        spnGioiHanTuoi.setValue(0);
+        dcNgayChieu.setDate(new Date());
+        cboNgonNgu.setSelectedIndex(0);
+        cboNSX.setSelectedIndex(0);
+        txtDienVien.setText("");
+        cboQuocGia.setSelectedIndex(0);
+        cboTrangThai.setSelectedIndex(0);
+        cboTheLoai.setSelectedIndex(0);
+        txtTomTat.setText("");
+    }
+    
     private boolean insertModelToDatabase(){
+//        goi ham getModelFromInput
         Phim phim = getModelFromInput();
         try {
             return new PhimDaoImpl().insert(phim);
@@ -296,14 +313,15 @@ public class DialogThemPhim extends javax.swing.JDialog {
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         if (insertModelToDatabase()){
-            DialogHelper.message(null, "Thêm phim thành công", DialogHelper.INFORMATION_MESSAGE);
+            DialogHelper.message(null, "Thêm phim thành công ^^", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
         }else{
-            DialogHelper.message(null, "Thêm phim thất bại", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(null, "Thêm phim thất bại !!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
 

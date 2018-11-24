@@ -5,21 +5,17 @@
  */
 package poly.app.ui.frames.quanly;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
-import org.hibernate.HibernateException;
-import poly.app.core.daoimpl.PhimDaoImpl;
-import poly.app.core.entities.Phim;
-import poly.app.core.helper.DialogHelper;
-import poly.app.ui.dialogs.capnhat.DialogCapNhatPhim;
-import poly.app.ui.dialogs.them.DialogThemPhim;
+import poly.app.core.daoimpl.VeBanDaoImpl;
+import poly.app.core.entities.VeBan;
+import poly.app.ui.dialogs.thongtin.DialogXemChiTietVe;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -31,9 +27,8 @@ public class FrameQLVeBan extends javax.swing.JFrame {
     /**
      * Creates new form FrameQLNhanVien
      */
-    
-    List<Phim> listPhim;
-    
+    Map<String, VeBan> veBanMap = new HashMap<>();
+
     public FrameQLVeBan() {
         initComponents();
         setLocationRelativeTo(null);
@@ -43,12 +38,12 @@ public class FrameQLVeBan extends javax.swing.JFrame {
 
     private void reRenderUI() {
         //        Render lại giao diện cho table
-        TableRendererUtil tblRenderer1 = new TableRendererUtil(tblSuatChieu);
+        TableRendererUtil tblRenderer1 = new TableRendererUtil(tblVeBan);
         tblRenderer1.setCellEditable(false);
         tblRenderer1.changeHeaderStyle();
     }
-    
-    public JPanel getMainPanel(){
+
+    public JPanel getMainPanel() {
         return pnMain;
     }
 
@@ -71,15 +66,15 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         dcTuNgay = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         dcDenNgay = new com.toedter.calendar.JDateChooser();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnDatlai = new javax.swing.JButton();
+        btnTim = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnXemchitiet = new javax.swing.JButton();
+        btnInve = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblSuatChieu = new javax.swing.JTable();
+        tblVeBan = new javax.swing.JTable();
         btnCollapse = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -100,6 +95,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         jLabel1.setText("Tra cứu vé bán");
 
         chkTheoTenPhim.setText("Theo mã vé bán");
+        chkTheoTenPhim.setOpaque(false);
         chkTheoTenPhim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkTheoTenPhimActionPerformed(evt);
@@ -119,6 +115,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         });
 
         chkKhoangThoiGian.setText("Theo khoảng thời gian");
+        chkKhoangThoiGian.setOpaque(false);
         chkKhoangThoiGian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkKhoangThoiGianActionPerformed(evt);
@@ -145,14 +142,19 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Đặt lại");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnDatlai.setText("Đặt lại");
+        btnDatlai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnDatlaiActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Tìm");
+        btnTim.setText("Tìm");
+        btnTim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -164,9 +166,9 @@ public class FrameQLVeBan extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3)
+                            .addComponent(btnTim)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton2))
+                            .addComponent(btnDatlai))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel3)
@@ -202,8 +204,8 @@ public class FrameQLVeBan extends javax.swing.JFrame {
                 .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(btnDatlai)
+                    .addComponent(btnTim))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -211,9 +213,14 @@ public class FrameQLVeBan extends javax.swing.JFrame {
 
         jPanel4.setOpaque(false);
 
-        jButton1.setText("Xem chi tiết");
+        btnXemchitiet.setText("Xem chi tiết");
+        btnXemchitiet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXemchitietActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("In vé");
+        btnInve.setText("In vé");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -221,9 +228,9 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jButton1)
+                .addComponent(btnXemchitiet)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addComponent(btnInve)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -231,15 +238,15 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
+                    .addComponent(btnXemchitiet)
+                    .addComponent(btnInve))
                 .addContainerGap())
         );
 
         jPanel5.setOpaque(false);
 
-        tblSuatChieu.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
-        tblSuatChieu.setModel(new javax.swing.table.DefaultTableModel(
+        tblVeBan.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        tblVeBan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -255,12 +262,12 @@ public class FrameQLVeBan extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        tblSuatChieu.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblVeBan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSuatChieuMouseClicked(evt);
+                tblVeBanMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblSuatChieu);
+        jScrollPane1.setViewportView(tblVeBan);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -357,30 +364,26 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         loadAllDataToTable();
     }//GEN-LAST:event_formWindowOpened
 
-    private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
-        if ( evt.getClickCount() >= 2 ) {
-            int index = tblSuatChieu.getSelectedRow();
-            String id = tblSuatChieu.getValueAt(index, 0) + "";
-            new DialogCapNhatPhim(this, true, id).setVisible(true);
-            listPhim = new PhimDaoImpl().getPhimHienCo();
-            loadDataToTable(searchAdvance());
+    private void tblVeBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVeBanMouseClicked
+        if (evt.getClickCount() >= 2) {
+            int index = tblVeBan.getSelectedRow();
         }
-    }//GEN-LAST:event_tblSuatChieuMouseClicked
+    }//GEN-LAST:event_tblVeBanMouseClicked
 
     private void chkTheoTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenPhimActionPerformed
         // TODO add your handling code here:
-        if ( chkTheoTenPhim.isSelected() ) {
+        if (chkTheoTenPhim.isSelected()) {
             txtTheoMaVe.setEditable(true);
         } else {
             txtTheoMaVe.setEditable(false);
             txtTheoMaVe.setText("");
-            loadDataToTable(searchAdvance());
+            loadDataToTable(search());
         }
     }//GEN-LAST:event_chkTheoTenPhimActionPerformed
 
     private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected() ) {
+        if (chkKhoangThoiGian.isSelected()) {
             dcTuNgay.setEnabled(true);
             dcDenNgay.setEnabled(true);
         } else {
@@ -388,79 +391,95 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             dcDenNgay.setDate(null);
             dcTuNgay.setEnabled(false);
             dcDenNgay.setEnabled(false);
-            loadDataToTable(searchAdvance());
+            loadDataToTable(search());
         }
     }//GEN-LAST:event_chkKhoangThoiGianActionPerformed
 
     private void txtTheoMaVeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTheoMaVeKeyReleased
         // TODO add your handling code here:
-        loadDataToTable(searchAdvance());
+        loadDataToTable(search());
     }//GEN-LAST:event_txtTheoMaVeKeyReleased
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected()) {
+        if (chkKhoangThoiGian.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
-            if ( min != null && max != null ) {
-                if ( min.compareTo(max) > 0 ) {
+            if (min != null && max != null) {
+                if (min.compareTo(max) > 0) {
                     dcTuNgay.setDate(max);
                 }
             }
-            loadDataToTable(searchAdvance());
+            loadDataToTable(search());
         }
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
     private void txtTheoMaVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTheoMaVeActionPerformed
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected()) {
-            loadDataToTable(searchAdvance());
+        if (chkKhoangThoiGian.isSelected()) {
+            loadDataToTable(search());
         }
     }//GEN-LAST:event_txtTheoMaVeActionPerformed
 
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
         // TODO add your handling code here:
-        if ( chkKhoangThoiGian.isSelected()) {
+        if (chkKhoangThoiGian.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
-            if ( min != null && max != null ) {
-                if ( min.compareTo(max) > 0 ) {
+            if (min != null && max != null) {
+                if (min.compareTo(max) > 0) {
                     dcDenNgay.setDate(min);
                 }
             }
-            loadDataToTable(searchAdvance());
+            loadDataToTable(search());
         }
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnDatlaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatlaiActionPerformed
         // TODO add your handling code here:
         txtTheoMaVe.setText("");
         dcTuNgay.setDate(null);
         dcDenNgay.setDate(null);
-        loadDataToTable(searchAdvance());
-    }//GEN-LAST:event_jButton2ActionPerformed
+        loadDataToTable(search());
+    }//GEN-LAST:event_btnDatlaiActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         loadAllDataToTable();
     }//GEN-LAST:event_formWindowActivated
 
-    public List<Phim> searchByTen() {
-        String tenTimKiem = txtTheoMaVe.getText().toLowerCase();
+    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTimActionPerformed
+
+    private void btnXemchitietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemchitietActionPerformed
+        String id = (String) tblVeBan.getValueAt(tblVeBan.getSelectedRow(), 1);
+        
+        new DialogXemChiTietVe(this, true, veBanMap.get(id)).setVisible(true);
+    }//GEN-LAST:event_btnXemchitietActionPerformed
+
+    public Map<String ,VeBan> searchByMa() {
+      String tenTimKiem = txtTheoMaVe.getText().toLowerCase();
+      Map<String, VeBan> veBanMapTheoTen = new HashMap();
         if ( !tenTimKiem.equals("") ) {
-            List<Phim> listPhimTheoTen = new ArrayList<>();
-            for ( Phim phim : listPhim ) {
-                if ( phim.getTen().toLowerCase().contains(tenTimKiem) ) {
-                    listPhimTheoTen.add(phim);
+
+            for (Map.Entry<String, VeBan> entry : veBanMap.entrySet()) {
+                String key = entry.getKey();
+                VeBan veban = entry.getValue();
+
+                if ( veban.getId().toLowerCase().contains(tenTimKiem) ) {
+                    veBanMapTheoTen.put(veban.getId() ,veban);
                 }
             }
-            return listPhimTheoTen;
-        }
-        return listPhim;
+        }       
+        return veBanMapTheoTen;
     }
+      
     
-    public List<Phim> searchAdvance() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        List<Phim> listPhimTimKiem = new ArrayList<Phim>();
+    public Map<String, VeBan> search() {
+        
+        String tenTimKiem = txtTheoMaVe.getText().toLowerCase();
+        
+        Map<String, VeBan> veBanMapTimKiem = new HashMap<>();
         Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
 
         min = min==null? dcTuNgay.getMinSelectableDate() : min;
@@ -472,60 +491,52 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         max = java.sql.Date.valueOf(localDate);
         
-        for ( Phim phim : listPhim ) {
+        for (Map.Entry<String, VeBan> entry : veBanMap.entrySet()) {
+            String key = entry.getKey();
+            VeBan veban = entry.getValue();
+            
             if ( 
-                    phim.getTen().toLowerCase().contains(txtTheoMaVe.getText().toLowerCase())
-                    && phim.getNgayCongChieu().compareTo(min) >= 0
-                    && phim.getNgayCongChieu().compareTo(max) <= 0
+                    veban.getId().toLowerCase().contains(tenTimKiem)
+                    && veban.getNgayBan().compareTo(min) >= 0
+                    && veban.getNgayBan().compareTo(max) <= 0
             ) {
-                listPhimTimKiem.add(phim);
+                veBanMapTimKiem.put(veban.getId(), veban);
             }
         }
-        return listPhimTimKiem;
+        return veBanMapTimKiem;
     }
-    
-    public void loadDataToTable(List<Phim> listPhimHienThi) {
-        DefaultTableModel modelTable = (DefaultTableModel) tblSuatChieu.getModel();
+    public void loadDataToTable(Map<String, VeBan> veBanMapHienThi) {
+        DefaultTableModel modelTable = (DefaultTableModel) tblVeBan.getModel();
         modelTable.setRowCount(0);
-        for ( Phim phim : listPhimHienThi ) {
+        int i = 1;
+        for (Map.Entry<String, VeBan> entry : veBanMapHienThi.entrySet()) {
+            VeBan veban = entry.getValue();
             Object[] record = new Object[]{
-                phim.getId(),
-                phim.getTen(),
-                phim.getThoiLuong(),
-                phim.getGioiHanTuoi(),
-                phim.getNgayCongChieu(),
-                phim.getNgonNgu(),
-                phim.getDienVien(),
-                phim.getQuocGia(),
-                phim.getNhaSanXuat(),
-                phim.getTrangThai()
+                i++,
+                veban.getId(),
+                veban.getSuatChieu().getId(),
+                veban.getGheNgoi().getViTriDay() + veban.getGheNgoi().getViTriCot(),
+                veban.getNgayBan(),
+                veban.getGiaVe().getDonGia(),
+                veban.getNguoiDung().getHoTen()
             };
             modelTable.addRow(record);
         }
     }
-    
-    public boolean deletePhim(int id) {
-        Phim phim = listPhim.get(id);
-        phim.setDaXoa(true);
-        try {
-            return new PhimDaoImpl().update(phim);
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            return false;
-        }    
+
+    public void loadAllDataToTable() {
+        List<VeBan> dataList = new VeBanDaoImpl().getAll();
+        for (VeBan veBan : dataList) {
+            veBanMap.put(veBan.getId(), veBan);
+        }
+        loadDataToTable(veBanMap);
     }
-    
-    
-    public void loadAllDataToTable(){
-        listPhim = new PhimDaoImpl().getPhimHienCo();
-        loadDataToTable(listPhim);
-    }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -563,7 +574,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -574,14 +585,14 @@ public class FrameQLVeBan extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
+    private javax.swing.JButton btnDatlai;
+    private javax.swing.JButton btnInve;
+    private javax.swing.JButton btnTim;
+    private javax.swing.JButton btnXemchitiet;
     private javax.swing.JCheckBox chkKhoangThoiGian;
     private javax.swing.JCheckBox chkTheoTenPhim;
     private com.toedter.calendar.JDateChooser dcDenNgay;
     private com.toedter.calendar.JDateChooser dcTuNgay;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -591,7 +602,8 @@ public class FrameQLVeBan extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnMain;
-    private javax.swing.JTable tblSuatChieu;
+    private javax.swing.JTable tblVeBan;
     private javax.swing.JTextField txtTheoMaVe;
     // End of variables declaration//GEN-END:variables
 }
+

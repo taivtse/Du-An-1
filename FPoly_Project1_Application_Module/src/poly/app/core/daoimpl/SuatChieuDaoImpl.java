@@ -34,5 +34,19 @@ public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements 
         }
         return list;
     }
+    
+    @Override
+    public List<SuatChieu> getSuatChieuTheoNgay(Date date) {
+        List<SuatChieu> list;
+        Session session = this.getSession();
+        try {
+            Criteria cr = session.createCriteria(this.getPersistenceClass());
+            cr.add(Restrictions.eq("ngayChieu", date));
+            list = cr.list();
+        } catch (HibernateException e) {
+            throw e;
+        }
+        return list;
+    }
 
 }

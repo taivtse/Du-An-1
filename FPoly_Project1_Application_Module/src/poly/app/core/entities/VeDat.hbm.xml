@@ -6,13 +6,10 @@
     <class name="poly.app.core.entities.VeDat" table="ve_dat" catalog="du_an_1" optimistic-lock="version">
         <id name="id" type="string">
             <column name="id" length="15" />
-            <generator class="foreign">
-                <param name="property">veBan</param>
-            </generator>
+            <generator class="assigned" />
         </id>
         <many-to-one name="khachHang" class="poly.app.core.entities.KhachHang" fetch="join">
             <column name="khach_hang_id" length="15" not-null="true" />
         </many-to-one>
-        <one-to-one name="veBan" class="poly.app.core.entities.VeBan" constrained="true"></one-to-one>
     </class>
 </hibernate-mapping>

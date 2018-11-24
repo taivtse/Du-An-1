@@ -5,6 +5,12 @@
  */
 package poly.app.ui.frames.banhang;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -451,9 +457,8 @@ public class FrameBanDoAn extends javax.swing.JFrame {
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
         if (tblDaChon.getRowCount() > 0) {
             this.Ban();
-        }
-        else
-        {
+            this.inThongKe();
+        } else {
             DialogHelper.message(this, "Chưa chọn món !", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBanActionPerformed
@@ -461,6 +466,9 @@ public class FrameBanDoAn extends javax.swing.JFrame {
     private void btnChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonActionPerformed
         if (tblDoAn.getSelectedRow() > 0) {
             this.order();
+            if (DialogHelper.confirm(this, "In hóa đơn")) {
+                this.inThongKe();
+            }
         } else {
             DialogHelper.message(this, "Chưa chọn món ", DialogHelper.ERROR_MESSAGE);
         }
@@ -506,6 +514,39 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         }
         mapOrder.put(key, hdct);
         this.loadDataToTableHoaDon();
+    }
+
+    public void inThongKe() {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setJobName("Print Data");
+
+        job.setPrintable(new Printable() {
+            public int print(Graphics pg, PageFormat pf, int pageNum) {
+                pf.setOrientation(PageFormat.LANDSCAPE);
+                if (pageNum > 0) {
+                    return Printable.NO_SUCH_PAGE;
+                }
+
+                Graphics2D g2 = (Graphics2D) pg;
+                g2.translate(pf.getImageableX(), pf.getImageableY());
+                g2.scale(0.24, 0.24);
+
+//                tblThongKe.paint(g2);
+//          
+
+                return Printable.PAGE_EXISTS;
+
+            }
+        });
+
+        boolean ok = job.printDialog();
+        if (ok) {
+            try {
+
+                job.print();
+            } catch (PrinterException ex) {
+            }
+        }
     }
 
     public void loadDataToTableDoAn() {
@@ -582,7 +623,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
     public void Ban() {
         //get nguoi dung de them vao hoa don
-        NguoiDung nd = new NguoiDungDaoImpl().getById("AD00001");
+        NguoiDung nd = new NguoiDungDaoImpl().getById("NV00001");
 
         //tao hoa don moi
         HoaDon newHD = new HoaDon();

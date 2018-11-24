@@ -11,14 +11,12 @@ public class VeDat  implements java.io.Serializable {
 
      private String id;
      private KhachHang khachHang;
-     private VeBan veBan;
 
     public VeDat() {
     }
 
-    public VeDat(KhachHang khachHang, VeBan veBan) {
+    public VeDat(KhachHang khachHang) {
        this.khachHang = khachHang;
-       this.veBan = veBan;
     }
    
     public String getId() {
@@ -34,13 +32,6 @@ public class VeDat  implements java.io.Serializable {
     
     public void setKhachHang(KhachHang khachHang) {
         this.khachHang = khachHang;
-    }
-    public VeBan getVeBan() {
-        return this.veBan;
-    }
-    
-    public void setVeBan(VeBan veBan) {
-        this.veBan = veBan;
     }
 
 

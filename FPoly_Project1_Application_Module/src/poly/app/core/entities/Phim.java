@@ -169,6 +169,11 @@ public class Phim  implements java.io.Serializable {
         this.suatChieus = suatChieus;
     }
 
+    @Override
+    public String toString() {
+        return ten;
+    }
+
 
 
 

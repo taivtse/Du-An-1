@@ -5,6 +5,7 @@
  */
 package poly.app.core.dao;
 
+import java.util.Date;
 import java.util.List;
 import poly.app.core.data.dao.GenericDao;
 import poly.app.core.entities.Phim;
@@ -16,4 +17,5 @@ import poly.app.core.entities.SuatChieu;
  */
 public interface SuatChieuDao extends GenericDao<String, SuatChieu>{
     public List<SuatChieu> getSuatChieuHienTaiByPhim(Phim phim);
+    public List<SuatChieu> getSuatChieuTheoNgay(Date date);
 }

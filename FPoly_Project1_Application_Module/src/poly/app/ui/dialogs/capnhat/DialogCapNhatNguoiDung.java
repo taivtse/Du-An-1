@@ -3,10 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs.capnhat;
+package poly.app.ui.dialogs;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
+import poly.app.core.daoimpl.VaiTroDaoImpl;
 import poly.app.core.entities.NguoiDung;
+import poly.app.core.entities.VaiTro;
+import poly.app.core.helper.DialogHelper;
+import poly.app.core.utils.StringUtil;
 
 /**
  *
@@ -15,6 +21,7 @@ import poly.app.core.entities.NguoiDung;
 public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
 
     NguoiDung nguoiDung;
+
     /**
      * Creates new form DialogThemNhanVien
      */
@@ -22,38 +29,58 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+         
     }
-    
-    public DialogCapNhatNguoiDung(java.awt.Frame parent, boolean modal, String nguoiDungId) {
-        super(parent, modal);
-        initComponents();
-        setLocationRelativeTo(null);
+
+    public DialogCapNhatNguoiDung(java.awt.Frame parent, boolean modal, NguoiDung nguoiDung) {
+        this(parent, modal);
         
-        nguoiDung = new NguoiDungDaoImpl().getById(nguoiDungId);
+        this.nguoiDung = nguoiDung;
     }
-    
-    private void loadVaiTroToCombobox(){
 
-    }
-    
-    private void setModelToInput(){
-//        Do du lieu len input
-    }
-    
-    private NguoiDung getModelFromInput(){
-//        code lay nguoi dung tu input
-
-
-        return null;
-    }
-    
-    private boolean updateModelToDatabase(){
-//        goi ham getNguoiDungFromInput
-//        set lai gia tri moi cho nguoi dung
-        try {
-
-        } catch (Exception e) {
+    private void loadVaiTroToCombobox() {
+        VaiTroDaoImpl vaiTroDaoImpl = new VaiTroDaoImpl();
+        DefaultComboBoxModel dcbm = (DefaultComboBoxModel) cboVaiTro.getModel();
+        for (VaiTro vaiTro : vaiTroDaoImpl.getAll()) {
+            dcbm.addElement(vaiTro);
         }
+    }
+
+    private void setModelToInput() {
+        
+        txtHoTen.setText(nguoiDung.getHoTen());
+        txtDiaChi.setText(nguoiDung.getDiaChi());
+        txtCMND.setText(nguoiDung.getSoCmnd());
+        dcNgayVaoLam.setDate(nguoiDung.getNgayVaoLam());
+        txtSoDienThoai.setText(nguoiDung.getSoDienThoai());
+        rdoNu.setSelected(!nguoiDung.isGioiTinhNam());
+        txtEmail.setText(nguoiDung.getEmail());
+        cboVaiTro.getModel().setSelectedItem(nguoiDung.getVaiTro());
+        cboTrangThai.setSelectedIndex(nguoiDung.getDangLam()? 0 : 1);
+    }
+
+    private NguoiDung getModelFromInput() {
+        nguoiDung.setHoTen(txtHoTen.getText());
+        nguoiDung.setDiaChi(txtDiaChi.getText());
+        nguoiDung.setSoCmnd(txtCMND.getText());
+        nguoiDung.setNgayVaoLam(dcNgayVaoLam.getDate());
+        nguoiDung.setSoDienThoai(txtSoDienThoai.getText());
+        nguoiDung.setGioiTinh(rdoNam.isSelected());
+        nguoiDung.setEmail(txtEmail.getText());
+        nguoiDung.setVaiTro((VaiTro) cboVaiTro.getModel().getSelectedItem());
+        nguoiDung.setDangLam(cboTrangThai.getSelectedIndex() == 0 ? true : false);
+
+        return nguoiDung;
+    }
+
+    private boolean updateModelToDatabase() {
+        try {
+            new NguoiDungDaoImpl().update(getModelFromInput());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return false;
     }
 
@@ -66,6 +93,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtHoTen = new javax.swing.JTextField();
@@ -116,8 +144,11 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
 
         cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang làm ", "Đã nghỉ" }));
 
+        buttonGroup1.add(rdoNam);
+        rdoNam.setSelected(true);
         rdoNam.setText("Nam");
 
+        buttonGroup1.add(rdoNu);
         rdoNu.setText("Nữ");
 
         btnLuu.setText("Lưu");
@@ -231,13 +262,17 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadVaiTroToCombobox();
+        setModelToInput();
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (updateModelToDatabase()){
-            
-        }else{
-            
+        if (updateModelToDatabase()) {
+           DialogHelper.message(this, "Them thanh cong", DialogHelper.INFORMATION_MESSAGE);
+            this.dispose();
+        } else {
+             DialogHelper.message(this, "Them thanh cong", DialogHelper.ERROR_MESSAGE);
+//            DialogHelper.message(this, "Cập nhật thông tin người thất bại", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 
@@ -289,6 +324,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JComboBox<String> cboVaiTro;
     private com.toedter.calendar.JDateChooser dcNgayVaoLam;

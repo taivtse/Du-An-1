@@ -3,9 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs.them;
+package poly.app.ui.dialogs;
 
+import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.entities.NguoiDung;
+import java.util.*;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import poly.app.core.daoimpl.VaiTroDaoImpl;
+import poly.app.core.entities.VaiTro;
+import poly.app.core.helper.DialogHelper;
+import poly.app.core.utils.StringUtil;
 
 /**
  *
@@ -21,26 +29,48 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
     }
-    
-    private void loadVaiTroToCombobox(){
+
+    private void loadVaiTroToCombobox() {
+        VaiTroDaoImpl vaiTroDaoImpl = new VaiTroDaoImpl();
+        DefaultComboBoxModel dcbm = (DefaultComboBoxModel) cboVaiTro.getModel();
+        for (VaiTro vaiTro : vaiTroDaoImpl.getAll()) {
+            dcbm.addElement(vaiTro);
+        }
 
     }
-    
-    private NguoiDung getModelFromInput(){
+
+    private NguoiDung getModelFromInput() {
+        NguoiDung nguoiDung = new NguoiDung();
+        nguoiDung.setHoTen(this.txtHoTen.getText());
+        nguoiDung.setDiaChi(this.txtDiaChi.getText());
+        nguoiDung.setSoCmnd(this.txtCMND.getText());
+        nguoiDung.setNgayVaoLam(this.dcNgayVaoLam.getDate());
+        nguoiDung.setSoDienThoai(this.txtSoDienThoai.getText());
+        nguoiDung.setGioiTinh(!this.rdoNu.isSelected());
+        nguoiDung.setEmail(this.txtEmail.getText());
+        nguoiDung.setVaiTro((VaiTro) cboVaiTro.getModel().getSelectedItem());
+        nguoiDung.setDangLam(cboTrangThai.getSelectedIndex() == 0 ? true : false);
+        nguoiDung.setMatKhau(StringUtil.randomString());
+        nguoiDung.setId(((VaiTro) cboVaiTro.getModel().getSelectedItem()).getId() + System.currentTimeMillis());
+
 //        code lay nguoi dung tu input
 //        nho set mat khau cho nguoi dung
 //        Get mat khau bang StringUtil.randomString()
 //        Ma nguoi dung se co dang: AD01293411 hoac EM123412418716 hoac MA129384241 tuy theo vai tro
 //        vidu neu la admin: "AD" + new Date().getTime();
-
-        return null;
+        return nguoiDung;
     }
-    
-    private boolean insertModelToDatabase(){
+
+    private boolean insertModelToDatabase() {
 //        goi ham getNguoiDungFromInput
         try {
+            NguoiDung nguoiDung = getModelFromInput();
+            new NguoiDungDaoImpl().insert(nguoiDung);
+            return true;
 
         } catch (Exception e) {
+            e.printStackTrace();
+
         }
         return false;
     }
@@ -54,6 +84,7 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtHoTen = new javax.swing.JTextField();
@@ -104,8 +135,16 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
 
         cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang làm ", "Đã nghỉ" }));
 
+        buttonGroup1.add(rdoNam);
+        rdoNam.setSelected(true);
         rdoNam.setText("Nam");
+        rdoNam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoNamActionPerformed(evt);
+            }
+        });
 
+        buttonGroup1.add(rdoNu);
         rdoNu.setText("Nữ");
 
         btnLuu.setText("Lưu");
@@ -222,12 +261,19 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (insertModelToDatabase()){
+        if (insertModelToDatabase()) {
+            DialogHelper.message(this, "Them thanh cong", DialogHelper.INFORMATION_MESSAGE);
+            this.dispose();
+        } else {
+            DialogHelper.message(this, "Them that bai", DialogHelper.ERROR_MESSAGE);
             
-        }else{
-            
+
         }
     }//GEN-LAST:event_btnLuuActionPerformed
+
+    private void rdoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdoNamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,6 +321,7 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnLuu;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JComboBox<String> cboVaiTro;
     private com.toedter.calendar.JDateChooser dcNgayVaoLam;

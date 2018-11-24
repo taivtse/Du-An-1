@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs.capnhat;
+package poly.app.ui.dialogs;
 
+import static java.awt.image.ImageObserver.HEIGHT;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import poly.app.core.daoimpl.LoaiPhimDaoImpl;
@@ -45,6 +47,7 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
     }
     
     private void setModelToInput(){
+//        Do du lieu len input
         txtTen.setText(phim.getTen());
         spnThoiLuong.setValue(phim.getThoiLuong());
         spnGioiHanTuoi.setValue(phim.getGioiHanTuoi());
@@ -55,10 +58,12 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         cboQuocGia.setSelectedItem(phim.getQuocGia());
         cboTrangThai.setSelectedItem(phim.getTrangThai());
         cboTheLoai.getModel().setSelectedItem(phim.getLoaiPhim());
-        txtTomTat.setText(phim.getTomTat());
+        txtTomTat.setText("");
     }
     
     private Phim getModelFromInput(){
+//        code lay phim tu input
+//        set lai gia tri moi cho phim
         phim.setTen(txtTen.getText());
         phim.setThoiLuong((int)spnThoiLuong.getValue());
         phim.setGioiHanTuoi((int)spnGioiHanTuoi.getValue());
@@ -68,7 +73,7 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         phim.setDienVien(txtDienVien.getText());
         phim.setQuocGia(cboQuocGia.getSelectedItem().toString());
         phim.setTrangThai(cboTrangThai.getSelectedItem().toString());
-        phim.setLoaiPhim((LoaiPhim)cboTheLoai.getModel().getSelectedItem());
+        phim.setLoaiPhim((LoaiPhim)cboTheLoai.getSelectedItem());
         phim.setTomTat(txtTomTat.getText());
         return phim;
     }
@@ -186,8 +191,6 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
 
         cboQuocGia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Việt Nam", "Anh", "Nga", "Mỹ", "Trung Quốc", "Hàn Quốc" }));
 
-        dcNgayChieu.setDateFormatString("dd-MM-yyyy");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -289,11 +292,11 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(cboNSX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLuu)
                     .addComponent(btnHuy))

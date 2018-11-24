@@ -12,6 +12,7 @@ import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.frames.FrameQLPhim;
 import poly.app.ui.frames.quanly.FrameQLDoAn;
+import poly.app.ui.frames.quanly.FrameQLSuatChieu;
 
 /**
  *
@@ -21,6 +22,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
     private final JLabel[] btnToolBarArr;
     private FrameQLPhim frameQLPhim;
+    private FrameQLSuatChieu frameQLSuatChieu;
     private FrameQLDoAn frameQLDoAn;
 
     /**
@@ -51,6 +53,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private void renderChildFrame() {
         new Thread(() -> {
             frameQLPhim = new FrameQLPhim();
+            frameQLSuatChieu = new FrameQLSuatChieu();
             frameQLDoAn = new FrameQLDoAn();
         }).start();
     }
@@ -480,7 +483,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itemDanhMucToolBarPhimActionPerformed
 
     private void itemDanhMucToolBarSuatChieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarSuatChieuActionPerformed
-        // TODO add your handling code here:
+        tbpMainContent.addTab(frameQLSuatChieu.getTitle(), frameQLSuatChieu.getMainPanel());
     }//GEN-LAST:event_itemDanhMucToolBarSuatChieuActionPerformed
 
     private void itemDanhMucToolBarThucAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarThucAnActionPerformed

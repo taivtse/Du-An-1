@@ -83,7 +83,7 @@ public class TableRendererUtil {
 
     public void changeHeaderStyle() {
         JTableHeader jTableHeader = this.jTable.getTableHeader();
-        jTableHeader.setFont(new Font("Helvetica Neue", Font.PLAIN, 13)); // font name style size
+        jTableHeader.setFont(new Font("Open sans", Font.PLAIN, 13)); // font name style size
         // canh giua man hinh
         ((DefaultTableCellRenderer) jTableHeader.getDefaultRenderer())
                 .setHorizontalAlignment(JLabel.CENTER);
