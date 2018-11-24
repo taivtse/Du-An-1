@@ -8,7 +8,6 @@ package poly.app.ui.frames.banhang;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -16,7 +15,6 @@ import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.daoimpl.SuatChieuDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.SuatChieu;
-import poly.app.core.helper.DateHelper;
 import poly.app.core.helper.DialogHelper;
 import poly.app.ui.dialogs.banhang.DialogChonGheNgoi;
 import poly.app.ui.utils.TableRendererUtil;
@@ -36,20 +34,23 @@ public class FrameBanVe extends javax.swing.JFrame {
     public FrameBanVe() {
         initComponents();
         setLocationRelativeTo(null);
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
     }
 
     private void reRenderUI() {
         //        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblSuatChieu);
-        tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
+        
+        tblRenderer.setColoumnWidthByPersent(0, 5);
+        tblRenderer.setColoumnWidthByPersent(3, 20);
 
         tblRenderer = new TableRendererUtil(tblPhim);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
-
-        lblNgayHienTai.setText("Ngày: " + new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        tblRenderer.setColoumnWidthByPersent(0, 5);
+        tblRenderer.setColoumnWidthByPersent(2, 70);
     }
 
     public JPanel getMainPanel() {
@@ -70,7 +71,6 @@ public class FrameBanVe extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPhim = new javax.swing.JTable();
-        lblNgayHienTai = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnBan = new javax.swing.JButton();
@@ -93,7 +93,8 @@ public class FrameBanVe extends javax.swing.JFrame {
 
         jPanel2.setOpaque(false);
 
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(52, 83, 104));
         jLabel1.setText("Danh sách phim đang chiếu");
 
         tblPhim.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
@@ -112,7 +113,7 @@ public class FrameBanVe extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -123,6 +124,8 @@ public class FrameBanVe extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblPhim.setIntercellSpacing(new java.awt.Dimension(5, 1));
+        tblPhim.setRowHeight(22);
         tblPhim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblPhimMouseClicked(evt);
@@ -130,34 +133,27 @@ public class FrameBanVe extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblPhim);
 
-        lblNgayHienTai.setText("Ngày:");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblNgayHienTai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 213, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                        .addGap(10, 10, 10))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(lblNgayHienTai)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel1)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -177,37 +173,46 @@ public class FrameBanVe extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addContainerGap()
                 .addComponent(btnBan)
-                .addContainerGap(439, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addComponent(btnBan)
-                .addContainerGap())
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel5.setOpaque(false);
 
-        tblSuatChieu.setFont(new java.awt.Font("Helvetica Neue", 0, 13)); // NOI18N
+        tblSuatChieu.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
         tblSuatChieu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "Mã suất chiếu", "Giờ chiếu", "Định dạng", "Ngôn ngữ", "Phòng chiếu", "Trạng thái"
+                "STT", "Mã suất chiếu", "Ngày chiếu", "Giờ chiếu", "Định dạng", "Ngôn ngữ", "Phòng chiếu", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        tblSuatChieu.setIntercellSpacing(new java.awt.Dimension(5, 1));
+        tblSuatChieu.setRowHeight(22);
         tblSuatChieu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSuatChieuMouseClicked(evt);
@@ -221,34 +226,15 @@ public class FrameBanVe extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addGap(10, 10, 10))
-        );
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
         );
 
         btnCollapse.setBackground(new java.awt.Color(52, 83, 104));
@@ -264,25 +250,40 @@ public class FrameBanVe extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addComponent(btnCollapse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+            .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout pnMainLayout = new javax.swing.GroupLayout(pnMain);
         pnMain.setLayout(pnMainLayout);
         pnMainLayout.setHorizontalGroup(
             pnMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnMainLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCollapse, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnMainLayout.setVerticalGroup(
             pnMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnMainLayout.createSequentialGroup()
-                .addGroup(pnMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -333,7 +334,7 @@ public class FrameBanVe extends javax.swing.JFrame {
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
         if (tblSuatChieu.getRowCount() > 0 && tblSuatChieu.getSelectedRow() >= 0) {
             int index = tblSuatChieu.getSelectedRow();
-            String trangThai = (String) tblSuatChieu.getValueAt(index, 6);
+            String trangThai = (String) tblSuatChieu.getValueAt(index, 7);
             
             if (trangThai.equals("Đã chiếu")) {
                 DialogHelper.message(this, "Suất vừa chọn đã chiếu. \nVui lòng chọn suất chiếu khác!", DialogHelper.ERROR_MESSAGE);
@@ -355,8 +356,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         for (SuatChieu suatChieu : new SuatChieuDaoImpl().getSuatChieuHienTaiByPhim(phim)) {
 
             String trangThai = suatChieu.getGioBatDau().compareTo(new Date()) > 0 ? "Sắp chiếu" : "Đã chiếu";
-            if (suatChieu.getGioKetThuc().compareTo(new Date()) > 0
-                    && DateHelper.getDiffDays(suatChieu.getGioKetThuc(), new Date()) == 0) {
+            if (suatChieu.getGioBatDau().compareTo(new Date()) < 0 && suatChieu.getGioKetThuc().compareTo(new Date()) > 0) {
                 trangThai = "Đang chiếu";
             }
 
@@ -364,7 +364,9 @@ public class FrameBanVe extends javax.swing.JFrame {
                     new Object[]{
                         i++,
                         suatChieu.getId(),
-                        new SimpleDateFormat("HH:mm:ss").format(suatChieu.getGioBatDau()),
+                        suatChieu.getNgayChieu(),
+                        new SimpleDateFormat("HH:mm:ss").format(suatChieu.getGioBatDau()) + " - "
+                            + new SimpleDateFormat("HH:mm:ss").format(suatChieu.getGioKetThuc()),
                         suatChieu.getDinhDangPhim().getId(),
                         suatChieu.getPhim().getNgonNgu(),
                         "Phòng " + suatChieu.getPhongChieu().getId(),
@@ -437,7 +439,6 @@ public class FrameBanVe extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblNgayHienTai;
     private javax.swing.JPanel pnMain;
     private javax.swing.JTable tblPhim;
     private javax.swing.JTable tblSuatChieu;

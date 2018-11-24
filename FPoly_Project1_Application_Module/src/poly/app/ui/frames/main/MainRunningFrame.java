@@ -106,6 +106,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel4.setBackground(new java.awt.Color(52, 83, 104));
 

@@ -11,6 +11,7 @@ import poly.app.core.dao.SuatChieuDao;
 import poly.app.core.data.daoimpl.AbstractDao;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.helper.DateHelper;
 
 public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements SuatChieuDao {
 
@@ -21,6 +22,7 @@ public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements 
         try {
             Criteria cr = session.createCriteria(this.getPersistenceClass());
             cr.add(Restrictions.eq("phim", phim));
+            cr.add(Restrictions.between("ngayChieu", new Date(), DateHelper.add(1)));
             cr.addOrder(Order.asc("gioBatDau"));
             
 

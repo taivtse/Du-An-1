@@ -173,7 +173,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
 
         jLabel3.setText("Ghế đặc biệt");
 
-        jLabel4.setBackground(new java.awt.Color(49, 152, 252));
+        jLabel4.setBackground(new java.awt.Color(77, 100, 141));
         jLabel4.setOpaque(true);
 
         jLabel5.setText("Ghế đã có người");
@@ -198,7 +198,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         );
         pnGheNgoiLayout.setVerticalGroup(
             pnGheNgoiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 354, Short.MAX_VALUE)
+            .addGap(0, 254, Short.MAX_VALUE)
         );
 
         jLabel8.setText("Ghế đang chọn");
@@ -249,7 +249,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
-                        .addGap(0, 266, Short.MAX_VALUE)))
+                        .addGap(0, 105, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );

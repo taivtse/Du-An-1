@@ -47,25 +47,17 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnCollapse" min="-2" pref="30" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="jPanel3" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
+              <Component id="jPanel2" max="32767" attributes="0"/>
               <Component id="jPanel3" alignment="0" max="32767" attributes="0"/>
-              <Group type="102" alignment="1" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="btnCollapse" max="32767" attributes="0"/>
-                      <Component id="jPanel2" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -78,34 +70,28 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel1" max="32767" attributes="0"/>
-                                  <Component id="lblNgayHienTai" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="213" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="jScrollPane2" pref="468" max="32767" attributes="0"/>
+                              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="28" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="lblNgayHienTai" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" pref="501" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -115,7 +101,10 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Helvetica Neue" size="14" style="0"/>
+                  <Font name="Helvetica Neue" size="18" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="68" green="53" red="34" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Danh s&#xe1;ch phim &#x111;ang chi&#x1ebf;u"/>
               </Properties>
@@ -135,7 +124,7 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="4">
                         <Column editable="false" title="STT" type="java.lang.Integer"/>
-                        <Column editable="true" title="M&#xe3; phim" type="java.lang.String"/>
+                        <Column editable="false" title="M&#xe3; phim" type="java.lang.String"/>
                         <Column editable="false" title="T&#xea;n phim" type="java.lang.String"/>
                       </Table>
                     </Property>
@@ -158,6 +147,10 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
+                    <Property name="intercellSpacing" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                      <Dimension value="[5, 1]"/>
+                    </Property>
+                    <Property name="rowHeight" type="int" value="22"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
@@ -168,11 +161,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="lblNgayHienTai">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ng&#xe0;y:"/>
-              </Properties>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
@@ -185,22 +173,25 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel4" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel5" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnCollapse" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel4" max="32767" attributes="0"/>
+                          <Component id="jPanel5" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel5" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="btnCollapse" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -214,18 +205,18 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnBan" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="439" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Component id="btnBan" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace pref="16" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -251,7 +242,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="560" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="616" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -260,7 +251,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="508" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -277,17 +268,18 @@
                     <Component class="javax.swing.JTable" name="tblSuatChieu">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Helvetica Neue" size="13" style="0"/>
+                          <Font name="Open Sans" size="13" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="7" rowCount="0">
-                            <Column editable="true" title="STT" type="java.lang.Integer"/>
-                            <Column editable="true" title="M&#xe3; su&#x1ea5;t chi&#x1ebf;u" type="java.lang.String"/>
-                            <Column editable="true" title="Gi&#x1edd; chi&#x1ebf;u" type="java.lang.String"/>
-                            <Column editable="true" title="&#x110;&#x1ecb;nh d&#x1ea1;ng" type="java.lang.String"/>
-                            <Column editable="true" title="Ng&#xf4;n ng&#x1eef;" type="java.lang.String"/>
-                            <Column editable="true" title="Ph&#xf2;ng chi&#x1ebf;u" type="java.lang.String"/>
-                            <Column editable="true" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.String"/>
+                          <Table columnCount="8" rowCount="0">
+                            <Column editable="false" title="STT" type="java.lang.Integer"/>
+                            <Column editable="false" title="M&#xe3; su&#x1ea5;t chi&#x1ebf;u" type="java.lang.String"/>
+                            <Column editable="false" title="Ng&#xe0;y chi&#x1ebf;u" type="java.lang.String"/>
+                            <Column editable="false" title="Gi&#x1edd; chi&#x1ebf;u" type="java.lang.String"/>
+                            <Column editable="false" title="&#x110;&#x1ecb;nh d&#x1ea1;ng" type="java.lang.String"/>
+                            <Column editable="false" title="Ng&#xf4;n ng&#x1eef;" type="java.lang.String"/>
+                            <Column editable="false" title="Ph&#xf2;ng chi&#x1ebf;u" type="java.lang.String"/>
+                            <Column editable="false" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -327,8 +319,17 @@
                               <Editor/>
                               <Renderer/>
                             </Column>
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                           </TableColumnModel>
                         </Property>
+                        <Property name="intercellSpacing" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[5, 1]"/>
+                        </Property>
+                        <Property name="rowHeight" type="int" value="22"/>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>
@@ -341,30 +342,30 @@
                 </Container>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="btnCollapse">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="68" green="53" red="34" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="15" style="1"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
+                <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                  <Color id="Hand Cursor"/>
+                </Property>
+                <Property name="opaque" type="boolean" value="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCollapseMouseReleased"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="btnCollapse">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="68" green="53" red="34" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="15" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
-            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Hand Cursor"/>
-            </Property>
-            <Property name="opaque" type="boolean" value="true"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCollapseMouseReleased"/>
-          </Events>
-        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

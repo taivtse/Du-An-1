@@ -17,7 +17,7 @@ public class ColorUtil {
     public static final Color NORMAL_SEAT_COLOR = Color.decode("#DDDDDD");
     public static final Color NORMAL_SEAT_FOREGROUND_COLOR = Color.BLACK;
     
-    public static final Color VIP_SEAT_COLOR = Color.decode("#3198FC");
+    public static final Color VIP_SEAT_COLOR = Color.decode("#4D648D");
     public static final Color VIP_SEAT_FOREGROUND_COLOR = Color.WHITE;
     
     public static final Color RESERVED_SEAT_COLOR = Color.decode("#A52B24");
