@@ -74,7 +74,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         tblRenderer = new TableRendererUtil(tblDoAnChiTiet);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
-        tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_RIGHT);
+        tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
     }
     
     public JPanel getMainPanel(){
@@ -212,7 +212,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(chkTheoTen)
@@ -228,7 +228,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addComponent(chkTheoLoaiDoAn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(235, Short.MAX_VALUE))
+                .addContainerGap(236, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));

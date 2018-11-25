@@ -247,7 +247,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(chkTheoTen)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -278,7 +278,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
         });
 
         btnSua.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnSua.setText("Sửa");
+        btnSua.setText("Cập nhật");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
