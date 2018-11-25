@@ -11,5 +11,11 @@
         <many-to-one name="khachHang" class="poly.app.core.entities.KhachHang" fetch="join">
             <column name="khach_hang_id" length="15" not-null="true" />
         </many-to-one>
+        <set name="veBans" table="ve_ban" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="ve_dat_id" length="15" />
+            </key>
+            <one-to-many class="poly.app.core.entities.VeBan" />
+        </set>
     </class>
 </hibernate-mapping>

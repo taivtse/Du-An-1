@@ -39,7 +39,7 @@
             <column name="tom_tat" length="1000" />
         </property>
         <property name="trangThai" type="string">
-            <column name="trang_thai" length="10" not-null="true" />
+            <column name="trang_thai" length="20" not-null="true" />
         </property>
         <property name="daXoa" type="java.lang.Boolean">
             <column name="da_xoa" />

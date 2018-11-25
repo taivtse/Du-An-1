@@ -20,12 +20,14 @@
         <many-to-one name="suatChieu" class="poly.app.core.entities.SuatChieu" fetch="join">
             <column name="suat_chieu_id" length="15" not-null="true" />
         </many-to-one>
+        <many-to-one name="veDat" class="poly.app.core.entities.VeDat" fetch="select">
+            <column name="ve_dat_id" length="15" />
+        </many-to-one>
         <property name="ngayBan" type="date">
             <column name="ngay_ban" length="10" not-null="true" />
         </property>
         <property name="tongTien" type="int">
             <column name="tong_tien" not-null="true" />
         </property>
-        <one-to-one name="veDat" class="poly.app.core.entities.VeDat"></one-to-one>
     </class>
 </hibernate-mapping>

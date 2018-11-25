@@ -1,6 +1,10 @@
 package poly.app.core.entities;
 // Generated Nov 9, 2018 10:03:06 PM by Hibernate Tools 4.3.1
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 
 
 /**
@@ -11,6 +15,7 @@ public class VeDat  implements java.io.Serializable {
 
      private String id;
      private KhachHang khachHang;
+     private Set<VeBan> veBans = new HashSet<VeBan>(0);
 
     public VeDat() {
     }
@@ -34,8 +39,13 @@ public class VeDat  implements java.io.Serializable {
         this.khachHang = khachHang;
     }
 
+    public Set<VeBan> getVeBans() {
+        return veBans;
+    }
 
-
+    public void setVeBans(Set<VeBan> veBans) {
+        this.veBans = veBans;
+    }
 
 }
 
