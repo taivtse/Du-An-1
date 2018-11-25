@@ -12,8 +12,11 @@ import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.frames.quanly.FrameQLPhim;
 import poly.app.ui.frames.quanly.FrameQLDoAn;
+import poly.app.ui.frames.quanly.FrameQLHoaDon;
+import poly.app.ui.frames.quanly.FrameQLKhachHang;
 import poly.app.ui.frames.quanly.FrameQLNguoiDung;
 import poly.app.ui.frames.quanly.FrameQLSuatChieu;
+import poly.app.ui.frames.quanly.FrameQLVeBan;
 
 /**
  *
@@ -26,6 +29,9 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private FrameQLSuatChieu frameQLSuatChieu;
     private FrameQLDoAn frameQLDoAn;
     private FrameQLNguoiDung frameQLNguoiDung;
+    private FrameQLKhachHang frameQLKhachHang;
+    private FrameQLHoaDon frameQLHoaDon;
+    private FrameQLVeBan frameQLVeBan;
    
 
     /**
@@ -59,6 +65,9 @@ public class MainRunningFrame extends javax.swing.JFrame {
             frameQLSuatChieu = new FrameQLSuatChieu();
             frameQLDoAn = new FrameQLDoAn();
             frameQLNguoiDung = new FrameQLNguoiDung();
+            frameQLKhachHang = new FrameQLKhachHang();
+            frameQLHoaDon = new FrameQLHoaDon();
+            frameQLVeBan = new FrameQLVeBan();
         }).start();
     }
 
@@ -499,15 +508,15 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itemDanhMucToolBarNhanVienActionPerformed
 
     private void itemDanhMucToolBarKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarKhachHangActionPerformed
-        // TODO add your handling code here:
+        tbpMainContent.addTab(frameQLKhachHang.getTitle(), frameQLKhachHang.getMainPanel());
     }//GEN-LAST:event_itemDanhMucToolBarKhachHangActionPerformed
 
     private void itemDanhMucToolBarHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarHoaDonActionPerformed
-        // TODO add your handling code here:
+        tbpMainContent.addTab(frameQLHoaDon.getTitle(), frameQLHoaDon.getMainPanel());
     }//GEN-LAST:event_itemDanhMucToolBarHoaDonActionPerformed
 
     private void itemDanhMucToolBarVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarVeActionPerformed
-        // TODO add your handling code here:
+        tbpMainContent.addTab(frameQLVeBan.getTitle(), frameQLVeBan.getMainPanel());
     }//GEN-LAST:event_itemDanhMucToolBarVeActionPerformed
 
     private void itemBanHangToolBarThucAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBanHangToolBarThucAnActionPerformed

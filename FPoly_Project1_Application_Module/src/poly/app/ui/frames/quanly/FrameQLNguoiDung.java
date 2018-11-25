@@ -439,9 +439,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadAllDataToTable();
-
-        dcDenNgay.setEnabled(false);
-        dcTuNgay.setEnabled(false);
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed

@@ -133,6 +133,7 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
         jLabel9.setText("Giới tính");
 
         rdoNam.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        rdoNam.setSelected(true);
         rdoNam.setText("Nam");
 
         rdoNu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
