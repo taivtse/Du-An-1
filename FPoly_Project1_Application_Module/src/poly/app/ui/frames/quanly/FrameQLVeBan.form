@@ -144,6 +144,10 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="chkTheoTenPhim">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Open Sans" size="14" style="0"/>
+                </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Theo m&#xe3; v&#xe9; b&#xe1;n"/>
               </Properties>
               <Events>

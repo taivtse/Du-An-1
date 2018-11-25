@@ -135,6 +135,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         rdoDangDuocBan.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         rdoDangDuocBan.setSelected(true);
         rdoDangDuocBan.setText("Đang được bán");
+        rdoDangDuocBan.setEnabled(false);
         rdoDangDuocBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rdoDangDuocBanActionPerformed(evt);
@@ -143,6 +144,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         rdoDaNgungBan.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         rdoDaNgungBan.setText("Đã ngưng bán");
+        rdoDaNgungBan.setEnabled(false);
         rdoDaNgungBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rdoDaNgungBanActionPerformed(evt);
@@ -175,6 +177,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         });
 
         cboLoaiDoAn.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboLoaiDoAn.setEnabled(false);
         cboLoaiDoAn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboLoaiDoAnActionPerformed(evt);
@@ -209,7 +212,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(chkTheoTen)
@@ -225,7 +228,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addComponent(chkTheoLoaiDoAn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(235, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -272,7 +275,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                 .addComponent(btnThemKichCo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSuaKichCo)
@@ -361,11 +364,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(

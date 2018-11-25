@@ -94,8 +94,9 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel1.setText("Tra cứu vé bán");
 
+        chkTheoTenPhim.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        chkTheoTenPhim.setSelected(true);
         chkTheoTenPhim.setText("Theo mã vé bán");
-        chkTheoTenPhim.setOpaque(false);
         chkTheoTenPhim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkTheoTenPhimActionPerformed(evt);
@@ -115,7 +116,6 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         });
 
         chkKhoangThoiGian.setText("Theo khoảng thời gian");
-        chkKhoangThoiGian.setOpaque(false);
         chkKhoangThoiGian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkKhoangThoiGianActionPerformed(evt);

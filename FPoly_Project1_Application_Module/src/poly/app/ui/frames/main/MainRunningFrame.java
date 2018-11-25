@@ -12,6 +12,7 @@ import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.frames.quanly.FrameQLPhim;
 import poly.app.ui.frames.quanly.FrameQLDoAn;
+import poly.app.ui.frames.quanly.FrameQLNguoiDung;
 import poly.app.ui.frames.quanly.FrameQLSuatChieu;
 
 /**
@@ -24,6 +25,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private FrameQLPhim frameQLPhim;
     private FrameQLSuatChieu frameQLSuatChieu;
     private FrameQLDoAn frameQLDoAn;
+    private FrameQLNguoiDung frameQLNguoiDung;
    
 
     /**
@@ -56,6 +58,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
             frameQLPhim = new FrameQLPhim();
             frameQLSuatChieu = new FrameQLSuatChieu();
             frameQLDoAn = new FrameQLDoAn();
+            frameQLNguoiDung = new FrameQLNguoiDung();
         }).start();
     }
 
@@ -243,7 +246,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemDanhMucToolBarNhanVien.setBackground(new java.awt.Color(255, 255, 255));
         itemDanhMucToolBarNhanVien.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         itemDanhMucToolBarNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/employee.png"))); // NOI18N
-        itemDanhMucToolBarNhanVien.setText("Nhân viên");
+        itemDanhMucToolBarNhanVien.setText("Người dùng");
         itemDanhMucToolBarNhanVien.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         itemDanhMucToolBarNhanVien.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         itemDanhMucToolBarNhanVien.setFocusable(false);
@@ -492,7 +495,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itemDanhMucToolBarThucAnActionPerformed
 
     private void itemDanhMucToolBarNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarNhanVienActionPerformed
-        // TODO add your handling code here:
+        tbpMainContent.addTab(frameQLNguoiDung.getTitle(), frameQLNguoiDung.getMainPanel());
     }//GEN-LAST:event_itemDanhMucToolBarNhanVienActionPerformed
 
     private void itemDanhMucToolBarKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarKhachHangActionPerformed

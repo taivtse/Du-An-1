@@ -125,6 +125,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="14" style="0"/>
                 </Property>
+                <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="Theo t&#xea;n phim"/>
               </Properties>
               <Events>
@@ -133,7 +134,6 @@
             </Component>
             <Component class="javax.swing.JTextField" name="txtTenPhim">
               <Properties>
-                <Property name="editable" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="14" style="0"/>
                 </Property>
@@ -331,7 +331,8 @@
                           <Font name="Open Sans" size="13" style="0"/>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="8" rowCount="0">
+                          <Table columnCount="9" rowCount="0">
+                            <Column editable="false" title="STT" type="java.lang.Integer"/>
                             <Column editable="false" title="M&#xe3; phim" type="java.lang.String"/>
                             <Column editable="false" title="T&#xea;n phim" type="java.lang.String"/>
                             <Column editable="false" title="Th&#x1edd;i l&#x1b0;&#x1ee3;ng" type="java.lang.Integer"/>
@@ -344,6 +345,11 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
+                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                              <Title/>
+                              <Editor/>
+                              <Renderer/>
+                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>

@@ -44,12 +44,12 @@ public class FrameQLPhim extends javax.swing.JFrame {
         tblRenderer.changeHeaderStyle();
 
         tblRenderer.setColoumnWidthByPersent(0, 5);
-        tblRenderer.setColoumnWidthByPersent(1, 35);
+        tblRenderer.setColoumnWidthByPersent(2, 35);
 
-        tblRenderer.setColumnAlignment(0, TableRendererUtil.CELL_ALIGN_CENTER);
-        tblRenderer.setColumnAlignment(2, TableRendererUtil.CELL_ALIGN_RIGHT);
-        tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_CENTER);
+        tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
+        tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(4, TableRendererUtil.CELL_ALIGN_CENTER);
+        tblRenderer.setColumnAlignment(5, TableRendererUtil.CELL_ALIGN_CENTER);
     }
 
     public JPanel getMainPanel() {
@@ -98,6 +98,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
         jLabel1.setText("Tra cứu phim");
 
         chkTenPhim.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        chkTenPhim.setSelected(true);
         chkTenPhim.setText("Theo tên phim");
         chkTenPhim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +106,6 @@ public class FrameQLPhim extends javax.swing.JFrame {
             }
         });
 
-        txtTenPhim.setEditable(false);
         txtTenPhim.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         txtTenPhim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -251,14 +251,14 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã phim", "Tên phim", "Thời lượng", "Giới hạn tuổi", "Ngày chiếu", "Ngôn ngữ", "Quốc gia", "Trạng thái"
+                "STT", "Mã phim", "Tên phim", "Thời lượng", "Giới hạn tuổi", "Ngày chiếu", "Ngôn ngữ", "Quốc gia", "Trạng thái"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -383,7 +383,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
         if (evt.getClickCount() >= 2) {
             int index = tblPhim.getSelectedRow();
-            String id = tblPhim.getValueAt(index, 0) + "";
+            String id = tblPhim.getValueAt(index, 1) + "";
             new DialogCapNhatPhim(this, true, id).setVisible(true);
             listPhim = new PhimDaoImpl().getPhimHienCo();
             loadDataToTable(searchAdvance());
@@ -393,9 +393,9 @@ public class FrameQLPhim extends javax.swing.JFrame {
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         int index = tblPhim.getSelectedRow();
         if (index < 0) {
-            new DialogHelper().message(this, "Vui long chọn dòng cần sửa !", DialogHelper.ERROR_MESSAGE);
+            new DialogHelper().message(this, "Vui lòng chọn phim!", DialogHelper.ERROR_MESSAGE);
         } else {
-            String id = tblPhim.getValueAt(index, 0) + "";
+            String id = tblPhim.getValueAt(index, 1) + "";
             new DialogCapNhatPhim(this, true, id).setVisible(true);
             loadAllDataToTable();
         }
@@ -403,7 +403,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        boolean checkDelete = DialogHelper.confirm(this, "Bạn chắc chắn muốn xóa phim ?");
+        boolean checkDelete = DialogHelper.confirm(this, "Bạn chắc chắn muốn xóa phim?");
         if (!checkDelete) {
             return;
         }
@@ -412,12 +412,12 @@ public class FrameQLPhim extends javax.swing.JFrame {
             if (deletePhim(index)) {
                 listPhim = new PhimDaoImpl().getPhimHienCo();
                 loadDataToTable(searchAdvance());
-                new DialogHelper().message(this, "Xóa thành công ^^", DialogHelper.INFORMATION_MESSAGE);
+                new DialogHelper().message(this, "Xóa dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
             } else {
-                new DialogHelper().message(this, "Xóa thất bại !!", DialogHelper.ERROR_MESSAGE);
+                new DialogHelper().message(this, "Xóa dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
             }
         } else {
-            new DialogHelper().message(this, "Vui lòng chọn phim cần xóa!", HEIGHT);
+            new DialogHelper().message(this, "Vui lòng chọn phim!", DialogHelper.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -528,8 +528,10 @@ public class FrameQLPhim extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         DefaultTableModel modelTable = (DefaultTableModel) tblPhim.getModel();
         modelTable.setRowCount(0);
+        int i = 1;
         for (Phim phim : listPhimHienThi) {
             Object[] record = new Object[]{
+                i++,
                 phim.getId(),
                 phim.getTen(),
                 phim.getThoiLuong(),

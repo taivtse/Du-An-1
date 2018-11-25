@@ -24,18 +24,18 @@ import poly.app.ui.dialogs.them.DialogThemNguoiDung;
  *
  * @author vothanhtai
  */
-public class FrameQLNhanVien extends javax.swing.JFrame {
+public class FrameQLNguoiDung extends javax.swing.JFrame {
 
     Map<String, NguoiDung> nguoiDungMap = new TreeMap<>();
 
     /**
-     * Creates new form FrameQLNhanVien
+     * Creates new form FrameQLNguoiDung
      */
-    public FrameQLNhanVien() {
+    public FrameQLNguoiDung() {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        setTitle("Quản lý nhân viên");
+        setTitle("Quản lý người dùng");
         reRenderUI();
     }
 
@@ -170,9 +170,10 @@ public class FrameQLNhanVien extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(52, 83, 104));
-        jLabel1.setText("Tra cứu nhân viên");
+        jLabel1.setText("Tra cứu người dùng");
 
         chkTheoTen.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        chkTheoTen.setSelected(true);
         chkTheoTen.setText("Theo tên");
         chkTheoTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +181,6 @@ public class FrameQLNhanVien extends javax.swing.JFrame {
             }
         });
 
-        txtSearchTen.setEditable(false);
         txtSearchTen.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         txtSearchTen.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -545,20 +545,20 @@ public class FrameQLNhanVien extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLNguoiDung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLNguoiDung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLNguoiDung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameQLNguoiDung.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrameQLNhanVien().setVisible(true);
+                new FrameQLNguoiDung().setVisible(true);
             }
         });
     }
