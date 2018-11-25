@@ -35,6 +35,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        setTitle("Bán vé");
         reRenderUI();
     }
 
@@ -91,9 +92,7 @@ public class FrameBanVe extends javax.swing.JFrame {
 
         pnlMain.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel2.setOpaque(false);
-
-        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(52, 83, 104));
         jLabel1.setText("Danh sách phim đang chiếu");
 
@@ -152,7 +151,7 @@ public class FrameBanVe extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 

@@ -68,7 +68,7 @@
                       <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="toolBarContainer" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -435,7 +435,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/poly/app/ui/icons/popcorn.png"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Th&#x1ee9;c &#x103;n"/>
+                        <Property name="text" type="java.lang.String" value="&#x110;&#x1ed3; &#x103;n"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                             <EmptyBorder bottom="5" left="10" right="10" top="5"/>
@@ -465,7 +465,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/poly/app/ui/icons/tickets.png"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="V&#xe9;"/>
+                        <Property name="text" type="java.lang.String" value="V&#xe9; xem phim"/>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                             <EmptyBorder bottom="5" left="10" right="10" top="5"/>

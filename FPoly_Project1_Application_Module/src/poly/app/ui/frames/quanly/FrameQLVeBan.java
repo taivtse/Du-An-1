@@ -35,7 +35,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        setTitle("Quản lý người dùng");
+        setTitle("Quản lý vé bán");
         reRenderUI();
     }
 

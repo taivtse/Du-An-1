@@ -18,6 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.EventListener;
+import poly.app.core.helper.DialogHelper;
 
 /**
  * A JTabbedPane which has a close ('X') icon on each tab.
@@ -72,6 +73,11 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
      * The closeicon when the mouse is pressed.
      */
     private Icon pressedCloseIcon = null;
+    
+    /**
+     * The maximun tab count
+     */
+    private int maximunTabCount = 7;
 
     /**
      * Creates a new instance of <code>CloseableTabbedPane</code>
@@ -139,7 +145,7 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
      * @param component the component to be displayed when this tab is clicked
      * @param extraIcon the icon to be displayed in this tab
      */
-    public void addTab(String title, Component component, Icon extraIcon) {
+    public void addTab(String title, Component component, Icon extraIcon) {        
 //        TAI's CODE: kiem tra xem tab moi da ton tai hay chua
         boolean isCombonentExisted = false;
         for (Component combonent : this.getComponents()) {
@@ -152,6 +158,12 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
         if (isCombonentExisted) {
             this.setSelectedComponent(component);
             selectedTabChange();
+            return;
+        }
+        
+//        Kiem tra da dat so luong tab toi da hay chua
+        if (!checkAddableTab()) {
+            DialogHelper.message(null, "Số lượng tab đang mở đã đạt giới hạn cho phép!", DialogHelper.ERROR_MESSAGE);
             return;
         }
 //        END CUSTOM
@@ -263,6 +275,10 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
     }
 
 //    TAI's CODE
+    private boolean checkAddableTab(){
+        return this.getTabCount() < this.maximunTabCount;
+    }
+    
     private void selectedTabChange() {
         for (int i = 0; i < this.getTabCount(); i++) {
             this.setBackgroundAt(i, Color.decode("#EEEEEE"));

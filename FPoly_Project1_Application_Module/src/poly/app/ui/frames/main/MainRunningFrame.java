@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
+import poly.app.ui.frames.banhang.FrameBanDoAn;
+import poly.app.ui.frames.banhang.FrameBanVe;
 import poly.app.ui.frames.quanly.FrameQLPhim;
 import poly.app.ui.frames.quanly.FrameQLDoAn;
 import poly.app.ui.frames.quanly.FrameQLHoaDon;
@@ -32,7 +34,9 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private FrameQLKhachHang frameQLKhachHang;
     private FrameQLHoaDon frameQLHoaDon;
     private FrameQLVeBan frameQLVeBan;
-   
+    
+    private FrameBanDoAn frameBanDoAn;
+    private FrameBanVe frameBanVe;
 
     /**
      * Creates new form MainFrame
@@ -68,6 +72,9 @@ public class MainRunningFrame extends javax.swing.JFrame {
             frameQLKhachHang = new FrameQLKhachHang();
             frameQLHoaDon = new FrameQLHoaDon();
             frameQLVeBan = new FrameQLVeBan();
+            
+            frameBanDoAn = new FrameBanDoAn();
+            frameBanVe = new FrameBanVe();
         }).start();
     }
 
@@ -325,7 +332,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarThucAn.setBackground(new java.awt.Color(255, 255, 255));
         itemBanHangToolBarThucAn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         itemBanHangToolBarThucAn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/popcorn.png"))); // NOI18N
-        itemBanHangToolBarThucAn.setText("Thức ăn");
+        itemBanHangToolBarThucAn.setText("Đồ ăn");
         itemBanHangToolBarThucAn.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         itemBanHangToolBarThucAn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         itemBanHangToolBarThucAn.setFocusable(false);
@@ -341,7 +348,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarVe.setBackground(new java.awt.Color(255, 255, 255));
         itemBanHangToolBarVe.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         itemBanHangToolBarVe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/tickets.png"))); // NOI18N
-        itemBanHangToolBarVe.setText("Vé");
+        itemBanHangToolBarVe.setText("Vé xem phim");
         itemBanHangToolBarVe.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         itemBanHangToolBarVe.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         itemBanHangToolBarVe.setFocusable(false);
@@ -374,7 +381,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(toolBarContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, 0))
         );
 
         jPanel3.setBackground(new java.awt.Color(131, 137, 150));
@@ -520,11 +527,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itemDanhMucToolBarVeActionPerformed
 
     private void itemBanHangToolBarThucAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBanHangToolBarThucAnActionPerformed
-        // TODO add your handling code here:
+        tbpMainContent.addTab(frameBanDoAn.getTitle(), frameBanDoAn.getMainPanel());
     }//GEN-LAST:event_itemBanHangToolBarThucAnActionPerformed
 
     private void itemBanHangToolBarVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBanHangToolBarVeActionPerformed
-        // TODO add your handling code here:
+        tbpMainContent.addTab(frameBanVe.getTitle(), frameBanVe.getMainPanel());
     }//GEN-LAST:event_itemBanHangToolBarVeActionPerformed
 
     /**
