@@ -6,9 +6,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.JLabel;
 import poly.app.core.daoimpl.GheNgoiDaoImpl;
 import poly.app.core.entities.GheNgoi;
@@ -24,8 +24,8 @@ import poly.app.ui.utils.ColorUtil;
 public class DialogChonGheNgoi extends javax.swing.JDialog {
 
     SuatChieu suatChieu;
-    Map<String, GheNgoi> gheNgoiMap = new HashMap<>();
-    Map<String, GheNgoi> selectedGheNgoiMap = new HashMap<>();
+    Map<String, GheNgoi> gheNgoiMap = new TreeMap<>();
+    Map<String, GheNgoi> selectedGheNgoiMap = new TreeMap<>();
 
     /**
      * Creates new form DialogChonGheNgoi

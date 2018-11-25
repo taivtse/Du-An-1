@@ -7,8 +7,8 @@ package poly.app.ui.frames.banhang;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.PhimDaoImpl;
@@ -25,8 +25,8 @@ import poly.app.ui.utils.TableRendererUtil;
  */
 public class FrameBanVe extends javax.swing.JFrame {
 
-    Map<String, Phim> phimMap = new HashMap<>();
-    Map<String, SuatChieu> suatChieuMap = new HashMap<>();
+    Map<String, Phim> phimMap = new TreeMap<>();
+    Map<String, SuatChieu> suatChieuMap = new TreeMap<>();
 
     /**
      * Creates new form FrameQLNhanVien
@@ -124,7 +124,6 @@ public class FrameBanVe extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblPhim.setIntercellSpacing(new java.awt.Dimension(5, 1));
         tblPhim.setRowHeight(20);
         tblPhim.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblPhim.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -211,7 +210,6 @@ public class FrameBanVe extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblSuatChieu.setIntercellSpacing(new java.awt.Dimension(5, 1));
         tblSuatChieu.setRowHeight(20);
         tblSuatChieu.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblSuatChieu.addMouseListener(new java.awt.event.MouseAdapter() {

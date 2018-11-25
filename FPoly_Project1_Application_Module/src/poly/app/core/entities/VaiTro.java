@@ -51,6 +51,11 @@ public class VaiTro  implements java.io.Serializable {
         this.nguoiDungs = nguoiDungs;
     }
 
+    @Override
+    public String toString() {
+        return ten;
+    }
+
 
 
 

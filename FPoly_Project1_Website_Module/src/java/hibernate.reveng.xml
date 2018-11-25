@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <!--
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
@@ -39,25 +39,19 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/du_an_1</property>
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">123456789</property>
-    <mapping resource="hihi/GiaVe.hbm.xml"/>
-    <mapping resource="hihi/VaiTro.hbm.xml"/>
-    <mapping resource="hihi/VeDat.hbm.xml"/>
-    <mapping resource="hihi/DinhDangPhim.hbm.xml"/>
-    <mapping resource="hihi/LoaiGhe.hbm.xml"/>
-    <mapping resource="hihi/SuatChieu.hbm.xml"/>
-    <mapping resource="hihi/NguoiDung.hbm.xml"/>
-    <mapping resource="hihi/KhachHang.hbm.xml"/>
-    <mapping resource="hihi/PhongChieu.hbm.xml"/>
-    <mapping resource="hihi/GheNgoi.hbm.xml"/>
-    <mapping resource="hihi/Phim.hbm.xml"/>
-    <mapping resource="hihi/VeBan.hbm.xml"/>
-    <mapping resource="hihi/LoaiPhim.hbm.xml"/>
-  </session-factory>
-</hibernate-configuration>
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="du_an_1"/>
+  <table-filter match-name="ghe_ngoi"/>
+  <table-filter match-name="ve_ban"/>
+  <table-filter match-name="loai_ghe"/>
+  <table-filter match-name="ve_dat"/>
+  <table-filter match-name="gia_ve"/>
+  <table-filter match-name="suat_chieu"/>
+  <table-filter match-name="dinh_dang_phim"/>
+  <table-filter match-name="nguoi_dung"/>
+  <table-filter match-name="loai_phim"/>
+  <table-filter match-name="vai_tro"/>
+  <table-filter match-name="phong_chieu"/>
+  <table-filter match-name="phim"/>
+  <table-filter match-name="khach_hang"/>
+</hibernate-reverse-engineering>

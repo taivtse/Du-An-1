@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
-import poly.app.ui.frames.FrameQLPhim;
+import poly.app.ui.frames.quanly.FrameQLPhim;
 import poly.app.ui.frames.quanly.FrameQLDoAn;
 import poly.app.ui.frames.quanly.FrameQLSuatChieu;
 
@@ -24,14 +24,15 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private FrameQLPhim frameQLPhim;
     private FrameQLSuatChieu frameQLSuatChieu;
     private FrameQLDoAn frameQLDoAn;
+   
 
     /**
      * Creates new form MainFrame
      */
     public MainRunningFrame() {
         loadHibernateSession();
-        initComponents();
         renderChildFrame();
+        initComponents();
         this.btnToolBarArr = new JLabel[]{btnToolBarDanhMuc, btnToolBarBanHang, btnToolBarThongKe};
         reRenderUI();
     }

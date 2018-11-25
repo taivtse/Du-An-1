@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -38,7 +39,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
     List<DoAn> listDoAn = new ArrayList<>();
     List<DoAnChiTiet> listDoAnCT = new ArrayList<>();
-    Map<String, DoAn> mapDoAn = new HashMap<String, DoAn>();
+    Map<String, DoAn> mapDoAn = new TreeMap<>();
     ButtonGroup btngr = new ButtonGroup();
     ButtonGroup btnLDA = new ButtonGroup();
 
@@ -52,7 +53,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         setTitle("Quản lý đồ ăn");
         this.setRadio();
         reRenderUI();
-        formWindowOpened(null);
     }
 
     public void setRadio() {
@@ -200,10 +200,10 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                             .addComponent(rdoDaNgungBan))))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTraCuuDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTraCuuDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -321,7 +321,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         tblDoAn.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblDoAn.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblDoAn.setShowGrid(false);
-        tblDoAn.setShowVerticalLines(false);
         tblDoAn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDoAnMouseClicked(evt);
@@ -351,7 +350,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         tblDoAnChiTiet.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblDoAnChiTiet.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblDoAnChiTiet.setShowGrid(false);
-        tblDoAnChiTiet.setShowVerticalLines(false);
         tblDoAnChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDoAnChiTietMouseClicked(evt);
@@ -367,7 +365,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(

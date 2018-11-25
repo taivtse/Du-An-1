@@ -13,8 +13,8 @@
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <Events>
-    <EventHandler event="windowActivated" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowActivated"/>
     <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
+    <EventHandler event="windowActivated" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowActivated"/>
   </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -85,22 +85,17 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="dcNgayHienThi" alignment="0" min="-2" pref="234" max="-2" attributes="0"/>
-                          <Component id="cboPhongChieu" alignment="0" min="-2" pref="234" max="-2" attributes="0"/>
-                          <Component id="cboPhim" alignment="0" min="-2" pref="234" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="chkPhongChieu" min="-2" max="-2" attributes="0"/>
-                                  <Component id="chkTenPhim" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="rdoDaChieu" min="-2" max="-2" attributes="0"/>
-                                  <Component id="rdoDangChieu" min="-2" max="-2" attributes="0"/>
-                                  <Component id="rdoSapChieu" min="-2" max="-2" attributes="0"/>
-                                  <Component id="chkTrangThai" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="dcNgayHienThi" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
+                          <Component id="cboPhongChieu" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
+                          <Component id="cboPhim" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
+                          <Component id="chkPhongChieu" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkTenPhim" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdoDaChieu" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdoDangChieu" min="-2" max="-2" attributes="0"/>
+                          <Component id="rdoSapChieu" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkTrangThai" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="10" max="32767" attributes="0"/>
                   </Group>
@@ -169,6 +164,10 @@
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="dcNgayHienThi">
               <Properties>
+                <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Open Sans" size="14" style="0"/>
+                </Property>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
@@ -332,6 +331,9 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnTimeline">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Open Sans" size="14" style="0"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Xem l&#x1ecb;ch chi&#x1ebf;u"/>
                   </Properties>
                 </Component>
@@ -347,7 +349,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="684" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="680" max="32767" attributes="0"/>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -443,6 +445,8 @@
                         <Property name="selectionModel" type="javax.swing.ListSelectionModel" editor="org.netbeans.modules.form.editors2.JTableSelectionModelEditor">
                           <JTableSelectionModel selectionMode="0"/>
                         </Property>
+                        <Property name="showHorizontalLines" type="boolean" value="false"/>
+                        <Property name="showVerticalLines" type="boolean" value="false"/>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                           <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                         </Property>

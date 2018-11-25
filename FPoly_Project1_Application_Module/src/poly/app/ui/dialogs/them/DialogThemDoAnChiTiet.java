@@ -5,17 +5,14 @@
  */
 package poly.app.ui.dialogs.them;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.KichCoDoAnDaoImpl;
-import poly.app.core.daoimpl.LoaiDoAnDaoImpl;
 import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.entities.KichCoDoAn;
-import poly.app.core.entities.LoaiDoAn;
 import poly.app.core.helper.DialogHelper;
 
 /**
@@ -215,10 +212,10 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboKichCo, 0, 222, Short.MAX_VALUE)
-                            .addComponent(txtTen)
-                            .addComponent(ftfDonGia)
-                            .addComponent(cboTrangThai, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(cboKichCo, 0, 230, Short.MAX_VALUE)
+                            .addComponent(txtTen, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(ftfDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(cboTrangThai, 0, 230, Short.MAX_VALUE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -264,12 +261,11 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         if (this.insertDACT()) {
-            DialogHelper.message(this, "Thêm dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
+            DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
         } else {
-            
+            DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.INFORMATION_MESSAGE);
         }
-
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed

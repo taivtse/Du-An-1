@@ -205,7 +205,7 @@ public class DialogCapNhatDoAn extends javax.swing.JDialog {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,10 +255,10 @@ public class DialogCapNhatDoAn extends javax.swing.JDialog {
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
         if (updateModelToDatabase()){
-            DialogHelper.message(this, "Cập nhật dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
+            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
         }else{
-            DialogHelper.message(this, "Cập nhật dữ liệu thất bại ! ", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(this, "Cập nhật dữ liệu thất bại! ", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 

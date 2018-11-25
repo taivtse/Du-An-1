@@ -56,10 +56,10 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="cboKichCo" pref="222" max="32767" attributes="0"/>
-                              <Component id="txtTen" alignment="0" max="32767" attributes="0"/>
-                              <Component id="ftfDonGia" alignment="0" max="32767" attributes="0"/>
-                              <Component id="cboTrangThai" max="32767" attributes="0"/>
+                              <Component id="cboKichCo" pref="230" max="32767" attributes="0"/>
+                              <Component id="txtTen" alignment="0" pref="230" max="32767" attributes="0"/>
+                              <Component id="ftfDonGia" alignment="0" pref="230" max="32767" attributes="0"/>
+                              <Component id="cboTrangThai" pref="230" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>

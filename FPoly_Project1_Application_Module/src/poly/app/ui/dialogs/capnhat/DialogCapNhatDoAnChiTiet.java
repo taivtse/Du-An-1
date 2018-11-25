@@ -200,10 +200,10 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboKichCo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cboTrangThai, 0, 228, Short.MAX_VALUE)
-                            .addComponent(txtDoAn)
-                            .addComponent(ftfDonGia)))
+                            .addComponent(cboKichCo, 0, 230, Short.MAX_VALUE)
+                            .addComponent(cboTrangThai, 0, 230, Short.MAX_VALUE)
+                            .addComponent(txtDoAn, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                            .addComponent(ftfDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -249,10 +249,10 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         if (this.updateModelToDatabase()) {
-            DialogHelper.message(this, "Cập nhật dữ liệu thành công !", DialogHelper.INFORMATION_MESSAGE);
+            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
         } else {
-            DialogHelper.message(this, "Cập nhật dữ liệu thất bại !", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed
 

@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -26,7 +27,7 @@ import poly.app.ui.utils.TableRendererUtil;
  */
 public class FrameQLSuatChieu extends javax.swing.JFrame {
 
-    Map<String, SuatChieu> suatChieuMap = new HashMap<>();
+    Map<String, SuatChieu> suatChieuMap = new TreeMap<>();
     Set<Phim> phimSet = new HashSet<>();
 
     /**
@@ -37,9 +38,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        setTitle("Quản lý suẩt chiếu");
+        setTitle("Quản lý suất chiếu");
         reRenderUI();
-        formWindowOpened(null);
     }
 
     private void reRenderUI() {
@@ -226,6 +226,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel2.setText("Ngày hiển thị");
 
+        dcNgayHienThi.setDateFormatString("dd-MM-yyyy");
+        dcNgayHienThi.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         dcNgayHienThi.setOpaque(false);
         dcNgayHienThi.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -307,13 +309,13 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dcNgayHienThi, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboPhongChieu, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dcNgayHienThi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboPhongChieu, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
+                        .addGap(0, 0, 0)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(chkPhongChieu)
                             .addComponent(chkTenPhim)
@@ -355,6 +357,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
 
         jPanel4.setOpaque(false);
 
+        btnTimeline.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnTimeline.setText("Xem lịch chiếu");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -396,6 +399,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         tblSuatChieu.setRowHeight(20);
         tblSuatChieu.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblSuatChieu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblSuatChieu.setShowHorizontalLines(false);
+        tblSuatChieu.setShowVerticalLines(false);
         tblSuatChieu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSuatChieuMouseClicked(evt);
@@ -409,7 +414,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(
