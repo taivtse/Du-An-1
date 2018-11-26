@@ -98,6 +98,7 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -180,21 +181,30 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
 
         btnLuu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnLuu.setText("Lưu");
+        btnLuu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLuu.setPreferredSize(new java.awt.Dimension(75, 33));
         btnLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLuuActionPerformed(evt);
             }
         });
-        jPanel3.add(btnLuu, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        jPanel3.add(btnLuu, gridBagConstraints);
 
         btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnHuy.setText("Huỷ");
+        btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHuy.setPreferredSize(new java.awt.Dimension(75, 33));
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
             }
         });
-        jPanel3.add(btnHuy, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        jPanel3.add(btnHuy, gridBagConstraints);
 
         spnThoiLuong.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 

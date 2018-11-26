@@ -137,6 +137,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
         btnChon.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnChon.setText("Chọn");
+        btnChon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnChon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnChonActionPerformed(evt);
@@ -163,7 +164,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(spnSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnChon))
+                    .addComponent(btnChon, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -287,6 +288,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
         btnBan.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnBan.setText("Bán");
+        btnBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBanActionPerformed(evt);
@@ -295,6 +297,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
         btnXoa.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnXoa.setText("Xoá");
+        btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXoaActionPerformed(evt);
@@ -328,8 +331,8 @@ public class FrameBanDoAn extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBan)
-                    .addComponent(btnXoa)
+                    .addComponent(btnBan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(lblTongTien))
                 .addContainerGap(16, Short.MAX_VALUE))

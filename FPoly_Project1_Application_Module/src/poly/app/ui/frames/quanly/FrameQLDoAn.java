@@ -237,6 +237,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnThem.setText("Thêm đồ ăn");
+        btnThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -245,6 +246,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSua.setText("Cập nhật đồ ăn");
+        btnSua.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
@@ -252,6 +254,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         });
 
         btnThemKichCo.setText("Thêm kích cỡ");
+        btnThemKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThemKichCo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemKichCoActionPerformed(evt);
@@ -260,6 +263,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnSuaKichCo.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSuaKichCo.setText("Cập nhật kích cỡ");
+        btnSuaKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSuaKichCo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaKichCoActionPerformed(evt);
@@ -286,10 +290,10 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem)
-                    .addComponent(btnSua)
-                    .addComponent(btnThemKichCo)
-                    .addComponent(btnSuaKichCo))
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThemKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSuaKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 

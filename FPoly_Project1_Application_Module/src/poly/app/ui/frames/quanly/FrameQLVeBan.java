@@ -210,6 +210,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
 
         btnXemchitiet.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnXemchitiet.setText("Xem chi tiết");
+        btnXemchitiet.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnXemchitiet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXemchitietActionPerformed(evt);
@@ -218,6 +219,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
 
         btnInve.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnInve.setText("In vé");
+        btnInve.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -235,8 +237,8 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnXemchitiet)
-                    .addComponent(btnInve))
+                    .addComponent(btnXemchitiet, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInve, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 

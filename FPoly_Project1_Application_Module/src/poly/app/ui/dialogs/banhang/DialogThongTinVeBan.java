@@ -161,6 +161,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -280,7 +281,6 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
         jLabel11.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel11.setText("Tổng cộng");
 
-        tblThongTin.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         tblThongTin.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tblThongTin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -318,21 +318,31 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
+        btnInVe.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnInVe.setText("In vé");
+        btnInVe.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnInVe.setPreferredSize(new java.awt.Dimension(76, 33));
         btnInVe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInVeActionPerformed(evt);
             }
         });
-        jPanel4.add(btnInVe, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        jPanel4.add(btnInVe, gridBagConstraints);
 
+        btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnHuy.setText("Huỷ");
+        btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHuy.setPreferredSize(new java.awt.Dimension(75, 33));
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
             }
         });
-        jPanel4.add(btnHuy, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
+        jPanel4.add(btnHuy, gridBagConstraints);
 
         jLabel8.setFont(new java.awt.Font("Open Sans", 1, 15)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(52, 83, 104));

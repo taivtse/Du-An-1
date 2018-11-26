@@ -159,6 +159,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         jPanel4.setOpaque(false);
 
         btnBan.setText("Chọn ghế ngồi");
+        btnBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBanActionPerformed(evt);
@@ -178,7 +179,7 @@ public class FrameBanVe extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(btnBan)
+                .addComponent(btnBan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 

@@ -8,13 +8,9 @@ package poly.app.ui.frames.quanly;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -73,7 +69,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         return pnlMain;
     }
     private void loadDataToCboPhongChieu(){
-        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboPhongChieu.getModel();
+        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboPhongChieu.getModel()
+;        
         comboBoxModel.removeAllElements();
         new PhongChieuDaoImpl().getAll().forEach((phongChieu) -> {
             comboBoxModel.addElement(phongChieu);
@@ -375,6 +372,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
 
         btnTimeline.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnTimeline.setText("Xem lịch chiếu");
+        btnTimeline.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTimeline.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTimelineActionPerformed(evt);
@@ -394,7 +392,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(btnTimeline)
+                .addComponent(btnTimeline, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -448,7 +446,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
