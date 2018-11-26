@@ -55,6 +55,7 @@ public class FrameBanVe extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
+        formWindowOpened(null);
         return pnlMain;
     }
 
@@ -84,9 +85,6 @@ public class FrameBanVe extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
-            }
-            public void windowActivated(java.awt.event.WindowEvent evt) {
-                formWindowActivated(evt);
             }
         });
 
@@ -125,6 +123,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         });
         tblPhim.setRowHeight(20);
         tblPhim.setSelectionBackground(new java.awt.Color(96, 116, 129));
+        tblPhim.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblPhim.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblPhimMouseClicked(evt);
@@ -211,6 +210,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         });
         tblSuatChieu.setRowHeight(20);
         tblSuatChieu.setSelectionBackground(new java.awt.Color(96, 116, 129));
+        tblSuatChieu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblSuatChieu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSuatChieuMouseClicked(evt);
@@ -229,7 +229,9 @@ public class FrameBanVe extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addGap(10, 10, 10))
         );
 
         btnCollapse.setBackground(new java.awt.Color(52, 83, 104));
@@ -297,10 +299,6 @@ public class FrameBanVe extends javax.swing.JFrame {
             btnBanActionPerformed(null);
         }
     }//GEN-LAST:event_tblSuatChieuMouseClicked
-
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-
-    }//GEN-LAST:event_formWindowActivated
 
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
         if (tblPhim.getSelectedRow() >= 0) {

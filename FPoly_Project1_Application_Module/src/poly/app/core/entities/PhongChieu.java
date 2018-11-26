@@ -70,7 +70,10 @@ public class PhongChieu  implements java.io.Serializable {
         this.gheNgois = gheNgois;
     }
 
-
+    @Override
+    public String toString() {
+        return "Phòng " + id;
+    }
 
 
 }

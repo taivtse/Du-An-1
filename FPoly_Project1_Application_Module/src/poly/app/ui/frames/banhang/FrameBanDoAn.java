@@ -306,7 +306,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
         lblTongTien.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         lblTongTien.setForeground(new java.awt.Color(211, 47, 47));
-        lblTongTien.setText("10,000");
+        lblTongTien.setText("0 vnd");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -572,7 +572,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
             modelTable.addRow(record);
             tongtien += fill.getValue().getTongTien();
         }
-        lblTongTien.setText(decimalFormat.format(tongtien));
+        lblTongTien.setText(decimalFormat.format(tongtien) + " vnd");
     }
 
     public void filterDoAnNhanh() {
