@@ -19,6 +19,8 @@ import poly.app.core.daoimpl.SuatChieuDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.helper.DateHelper;
+import poly.app.ui.dialogs.capnhat.DialogCapNhatSuatChieu;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -68,10 +70,9 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         formWindowOpened(null);
         return pnlMain;
     }
+    
     private void loadDataToCboPhongChieu(){
-        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboPhongChieu.getModel()
-;        
-        comboBoxModel.removeAllElements();
+        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboPhongChieu.getModel();        
         new PhongChieuDaoImpl().getAll().forEach((phongChieu) -> {
             comboBoxModel.addElement(phongChieu);
         });
@@ -102,6 +103,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                         sc.getPhongChieu().getId(),
                         trangThai
                     });
+           
             suatChieuList.add(sc);
             phimSet.add(sc.getPhim());
         }
@@ -605,7 +607,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         } else {
             loadFilterDataToTable(fillterByStatus(suatChieuList));
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_rdoDangChieuActionPerformed
 
     private void cboPhimPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboPhimPropertyChange
@@ -638,7 +639,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }//GEN-LAST:event_cboPhongChieuItemStateChanged
 
     private void btnTimelineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimelineActionPerformed
-        // TODO add your handling code here:
+        new DialogCapNhatSuatChieu(this, true, dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem()).setVisible(true);
     }//GEN-LAST:event_btnTimelineActionPerformed
 
     /**

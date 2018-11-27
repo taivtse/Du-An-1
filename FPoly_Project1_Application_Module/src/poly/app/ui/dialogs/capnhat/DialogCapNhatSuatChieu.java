@@ -5,16 +5,32 @@
  */
 package poly.app.ui.dialogs.capnhat;
 
+import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.swing.GroupLayout;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import poly.app.core.daoimpl.SuatChieuDaoImpl;
+import poly.app.core.entities.PhongChieu;
+import poly.app.core.entities.SuatChieu;
+import poly.app.ui.custom.PanelSuatChieuItem;
 
 /**
  *
  * @author vothanhtai
  */
 public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
+
+    private GroupLayout layout;
+    private GroupLayout.ParallelGroup parallel;
+    private GroupLayout.SequentialGroup sequential;
+    List<SuatChieu> suatChieuList;
+    private Date ngayChieu;
+    private PhongChieu phongChieu;
 
     /**
      * Creates new form DialogCapNhatSuatChieu
@@ -24,6 +40,13 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
+    }
+
+    public DialogCapNhatSuatChieu(java.awt.Frame parent, boolean modal, Date ngayChieu, PhongChieu phongChieu) {
+        this(parent, modal);
+        this.ngayChieu = ngayChieu;
+        this.phongChieu = phongChieu;
+        loadTimeLine();
     }
 
     private void reRenderUI() {
@@ -36,6 +59,34 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         model1.setCalendarField(Calendar.MINUTE);
         spnGioKetThuc.setModel(model1);
         spnGioKetThuc.setEditor(new JSpinner.DateEditor(spnGioKetThuc, "HH:mm:ss"));
+
+        layout = (GroupLayout) pnlLichChieu.getLayout();
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        parallel = layout.createParallelGroup();
+        layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(parallel));
+        sequential = layout.createSequentialGroup();
+        layout.setVerticalGroup(sequential);
+    }
+
+    private void loadTimeLine() {
+        suatChieuList = new SuatChieuDaoImpl().getSuatChieuByNgayVaByPhong(ngayChieu, phongChieu);
+        Dimension panelSize = pnlLichChieu.getSize();
+        suatChieuList.forEach((suatChieu) -> {
+
+            JPanel timeLineItem = new PanelSuatChieuItem(suatChieu);
+            Dimension itemSize = timeLineItem.getPreferredSize();
+            itemSize.width = panelSize.width;
+            timeLineItem.setMaximumSize(itemSize);
+
+            parallel.addGroup(layout.createSequentialGroup()
+                    .addComponent(timeLineItem));
+            sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).
+                    addComponent(timeLineItem));
+        });
+
+        pnlLichChieu.revalidate();
+        pnlLichChieu.repaint();
     }
 
     /**
@@ -75,13 +126,15 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         spnGioBatDau = new javax.swing.JSpinner();
         spnGioKetThuc = new javax.swing.JSpinner();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnSaveOrUpdate = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(310, 513));
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(52, 83, 104));
@@ -125,6 +178,8 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         jScrollPane1.setAutoscrolls(true);
 
         pnlLichChieu.setOpaque(false);
@@ -133,7 +188,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         pnlLichChieu.setLayout(pnlLichChieuLayout);
         pnlLichChieuLayout.setHorizontalGroup(
             pnlLichChieuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 238, Short.MAX_VALUE)
+            .addGap(0, 273, Short.MAX_VALUE)
         );
         pnlLichChieuLayout.setVerticalGroup(
             pnlLichChieuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,7 +201,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,18 +320,18 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
         spnGioKetThuc.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jButton1.setText("Thêm");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSaveOrUpdate.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        btnSaveOrUpdate.setText("Thêm");
+        btnSaveOrUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSaveOrUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSaveOrUpdateActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jButton2.setText("Reset");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReset.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        btnReset.setText("Reset");
+        btnReset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -286,9 +341,9 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnSaveOrUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(btnReset))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -347,8 +402,8 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                     .addComponent(spnGioKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSaveOrUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13))
         );
 
@@ -357,7 +412,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -381,9 +436,9 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnSaveOrUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveOrUpdateActionPerformed
+
+    }//GEN-LAST:event_btnSaveOrUpdateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,14 +483,14 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSaveOrUpdate;
     private javax.swing.JComboBox<String> cboDinhDang;
     private javax.swing.JComboBox<String> cboPhongChieu;
     private javax.swing.JComboBox<String> cboPhongChieuFilter;
     private javax.swing.JComboBox<String> cboTenPhim;
     private com.toedter.calendar.JDateChooser dcsNgayChieu;
     private com.toedter.calendar.JDateChooser dcsNgayChieuFilter;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

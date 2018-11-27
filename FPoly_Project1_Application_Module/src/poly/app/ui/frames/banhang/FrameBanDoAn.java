@@ -13,6 +13,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -618,7 +619,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         //tao hoa don moi
         HoaDon newHD = new HoaDon();
         newHD.setId("");
-        newHD.setNgayBan(DateHelper.now());
+        newHD.setNgayBan(new Date());
         newHD.setNguoiDung(nd);
         HoaDonDaoImpl hdDAO = new HoaDonDaoImpl();
         hdDAO.insert(newHD);

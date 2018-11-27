@@ -27,7 +27,7 @@
             <column name="ngon_ngu" length="20" not-null="true" />
         </property>
         <property name="dienVien" type="string">
-            <column name="dien_vien" length="100" />
+            <column name="dien_vien" length="150" />
         </property>
         <property name="quocGia" type="string">
             <column name="quoc_gia" length="45" not-null="true" />
@@ -45,7 +45,7 @@
             <column name="da_xoa" />
         </property>
         <property name="hinhAnh" type="string">
-            <column name="hinh_anh" length="100"/>
+            <column name="hinh_anh" length="200"/>
         </property>
         <set name="suatChieus" table="suat_chieu" inverse="true" lazy="true" fetch="select">
             <key>

@@ -164,21 +164,24 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         jLabel1.setBackground(new java.awt.Color(221, 221, 221));
         jLabel1.setOpaque(true);
 
+        jLabel2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel2.setText("Ghế thường");
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jLabel3.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel3.setText("Ghế đặc biệt");
 
         jLabel4.setBackground(new java.awt.Color(77, 100, 141));
         jLabel4.setOpaque(true);
 
+        jLabel5.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel5.setText("Ghế đã có người");
 
         jLabel6.setBackground(new java.awt.Color(165, 43, 36));
         jLabel6.setOpaque(true);
 
         jLabel7.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel7.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Open Sans", 1, 15)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("MÀN HÌNH");
@@ -197,6 +200,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
             .addGap(0, 254, Short.MAX_VALUE)
         );
 
+        jLabel8.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel8.setText("Ghế đang chọn");
 
         jLabel9.setBackground(new java.awt.Color(244, 170, 36));
@@ -204,6 +208,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
+        btnBanVe.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnBanVe.setText("Bán vé");
         btnBanVe.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBanVe.setPreferredSize(new java.awt.Dimension(84, 33));
@@ -216,6 +221,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel3.add(btnBanVe, gridBagConstraints);
 
+        btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnHuy.setText("Huỷ");
         btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHuy.setPreferredSize(new java.awt.Dimension(75, 33));
@@ -253,7 +259,7 @@ public class DialogChonGheNgoi extends javax.swing.JDialog {
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8)
-                        .addGap(0, 105, Short.MAX_VALUE)))
+                        .addGap(0, 79, Short.MAX_VALUE)))
                 .addGap(30, 30, 30))
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
