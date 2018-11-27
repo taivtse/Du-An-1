@@ -358,7 +358,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         DefaultTableModel modelTable = (DefaultTableModel) tblPhim.getModel();
         modelTable.setRowCount(0);
         int i = 1;
-        for (Phim phim : new PhimDaoImpl().getPhimDangChieu()) {
+        for (Phim phim : new PhimDaoImpl().getPhimCoSuatChieuTrongNgay()) {
             modelTable.addRow(
                     new Object[]{
                         i++,

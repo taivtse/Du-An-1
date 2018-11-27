@@ -6,12 +6,8 @@
 package poly.app.ui.custom;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.text.SimpleDateFormat;
-import javax.swing.BorderFactory;
-import javax.swing.border.EmptyBorder;
 import poly.app.core.entities.SuatChieu;
-import poly.app.core.helper.DateHelper;
 
 /**
  *
@@ -19,7 +15,7 @@ import poly.app.core.helper.DateHelper;
  */
 public class PanelSuatChieuItem extends javax.swing.JPanel {
     
-    public final int minHeight = 60; // bang do cao 1 tieng
+    private SuatChieu suatChieu;
 
     /**
      * Creates new form PanelSuatChieuItem
@@ -32,10 +28,25 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
         this();        
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         lblGioBatDau.setText(sdf.format(suatChieu.getGioBatDau()));
-        lblGioKetThuc.setText(sdf.format(suatChieu.getGioBatDau()));
+        lblGioKetThuc.setText(sdf.format(suatChieu.getGioKetThuc()));
         lblTenPhim.setText("<html>" + suatChieu.getPhim().getTen() + "</html>");
     }
 
+    public SuatChieu getSuatChieu() {
+        return suatChieu;
+    }
+
+    public void setSuatChieu(SuatChieu suatChieu) {
+        this.suatChieu = suatChieu;
+    }
+    
+    public void setItemSelected(){
+        this.setBackground(Color.decode("#8BD628"));
+    }
+    
+    public void setItemUnSelected(){
+        this.setBackground(Color.decode("#FFF22F"));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -70,7 +81,7 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
 
         lblTenPhim.setBackground(new java.awt.Color(255, 255, 255));
         lblTenPhim.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
-        lblTenPhim.setForeground(new java.awt.Color(38, 89, 149));
+        lblTenPhim.setForeground(new java.awt.Color(52, 83, 104));
         lblTenPhim.setText("Film name");
         jPanel1.add(lblTenPhim);
 
@@ -119,7 +130,6 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblGioBatDau;
     private javax.swing.JLabel lblGioKetThuc;

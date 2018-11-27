@@ -15,5 +15,6 @@ import poly.app.core.entities.Phim;
  */
 public interface PhimDao extends GenericDao<String, Phim>{
     public List<Phim> getPhimHienCo();
+    public List<Phim> getPhimCoSuatChieuTrongNgay();
     public List<Phim> getPhimDangChieu();
 }

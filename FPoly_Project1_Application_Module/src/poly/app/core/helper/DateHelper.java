@@ -452,4 +452,14 @@ public class DateHelper {
 
         throw new IllegalArgumentException("Unsupported type " + date.getClass());
     }
+    
+    
+    /*
+    MY CUSTOM CODE
+    */
+    
+    public static java.util.Date addMinutes(java.util.Date date, int minutes){
+        java.util.Date result = new java.util.Date(date.getTime() + (minutes * MINUTE_MILLIS));
+        return result;
+    }
 }

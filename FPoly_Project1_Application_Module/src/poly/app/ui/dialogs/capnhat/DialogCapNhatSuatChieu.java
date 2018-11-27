@@ -5,18 +5,25 @@
  */
 package poly.app.ui.dialogs.capnhat;
 
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import poly.app.core.daoimpl.DinhDangPhimDaoImpl;
+import poly.app.core.daoimpl.PhimDaoImpl;
+import poly.app.core.daoimpl.PhongChieuDaoImpl;
 import poly.app.core.daoimpl.SuatChieuDaoImpl;
+import poly.app.core.entities.Phim;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.helper.DateHelper;
 import poly.app.ui.custom.PanelSuatChieuItem;
 
 /**
@@ -28,9 +35,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     private GroupLayout layout;
     private GroupLayout.ParallelGroup parallel;
     private GroupLayout.SequentialGroup sequential;
-    List<SuatChieu> suatChieuList;
-    private Date ngayChieu;
-    private PhongChieu phongChieu;
+    private SuatChieu updatingSuatChieu;
 
     /**
      * Creates new form DialogCapNhatSuatChieu
@@ -42,24 +47,38 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         reRenderUI();
     }
 
-    public DialogCapNhatSuatChieu(java.awt.Frame parent, boolean modal, Date ngayChieu, PhongChieu phongChieu) {
-        this(parent, modal);
-        this.ngayChieu = ngayChieu;
-        this.phongChieu = phongChieu;
+    public void setShowingData(Date ngayChieu, PhongChieu phongChieu) {
+        loadDataToCboPhongChieu();
+        loadDataToCboPhim();
+        loadDataToCboDinhDang();
+        dcsNgayChieuFilter.setDate(ngayChieu);
+        dcsNgayChieu.setDate(ngayChieu);
+        cboPhongChieuFilter.getModel().setSelectedItem(phongChieu);
         loadTimeLine();
     }
 
     private void reRenderUI() {
-        SpinnerDateModel model = new SpinnerDateModel();
-        model.setCalendarField(Calendar.MINUTE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        Date date = calendar.getTime();
+
+        SpinnerDateModel model = new SpinnerDateModel(date, null, null, Calendar.MINUTE);
         spnGioBatDau.setModel(model);
         spnGioBatDau.setEditor(new JSpinner.DateEditor(spnGioBatDau, "HH:mm:ss"));
 
-        SpinnerDateModel model1 = new SpinnerDateModel();
-        model1.setCalendarField(Calendar.MINUTE);
+        SpinnerDateModel model1 = new SpinnerDateModel(date, null, null, Calendar.MINUTE);
         spnGioKetThuc.setModel(model1);
         spnGioKetThuc.setEditor(new JSpinner.DateEditor(spnGioKetThuc, "HH:mm:ss"));
 
+        dcsNgayChieu.setDate(new Date());
+    }
+
+    private void loadTimeLine() {
+//        render timeline ui
+        pnlLichChieu.removeAll();
         layout = (GroupLayout) pnlLichChieu.getLayout();
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
@@ -67,26 +86,86 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(parallel));
         sequential = layout.createSequentialGroup();
         layout.setVerticalGroup(sequential);
-    }
 
-    private void loadTimeLine() {
-        suatChieuList = new SuatChieuDaoImpl().getSuatChieuByNgayVaByPhong(ngayChieu, phongChieu);
-        Dimension panelSize = pnlLichChieu.getSize();
-        suatChieuList.forEach((suatChieu) -> {
+//        add item to timeline
+        boolean isFirstSuatChieuItem = true;
 
-            JPanel timeLineItem = new PanelSuatChieuItem(suatChieu);
-            Dimension itemSize = timeLineItem.getPreferredSize();
-            itemSize.width = panelSize.width;
-            timeLineItem.setMaximumSize(itemSize);
+        for (SuatChieu suatChieu : new SuatChieuDaoImpl().getSuatChieuByNgayVaByPhong(
+                dcsNgayChieuFilter.getDate(), (PhongChieu) cboPhongChieuFilter.getSelectedItem())) {
+            PanelSuatChieuItem suatChieuItem = createSuatChieuItem(suatChieu);
 
+//            Add suatChieuItem to pnlLichChieu
             parallel.addGroup(layout.createSequentialGroup()
-                    .addComponent(timeLineItem));
+                    .addComponent(suatChieuItem));
             sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).
-                    addComponent(timeLineItem));
-        });
+                    addComponent(suatChieuItem));
+
+            if (isFirstSuatChieuItem) {
+                isFirstSuatChieuItem = false;
+                suatChieuItemClickAction(suatChieuItem);
+            }
+        };
 
         pnlLichChieu.revalidate();
         pnlLichChieu.repaint();
+    }
+
+    private PanelSuatChieuItem createSuatChieuItem(SuatChieu suatChieu) {
+        Dimension panelSize = pnlLichChieu.getSize();
+        //            render suatChieuItem
+        PanelSuatChieuItem suatChieuItem = new PanelSuatChieuItem(suatChieu);
+        suatChieuItem.setSuatChieu(suatChieu);
+
+        Dimension itemSize = suatChieuItem.getPreferredSize();
+        itemSize.width = panelSize.width;
+        suatChieuItem.setMaximumSize(itemSize);
+        suatChieuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+//        Add click event
+        suatChieuItem.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                suatChieuItemClickAction(suatChieuItem);
+            }
+        });
+
+        return suatChieuItem;
+    }
+
+    private void suatChieuItemClickAction(PanelSuatChieuItem suatChieuItem) {
+        Component[] components = pnlLichChieu.getComponents();
+        for (Component component : components) {
+            ((PanelSuatChieuItem) component).setItemUnSelected();
+        }
+        suatChieuItem.setItemSelected();
+        updatingSuatChieu = suatChieuItem.getSuatChieu();
+
+        cboPhim.getModel().setSelectedItem(updatingSuatChieu.getPhim());
+        cboDinhDang.getModel().setSelectedItem(updatingSuatChieu.getDinhDangPhim());
+        spnGioBatDau.setValue(updatingSuatChieu.getGioBatDau());
+        spnGioKetThuc.setValue(updatingSuatChieu.getGioKetThuc());
+    }
+
+    private void loadDataToCboPhongChieu() {
+        DefaultComboBoxModel comboBoxModel1 = (DefaultComboBoxModel) cboPhongChieu.getModel();
+        DefaultComboBoxModel comboBoxModel2 = (DefaultComboBoxModel) cboPhongChieuFilter.getModel();
+        new PhongChieuDaoImpl().getAll().forEach((phongChieu) -> {
+            comboBoxModel1.addElement(phongChieu);
+            comboBoxModel2.addElement(phongChieu);
+        });
+    }
+
+    private void loadDataToCboPhim() {
+        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboPhim.getModel();
+        new PhimDaoImpl().getPhimDangChieu().forEach((phim) -> {
+            comboBoxModel.addElement(phim);
+        });
+    }
+
+    private void loadDataToCboDinhDang() {
+        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboDinhDang.getModel();
+        new DinhDangPhimDaoImpl().getAll().forEach((dinhDang) -> {
+            comboBoxModel.addElement(dinhDang);
+        });
     }
 
     /**
@@ -108,14 +187,14 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlLichChieu = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        btnAddNew = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         lblActionInfo = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        cboTenPhim = new javax.swing.JComboBox<>();
+        cboPhim = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         cboPhongChieu = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
@@ -143,8 +222,18 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         dcsNgayChieuFilter.setDateFormatString("dd-MM-yyyy");
         dcsNgayChieuFilter.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         dcsNgayChieuFilter.setOpaque(false);
+        dcsNgayChieuFilter.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dcsNgayChieuFilterPropertyChange(evt);
+            }
+        });
 
         cboPhongChieuFilter.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboPhongChieuFilter.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboPhongChieuFilterItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -208,12 +297,12 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
             .addComponent(jScrollPane1)
         );
 
-        jLabel1.setBackground(new java.awt.Color(52, 83, 104));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/add.png"))); // NOI18N
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel1.setOpaque(true);
+        btnAddNew.setBackground(new java.awt.Color(52, 83, 104));
+        btnAddNew.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        btnAddNew.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnAddNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/add.png"))); // NOI18N
+        btnAddNew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAddNew.setOpaque(true);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -223,7 +312,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAddNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -232,7 +321,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -260,7 +349,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
         lblActionInfo.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
         lblActionInfo.setForeground(new java.awt.Color(52, 83, 104));
-        lblActionInfo.setText("Thêm suất chiếu");
+        lblActionInfo.setText("Cập nhật suất chiếu");
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
         jLabel4.setText("Vui lòng nhập đầy đủ thông tin");
@@ -290,12 +379,18 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         jLabel10.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel10.setText("Tên phim");
 
-        cboTenPhim.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboPhim.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboPhim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboPhimItemStateChanged(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel11.setText("Phòng chiếu");
 
         cboPhongChieu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboPhongChieu.setEnabled(false);
 
         jLabel12.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel12.setText("Định dạng");
@@ -317,11 +412,17 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         jLabel15.setText("Giờ kết thúc");
 
         spnGioBatDau.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        spnGioBatDau.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnGioBatDauStateChanged(evt);
+            }
+        });
 
         spnGioKetThuc.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        spnGioKetThuc.setEnabled(false);
 
         btnSaveOrUpdate.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnSaveOrUpdate.setText("Thêm");
+        btnSaveOrUpdate.setText("Cập nhật");
         btnSaveOrUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSaveOrUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -330,7 +431,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         });
 
         btnReset.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnReset.setText("Reset");
+        btnReset.setText("Xoá");
         btnReset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -367,7 +468,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboTenPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cboPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
@@ -379,7 +480,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboTenPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -437,8 +538,33 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveOrUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveOrUpdateActionPerformed
-
+        
     }//GEN-LAST:event_btnSaveOrUpdateActionPerformed
+
+    private void cboPhongChieuFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboPhongChieuFilterItemStateChanged
+        loadTimeLine();
+        cboPhongChieu.getModel().setSelectedItem(cboPhongChieuFilter.getModel().getSelectedItem());
+    }//GEN-LAST:event_cboPhongChieuFilterItemStateChanged
+
+    private void dcsNgayChieuFilterPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcsNgayChieuFilterPropertyChange
+        if ((dcsNgayChieu.getDate() != null && dcsNgayChieuFilter.getDate() != null)
+                && !dcsNgayChieuFilter.getDate().equals(dcsNgayChieu.getDate())) {
+            loadTimeLine();
+            dcsNgayChieu.setDate(dcsNgayChieuFilter.getDate());
+        }
+    }//GEN-LAST:event_dcsNgayChieuFilterPropertyChange
+
+    private void cboPhimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboPhimItemStateChanged
+        spnGioBatDauStateChanged(null);
+    }//GEN-LAST:event_cboPhimItemStateChanged
+
+    private void spnGioBatDauStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnGioBatDauStateChanged
+//        if (spnGioBatDau.getValue() != null && spnGioKetThuc.getValue() != null) {
+            Phim phim = (Phim) cboPhim.getModel().getSelectedItem();
+            Date gioBatDau = (Date) spnGioBatDau.getValue();
+            spnGioKetThuc.setValue(DateHelper.addMinutes(gioBatDau, phim.getThoiLuong()));
+//        }
+    }//GEN-LAST:event_spnGioBatDauStateChanged
 
     /**
      * @param args the command line arguments
@@ -483,15 +609,15 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnAddNew;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSaveOrUpdate;
     private javax.swing.JComboBox<String> cboDinhDang;
+    private javax.swing.JComboBox<String> cboPhim;
     private javax.swing.JComboBox<String> cboPhongChieu;
     private javax.swing.JComboBox<String> cboPhongChieuFilter;
-    private javax.swing.JComboBox<String> cboTenPhim;
     private com.toedter.calendar.JDateChooser dcsNgayChieu;
     private com.toedter.calendar.JDateChooser dcsNgayChieuFilter;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

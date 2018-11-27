@@ -8,9 +8,9 @@ package poly.app.ui.frames.quanly;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +19,6 @@ import poly.app.core.daoimpl.SuatChieuDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
-import poly.app.core.helper.DateHelper;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatSuatChieu;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -29,8 +28,9 @@ import poly.app.ui.utils.TableRendererUtil;
  */
 public class FrameQLSuatChieu extends javax.swing.JFrame {
 
+    DialogCapNhatSuatChieu dialogCapNhatSuatChieu;
     List<SuatChieu> suatChieuList = new ArrayList<>();
-    Set<Phim> phimSet = new HashSet<>();
+    Map<String, Phim> phimMap = new TreeMap<>();
 
     /**
      * Creates new form FrameQLNhanVien
@@ -42,6 +42,10 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         setTitle("Quản lý suất chiếu");
         reRenderUI();
+        
+        new Thread(() -> {
+            dialogCapNhatSuatChieu = new DialogCapNhatSuatChieu(this, true);
+        }).start();
     }
 
     private void reRenderUI() {
@@ -81,7 +85,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     public void loadAllToTable() {
         int i = 1;
         suatChieuList.clear();
-        phimSet.clear();
+        phimMap.clear();
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblSuatChieu.getModel();
         defaultTableModel.setRowCount(0);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
@@ -105,7 +109,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                     });
            
             suatChieuList.add(sc);
-            phimSet.add(sc.getPhim());
+            phimMap.put(sc.getPhim().getId(), sc.getPhim());
         }
         this.tblSuatChieu.setModel(defaultTableModel);
 
@@ -132,13 +136,11 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }
 
     private void loadTenPhimCombobox() {
-
         DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) cboPhim.getModel();
         defaultComboBoxModel.removeAllElements();
-        for (Phim phim : phimSet) {
-            defaultComboBoxModel.addElement(phim);
+        for (Map.Entry<String, Phim> entry : phimMap.entrySet()) {
+            defaultComboBoxModel.addElement(entry.getValue());
         }
-
     }
 
     private void loadFilterDataToTable(List<SuatChieu> searchResult) {
@@ -531,11 +533,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
-//        if (evt.getClickCount() >= 2) {
-//            String id = tblSuatChieu.getValueAt(tblSuatChieu.getSelectedRow(), 1).toString();
-//            new DialogCapNhatSuatPhim(this, true, suatChieuList.get(id)).setVisible(true);
-//            loadDataToTable(search());
-//        }
+
     }//GEN-LAST:event_tblSuatChieuMouseClicked
 
     private void chkTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenPhimActionPerformed
@@ -589,7 +587,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         } else {
             loadFilterDataToTable(fillterByStatus(suatChieuList));
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_rdoSapChieuActionPerformed
 
     private void rdoDaChieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaChieuActionPerformed
@@ -598,7 +595,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         } else {
             loadFilterDataToTable(fillterByStatus(suatChieuList));
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_rdoDaChieuActionPerformed
 
     private void rdoDangChieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDangChieuActionPerformed
@@ -639,7 +635,8 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }//GEN-LAST:event_cboPhongChieuItemStateChanged
 
     private void btnTimelineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimelineActionPerformed
-        new DialogCapNhatSuatChieu(this, true, dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem()).setVisible(true);
+        dialogCapNhatSuatChieu.setShowingData(dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem());
+        dialogCapNhatSuatChieu.setVisible(true);
     }//GEN-LAST:event_btnTimelineActionPerformed
 
     /**

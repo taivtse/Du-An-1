@@ -61,8 +61,10 @@ public class DinhDangPhim  implements java.io.Serializable {
         this.suatChieus = suatChieus;
     }
 
-
-
+    @Override
+    public String toString() {
+        return id;
+    }
 
 }
 

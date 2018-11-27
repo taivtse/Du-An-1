@@ -3,14 +3,17 @@ package poly.app.core.daoimpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import poly.app.core.dao.PhimDao;
 import poly.app.core.data.daoimpl.AbstractDao;
 import poly.app.core.entities.Phim;
 
-public class PhimDaoImpl extends AbstractDao<String, Phim> implements PhimDao{
+public class PhimDaoImpl extends AbstractDao<String, Phim> implements PhimDao {
+
     @Override
     public List<Phim> getPhimHienCo() {
         Map<String, Object> conditions = new HashMap<>();
@@ -19,7 +22,7 @@ public class PhimDaoImpl extends AbstractDao<String, Phim> implements PhimDao{
     }
 
     @Override
-    public List<Phim> getPhimDangChieu() {
+    public List<Phim> getPhimCoSuatChieuTrongNgay() {
         List<Phim> list;
         Session session = this.getSession();
         try {
@@ -28,9 +31,16 @@ public class PhimDaoImpl extends AbstractDao<String, Phim> implements PhimDao{
             list = query.list();
         } catch (HibernateException ex) {
             throw ex;
-        }finally{
+        } finally {
             session.close();
         }
         return list;
+    }
+
+    @Override
+    public List<Phim> getPhimDangChieu() {
+        HashMap<String, Object> conditions = new HashMap<>();
+        conditions.put("trangThai", "Đang chiếu");
+        return this.getByProperties(conditions);
     }
 }
