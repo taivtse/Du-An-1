@@ -11,17 +11,15 @@ public class DateHelper {
     public final static long DAY_MILLIS = HOUR_MILLIS * 24;
     public final static long YEAR_MILLIS = DAY_MILLIS * 365;
 
-    public static DateFormat OUT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
-    public static DateFormat OUT_TIME_FORMAT = new SimpleDateFormat("H:mm:ss");
-    public static DateFormat OUT_DATETIME_FORMAT = new SimpleDateFormat("d/M/yyyy H:mm:ss");
-    public static DateFormat OUT_TIMESTAMP_FORMAT = new SimpleDateFormat("d/M/yy H:mm:ss.SSS");
+    public static DateFormat OUT_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    public static DateFormat OUT_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
+    public static DateFormat OUT_DATETIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    public static DateFormat OUT_TIMESTAMP_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
 
-    public static DateFormat IN_DATE_FORMAT = new SimpleDateFormat("d/M/yy");
-    public static DateFormat IN_TIME_FORMAT = new SimpleDateFormat("H:mm:ss");
-    public static DateFormat IN_DATETIME_FORMAT = new SimpleDateFormat("d/M/yy H:mm:ss");
-    public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("d/M/yy H:mm:ss.SSS");
-
-    public static DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyyMMddkkmmss");
+    public static DateFormat IN_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    public static DateFormat IN_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
+    public static DateFormat IN_DATETIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
 
     public static Calendar calendar = new GregorianCalendar();
 
@@ -461,5 +459,9 @@ public class DateHelper {
     public static java.util.Date addMinutes(java.util.Date date, int minutes){
         java.util.Date result = new java.util.Date(date.getTime() + (minutes * MINUTE_MILLIS));
         return result;
+    }
+    
+    public static void main(String[] args) throws ParseException {
+        System.out.println(DateHelper.toDate("10/12/1997"));
     }
 }
