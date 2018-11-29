@@ -16,12 +16,12 @@ import javax.ws.rs.core.Response;
 import web.entities.LoaiPhim;
 import web.entities.Phim;
 
-@Path("/MyWebService")
-@ApplicationPath("/resources")
+@Path("/")
+@ApplicationPath("/api")
 public class RestService extends Application{
-//    Path: http://localhost:8080/resources/MyWebService:sayHello
+//    Path: http://localhost:8080/api/sayHello
     @GET
-    @Path(":sayHello")
+    @Path("/sayHello")
     public String getHelloMsg(){
         return "Hello World";
     }

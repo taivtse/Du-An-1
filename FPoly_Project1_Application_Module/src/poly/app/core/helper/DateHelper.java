@@ -461,7 +461,7 @@ public class DateHelper {
         return result;
     }
     
-    public static void main(String[] args) throws ParseException {
-        System.out.println(DateHelper.toDate("10/12/1997"));
+    public static String toTimeString(java.util.Date date){
+        return OUT_TIME_FORMAT.format(date);
     }
 }

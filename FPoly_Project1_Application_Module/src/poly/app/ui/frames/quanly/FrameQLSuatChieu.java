@@ -28,7 +28,6 @@ import poly.app.ui.utils.TableRendererUtil;
  */
 public class FrameQLSuatChieu extends javax.swing.JFrame {
 
-    DialogCapNhatSuatChieu dialogCapNhatSuatChieu;
     List<SuatChieu> suatChieuList = new ArrayList<>();
     Map<String, Phim> phimMap = new TreeMap<>();
 
@@ -42,10 +41,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         setTitle("Quản lý suất chiếu");
         reRenderUI();
-        
-        new Thread(() -> {
-            dialogCapNhatSuatChieu = new DialogCapNhatSuatChieu(this, true);
-        }).start();
     }
 
     private void reRenderUI() {
@@ -634,7 +629,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }//GEN-LAST:event_cboPhongChieuItemStateChanged
 
     private void btnTimelineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimelineActionPerformed
-        dialogCapNhatSuatChieu.setShowingData(dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem());
+        DialogCapNhatSuatChieu dialogCapNhatSuatChieu = new DialogCapNhatSuatChieu(this, true, dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem());
         dialogCapNhatSuatChieu.setVisible(true);
     }//GEN-LAST:event_btnTimelineActionPerformed
 

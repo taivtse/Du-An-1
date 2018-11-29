@@ -55,18 +55,19 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        reRenderUI();
     }
 
-    public void setShowingData(Date ngayChieu, PhongChieu phongChieu) {
+    public DialogCapNhatSuatChieu(java.awt.Frame parent, boolean modal, Date ngayChieu, PhongChieu phongChieu) {
+        this(parent, modal);
+
         isAllComboboxLoaded = false;
         loadDataToCboPhongChieu();
         loadDataToCboPhim();
         loadDataToCboDinhDang();
         isAllComboboxLoaded = true;
         dcsNgayChieuFilter.setDate(ngayChieu);
-        dcsNgayChieu.setDate(ngayChieu);
         cboPhongChieuFilter.getModel().setSelectedItem(phongChieu);
+        reRenderUI();
         loadTimeLine();
     }
 
@@ -86,7 +87,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         spnGioKetThuc.setModel(model1);
         spnGioKetThuc.setEditor(new JSpinner.DateEditor(spnGioKetThuc, "HH:mm:ss"));
 
-        dcsNgayChieu.setDate(new Date());
+        dcsNgayChieu.setDate(dcsNgayChieuFilter.getDate());
     }
 
     private void loadTimeLine() {
@@ -184,7 +185,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         int newKhoangCach;
         try {
             String inputStr = DialogHelper.prompt(this, "Nhập thời gian chờ");
-            if (inputStr.equals("")) {
+            if (inputStr == null) {
                 return;
             }
             newKhoangCach = Integer.parseInt(inputStr);
@@ -215,6 +216,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }
 
     private void suatChieuItemClickAction(PanelSuatChieuItem suatChieuItem) {
+        setUpdatingState();
         Component[] components = pnlLichChieu.getComponents();
         for (Component component : components) {
             if (component instanceof PanelSuatChieuItem) {
@@ -259,6 +261,160 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         });
     }
 
+    private void setAddingState() {
+        lblActionInfo.setText("Thêm suất chiếu");
+        cboPhim.setSelectedIndex(0);
+        cboDinhDang.setSelectedIndex(0);
+        btnSaveOrUpdate.setText("Thêm");
+        btnResetOrDelete.setText("Reset");
+        reRenderUI();
+
+        Component[] components = pnlLichChieu.getComponents();
+        for (Component component : components) {
+            if (component instanceof PanelSuatChieuItem) {
+                ((PanelSuatChieuItem) component).setItemUnSelected();
+            }
+        }
+    }
+
+    private void setUpdatingState() {
+        lblActionInfo.setText("Cập nhật suất chiếu");
+        btnSaveOrUpdate.setText("Cập nhật");
+        btnResetOrDelete.setText("Xoá");
+    }
+
+    private Date getMergeDateAndTime(Date inputDate) {
+        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(dcsNgayChieu.getDate());
+        String timeStr = new SimpleDateFormat("HH:mm:ss").format(inputDate);
+        LocalDateTime dt = LocalDateTime.of(LocalDate.parse(dateStr), LocalTime.parse(timeStr));
+
+        return Date.from(dt.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private boolean checkGioBatDauSuatChieu() {
+        Date newGioBatDau = (Date) spnGioBatDau.getValue();
+        newGioBatDau = getMergeDateAndTime(newGioBatDau);
+
+        for (PanelSuatChieuItem panelSuatChieuItem : suatChieuItemList) {
+            SuatChieu curSuatChieu = panelSuatChieuItem.getSuatChieu();
+            if (panelSuatChieuItem.getSuatChieuIndex() != updatingIndex
+                    && curSuatChieu.getGioBatDau().compareTo(newGioBatDau) < 0
+                    && curSuatChieu.getGioKetThuc().compareTo(newGioBatDau) > 0) {
+                String alertStr = "Suất chiếu bị trùng với suất:\n"
+                        + curSuatChieu.getPhim().getTen() + " (" + DateHelper.toTimeString(curSuatChieu.getGioBatDau())
+                        + " - " + DateHelper.toTimeString(curSuatChieu.getGioKetThuc());
+
+                DialogHelper.message(this, alertStr, DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean checkThoiGianSuatChieu() {
+        Date newGioBatDau = (Date) spnGioBatDau.getValue();
+        Date newGioKetThuc = (Date) spnGioKetThuc.getValue();
+
+        newGioBatDau = getMergeDateAndTime(newGioBatDau);
+        newGioKetThuc = getMergeDateAndTime(newGioKetThuc);
+
+        for (PanelSuatChieuItem panelSuatChieuItem : suatChieuItemList) {
+            SuatChieu curSuatChieu = panelSuatChieuItem.getSuatChieu();
+            if (panelSuatChieuItem.getSuatChieuIndex() != updatingIndex) {
+                boolean isValid = true;
+                if (curSuatChieu.getGioBatDau().compareTo(newGioBatDau) < 0
+                        && curSuatChieu.getGioKetThuc().compareTo(newGioBatDau) > 0) {
+                    isValid = false;
+                } else if (curSuatChieu.getGioBatDau().compareTo(newGioKetThuc) < 0
+                        && curSuatChieu.getGioKetThuc().compareTo(newGioKetThuc) > 0) {
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    String alertStr = "Suất chiếu bị trùng với suất:\n"
+                            + curSuatChieu.getPhim().getTen() + " (" + DateHelper.toTimeString(curSuatChieu.getGioBatDau())
+                            + " - " + DateHelper.toTimeString(curSuatChieu.getGioKetThuc()) + ")";
+
+                    DialogHelper.message(this, alertStr, DialogHelper.ERROR_MESSAGE);
+                    return false;
+                }
+
+            }
+        }
+
+        return true;
+    }
+
+    private boolean updateSuatChieu() {
+        SuatChieu updatingSuatChieu = suatChieuItemList.get(updatingIndex).getSuatChieu();
+        boolean isUpdated = true;
+        Date newGioBatDau = (Date) spnGioBatDau.getValue();
+
+        if (!checkGioBatDauSuatChieu()) {
+            return false;
+        }
+
+        Date newGioKetThuc = (Date) spnGioKetThuc.getValue();
+        int durationChange = DateHelper.minutesDiff(updatingSuatChieu.getGioKetThuc(), newGioKetThuc);
+
+        Phim phim = (Phim) cboPhim.getModel().getSelectedItem();
+        DinhDangPhim dinhDangPhim = (DinhDangPhim) cboDinhDang.getModel().getSelectedItem();
+        updatingSuatChieu.setPhim(phim);
+        updatingSuatChieu.setDinhDangPhim(dinhDangPhim);
+
+        updatingSuatChieu.setGioBatDau(getMergeDateAndTime(newGioBatDau));
+        updatingSuatChieu.setGioKetThuc(getMergeDateAndTime(newGioKetThuc));
+
+        SuatChieu nextSuatChieu = null;
+        if (updatingIndex + 1 < suatChieuItemList.size()) {
+            nextSuatChieu = suatChieuItemList.get(updatingIndex + 1).getSuatChieu();
+        }
+        if (nextSuatChieu != null && updatingSuatChieu.getGioKetThuc().compareTo(nextSuatChieu.getGioBatDau()) > 0) {
+            String alertStr = "Lưu ý: khi cập nhật thì những suất chiếu sau sẽ tăng thời gian bắt đầu";
+            if (DialogHelper.confirm(this, alertStr)) {
+                try {
+                    isUpdated = new SuatChieuDaoImpl().updateAnhHuongSuatChieuSau(updatingSuatChieu, durationChange);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    isUpdated = false;
+                }
+            }
+        } else {
+            isUpdated = new SuatChieuDaoImpl().update(updatingSuatChieu);
+        }
+
+        return isUpdated;
+    }
+
+    private SuatChieu insertSuatChieu() {
+        Date gioBatDau = getMergeDateAndTime((Date) spnGioBatDau.getValue());
+        Date gioKetThuc = getMergeDateAndTime((Date) spnGioKetThuc.getValue());
+
+        if (!checkThoiGianSuatChieu()) {
+            return null;
+        }
+
+        Date ngayChieu = dcsNgayChieu.getDate();
+        PhongChieu phongChieu = (PhongChieu) cboPhongChieu.getModel().getSelectedItem();
+        Phim phim = (Phim) cboPhim.getModel().getSelectedItem();
+        DinhDangPhim dinhDangPhim = (DinhDangPhim) cboDinhDang.getModel().getSelectedItem();
+
+        SuatChieu suatChieu = new SuatChieu(dinhDangPhim, phim, phongChieu, gioBatDau, gioKetThuc, ngayChieu);
+        suatChieu.setId("");
+
+        try {
+            new SuatChieuDaoImpl().insert(suatChieu);
+            DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+            return null;
+        }
+
+        return suatChieu;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -297,7 +453,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         spnGioBatDau = new javax.swing.JSpinner();
         spnGioKetThuc = new javax.swing.JSpinner();
         btnSaveOrUpdate = new javax.swing.JButton();
-        btnReset = new javax.swing.JButton();
+        btnResetOrDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -394,6 +550,11 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         btnAddNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/add.png"))); // NOI18N
         btnAddNew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAddNew.setOpaque(true);
+        btnAddNew.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnAddNewMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -521,12 +682,12 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
             }
         });
 
-        btnReset.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnReset.setText("Xoá");
-        btnReset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnReset.addActionListener(new java.awt.event.ActionListener() {
+        btnResetOrDelete.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        btnResetOrDelete.setText("Xoá");
+        btnResetOrDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnResetOrDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetActionPerformed(evt);
+                btnResetOrDeleteActionPerformed(evt);
             }
         });
 
@@ -540,7 +701,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnSaveOrUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnReset))
+                        .addComponent(btnResetOrDelete))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -600,7 +761,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSaveOrUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnResetOrDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(13, 13, 13))
         );
 
@@ -634,59 +795,47 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveOrUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveOrUpdateActionPerformed
-        SuatChieu updatingSuatChieu = suatChieuItemList.get(updatingIndex).getSuatChieu();
-        boolean isUpdated = true;
-        Date newGioBatDau = (Date) spnGioBatDau.getValue();
-        Date newGioKetThuc = (Date) spnGioKetThuc.getValue();
-        int durationChange = DateHelper.minutesDiff(updatingSuatChieu.getGioKetThuc(), newGioKetThuc);
+        if (btnSaveOrUpdate.getText().equals("Cập nhật")) {
+            boolean isUpdated = updateSuatChieu();
 
-        Phim phim = (Phim) cboPhim.getModel().getSelectedItem();
-        DinhDangPhim dinhDangPhim = (DinhDangPhim) cboDinhDang.getModel().getSelectedItem();
-        updatingSuatChieu.setPhim(phim);
-        updatingSuatChieu.setDinhDangPhim(dinhDangPhim);
+            if (isUpdated) {
+                DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                loadTimeLine();
 
-        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(dcsNgayChieu.getDate());
-        String timeStr = new SimpleDateFormat("HH:mm:ss").format(newGioBatDau);
-        LocalDateTime dt = LocalDateTime.of(LocalDate.parse(dateStr), LocalTime.parse(timeStr));
-        updatingSuatChieu.setGioBatDau(Date.from(dt.atZone(ZoneId.systemDefault()).toInstant()));
-
-        timeStr = new SimpleDateFormat("HH:mm:ss").format(newGioKetThuc);
-        dt = LocalDateTime.of(LocalDate.parse(dateStr), LocalTime.parse(timeStr));
-        updatingSuatChieu.setGioKetThuc(Date.from(dt.atZone(ZoneId.systemDefault()).toInstant()));
-
-        SuatChieu nextSuatChieu = null;
-        if (updatingIndex + 1 < suatChieuItemList.size()) {
-            nextSuatChieu = suatChieuItemList.get(updatingIndex + 1).getSuatChieu();
-        }
-        if (nextSuatChieu != null && updatingSuatChieu.getGioKetThuc().compareTo(nextSuatChieu.getGioBatDau()) > 0) {
-            String alertStr = "Lưu ý: khi cập nhật thì những suất chiếu sau sẽ tăng thời gian bắt đầu";
-            if (DialogHelper.confirm(this, alertStr)) {
-                try {
-                    isUpdated = new SuatChieuDaoImpl().updateAnhHuongSuatChieuSau(updatingSuatChieu, durationChange);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    isUpdated = false;
-                }
+                suatChieuItemList.get(updatingIndex).setItemSelected();
+                
+                setUpdatingState();
+            } else {
+                DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
             }
         } else {
-            isUpdated = new SuatChieuDaoImpl().update(updatingSuatChieu);
+            SuatChieu newSuatChieu = insertSuatChieu();
+            if (newSuatChieu != null) {
+                loadTimeLine();
+
+                for (PanelSuatChieuItem panelSuatChieuItem : suatChieuItemList) {
+                    SuatChieu curSuatChieu = panelSuatChieuItem.getSuatChieu();
+                    if (newSuatChieu.getPhim().getId().equals(curSuatChieu.getPhim().getId())
+                            && newSuatChieu.getGioBatDau().equals(curSuatChieu.getGioBatDau())
+                            && newSuatChieu.getGioKetThuc().equals(curSuatChieu.getGioKetThuc())) {
+                        panelSuatChieuItem.setItemSelected();
+                        updatingIndex = panelSuatChieuItem.getSuatChieuIndex();
+                        break;
+                    }
+                }
+                
+                setUpdatingState();
+            }
         }
-
-        if (isUpdated) {
-            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-        } else {
-            DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
-        }
-
-        loadTimeLine();
-
-        suatChieuItemList.get(updatingIndex).setItemSelected();
     }//GEN-LAST:event_btnSaveOrUpdateActionPerformed
 
     private void cboPhongChieuFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboPhongChieuFilterItemStateChanged
         if (updatingIndex != -1) {
             loadTimeLine();
             cboPhongChieu.getModel().setSelectedItem(cboPhongChieuFilter.getModel().getSelectedItem());
+
+            updatingIndex = 0;
+            suatChieuItemList.get(updatingIndex).setItemSelected();
         }
     }//GEN-LAST:event_cboPhongChieuFilterItemStateChanged
 
@@ -695,6 +844,9 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 && !dcsNgayChieuFilter.getDate().equals(dcsNgayChieu.getDate())) {
             loadTimeLine();
             dcsNgayChieu.setDate(dcsNgayChieuFilter.getDate());
+
+            updatingIndex = 0;
+            suatChieuItemList.get(updatingIndex).setItemSelected();
         }
     }//GEN-LAST:event_dcsNgayChieuFilterPropertyChange
 
@@ -710,21 +862,28 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_spnGioBatDauStateChanged
 
-    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-        SuatChieu updatingSuatChieu = suatChieuItemList.get(updatingIndex).getSuatChieu();
-        try {
-            new SuatChieuDaoImpl().delete(updatingSuatChieu);
-            DialogHelper.message(this, "Xoá dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            e.printStackTrace();
-            DialogHelper.message(this, "Xoá dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+    private void btnResetOrDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetOrDeleteActionPerformed
+        boolean isAccepted = DialogHelper.confirm(this, "Bạn có chắc chắn muốn xoá?");
+        if (isAccepted) {
+            SuatChieu updatingSuatChieu = suatChieuItemList.get(updatingIndex).getSuatChieu();
+            try {
+                new SuatChieuDaoImpl().delete(updatingSuatChieu);
+                DialogHelper.message(this, "Xoá dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                e.printStackTrace();
+                DialogHelper.message(this, "Xoá dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+            }
+            updatingIndex -= 1;
+            loadTimeLine();
+            if (updatingIndex != -1) {
+                suatChieuItemList.get(updatingIndex).setItemSelected();
+            }
         }
-        updatingIndex -= 1;
-        loadTimeLine();
-        if (updatingIndex != -1) {
-            suatChieuItemList.get(updatingIndex).setItemSelected();
-        }
-    }//GEN-LAST:event_btnResetActionPerformed
+    }//GEN-LAST:event_btnResetOrDeleteActionPerformed
+
+    private void btnAddNewMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddNewMouseReleased
+        setAddingState();
+    }//GEN-LAST:event_btnAddNewMouseReleased
 
     /**
      * @param args the command line arguments
@@ -770,7 +929,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnAddNew;
-    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnResetOrDelete;
     private javax.swing.JButton btnSaveOrUpdate;
     private javax.swing.JComboBox<String> cboDinhDang;
     private javax.swing.JComboBox<String> cboPhim;
