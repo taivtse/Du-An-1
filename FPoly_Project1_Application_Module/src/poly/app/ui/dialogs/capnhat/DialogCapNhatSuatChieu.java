@@ -108,7 +108,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
             suatChieuItemList.add(suatChieuItem);
 
             if (i < suatChieuList.size() - 1) {
-                PanelKhoangCachItem khoangCachItem = createKhoangCachItem(suatChieuList.get(i), suatChieuList.get(i + 1));
+                PanelKhoangCachItem khoangCachItem = createKhoangCachItem(suatChieuList.get(i), suatChieuList.get(i + 1), i);
                 addItemToPanelLichChieu(khoangCachItem);
             }
 
@@ -144,9 +144,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     private PanelSuatChieuItem createSuatChieuItem(SuatChieu suatChieu, int index) {
         Dimension panelSize = pnlLichChieu.getSize();
         //            render suatChieuItem
-        PanelSuatChieuItem suatChieuItem = new PanelSuatChieuItem(suatChieu);
-        suatChieuItem.setSuatChieu(suatChieu);
-        suatChieuItem.setIndex(index);
+        PanelSuatChieuItem suatChieuItem = new PanelSuatChieuItem(suatChieu, index);
 
         Dimension itemSize = suatChieuItem.getPreferredSize();
         itemSize.width = panelSize.width;
@@ -162,17 +160,58 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         return suatChieuItem;
     }
 
-    private PanelKhoangCachItem createKhoangCachItem(SuatChieu prevSuatChieu, SuatChieu nextSuatChieu) {
+    private PanelKhoangCachItem createKhoangCachItem(SuatChieu prevSuatChieu, SuatChieu nextSuatChieu, int prevSuatChieuIndex) {
         Dimension panelSize = pnlLichChieu.getSize();
 //            render suatChieuItem
         int khoangCach = DateHelper.minutesDiff(prevSuatChieu.getGioKetThuc(), nextSuatChieu.getGioBatDau());
-        PanelKhoangCachItem khoangCachItem = new PanelKhoangCachItem(khoangCach);
+        PanelKhoangCachItem khoangCachItem = new PanelKhoangCachItem(khoangCach, prevSuatChieuIndex);
 
         Dimension itemSize = khoangCachItem.getPreferredSize();
         itemSize.width = panelSize.width;
         khoangCachItem.setMaximumSize(itemSize);
 
+        //        Add click event
+        khoangCachItem.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                khoangCachItemClickAction(khoangCachItem);
+            }
+        });
+
         return khoangCachItem;
+    }
+
+    private void khoangCachItemClickAction(PanelKhoangCachItem khoangCachItem) {
+        int newKhoangCach;
+        try {
+            String inputStr = DialogHelper.prompt(this, "Nhập thời gian chờ");
+            if (inputStr.equals("")) {
+                return;
+            }
+            newKhoangCach = Integer.parseInt(inputStr);
+            if (newKhoangCach < 0) {
+                throw new Exception("Thời gian chờ bé hơn 0");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogHelper.message(this, "Thời gian chờ không hợp lệ!", DialogHelper.ERROR_MESSAGE);
+            return;
+        }
+
+        int changeKhoangCach = newKhoangCach - khoangCachItem.getKhoangCach();
+
+        SuatChieu prevSuatChieu = suatChieuItemList.get(khoangCachItem.getPrevSuatChieuIndex()).getSuatChieu();
+
+        try {
+            new SuatChieuDaoImpl().updateThoiGianCacSuatChieu(prevSuatChieu, changeKhoangCach);
+            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+
+            loadTimeLine();
+
+            suatChieuItemList.get(updatingIndex).setItemSelected();
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+        }
     }
 
     private void suatChieuItemClickAction(PanelSuatChieuItem suatChieuItem) {
@@ -183,7 +222,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
             }
         }
         suatChieuItem.setItemSelected();
-        updatingIndex = suatChieuItem.getIndex();
+        updatingIndex = suatChieuItem.getSuatChieuIndex();
 
         SuatChieu updatingSuatChieu = suatChieuItem.getSuatChieu();
 

@@ -15,7 +15,7 @@ import poly.app.core.entities.SuatChieu;
  */
 public class PanelSuatChieuItem extends javax.swing.JPanel {
     
-    private int index;
+    private int suatChieuIndex;
     private SuatChieu suatChieu;
 
     /**
@@ -25,8 +25,10 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
         initComponents();
     }
     
-    public PanelSuatChieuItem(SuatChieu suatChieu) {
+    public PanelSuatChieuItem(SuatChieu suatChieu,  int suatChieuIndex) {
         this();        
+        this.suatChieuIndex = suatChieuIndex;
+        this.suatChieu = suatChieu;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         lblGioBatDau.setText(sdf.format(suatChieu.getGioBatDau()));
         lblGioKetThuc.setText(sdf.format(suatChieu.getGioKetThuc()));
@@ -41,14 +43,14 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
         this.suatChieu = suatChieu;
     }
 
-    public int getIndex() {
-        return index;
+    public int getSuatChieuIndex() {
+        return suatChieuIndex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setSuatChieuIndex(int suatChieuIndex) {
+        this.suatChieuIndex = suatChieuIndex;
     }
-    
+
     public void setItemSelected(){
         this.setBackground(Color.decode("#8BD628"));
     }

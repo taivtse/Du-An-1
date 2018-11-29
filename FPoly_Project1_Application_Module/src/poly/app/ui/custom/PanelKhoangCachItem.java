@@ -5,15 +5,13 @@
  */
 package poly.app.ui.custom;
 
-import java.awt.Color;
-import poly.app.core.entities.SuatChieu;
-
 /**
  *
  * @author vothanhtai
  */
 public class PanelKhoangCachItem extends javax.swing.JPanel {
     
+    int prevSuatChieuIndex = -1;
     int khoangCach;
     /**
      * Creates new form PanelSuatChieuItem
@@ -22,11 +20,29 @@ public class PanelKhoangCachItem extends javax.swing.JPanel {
         initComponents();
     }
     
-    public PanelKhoangCachItem(int khoangCach) {
+    public PanelKhoangCachItem(int khoangCach, int prevSuatChieuIndex) {
         this();        
         this.khoangCach = khoangCach;
+        this.prevSuatChieuIndex = prevSuatChieuIndex;
         lblKhoangCach.setText("Thời gian chờ: " + this.khoangCach + " phút");
     }
+
+    public int getPrevSuatChieuIndex() {
+        return prevSuatChieuIndex;
+    }
+
+    public void setPrevSuatChieuIndex(int prevSuatChieuIndex) {
+        this.prevSuatChieuIndex = prevSuatChieuIndex;
+    }
+
+    public int getKhoangCach() {
+        return khoangCach;
+    }
+
+    public void setKhoangCach(int khoangCach) {
+        this.khoangCach = khoangCach;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

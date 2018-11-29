@@ -58,14 +58,15 @@ public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements 
     public boolean updateAnhHuongSuatChieuSau(SuatChieu suatChieu, int durationChange) {
         try {
             this.update(suatChieu);
-            updateLaterSuatChieu(suatChieu, durationChange);
+            updateThoiGianCacSuatChieu(suatChieu, durationChange);
         } catch (HibernateException e) {
             throw e;
         }
         return true;
     }
 
-    private void updateLaterSuatChieu(SuatChieu suatChieu, int durationChange){
+    @Override
+    public void updateThoiGianCacSuatChieu(SuatChieu suatChieu, int durationChange){
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {
