@@ -6,12 +6,18 @@
 package poly.app.ui.dialogs.capnhat;
 
 import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JSpinner;
@@ -20,11 +26,14 @@ import poly.app.core.daoimpl.DinhDangPhimDaoImpl;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.daoimpl.PhongChieuDaoImpl;
 import poly.app.core.daoimpl.SuatChieuDaoImpl;
+import poly.app.core.entities.DinhDangPhim;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
 import poly.app.core.helper.DateHelper;
+import poly.app.core.helper.DialogHelper;
 import poly.app.ui.custom.PanelSuatChieuItem;
+import poly.app.ui.custom.PanelKhoangCachItem;
 
 /**
  *
@@ -35,7 +44,9 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     private GroupLayout layout;
     private GroupLayout.ParallelGroup parallel;
     private GroupLayout.SequentialGroup sequential;
-    private SuatChieu updatingSuatChieu;
+    private boolean isAllComboboxLoaded = false;
+    private int updatingIndex = -1;
+    private List<PanelSuatChieuItem> suatChieuItemList = new ArrayList<>();
 
     /**
      * Creates new form DialogCapNhatSuatChieu
@@ -48,9 +59,11 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }
 
     public void setShowingData(Date ngayChieu, PhongChieu phongChieu) {
+        isAllComboboxLoaded = false;
         loadDataToCboPhongChieu();
         loadDataToCboPhim();
         loadDataToCboDinhDang();
+        isAllComboboxLoaded = true;
         dcsNgayChieuFilter.setDate(ngayChieu);
         dcsNgayChieu.setDate(ngayChieu);
         cboPhongChieuFilter.getModel().setSelectedItem(phongChieu);
@@ -77,6 +90,38 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }
 
     private void loadTimeLine() {
+        buildPanelLichChieuLayout();
+
+        List<SuatChieu> suatChieuList = new SuatChieuDaoImpl().getSuatChieuByNgayVaByPhong(
+                dcsNgayChieuFilter.getDate(), (PhongChieu) cboPhongChieuFilter.getSelectedItem());
+        suatChieuItemList.clear();
+
+        for (int i = 0; i < suatChieuList.size(); i++) {
+            SuatChieu suatChieu = suatChieuList.get(i);
+
+            PanelSuatChieuItem suatChieuItem = createSuatChieuItem(suatChieu, i);
+
+//            Add suatChieuItem to pnlLichChieu
+            addItemToPanelLichChieu(suatChieuItem);
+
+//            Add suatChieuItem to suatChieuItemList
+            suatChieuItemList.add(suatChieuItem);
+
+            if (i < suatChieuList.size() - 1) {
+                PanelKhoangCachItem khoangCachItem = createKhoangCachItem(suatChieuList.get(i), suatChieuList.get(i + 1));
+                addItemToPanelLichChieu(khoangCachItem);
+            }
+
+            if (updatingIndex == -1) {
+                suatChieuItemClickAction(suatChieuItem);
+            }
+        };
+
+        pnlLichChieu.revalidate();
+        pnlLichChieu.repaint();
+    }
+
+    private void buildPanelLichChieuLayout() {
 //        render timeline ui
         pnlLichChieu.removeAll();
         layout = (GroupLayout) pnlLichChieu.getLayout();
@@ -86,40 +131,26 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(parallel));
         sequential = layout.createSequentialGroup();
         layout.setVerticalGroup(sequential);
-
-//        add item to timeline
-        boolean isFirstSuatChieuItem = true;
-
-        for (SuatChieu suatChieu : new SuatChieuDaoImpl().getSuatChieuByNgayVaByPhong(
-                dcsNgayChieuFilter.getDate(), (PhongChieu) cboPhongChieuFilter.getSelectedItem())) {
-            PanelSuatChieuItem suatChieuItem = createSuatChieuItem(suatChieu);
-
-//            Add suatChieuItem to pnlLichChieu
-            parallel.addGroup(layout.createSequentialGroup()
-                    .addComponent(suatChieuItem));
-            sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).
-                    addComponent(suatChieuItem));
-
-            if (isFirstSuatChieuItem) {
-                isFirstSuatChieuItem = false;
-                suatChieuItemClickAction(suatChieuItem);
-            }
-        };
-
-        pnlLichChieu.revalidate();
-        pnlLichChieu.repaint();
     }
 
-    private PanelSuatChieuItem createSuatChieuItem(SuatChieu suatChieu) {
+    private void addItemToPanelLichChieu(Component component) {
+        //            Add suatChieuItem to pnlLichChieu
+        parallel.addGroup(layout.createSequentialGroup()
+                .addComponent(component));
+        sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).
+                addComponent(component));
+    }
+
+    private PanelSuatChieuItem createSuatChieuItem(SuatChieu suatChieu, int index) {
         Dimension panelSize = pnlLichChieu.getSize();
         //            render suatChieuItem
         PanelSuatChieuItem suatChieuItem = new PanelSuatChieuItem(suatChieu);
         suatChieuItem.setSuatChieu(suatChieu);
+        suatChieuItem.setIndex(index);
 
         Dimension itemSize = suatChieuItem.getPreferredSize();
         itemSize.width = panelSize.width;
         suatChieuItem.setMaximumSize(itemSize);
-        suatChieuItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 //        Add click event
         suatChieuItem.addMouseListener(new MouseAdapter() {
@@ -131,13 +162,30 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         return suatChieuItem;
     }
 
+    private PanelKhoangCachItem createKhoangCachItem(SuatChieu prevSuatChieu, SuatChieu nextSuatChieu) {
+        Dimension panelSize = pnlLichChieu.getSize();
+//            render suatChieuItem
+        int khoangCach = DateHelper.minutesDiff(prevSuatChieu.getGioKetThuc(), nextSuatChieu.getGioBatDau());
+        PanelKhoangCachItem khoangCachItem = new PanelKhoangCachItem(khoangCach);
+
+        Dimension itemSize = khoangCachItem.getPreferredSize();
+        itemSize.width = panelSize.width;
+        khoangCachItem.setMaximumSize(itemSize);
+
+        return khoangCachItem;
+    }
+
     private void suatChieuItemClickAction(PanelSuatChieuItem suatChieuItem) {
         Component[] components = pnlLichChieu.getComponents();
         for (Component component : components) {
-            ((PanelSuatChieuItem) component).setItemUnSelected();
+            if (component instanceof PanelSuatChieuItem) {
+                ((PanelSuatChieuItem) component).setItemUnSelected();
+            }
         }
         suatChieuItem.setItemSelected();
-        updatingSuatChieu = suatChieuItem.getSuatChieu();
+        updatingIndex = suatChieuItem.getIndex();
+
+        SuatChieu updatingSuatChieu = suatChieuItem.getSuatChieu();
 
         cboPhim.getModel().setSelectedItem(updatingSuatChieu.getPhim());
         cboDinhDang.getModel().setSelectedItem(updatingSuatChieu.getDinhDangPhim());
@@ -147,7 +195,9 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
     private void loadDataToCboPhongChieu() {
         DefaultComboBoxModel comboBoxModel1 = (DefaultComboBoxModel) cboPhongChieu.getModel();
+        comboBoxModel1.removeAllElements();
         DefaultComboBoxModel comboBoxModel2 = (DefaultComboBoxModel) cboPhongChieuFilter.getModel();
+        comboBoxModel2.removeAllElements();
         new PhongChieuDaoImpl().getAll().forEach((phongChieu) -> {
             comboBoxModel1.addElement(phongChieu);
             comboBoxModel2.addElement(phongChieu);
@@ -156,6 +206,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
     private void loadDataToCboPhim() {
         DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboPhim.getModel();
+        comboBoxModel.removeAllElements();
         new PhimDaoImpl().getPhimDangChieu().forEach((phim) -> {
             comboBoxModel.addElement(phim);
         });
@@ -163,6 +214,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
     private void loadDataToCboDinhDang() {
         DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboDinhDang.getModel();
+        comboBoxModel.removeAllElements();
         new DinhDangPhimDaoImpl().getAll().forEach((dinhDang) -> {
             comboBoxModel.addElement(dinhDang);
         });
@@ -433,6 +485,11 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         btnReset.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnReset.setText("Xoá");
         btnReset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -538,16 +595,64 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveOrUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveOrUpdateActionPerformed
-        
+        SuatChieu updatingSuatChieu = suatChieuItemList.get(updatingIndex).getSuatChieu();
+        boolean isUpdated = true;
+        Date newGioBatDau = (Date) spnGioBatDau.getValue();
+        Date newGioKetThuc = (Date) spnGioKetThuc.getValue();
+        int durationChange = DateHelper.minutesDiff(updatingSuatChieu.getGioKetThuc(), newGioKetThuc);
+
+        Phim phim = (Phim) cboPhim.getModel().getSelectedItem();
+        DinhDangPhim dinhDangPhim = (DinhDangPhim) cboDinhDang.getModel().getSelectedItem();
+        updatingSuatChieu.setPhim(phim);
+        updatingSuatChieu.setDinhDangPhim(dinhDangPhim);
+
+        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(dcsNgayChieu.getDate());
+        String timeStr = new SimpleDateFormat("HH:mm:ss").format(newGioBatDau);
+        LocalDateTime dt = LocalDateTime.of(LocalDate.parse(dateStr), LocalTime.parse(timeStr));
+        updatingSuatChieu.setGioBatDau(Date.from(dt.atZone(ZoneId.systemDefault()).toInstant()));
+
+        timeStr = new SimpleDateFormat("HH:mm:ss").format(newGioKetThuc);
+        dt = LocalDateTime.of(LocalDate.parse(dateStr), LocalTime.parse(timeStr));
+        updatingSuatChieu.setGioKetThuc(Date.from(dt.atZone(ZoneId.systemDefault()).toInstant()));
+
+        SuatChieu nextSuatChieu = null;
+        if (updatingIndex + 1 < suatChieuItemList.size()) {
+            nextSuatChieu = suatChieuItemList.get(updatingIndex + 1).getSuatChieu();
+        }
+        if (nextSuatChieu != null && updatingSuatChieu.getGioKetThuc().compareTo(nextSuatChieu.getGioBatDau()) > 0) {
+            String alertStr = "Lưu ý: khi cập nhật thì những suất chiếu sau sẽ tăng thời gian bắt đầu";
+            if (DialogHelper.confirm(this, alertStr)) {
+                try {
+                    isUpdated = new SuatChieuDaoImpl().updateAnhHuongSuatChieuSau(updatingSuatChieu, durationChange);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    isUpdated = false;
+                }
+            }
+        } else {
+            isUpdated = new SuatChieuDaoImpl().update(updatingSuatChieu);
+        }
+
+        if (isUpdated) {
+            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+        } else {
+            DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+        }
+
+        loadTimeLine();
+
+        suatChieuItemList.get(updatingIndex).setItemSelected();
     }//GEN-LAST:event_btnSaveOrUpdateActionPerformed
 
     private void cboPhongChieuFilterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboPhongChieuFilterItemStateChanged
-        loadTimeLine();
-        cboPhongChieu.getModel().setSelectedItem(cboPhongChieuFilter.getModel().getSelectedItem());
+        if (updatingIndex != -1) {
+            loadTimeLine();
+            cboPhongChieu.getModel().setSelectedItem(cboPhongChieuFilter.getModel().getSelectedItem());
+        }
     }//GEN-LAST:event_cboPhongChieuFilterItemStateChanged
 
     private void dcsNgayChieuFilterPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcsNgayChieuFilterPropertyChange
-        if ((dcsNgayChieu.getDate() != null && dcsNgayChieuFilter.getDate() != null)
+        if (updatingIndex != -1 && (dcsNgayChieu.getDate() != null && dcsNgayChieuFilter.getDate() != null)
                 && !dcsNgayChieuFilter.getDate().equals(dcsNgayChieu.getDate())) {
             loadTimeLine();
             dcsNgayChieu.setDate(dcsNgayChieuFilter.getDate());
@@ -559,12 +664,28 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }//GEN-LAST:event_cboPhimItemStateChanged
 
     private void spnGioBatDauStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnGioBatDauStateChanged
-//        if (spnGioBatDau.getValue() != null && spnGioKetThuc.getValue() != null) {
+        if (updatingIndex != -1 && spnGioBatDau.getValue() != null && spnGioKetThuc.getValue() != null && isAllComboboxLoaded) {
             Phim phim = (Phim) cboPhim.getModel().getSelectedItem();
             Date gioBatDau = (Date) spnGioBatDau.getValue();
             spnGioKetThuc.setValue(DateHelper.addMinutes(gioBatDau, phim.getThoiLuong()));
-//        }
+        }
     }//GEN-LAST:event_spnGioBatDauStateChanged
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        SuatChieu updatingSuatChieu = suatChieuItemList.get(updatingIndex).getSuatChieu();
+        try {
+            new SuatChieuDaoImpl().delete(updatingSuatChieu);
+            DialogHelper.message(this, "Xoá dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogHelper.message(this, "Xoá dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+        }
+        updatingIndex -= 1;
+        loadTimeLine();
+        if (updatingIndex != -1) {
+            suatChieuItemList.get(updatingIndex).setItemSelected();
+        }
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments

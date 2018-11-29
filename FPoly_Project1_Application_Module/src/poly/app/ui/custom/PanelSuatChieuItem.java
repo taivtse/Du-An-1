@@ -15,6 +15,7 @@ import poly.app.core.entities.SuatChieu;
  */
 public class PanelSuatChieuItem extends javax.swing.JPanel {
     
+    private int index;
     private SuatChieu suatChieu;
 
     /**
@@ -38,6 +39,14 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
 
     public void setSuatChieu(SuatChieu suatChieu) {
         this.suatChieu = suatChieu;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
     
     public void setItemSelected(){
@@ -65,6 +74,7 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 242, 47));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         lblGioBatDau.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         lblGioBatDau.setForeground(new java.awt.Color(237, 38, 37));

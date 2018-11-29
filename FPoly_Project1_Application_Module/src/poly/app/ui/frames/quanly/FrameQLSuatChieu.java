@@ -55,7 +55,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         tblRenderer.changeHeaderStyle();
         
         tblRenderer.setColoumnWidthByPersent(0, 5);
-        tblRenderer.setColoumnWidthByPersent(2, 20);
+        tblRenderer.setColoumnWidthByPersent(2, 25);
         tblRenderer.setColoumnWidthByPersent(4, 20);
         
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
@@ -77,7 +77,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     
     private void loadDataToCboPhongChieu(){
         DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboPhongChieu.getModel();        
-        new PhongChieuDaoImpl().getAll().forEach((phongChieu) -> {
+        new  PhongChieuDaoImpl().getAll().forEach((phongChieu) -> {
             comboBoxModel.addElement(phongChieu);
         });
     }
@@ -112,7 +112,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
             phimMap.put(sc.getPhim().getId(), sc.getPhim());
         }
         this.tblSuatChieu.setModel(defaultTableModel);
-
     }
 
     public List<SuatChieu> fillterByStatus(List<SuatChieu> inputSearch) {

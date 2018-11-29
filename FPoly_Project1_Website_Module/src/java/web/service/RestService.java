@@ -19,9 +19,9 @@ import web.entities.Phim;
 @Path("/MyWebService")
 @ApplicationPath("/resources")
 public class RestService extends Application{
-//    Path: http://localhost:8080/resources/MyWebService/sayHello
+//    Path: http://localhost:8080/resources/MyWebService:sayHello
     @GET
-    @Path("/sayHello")
+    @Path(":sayHello")
     public String getHelloMsg(){
         return "Hello World";
     }
