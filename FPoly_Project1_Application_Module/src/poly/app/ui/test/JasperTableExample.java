@@ -52,7 +52,7 @@ public class JasperTableExample {
             listItems.add(iPhone);
             listItems.add(iPad);
             listItems.add(iPod);
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 10; i++) {
                 listItems.add(iPod);
                 listItems.add(iPad);
                 listItems.add(iPhone);
@@ -65,16 +65,16 @@ public class JasperTableExample {
             Map<String, Object> parameters = new HashMap<String, Object>();
             parameters.put("ItemDataSource", itemsJRBean);
 
-            File f = new File("src/poly/app/ui/custom/HoaDonReport.jasper");
+            File f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
             if (!f.exists()) {
-                JasperCompileManager.compileReportToFile("src/poly/app/ui/custom/HoaDonReport.jrxml", "src/poly/app/ui/custom/HoaDonReport.jasper");
-                f = new File("src/poly/app/ui/custom/HoaDonReport.jasper");
+                JasperCompileManager.compileReportToFile("src/poly/app/ui/custom/HoaDonReportTemplate.jrxml", "src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
+                f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
             }
             JasperReport jr = (JasperReport) JRLoader.loadObject(f);
 
 
             /* Using compiled version(.jasper) of Jasper report to generate PDF */
-//            JasperPrint jasperPrint = JasperFillManager.fillReport("src/poly/app/ui/custom/HoaDonReport.jasper", parameters, new JREmptyDataSource());
+//            JasperPrint jasperPrint = JasperFillManager.fillReport("src/poly/app/ui/custom/HoaDonReportTemplate.jasper", parameters, new JREmptyDataSource());
             JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parameters, new JREmptyDataSource());
             JasperViewer.viewReport(jasperPrint, false);
 //            JasperViewer.viewReport(jasperPrint, false);
