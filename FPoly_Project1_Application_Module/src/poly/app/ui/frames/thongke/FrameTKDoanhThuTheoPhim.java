@@ -29,7 +29,7 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
      */
     List<Object[]> listPhim = new ArrayList<>();
     ProcedureDaoImpl sp_tk = new ProcedureDaoImpl();
-    
+
     public FrameTKDoanhThuTheoPhim() {
         initComponents();
         setLocationRelativeTo(null);
@@ -423,7 +423,7 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
         if (rdoTheoThang.isSelected()) {
             this.loadThongKeTheoThang();
             this.loadDataToTable();
-        }   
+        }
     }//GEN-LAST:event_cboNamTheoThangItemStateChanged
 
     private void rdoTheoNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTheoNgayActionPerformed
@@ -435,8 +435,10 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_rdoTheoNgayActionPerformed
 
     private void dcsTheoNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcsTheoNgayPropertyChange
-        this.loadThongKeTheoNgay();
-        this.loadDataToTable();
+        if (rdoTheoNgay.isSelected()) {
+            this.loadThongKeTheoNgay();
+            this.loadDataToTable();
+        }
     }//GEN-LAST:event_dcsTheoNgayPropertyChange
 
     private void rdoTheoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTheoNamActionPerformed
@@ -469,7 +471,7 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         this.inThongKe();
     }//GEN-LAST:event_btnThemActionPerformed
-    
+
     private void loadLoaiDoAnToCombobox() {
 
         DefaultComboBoxModel modelComboBox = (DefaultComboBoxModel) cboLoaiPhim.getModel();
@@ -479,7 +481,7 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
             modelComboBox.addElement(fill);
         }
     }
-    
+
     private void loadNamToComboBox() {
 
         Calendar calendar = Calendar.getInstance();
@@ -488,7 +490,7 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
             cboNamTheoThang.addItem(i + "");
         }
     }
-    
+
     private void filterLoaiPhim() {
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
         modelTable.setRowCount(0);
@@ -507,20 +509,20 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void loadThongKeTheoNgay() {
         listPhim = sp_tk.execute("sp_DoanhThuPhimTheoNgay", dcsTheoNgay.getDate());
     }
 
     private void loadThongKeTheoThang() {
-        listPhim = sp_tk.execute("sp_DoanhThuPhimTheoThang", cboTheoThang.getSelectedIndex()+1, Integer.parseInt(cboNamTheoThang.getSelectedItem().toString()));
+        listPhim = sp_tk.execute("sp_DoanhThuPhimTheoThang", cboTheoThang.getSelectedIndex() + 1, Integer.parseInt(cboNamTheoThang.getSelectedItem().toString()));
     }
 
     private void loadThongKeTheoNam() {
         listPhim = sp_tk.execute("sp_DoanhThuPhimTheoNam", Integer.parseInt(cboTheoNam.getSelectedItem().toString()));
     }
-    
-    public void loadDataToTable(){
+
+    public void loadDataToTable() {
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
         modelTable.setRowCount(0);
         int i = 1;
@@ -532,23 +534,22 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
             modelTable.addRow(record);
         }
     }
-    
+
     private void checkRadioButton() {
         dcsTheoNgay.setEnabled(rdoTheoNgay.isSelected());
-       
+
         cboTheoThang.setEnabled(rdoTheoThang.isSelected());
         cboNamTheoThang.setEnabled(rdoTheoThang.isSelected());
-        
+
         cboTheoNam.setEnabled(rdoTheoNam.isSelected());
 
     }
-    
+
     public void xemBieuDo() {
-    List<String> xData = new ArrayList<String>();
+        List<String> xData = new ArrayList<String>();
         List<Integer> yData = new ArrayList<>();
-        
-        
-        for(int i =0; i<tblThongKe.getRowCount();i++){
+
+        for (int i = 0; i < tblThongKe.getRowCount(); i++) {
             String xValue = (String) tblThongKe.getValueAt(i, 1);
             Integer yValue = Integer.parseInt(tblThongKe.getValueAt(i, 4).toString());
             System.out.println(yValue);
@@ -557,13 +558,13 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
         }
         new BarChart().displayChart(xData, yData, "Thống Kê Doanh Thu Theo Đồ Ăn", this);
     }
-    
+
     public void inThongKe() {
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setJobName("Print Data");
 
     }
-    
+
     /**
      * @param args the command line arguments
      */
