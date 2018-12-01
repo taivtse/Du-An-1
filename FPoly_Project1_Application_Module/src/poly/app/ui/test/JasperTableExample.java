@@ -25,7 +25,8 @@ public class JasperTableExample {
         try {
             /* List to hold Items */
             List<HoaDonReport> listItems = new ArrayList<>();
-            listItems.add(new HoaDonReport("ahihi", 10, 99, 999));
+            listItems.add(new HoaDonReport("Cocacola", "10", "99,000", "999,000"));
+            listItems.add(new HoaDonReport("Bắp rang bơ haha an ngon lam luon a", "20", "1,000", "20,000"));
             
 
             /* Convert List to JRBeanCollectionDataSource */
@@ -37,12 +38,13 @@ public class JasperTableExample {
             parameters.put("InvoiceID", "HD9212341");
             parameters.put("EmployeeName", "Võ Thành Tài");
             parameters.put("CreatedDate", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+            parameters.put("TotalPrice", "200,000,000");
 
             File f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
-            if (!f.exists()) {
-                JasperCompileManager.compileReportToFile("src/poly/app/ui/custom/HoaDonReportTemplate.jrxml", "src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
-                f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
-            }
+//            if (!f.exists()) {
+//                JasperCompileManager.compileReportToFile("src/poly/app/ui/custom/HoaDonReportTemplate.jrxml", "src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
+//                f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
+//            }
             
             JasperReport jr = (JasperReport) JRLoader.loadObject(f);
 
