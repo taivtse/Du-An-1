@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="218" pageHeight="99" orientation="Landscape" columnWidth="218" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="cff6547d-2503-4656-823f-e95d4518fad8">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="FilmName" class="java.lang.String"/>
+	<parameter name="TicketPrice" class="java.lang.String"/>
+	<parameter name="MovieFormat" class="java.lang.String"/>
+	<parameter name="ShowScreen" class="java.lang.String"/>
+	<parameter name="ShowDate" class="java.lang.String"/>
+	<parameter name="ShowTime" class="java.lang.String"/>
+	<parameter name="SeatPosition" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="99" splitType="Stretch">
+			<image scaleImage="RealHeight" hAlign="Right" vAlign="Bottom">
+				<reportElement x="159" y="-2" width="63" height="101" uuid="45dc9850-4c51-4c91-9234-6c3913fdad9b"/>
+				<imageExpression><![CDATA["/Users/vothanhtai/Documents/WorkSpace/Java/FPT-Polytechnic/semester4-project1/FPoly_Project1_Application_Module/src/poly/app/ui/icons/kisspng-triangle-yellow-pattern-personalized-diamond-lattice-gradient-background-5a91ef91c81131.6370130715195134898195 copy.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="83" height="24" forecolor="#FFFFFF" backcolor="#345368" uuid="22174bbe-a27b-4a8b-8a16-1e98d9c21b77"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="Iowan Old Style" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CINEPLEX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="86" y="0" width="114" height="8" uuid="f43c859b-e9be-408f-aab2-52fb4c8d9957"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Level 4, Garden Shopping Center]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="86" y="8" width="114" height="8" uuid="42d2bb4b-e28e-4d2f-af9b-0561e8181058"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Me Tri Tu Liem Dist, Ha Noi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="86" y="16" width="114" height="8" uuid="95ff231b-c334-4115-9236-e66b9ba7d899"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Tax: 01024314975]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="25" width="29" height="10" forecolor="#DF241A" uuid="d4dfe3bf-0061-4c92-a269-02e58e084e99"/>
+				<textElement>
+					<font size="8"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Film]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="35" width="222" height="12" uuid="d64b0d79-b9b1-4071-b78d-7f5376599ecc"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{FilmName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="39" y="50" width="103" height="10" uuid="88b0cc0b-13cc-4a64-87e7-28d1cedf6b0a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TicketPrice}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="63" width="39" height="10" forecolor="#DF241A" uuid="fc3cc9fb-9585-4abc-9681-35f7022de09f"/>
+				<textElement>
+					<font size="8"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Format]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="39" y="63" width="17" height="10" uuid="3c2c0333-36a7-4a24-9e5c-4816206fd04a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MovieFormat}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="86" y="63" width="39" height="10" forecolor="#DF241A" uuid="b89035de-aabc-4f6c-884c-9b12b82921c2"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Screen]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="125" y="63" width="17" height="10" uuid="0c8c3a08-641c-4236-8f30-e9e780c16cda"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ShowScreen}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="86" y="76" width="39" height="10" forecolor="#DF241A" uuid="e9f46371-2b06-4e1a-a3c0-c400cb1eca8a"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Time]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="86" y="86" width="56" height="10" uuid="5d0b658c-1ebe-49b3-bd47-561913cbf0eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ShowTime}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="172" y="76" width="39" height="10" forecolor="#DF241A" uuid="2a9c384e-01d6-4793-867e-14a2cbc1de3e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Seat]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="172" y="86" width="17" height="10" uuid="51b4faef-dc91-4650-8183-c128b7c08152"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{SeatPosition}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="50" width="39" height="10" forecolor="#DF241A" uuid="c6feadf4-e1eb-4639-87ad-e810e3130166"/>
+				<textElement>
+					<font size="8"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Price]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="86" width="69" height="10" uuid="5a97a40a-b7f2-490b-a48d-50e0ed334ef5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ShowDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="76" width="39" height="10" forecolor="#DF241A" uuid="14765876-e15a-4f1b-9b46-7e323453d8ad"/>
+				<textElement>
+					<font size="8"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>
