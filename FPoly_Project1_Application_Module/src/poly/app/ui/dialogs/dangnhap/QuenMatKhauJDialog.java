@@ -64,7 +64,7 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -74,6 +74,7 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -83,28 +84,19 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
         jPanel1.setBackground(new java.awt.Color(254, 203, 101));
 
         jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/view/icon/secure-icon-png-30.png"))); // NOI18N
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
-        );
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/login-icon.png"))); // NOI18N
+        jPanel2.add(jLabel5, new java.awt.GridBagConstraints());
 
         jPanel3.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(9, 90, 11));
+        jLabel2.setForeground(new java.awt.Color(52, 83, 104));
         jLabel2.setText("Quên mật khẩu");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
-        jLabel3.setText("Email liên hệ");
+        jLabel3.setText("Số điện thoại");
 
         txtEmail.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
 
@@ -128,7 +120,7 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(239, 41, 47));
-        jLabel4.setText("<html>Mã xác nhận sẽ được gửi đến<br>email của bạn");
+        jLabel4.setText("<html>Mã xác nhận sẽ được gửi đến<br>điện thoại của bạn");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -158,11 +150,11 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
                 .addComponent(jLabel3)
                 .addGap(0, 0, 0)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -170,7 +162,7 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -293,10 +285,10 @@ public class QuenMatKhauJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnXacNhan;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
