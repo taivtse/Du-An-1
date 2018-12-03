@@ -5,9 +5,9 @@
  */
 package poly.app.core.dao;
 
+import java.util.Date;
 import java.util.List;
 import poly.app.core.data.dao.GenericDao;
-import poly.app.core.entities.SuatChieu;
 import poly.app.core.entities.VeBan;
 
 /**
@@ -15,5 +15,5 @@ import poly.app.core.entities.VeBan;
  * @author vothanhtai
  */
 public interface VeBanDao extends GenericDao<String, VeBan>{
-    
+    public List<VeBan> loadVeBanTheoNgay(Date date);
 }

@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
+import poly.app.ui.dialogs.orther.DialogSplashScreen;
 import poly.app.ui.frames.banhang.FrameBanDoAn;
 import poly.app.ui.frames.banhang.FrameBanVe;
 import poly.app.ui.frames.quanly.FrameQLPhim;
@@ -26,7 +27,7 @@ import poly.app.ui.frames.quanly.FrameQLVeBan;
  */
 public class MainRunningFrame extends javax.swing.JFrame {
 
-    private final JLabel[] btnToolBarArr;
+    private DialogSplashScreen splashScreen;
     private FrameQLPhim frameQLPhim;
     private FrameQLSuatChieu frameQLSuatChieu;
     private FrameQLDoAn frameQLDoAn;
@@ -34,7 +35,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private FrameQLKhachHang frameQLKhachHang;
     private FrameQLHoaDon frameQLHoaDon;
     private FrameQLVeBan frameQLVeBan;
-    
+
     private FrameBanDoAn frameBanDoAn;
     private FrameBanVe frameBanVe;
 
@@ -42,11 +43,12 @@ public class MainRunningFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainRunningFrame() {
-        loadHibernateSession();
-        renderChildFrame();
         initComponents();
-        this.btnToolBarArr = new JLabel[]{btnToolBarDanhMuc, btnToolBarBanHang, btnToolBarThongKe};
         reRenderUI();
+        renderChildFrame();
+        loadHibernateSession();
+        renderUIInBackGround();
+        showSplashScreen();
     }
 
     private void reRenderUI() {
@@ -57,9 +59,16 @@ public class MainRunningFrame extends javax.swing.JFrame {
         toolBarContainer.add(jToolBar3, "toolbar3");
     }
 
+    private void renderUIInBackGround() {
+        new Thread(() -> {
+
+        }).start();
+    }
+
     private void loadHibernateSession() {
         new Thread(() -> {
             HibernateUtil.getSessionFactory();
+            disposeSplashScreen();
         }).start();
     }
 
@@ -72,7 +81,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
             frameQLKhachHang = new FrameQLKhachHang();
             frameQLHoaDon = new FrameQLHoaDon();
             frameQLVeBan = new FrameQLVeBan();
-            
+
             frameBanDoAn = new FrameBanDoAn();
             frameBanVe = new FrameBanVe();
         }).start();
@@ -89,6 +98,15 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
         btnToolBar.repaint();
         btnToolBar.validate();
+    }
+
+    private void showSplashScreen() {
+        splashScreen = new DialogSplashScreen(this, true);
+        splashScreen.setVisible(true);
+    }
+
+    private void disposeSplashScreen() {
+        splashScreen.dispose();
     }
 
     /**
@@ -596,4 +614,5 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 
+    private final JLabel[] btnToolBarArr = new JLabel[]{btnToolBarDanhMuc, btnToolBarBanHang, btnToolBarThongKe};
 }

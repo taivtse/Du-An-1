@@ -75,15 +75,10 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <Component id="chkKhoangThoiGian" min="-2" max="-2" attributes="0"/>
-                                      <Component id="dcTuNgay" alignment="0" pref="230" max="32767" attributes="0"/>
-                                      <Component id="dcDenNgay" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="chkTheoTenPhim" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                  <Component id="dcNgayHienThi" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
                                   <Component id="txtTheoMaVe" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -100,20 +95,14 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="chkTheoTenPhim" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" pref="20" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="txtTheoMaVe" min="-2" pref="33" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="chkKhoangThoiGian" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="dcTuNgay" min="-2" pref="33" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="dcDenNgay" min="-2" pref="33" max="-2" attributes="0"/>
+                      <Component id="dcNgayHienThi" min="-2" pref="33" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -131,18 +120,6 @@
                 <Property name="text" type="java.lang.String" value="Tra c&#x1ee9;u v&#xe9; b&#xe1;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="chkTheoTenPhim">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Open Sans" size="14" style="0"/>
-                </Property>
-                <Property name="selected" type="boolean" value="true"/>
-                <Property name="text" type="java.lang.String" value="Theo m&#xe3; v&#xe9; b&#xe1;n"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkTheoTenPhimActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JTextField" name="txtTheoMaVe">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
@@ -155,36 +132,24 @@
                 <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTheoMaVeKeyReleased"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JCheckBox" name="chkKhoangThoiGian">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Open Sans" size="14" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Theo kho&#x1ea3;ng th&#x1edd;i gian"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkKhoangThoiGianActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="T&#x1eeb; ng&#xe0;y"/>
+                <Property name="text" type="java.lang.String" value="Ng&#xe0;y hi&#x1ec3;n th&#x1ecb;"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="dcTuNgay">
+            <Component class="com.toedter.calendar.JDateChooser" name="dcNgayHienThi">
               <Properties>
                 <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
-                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="14" style="0"/>
                 </Property>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="dcTuNgayPropertyChange"/>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="dcNgayHienThiPropertyChange"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -192,21 +157,8 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Open Sans" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n ng&#xe0;y"/>
+                <Property name="text" type="java.lang.String" value="Theo m&#xe3; ho&#xe1; &#x111;&#x1a1;n"/>
               </Properties>
-            </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="dcDenNgay">
-              <Properties>
-                <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
-                <Property name="enabled" type="boolean" value="false"/>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Open Sans" size="14" style="0"/>
-                </Property>
-                <Property name="opaque" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="dcDenNgayPropertyChange"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>

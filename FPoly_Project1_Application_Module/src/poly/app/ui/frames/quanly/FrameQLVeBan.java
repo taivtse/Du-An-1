@@ -51,6 +51,8 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         tblRenderer.setColumnAlignment(4, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(5, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_CENTER);
+
+        dcNgayHienThi.setDate(new Date());
     }
 
     public JPanel getMainPanel() {
@@ -70,13 +72,10 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         pnlMain = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        chkTheoTenPhim = new javax.swing.JCheckBox();
         txtTheoMaVe = new javax.swing.JTextField();
-        chkKhoangThoiGian = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
-        dcTuNgay = new com.toedter.calendar.JDateChooser();
+        dcNgayHienThi = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
-        dcDenNgay = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnXemchitiet = new javax.swing.JButton();
@@ -104,15 +103,6 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(52, 83, 104));
         jLabel1.setText("Tra cứu vé bán");
 
-        chkTheoTenPhim.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        chkTheoTenPhim.setSelected(true);
-        chkTheoTenPhim.setText("Theo mã vé bán");
-        chkTheoTenPhim.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkTheoTenPhimActionPerformed(evt);
-            }
-        });
-
         txtTheoMaVe.setEditable(false);
         txtTheoMaVe.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         txtTheoMaVe.addActionListener(new java.awt.event.ActionListener() {
@@ -126,39 +116,20 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             }
         });
 
-        chkKhoangThoiGian.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        chkKhoangThoiGian.setText("Theo khoảng thời gian");
-        chkKhoangThoiGian.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkKhoangThoiGianActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel2.setText("Từ ngày");
+        jLabel2.setText("Ngày hiển thị");
 
-        dcTuNgay.setDateFormatString("dd-MM-yyyy");
-        dcTuNgay.setEnabled(false);
-        dcTuNgay.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        dcTuNgay.setOpaque(false);
-        dcTuNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        dcNgayHienThi.setDateFormatString("dd-MM-yyyy");
+        dcNgayHienThi.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        dcNgayHienThi.setOpaque(false);
+        dcNgayHienThi.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                dcTuNgayPropertyChange(evt);
+                dcNgayHienThiPropertyChange(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jLabel3.setText("Đến ngày");
-
-        dcDenNgay.setDateFormatString("dd-MM-yyyy");
-        dcDenNgay.setEnabled(false);
-        dcDenNgay.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        dcDenNgay.setOpaque(false);
-        dcDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                dcDenNgayPropertyChange(evt);
-            }
-        });
+        jLabel3.setText("Theo mã hoá đơn");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -169,14 +140,10 @@ public class FrameQLVeBan extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel2)
-                                .addComponent(chkKhoangThoiGian)
-                                .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                                .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(chkTheoTenPhim)
-                            .addComponent(txtTheoMaVe, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel2)
+                            .addComponent(dcNgayHienThi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTheoMaVe, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabel1)))
@@ -187,20 +154,14 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel1)
-                .addGap(22, 22, 22)
-                .addComponent(chkTheoTenPhim)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtTheoMaVe, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
-                .addComponent(chkKhoangThoiGian)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dcTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dcNgayHienThi, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -366,83 +327,32 @@ public class FrameQLVeBan extends javax.swing.JFrame {
 
     private void tblVeBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblVeBanMouseClicked
         if (evt.getClickCount() >= 2) {
-            int index = tblVeBan.getSelectedRow();
+            btnXemchitietActionPerformed(null);
         }
     }//GEN-LAST:event_tblVeBanMouseClicked
 
-    private void chkTheoTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenPhimActionPerformed
-        // TODO add your handling code here:
-        if (chkTheoTenPhim.isSelected()) {
-            txtTheoMaVe.setEditable(true);
-        } else {
-            txtTheoMaVe.setEditable(false);
-            txtTheoMaVe.setText("");
-            loadDataToTable(search());
-        }
-    }//GEN-LAST:event_chkTheoTenPhimActionPerformed
-
-    private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed
-        // TODO add your handling code here:
-        if (chkKhoangThoiGian.isSelected()) {
-            dcTuNgay.setEnabled(true);
-            dcDenNgay.setEnabled(true);
-        } else {
-            dcTuNgay.setDate(null);
-            dcDenNgay.setDate(null);
-            dcTuNgay.setEnabled(false);
-            dcDenNgay.setEnabled(false);
-            loadDataToTable(search());
-        }
-    }//GEN-LAST:event_chkKhoangThoiGianActionPerformed
-
     private void txtTheoMaVeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTheoMaVeKeyReleased
-        // TODO add your handling code here:
         loadDataToTable(search());
     }//GEN-LAST:event_txtTheoMaVeKeyReleased
 
-    private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
-        // TODO add your handling code here:
-        if (chkKhoangThoiGian.isSelected()) {
-            Date min = dcTuNgay.getDate();
-            Date max = dcDenNgay.getDate();
-            if (min != null && max != null) {
-                if (min.compareTo(max) > 0) {
-                    dcTuNgay.setDate(max);
-                }
-            }
-            loadDataToTable(search());
-        }
-    }//GEN-LAST:event_dcTuNgayPropertyChange
+    private void dcNgayHienThiPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcNgayHienThiPropertyChange
+        loadAllDataToTable();
+    }//GEN-LAST:event_dcNgayHienThiPropertyChange
 
     private void txtTheoMaVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTheoMaVeActionPerformed
-        // TODO add your handling code here:
-        if (chkKhoangThoiGian.isSelected()) {
-            loadDataToTable(search());
-        }
+        loadDataToTable(search());
     }//GEN-LAST:event_txtTheoMaVeActionPerformed
-
-    private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
-        // TODO add your handling code here:
-        if (chkKhoangThoiGian.isSelected()) {
-            Date min = dcTuNgay.getDate();
-            Date max = dcDenNgay.getDate();
-            if (min != null && max != null) {
-                if (min.compareTo(max) > 0) {
-                    dcDenNgay.setDate(min);
-                }
-            }
-            loadDataToTable(search());
-        }
-    }//GEN-LAST:event_dcDenNgayPropertyChange
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         loadAllDataToTable();
     }//GEN-LAST:event_formWindowActivated
 
     private void btnXemchitietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemchitietActionPerformed
-        String id = (String) tblVeBan.getValueAt(tblVeBan.getSelectedRow(), 1);
-
-        new DialogXemChiTietVe(this, true, veBanMap.get(id)).setVisible(true);
+        int index = tblVeBan.getSelectedRow();
+        if (index >= 0) {
+            String id = (String) tblVeBan.getValueAt(index, 1);
+            new DialogXemChiTietVe(this, true, veBanMap.get(id)).setVisible(true);
+        }
     }//GEN-LAST:event_btnXemchitietActionPerformed
 
     public Map<String, VeBan> searchByMa() {
@@ -466,24 +376,12 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         String tenTimKiem = txtTheoMaVe.getText().toLowerCase();
 
         Map<String, VeBan> veBanMapTimKiem = new HashMap<>();
-        Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
-
-        min = min == null ? dcTuNgay.getMinSelectableDate() : min;
-        max = max == null ? dcDenNgay.getMaxSelectableDate() : max;
-
-        LocalDate localDate = min.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        min = java.sql.Date.valueOf(localDate);
-
-        localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        max = java.sql.Date.valueOf(localDate);
 
         for (Map.Entry<String, VeBan> entry : veBanMap.entrySet()) {
             String key = entry.getKey();
             VeBan veban = entry.getValue();
 
-            if (veban.getId().toLowerCase().contains(tenTimKiem)
-                    && veban.getNgayBan().compareTo(min) >= 0
-                    && veban.getNgayBan().compareTo(max) <= 0) {
+            if (veban.getId().toLowerCase().contains(tenTimKiem)) {
                 veBanMapTimKiem.put(veban.getId(), veban);
             }
         }
@@ -512,7 +410,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
     }
 
     public void loadAllDataToTable() {
-        List<VeBan> dataList = new VeBanDaoImpl().getAll();
+        List<VeBan> dataList = new VeBanDaoImpl().loadVeBanTheoNgay(dcNgayHienThi.getDate());
         for (VeBan veBan : dataList) {
             veBanMap.put(veBan.getId(), veBan);
         }
@@ -546,21 +444,6 @@ public class FrameQLVeBan extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FrameQLVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -574,10 +457,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
     private javax.swing.JLabel btnCollapse;
     private javax.swing.JButton btnInve;
     private javax.swing.JButton btnXemchitiet;
-    private javax.swing.JCheckBox chkKhoangThoiGian;
-    private javax.swing.JCheckBox chkTheoTenPhim;
-    private com.toedter.calendar.JDateChooser dcDenNgay;
-    private com.toedter.calendar.JDateChooser dcTuNgay;
+    private com.toedter.calendar.JDateChooser dcNgayHienThi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
