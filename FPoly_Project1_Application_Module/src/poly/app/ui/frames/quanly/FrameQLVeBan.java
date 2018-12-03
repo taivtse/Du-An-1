@@ -7,8 +7,6 @@ package poly.app.ui.frames.quanly;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.VeBanDaoImpl;
 import poly.app.core.entities.VeBan;
+import poly.app.core.helper.DialogHelper;
 import poly.app.ui.dialogs.thongtin.DialogXemChiTietVe;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -35,7 +34,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-        setTitle("Quản lý vé bán");
+        setTitle("Xem vé bán");
         reRenderUI();
     }
 
@@ -103,7 +102,6 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(52, 83, 104));
         jLabel1.setText("Tra cứu vé bán");
 
-        txtTheoMaVe.setEditable(false);
         txtTheoMaVe.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         txtTheoMaVe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,6 +350,8 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         if (index >= 0) {
             String id = (String) tblVeBan.getValueAt(index, 1);
             new DialogXemChiTietVe(this, true, veBanMap.get(id)).setVisible(true);
+        }else{
+            DialogHelper.message(this, "Chọn vé bán để xem chi tiết", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnXemchitietActionPerformed
 
@@ -378,7 +378,6 @@ public class FrameQLVeBan extends javax.swing.JFrame {
         Map<String, VeBan> veBanMapTimKiem = new HashMap<>();
 
         for (Map.Entry<String, VeBan> entry : veBanMap.entrySet()) {
-            String key = entry.getKey();
             VeBan veban = entry.getValue();
 
             if (veban.getId().toLowerCase().contains(tenTimKiem)) {
@@ -411,6 +410,7 @@ public class FrameQLVeBan extends javax.swing.JFrame {
 
     public void loadAllDataToTable() {
         List<VeBan> dataList = new VeBanDaoImpl().loadVeBanTheoNgay(dcNgayHienThi.getDate());
+        veBanMap.clear();
         for (VeBan veBan : dataList) {
             veBanMap.put(veBan.getId(), veBan);
         }

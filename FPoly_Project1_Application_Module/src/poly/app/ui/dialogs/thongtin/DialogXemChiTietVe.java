@@ -168,12 +168,14 @@ public class DialogXemChiTietVe extends javax.swing.JDialog {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         btnDong.setText("Đóng");
+        btnDong.setPreferredSize(new java.awt.Dimension(78, 33));
         btnDong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDongActionPerformed(evt);
             }
         });
         jPanel4.add(btnDong, new java.awt.GridBagConstraints());
+        btnDong.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

@@ -352,7 +352,13 @@
             <Component class="javax.swing.JButton" name="btnDong">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#x110;&#xf3;ng"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[78, 33]"/>
+                </Property>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
+              </AccessibilityProperties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDongActionPerformed"/>
               </Events>

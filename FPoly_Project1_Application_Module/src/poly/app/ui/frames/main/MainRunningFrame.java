@@ -26,7 +26,8 @@ import poly.app.ui.frames.quanly.FrameQLVeBan;
  * @author vothanhtai
  */
 public class MainRunningFrame extends javax.swing.JFrame {
-
+    private JLabel[] btnToolBarArr;
+    
     private DialogSplashScreen splashScreen;
     private FrameQLPhim frameQLPhim;
     private FrameQLSuatChieu frameQLSuatChieu;
@@ -47,7 +48,6 @@ public class MainRunningFrame extends javax.swing.JFrame {
         reRenderUI();
         renderChildFrame();
         loadHibernateSession();
-        renderUIInBackGround();
         showSplashScreen();
     }
 
@@ -57,12 +57,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         toolBarContainer.add(jToolBar1, "toolbar1");
         toolBarContainer.add(jToolBar2, "toolbar2");
         toolBarContainer.add(jToolBar3, "toolbar3");
-    }
-
-    private void renderUIInBackGround() {
-        new Thread(() -> {
-
-        }).start();
+        btnToolBarArr = new JLabel[]{btnToolBarDanhMuc, btnToolBarBanHang, btnToolBarThongKe};
     }
 
     private void loadHibernateSession() {
@@ -614,5 +609,4 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 
-    private final JLabel[] btnToolBarArr = new JLabel[]{btnToolBarDanhMuc, btnToolBarBanHang, btnToolBarThongKe};
 }
