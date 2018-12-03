@@ -12,6 +12,6 @@ import poly.app.core.entities.NguoiDung;
  *
  * @author vothanhtai
  */
-public interface NguoiDungDao extends GenericDao<Integer, NguoiDung>{
-    
+public interface NguoiDungDao extends GenericDao<String, NguoiDung>{
+    public NguoiDung getByIdAndPassword(String id, String matKhau);
 }

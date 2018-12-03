@@ -42,28 +42,29 @@ Contributor(s):
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/du_an_1?autoReconnect=true&amp;useSSL=false</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">123456789</property>
-    <mapping resource="poly/app/core/entities/GiaVe.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/HoaDonChiTiet.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/GheNgoi.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/LoaiPhim.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/PhongChieu.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/LoaiDoAn.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/KhachHang.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/Phim.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/DoAn.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/DoAnChiTiet.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/VaiTro.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/SuatChieu.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/NguoiDung.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/HoaDon.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/VeDat.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/LoaiGhe.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/VeBan.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/DinhDangPhim.hbm.xml"/>
-    <mapping resource="poly/app/core/entities/KichCoDoAn.hbm.xml"/>
+    <mapping resource="eti/MaXacNhan.hbm.xml"/>
+    <mapping resource="eti/VeDat.hbm.xml"/>
+    <mapping resource="eti/LoaiDoAn.hbm.xml"/>
+    <mapping resource="eti/LoaiPhim.hbm.xml"/>
+    <mapping resource="eti/GiaVe.hbm.xml"/>
+    <mapping resource="eti/GheNgoi.hbm.xml"/>
+    <mapping resource="eti/Phim.hbm.xml"/>
+    <mapping resource="eti/KhachHang.hbm.xml"/>
+    <mapping resource="eti/DoAn.hbm.xml"/>
+    <mapping resource="eti/KichCoDoAn.hbm.xml"/>
+    <mapping resource="eti/NguoiDung.hbm.xml"/>
+    <mapping resource="eti/VaiTro.hbm.xml"/>
+    <mapping resource="eti/VeBan.hbm.xml"/>
+    <mapping resource="eti/PhongChieu.hbm.xml"/>
+    <mapping resource="eti/DinhDangPhim.hbm.xml"/>
+    <mapping resource="eti/HoaDon.hbm.xml"/>
+    <mapping resource="eti/HoaDonChiTiet.hbm.xml"/>
+    <mapping resource="eti/DoAnChiTiet.hbm.xml"/>
+    <mapping resource="eti/SuatChieu.hbm.xml"/>
+    <mapping resource="eti/LoaiGhe.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
