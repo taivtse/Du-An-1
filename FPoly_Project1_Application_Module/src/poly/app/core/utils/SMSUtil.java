@@ -15,9 +15,10 @@ import java.util.logging.Logger;
 public class SMSUtil {
 
     private static final String API_KEY = "OwLaf+jOXs4-DQ6GYLlDvYypJ3TPg99zcDL6V3lW0Y";
-    private static final String SENDER_NAME = "Cineplex";
+    private static final String SENDER_NAME = "CINES";
 
     public static boolean sendSMS(String sendMessage, String sendNumber) {
+        sendNumber = SMSUtil.convertToInternationalPhoneNumber(sendNumber);
         try {
             // Construct data
             String apiKey = "apikey=" + API_KEY;
@@ -39,7 +40,7 @@ public class SMSUtil {
                 stringBuffer.append(line);
             }
             rd.close();
-
+            System.out.println(stringBuffer.toString());
             return isSuccess(stringBuffer.toString());
         } catch (Exception e) {
             System.out.println("Error SMS " + e);
@@ -52,10 +53,17 @@ public class SMSUtil {
         Map<String, Object> map = new HashMap<String, Object>();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            map = mapper.readValue(responseJSON, new TypeReference<Map<String, Object>>() {});
+            map = mapper.readValue(responseJSON, new TypeReference<Map<String, Object>>() {
+            });
         } catch (IOException ex) {
             Logger.getLogger(SMSUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
         return map.get("status").equals("success");
+    }
+
+    public static String convertToInternationalPhoneNumber(String phoneNumber) {
+        String phoneFormated = "84";
+        phoneFormated += phoneNumber.substring(1);
+        return phoneFormated;
     }
 }

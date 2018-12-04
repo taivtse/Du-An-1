@@ -5,11 +5,14 @@
  */
 package poly.app.ui.frames.main;
 
+//import com.apple.eawt.Application;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
+import poly.app.core.helper.ShareHelper;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
+import poly.app.ui.dialogs.dangnhap.DialogDangNhap;
 import poly.app.ui.dialogs.orther.DialogSplashScreen;
 import poly.app.ui.frames.banhang.FrameBanDoAn;
 import poly.app.ui.frames.banhang.FrameBanVe;
@@ -26,8 +29,9 @@ import poly.app.ui.frames.quanly.FrameQLVeBan;
  * @author vothanhtai
  */
 public class MainRunningFrame extends javax.swing.JFrame {
+
     private JLabel[] btnToolBarArr;
-    
+
     private DialogSplashScreen splashScreen;
     private FrameQLPhim frameQLPhim;
     private FrameQLSuatChieu frameQLSuatChieu;
@@ -39,16 +43,24 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
     private FrameBanDoAn frameBanDoAn;
     private FrameBanVe frameBanVe;
+    
+    private int numberOfThreadLoaded = 0;
+    private final int maxnumberOfThreadLoaded = 3;
 
     /**
      * Creates new form MainFrame
      */
     public MainRunningFrame() {
-        initComponents();
-        reRenderUI();
-        renderChildFrame();
+        changeAppIcon();
+        renderMainUIInBackground();
         loadHibernateSession();
+        renderChildFrame();
         showSplashScreen();
+    }
+    
+    private void changeAppIcon() {
+        setIconImage(ShareHelper.APP_ICON);
+//        Application.getApplication().setDockIconImage(ShareHelper.APP_ICON);
     }
 
     private void reRenderUI() {
@@ -60,10 +72,28 @@ public class MainRunningFrame extends javax.swing.JFrame {
         btnToolBarArr = new JLabel[]{btnToolBarDanhMuc, btnToolBarBanHang, btnToolBarThongKe};
     }
 
+    private void renderMainUIInBackground() {
+        new Thread(() -> {
+            initComponents();
+            reRenderUI();
+            
+            System.out.println("main ui");
+            numberOfThreadLoaded++;
+            if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
+                showLoginDialog();
+            }
+        }).start();
+    }
+
     private void loadHibernateSession() {
         new Thread(() -> {
             HibernateUtil.getSessionFactory();
-            disposeSplashScreen();
+            
+            System.out.println("hibernate");
+            numberOfThreadLoaded++;
+            if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
+                showLoginDialog();
+            }
         }).start();
     }
 
@@ -79,6 +109,12 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
             frameBanDoAn = new FrameBanDoAn();
             frameBanVe = new FrameBanVe();
+            
+            System.out.println("child ui");
+            numberOfThreadLoaded++;
+            if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
+                showLoginDialog();
+            }
         }).start();
     }
 
@@ -103,6 +139,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private void disposeSplashScreen() {
         splashScreen.dispose();
     }
+    
+    private void showLoginDialog(){
+        disposeSplashScreen();
+        new DialogDangNhap(this, true).setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -119,6 +160,8 @@ public class MainRunningFrame extends javax.swing.JFrame {
         btnToolBarDanhMuc = new javax.swing.JLabel();
         btnToolBarBanHang = new javax.swing.JLabel();
         btnToolBarThongKe = new javax.swing.JLabel();
+        btnDangXuat = new javax.swing.JLabel();
+        lblTenTaiKhoan = new javax.swing.JLabel();
         toolBarContainer = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         itemDanhMucToolBarPhim = new javax.swing.JButton();
@@ -133,11 +176,16 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarVe = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
         jPanel3 = new javax.swing.JPanel();
-        tbpMainContent = new ClosableTabbedPane();
+        tbpMainContent = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(52, 83, 104));
 
@@ -198,6 +246,20 @@ public class MainRunningFrame extends javax.swing.JFrame {
             }
         });
 
+        btnDangXuat.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        btnDangXuat.setForeground(new java.awt.Color(255, 255, 255));
+        btnDangXuat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/exit.png"))); // NOI18N
+        btnDangXuat.setText("Đăng xuất");
+        btnDangXuat.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 15));
+        btnDangXuat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        lblTenTaiKhoan.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        lblTenTaiKhoan.setForeground(new java.awt.Color(255, 255, 255));
+        lblTenTaiKhoan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/user.png"))); // NOI18N
+        lblTenTaiKhoan.setText("name");
+        lblTenTaiKhoan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -208,13 +270,18 @@ public class MainRunningFrame extends javax.swing.JFrame {
                 .addComponent(btnToolBarBanHang, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnToolBarThongKe, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTenTaiKhoan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDangXuat))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnToolBarDanhMuc, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
             .addComponent(btnToolBarBanHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnToolBarThongKe, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnDangXuat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblTenTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         toolBarContainer.setBackground(new java.awt.Color(255, 255, 255));
@@ -547,6 +614,10 @@ public class MainRunningFrame extends javax.swing.JFrame {
         tbpMainContent.addTab(frameBanVe.getTitle(), frameBanVe.getMainPanel());
     }//GEN-LAST:event_itemBanHangToolBarVeActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        lblTenTaiKhoan.setText(ShareHelper.USER.getHoTen());
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -578,12 +649,13 @@ public class MainRunningFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainRunningFrame().setVisible(true);
+                new MainRunningFrame();
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnDangXuat;
     private javax.swing.JLabel btnToolBarBanHang;
     private javax.swing.JLabel btnToolBarDanhMuc;
     private javax.swing.JLabel btnToolBarThongKe;
@@ -605,7 +677,8 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
-    private ClosableTabbedPane tbpMainContent;
+    private javax.swing.JLabel lblTenTaiKhoan;
+    private javax.swing.JTabbedPane tbpMainContent;
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 

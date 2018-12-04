@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 4, 2018 2:43:50 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="e.DoAn" table="do_an" catalog="du_an_1" optimistic-lock="version">
+        <id name="id" type="string">
+            <column name="id" length="15" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="loaiDoAn" class="e.LoaiDoAn" fetch="select">
+            <column name="loai_do_an_id" length="5" not-null="true" />
+        </many-to-one>
+        <property name="ten" type="string">
+            <column name="ten" length="45" not-null="true" />
+        </property>
+        <property name="dangBan" type="boolean">
+            <column name="dang_ban" not-null="true" />
+        </property>
+        <set name="doAnChiTiets" table="do_an_chi_tiet" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="do_an_id" length="15" not-null="true" />
+            </key>
+            <one-to-many class="e.DoAnChiTiet" />
+        </set>
+    </class>
+</hibernate-mapping>

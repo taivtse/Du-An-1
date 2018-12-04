@@ -527,7 +527,10 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
-
+        if (evt.getClickCount() >= 2) {
+            String suatChieuId = tblSuatChieu.getValueAt(tblSuatChieu.getSelectedRow(), 1).toString();
+            new DialogCapNhatSuatChieu(this, true, dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem(), suatChieuId).setVisible(true);
+        }
     }//GEN-LAST:event_tblSuatChieuMouseClicked
 
     private void chkTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenPhimActionPerformed
@@ -629,8 +632,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }//GEN-LAST:event_cboPhongChieuItemStateChanged
 
     private void btnTimelineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimelineActionPerformed
-        DialogCapNhatSuatChieu dialogCapNhatSuatChieu = new DialogCapNhatSuatChieu(this, true, dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem());
-        dialogCapNhatSuatChieu.setVisible(true);
+        new DialogCapNhatSuatChieu(this, true, dcNgayHienThi.getDate(), (PhongChieu) cboPhongChieu.getSelectedItem()).setVisible(true);
     }//GEN-LAST:event_btnTimelineActionPerformed
 
     /**

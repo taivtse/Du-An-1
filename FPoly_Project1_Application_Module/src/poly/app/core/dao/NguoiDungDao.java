@@ -14,4 +14,5 @@ import poly.app.core.entities.NguoiDung;
  */
 public interface NguoiDungDao extends GenericDao<String, NguoiDung>{
     public NguoiDung getByIdAndPassword(String id, String matKhau);
+    public NguoiDung getBySoDienThoai(String soDienThoai);
 }

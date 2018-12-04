@@ -52,7 +52,7 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
     }
 
     public void setItemSelected(){
-        this.setBackground(Color.decode("#8BD628"));
+        this.setBackground(Color.decode("#FFCB26"));
     }
     
     public void setItemUnSelected(){
@@ -75,7 +75,7 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(255, 242, 47));
+        setBackground(new java.awt.Color(255, 203, 38));
         setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         lblGioBatDau.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N

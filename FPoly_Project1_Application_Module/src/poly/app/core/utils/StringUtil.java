@@ -13,4 +13,15 @@ public class StringUtil {
         }
         return randomString;
     }
+    
+    public static String randomNumber(int lenght){
+        String textSample = "0123456789";
+        Random random = new Random();
+        String randomString = "";
+        for (int i = 0; i < lenght; i++) {
+            int index = random.nextInt(textSample.length());
+            randomString += textSample.charAt(index);   
+        }
+        return randomString;
+    }
 }

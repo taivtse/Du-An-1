@@ -26,5 +26,19 @@ public class NguoiDungDaoImpl extends AbstractDao<String, NguoiDung> implements 
             session.close();
         }
     }
+
+    @Override
+    public NguoiDung getBySoDienThoai(String soDienThoai) {
+       Session session = this.getSession();
+        try {
+            Criteria cr = session.createCriteria(this.getPersistenceClass());
+            cr.add(Restrictions.eq("soDienThoai", soDienThoai));
+            return (NguoiDung) cr.uniqueResult();
+        } catch (Exception ex) {
+            throw ex;
+        }finally{
+            session.close();
+        }
+    }
     
 }

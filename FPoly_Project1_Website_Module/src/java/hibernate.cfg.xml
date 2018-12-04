@@ -46,25 +46,25 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/du_an_1?autoReconnect=true&amp;useSSL=false</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">123456789</property>
-    <mapping resource="eti/MaXacNhan.hbm.xml"/>
-    <mapping resource="eti/VeDat.hbm.xml"/>
-    <mapping resource="eti/LoaiDoAn.hbm.xml"/>
-    <mapping resource="eti/LoaiPhim.hbm.xml"/>
-    <mapping resource="eti/GiaVe.hbm.xml"/>
-    <mapping resource="eti/GheNgoi.hbm.xml"/>
-    <mapping resource="eti/Phim.hbm.xml"/>
-    <mapping resource="eti/KhachHang.hbm.xml"/>
-    <mapping resource="eti/DoAn.hbm.xml"/>
-    <mapping resource="eti/KichCoDoAn.hbm.xml"/>
-    <mapping resource="eti/NguoiDung.hbm.xml"/>
-    <mapping resource="eti/VaiTro.hbm.xml"/>
-    <mapping resource="eti/VeBan.hbm.xml"/>
-    <mapping resource="eti/PhongChieu.hbm.xml"/>
-    <mapping resource="eti/DinhDangPhim.hbm.xml"/>
-    <mapping resource="eti/HoaDon.hbm.xml"/>
-    <mapping resource="eti/HoaDonChiTiet.hbm.xml"/>
-    <mapping resource="eti/DoAnChiTiet.hbm.xml"/>
-    <mapping resource="eti/SuatChieu.hbm.xml"/>
-    <mapping resource="eti/LoaiGhe.hbm.xml"/>
+    <mapping resource="e/VeBan.hbm.xml"/>
+    <mapping resource="e/DinhDangPhim.hbm.xml"/>
+    <mapping resource="e/LoaiPhim.hbm.xml"/>
+    <mapping resource="e/KichCoDoAn.hbm.xml"/>
+    <mapping resource="e/KhachHang.hbm.xml"/>
+    <mapping resource="e/LoaiDoAn.hbm.xml"/>
+    <mapping resource="e/MaXacNhan.hbm.xml"/>
+    <mapping resource="e/HoaDon.hbm.xml"/>
+    <mapping resource="e/GiaVe.hbm.xml"/>
+    <mapping resource="e/PhongChieu.hbm.xml"/>
+    <mapping resource="e/HoaDonChiTiet.hbm.xml"/>
+    <mapping resource="e/LoaiGhe.hbm.xml"/>
+    <mapping resource="e/VaiTro.hbm.xml"/>
+    <mapping resource="e/SuatChieu.hbm.xml"/>
+    <mapping resource="e/Phim.hbm.xml"/>
+    <mapping resource="e/VeDat.hbm.xml"/>
+    <mapping resource="e/DoAn.hbm.xml"/>
+    <mapping resource="e/GheNgoi.hbm.xml"/>
+    <mapping resource="e/DoAnChiTiet.hbm.xml"/>
+    <mapping resource="e/NguoiDung.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

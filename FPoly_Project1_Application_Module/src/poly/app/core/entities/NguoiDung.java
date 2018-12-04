@@ -24,6 +24,7 @@ public class NguoiDung  implements java.io.Serializable {
      private boolean gioiTinh;
      private Boolean dangLam;
      private String hinhAnh;
+     private MaXacNhan maXacNhan;
      private Set<VeBan> veBans = new HashSet<VeBan>(0);
      private Set<HoaDon> hoaDons = new HashSet<HoaDon>(0);
 
@@ -148,6 +149,16 @@ public class NguoiDung  implements java.io.Serializable {
     public Set<VeBan> getVeBans() {
         return this.veBans;
     }
+
+    public MaXacNhan getMaXacNhan() {
+        return maXacNhan;
+    }
+
+    public void setMaXacNhan(MaXacNhan maXacNhan) {
+        this.maXacNhan = maXacNhan;
+    }
+    
+    
     
     public void setVeBans(Set<VeBan> veBans) {
         this.veBans = veBans;

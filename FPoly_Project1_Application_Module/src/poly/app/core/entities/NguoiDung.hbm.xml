@@ -41,6 +41,7 @@
         <property name="hinhAnh" type="string">
             <column name="hinh_anh" length="100"/>
         </property>
+        <one-to-one name="maXacNhan" class="poly.app.core.entities.MaXacNhan"></one-to-one>
         <set name="veBans" table="ve_ban" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="nhan_vien_id" length="15" />
