@@ -5,7 +5,6 @@
  */
 package poly.app.ui.dialogs.dangnhap;
 
-
 import java.awt.Frame;
 import poly.app.core.daoimpl.MaXacNhanDaoImpl;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
@@ -20,6 +19,7 @@ import poly.app.core.utils.StringUtil;
  * @author vothanhtai
  */
 public class DialogQuenMatKhau extends javax.swing.JDialog {
+
     /**
      * Creates new form QuenMatKhau
      */
@@ -37,12 +37,12 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
 
     private boolean guiMaXacNhan(String maXacNhan) {
         String soDienThoai = ShareHelper.USER.getSoDienThoai();
-        String message = "Hệ thống CINES: \nMã xác nhận của bạn là: " + maXacNhan;
-        
+        String message = "He thong CINES: \nMa xac nhan cua ban la: " + maXacNhan;
+
         return SMSUtil.sendSMS(message, soDienThoai);
     }
-    
-    private boolean xoaMaXacNhan(){
+
+    private boolean xoaMaXacNhan() {
         return new MaXacNhanDaoImpl().deleteById(ShareHelper.USER.getId());
     }
 
@@ -74,6 +74,8 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(40, 44, 51));
+
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -83,10 +85,11 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
         jPanel3.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(52, 83, 104));
+        jLabel2.setForeground(new java.awt.Color(32, 159, 253));
         jLabel2.setText("Quên mật khẩu");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Số điện thoại");
 
         txtSoDienThoai.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
@@ -110,7 +113,7 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
         });
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(239, 41, 47));
+        jLabel4.setForeground(new java.awt.Color(199, 12, 18));
         jLabel4.setText("<html>Mã xác nhận sẽ được gửi đến<br>điện thoại của bạn");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -197,23 +200,23 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
                         isCorrectMaXacNhan = randomMaXacNhan.equals(inputMaXacNhan);
                         if (inputMaXacNhan == null || isCorrectMaXacNhan) {
                             break;
-                        }else{
+                        } else {
                             DialogHelper.message(this, "Mã xác nhận không đúng!\nVui lòng kiểm tra lại", DialogHelper.ERROR_MESSAGE);
                         }
                     } while (true);
-                    
-                    if(isCorrectMaXacNhan){
+
+                    if (isCorrectMaXacNhan) {
                         this.dispose();
-                        new DialogDatLaiMatKhau((Frame)this.getOwner(), true).setVisible(true);
-                    }else{
+                        new DialogDatLaiMatKhau((Frame) this.getOwner(), true).setVisible(true);
+                    } else {
                         DialogHelper.message(this, "Mã xác nhận đã hết hạn!\nVui lòng nhận lại mã mới", DialogHelper.ERROR_MESSAGE);
                     }
-                    
+
                     this.xoaMaXacNhan();
-                }else{
+                } else {
                     DialogHelper.message(this, "Đã xảy ra lỗi!\nVui lòng thử lại sau", DialogHelper.ERROR_MESSAGE);
                 }
-                
+
             } else {
                 DialogHelper.message(this, "Gửi mã xác nhận thất bại\nVui lòng kiểm tra lại số điện thoại", DialogHelper.ERROR_MESSAGE);
             }

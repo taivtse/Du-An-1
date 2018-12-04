@@ -65,5 +65,6 @@ Contributor(s):
     <mapping resource="poly/app/core/entities/VeBan.hbm.xml"/>
     <mapping resource="poly/app/core/entities/DinhDangPhim.hbm.xml"/>
     <mapping resource="poly/app/core/entities/KichCoDoAn.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/MaXacNhan.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

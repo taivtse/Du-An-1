@@ -103,6 +103,8 @@ public class DialogDoiMatKhau extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(40, 44, 51));
+
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -112,13 +114,15 @@ public class DialogDoiMatKhau extends javax.swing.JDialog {
         jPanel3.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(52, 83, 104));
+        jLabel2.setForeground(new java.awt.Color(32, 159, 253));
         jLabel2.setText("Đổi mật khẩu");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Mật khẩu cũ");
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Mật khẩu mới");
 
         txtMatKhauMoi.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
@@ -142,6 +146,7 @@ public class DialogDoiMatKhau extends javax.swing.JDialog {
         });
 
         jLabel5.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Nhập lại mật khẩu mới");
 
         txtReMatKhauMoi.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
@@ -246,7 +251,7 @@ public class DialogDoiMatKhau extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtReMatKhauMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReMatKhauMoiActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtReMatKhauMoiActionPerformed
 
     /**

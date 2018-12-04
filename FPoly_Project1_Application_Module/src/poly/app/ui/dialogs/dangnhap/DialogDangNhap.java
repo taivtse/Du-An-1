@@ -9,6 +9,7 @@ import java.awt.Frame;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JFrame;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
@@ -51,6 +52,12 @@ public class DialogDangNhap extends javax.swing.JDialog {
         
         FileFactoryUtil.writeObject(account, new File("accounnt.bin").getAbsolutePath());
     }
+    
+    private void unSaveAccountToFile(){
+        new File("accounnt.bin").deleteOnExit();
+    }
+    
+    
     
     private boolean isSavedAccountInFile(){
         File account = new File("accounnt.bin");
@@ -98,6 +105,8 @@ public class DialogDangNhap extends javax.swing.JDialog {
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(40, 44, 51));
+
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -106,14 +115,17 @@ public class DialogDangNhap extends javax.swing.JDialog {
 
         jPanel3.setOpaque(false);
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(52, 83, 104));
+        jLabel2.setForeground(new java.awt.Color(32, 159, 253));
         jLabel2.setText("Đăng nhập");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tên đăng nhập");
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Mật khẩu");
 
         txtMaNv.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
@@ -139,7 +151,7 @@ public class DialogDangNhap extends javax.swing.JDialog {
         });
 
         lblQuenMatKhau.setFont(new java.awt.Font("Open Sans", 3, 13)); // NOI18N
-        lblQuenMatKhau.setForeground(new java.awt.Color(52, 83, 104));
+        lblQuenMatKhau.setForeground(new java.awt.Color(32, 159, 253));
         lblQuenMatKhau.setText("Quên mật khẩu?");
         lblQuenMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblQuenMatKhau.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -149,6 +161,7 @@ public class DialogDangNhap extends javax.swing.JDialog {
         });
 
         chkLuuTaiKhoan.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        chkLuuTaiKhoan.setForeground(new java.awt.Color(255, 255, 255));
         chkLuuTaiKhoan.setText("Lưu  tài khoản?");
         chkLuuTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,11 +253,14 @@ public class DialogDangNhap extends javax.swing.JDialog {
             if (ShareHelper.USER != null) {
                 if (chkLuuTaiKhoan.isSelected()) {
                     saveAccountToFile();
+                }else{
+                    unSaveAccountToFile();
                 }
                 this.dispose();
                 if (ShareHelper.USER.getMatKhau().startsWith("$$")) {
-                    new DialogDatLaiMatKhau(null, true).setVisible(true);
+                    new DialogDatLaiMatKhau((JFrame)this.getOwner(), true).setVisible(true);
                 }
+                ((JFrame)this.getOwner()).setVisible(true);
             } else {
                 DialogHelper.message(this, "Tài khoản hoặc mật khẩu không hợp lệ", DialogHelper.ERROR_MESSAGE);
                 txtMaNv.requestFocus();

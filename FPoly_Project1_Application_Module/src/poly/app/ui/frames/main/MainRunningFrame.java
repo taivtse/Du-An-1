@@ -8,10 +8,10 @@ package poly.app.ui.frames.main;
 //import com.apple.eawt.Application;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
+import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.utils.ColorUtil;
-import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.dangnhap.DialogDangNhap;
 import poly.app.ui.dialogs.orther.DialogSplashScreen;
 import poly.app.ui.frames.banhang.FrameBanDoAn;
@@ -615,7 +615,12 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itemBanHangToolBarVeActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        lblTenTaiKhoan.setText(ShareHelper.USER.getHoTen());
+        if (ShareHelper.USER == null) {
+            DialogHelper.message(this, "Hệ thống đã xảy ra lỗi", DialogHelper.ERROR_MESSAGE);
+            System.exit(0);
+        }else{
+            lblTenTaiKhoan.setText(ShareHelper.USER.getHoTen());
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**

@@ -8,6 +8,7 @@ package poly.app.ui.dialogs.dangnhap;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JFrame;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
@@ -96,6 +97,13 @@ public class DialogDatLaiMatKhau extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(40, 44, 51));
 
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.GridBagLayout());
@@ -106,13 +114,15 @@ public class DialogDatLaiMatKhau extends javax.swing.JDialog {
         jPanel3.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 1, 22)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(52, 83, 104));
+        jLabel2.setForeground(new java.awt.Color(32, 159, 253));
         jLabel2.setText("Đặt lại mật khẩu");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Mật khẩu mới");
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Nhập lại mật khẩu mới");
 
         btnThucHien.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
@@ -138,6 +148,7 @@ public class DialogDatLaiMatKhau extends javax.swing.JDialog {
         txtReMatKhauMoi.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
 
         chkLuuTaiKhoan.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        chkLuuTaiKhoan.setForeground(new java.awt.Color(255, 255, 255));
         chkLuuTaiKhoan.setSelected(true);
         chkLuuTaiKhoan.setText("Lưu tài khoản?");
         chkLuuTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
@@ -225,20 +236,25 @@ public class DialogDatLaiMatKhau extends javax.swing.JDialog {
                     saveAccountToFile();
                 }
                 DialogHelper.message(this, "Cập nhật mật khẩu thành công!\nSử dụng mật khẩu mới cho lần đăng nhập sau", DialogHelper.INFORMATION_MESSAGE);
+                this.dispose();
+                ((JFrame)this.getOwner()).setVisible(true);
             }else{
                 DialogHelper.message(this, "Cập nhật mật khẩu thất bại!\nVui lòng thử lại", DialogHelper.ERROR_MESSAGE);
             }
-            this.dispose();
         }
     }//GEN-LAST:event_btnThucHienActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        System.exit(0);
+        formWindowClosing(null);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void chkLuuTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLuuTaiKhoanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_chkLuuTaiKhoanActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.exit(0);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
