@@ -70,17 +70,17 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         reRenderUI();
         loadTimeLine();
     }
-    
+
     public DialogCapNhatSuatChieu(java.awt.Frame parent, boolean modal, Date ngayChieu, PhongChieu phongChieu, String suatChieuId) {
         this(parent, modal, ngayChieu, phongChieu);
         for (PanelSuatChieuItem panelSuatChieuItem : suatChieuItemList) {
             if (panelSuatChieuItem.getSuatChieu().getId().equals(suatChieuId)) {
-                panelSuatChieuItem.setItemSelected();
+                suatChieuItemClickAction(panelSuatChieuItem);
                 break;
             }
         }
     }
-    
+
     private void reRenderUI() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -813,7 +813,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 loadTimeLine();
 
                 suatChieuItemList.get(updatingIndex).setItemSelected();
-                
+
                 setUpdatingState();
             } else {
                 DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
@@ -833,7 +833,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                         break;
                     }
                 }
-                
+
                 setUpdatingState();
             }
         }

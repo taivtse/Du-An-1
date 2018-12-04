@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
 import poly.app.core.utils.HibernateUtil;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.dialogs.dangnhap.DialogDangNhap;
 import poly.app.ui.dialogs.orther.DialogSplashScreen;
@@ -176,7 +177,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarVe = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
         jPanel3 = new javax.swing.JPanel();
-        tbpMainContent = new javax.swing.JTabbedPane();
+        tbpMainContent = new ClosableTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -694,7 +695,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JLabel lblTenTaiKhoan;
-    private javax.swing.JTabbedPane tbpMainContent;
+    private ClosableTabbedPane tbpMainContent;
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 

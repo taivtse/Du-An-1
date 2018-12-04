@@ -52,11 +52,11 @@ public class PanelSuatChieuItem extends javax.swing.JPanel {
     }
 
     public void setItemSelected(){
-        this.setBackground(Color.decode("#FFCB26"));
+        this.setBackground(Color.decode("#8BD628"));
     }
     
     public void setItemUnSelected(){
-        this.setBackground(Color.decode("#FFF22F"));
+        this.setBackground(Color.decode("#FFCB26"));
     }
     /**
      * This method is called from within the constructor to initialize the form.

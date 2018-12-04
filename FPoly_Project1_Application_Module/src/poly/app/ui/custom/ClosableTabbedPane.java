@@ -18,7 +18,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.EventListener;
-import poly.app.core.helper.DialogHelper;
 
 /**
  * A JTabbedPane which has a close ('X') icon on each tab.
@@ -162,10 +161,10 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
         }
         
 //        Kiem tra da dat so luong tab toi da hay chua
-        if (!checkAddableTab()) {
-            DialogHelper.message(null, "Số lượng tab đang mở đã đạt giới hạn cho phép!", DialogHelper.ERROR_MESSAGE);
-            return;
-        }
+//        if (!checkAddableTab()) {
+//            DialogHelper.message(null, "Số lượng tab đang mở đã đạt giới hạn cho phép!", DialogHelper.ERROR_MESSAGE);
+//            return;
+//        }
 //        END CUSTOM
 
         boolean doPaintCloseIcon = true;
@@ -275,9 +274,9 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
     }
 
 //    TAI's CODE
-    private boolean checkAddableTab(){
-        return this.getTabCount() < this.maximunTabCount;
-    }
+//    private boolean checkAddableTab(){
+//        return this.getTabCount() < this.maximunTabCount;
+//    }
     
     private void selectedTabChange() {
         for (int i = 0; i < this.getTabCount(); i++) {
