@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="poly.app.core.entities.VeDat" table="ve_dat" catalog="du_an_1" optimistic-lock="version">
+        <id name="id" type="string">
+            <column name="id" length="15" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="khachHang" class="poly.app.core.entities.KhachHang" fetch="join">
+            <column name="khach_hang_id" length="15" not-null="true" />
+        </many-to-one>
+        <set name="veBans" table="ve_ban" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="ve_dat_id" length="15" />
+            </key>
+            <one-to-many class="poly.app.core.entities.VeBan" />
+        </set>
+    </class>
+</hibernate-mapping>

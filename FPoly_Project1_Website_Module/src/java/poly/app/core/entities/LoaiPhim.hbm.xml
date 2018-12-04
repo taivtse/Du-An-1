@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 9, 2018 10:03:06 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="poly.app.core.entities.LoaiPhim" table="loai_phim" catalog="du_an_1">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="ten" type="string">
+            <column name="ten" length="45" not-null="true" />
+        </property>
+        <set name="phims" table="phim" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="loai_phim_id" not-null="true" />
+            </key>
+            <one-to-many class="poly.app.core.entities.Phim" />
+        </set>
+    </class>
+</hibernate-mapping>

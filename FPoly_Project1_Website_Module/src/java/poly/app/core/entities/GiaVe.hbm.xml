@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 9, 2018 10:03:06 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="poly.app.core.entities.GiaVe" table="gia_ve" catalog="du_an_1">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity"></generator>
+        </id>
+        <property name="ten" type="string">
+            <column name="ten" length="45" not-null="true" />
+        </property>
+        <property name="donGia" type="int">
+            <column name="don_gia" not-null="true" />
+        </property>
+        <set name="veBans" table="ve_ban" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="gia_ve_id" not-null="true" />
+            </key>
+            <one-to-many class="poly.app.core.entities.VeBan" />
+        </set>
+    </class>
+</hibernate-mapping>

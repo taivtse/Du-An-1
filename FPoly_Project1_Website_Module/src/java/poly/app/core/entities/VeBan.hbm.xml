@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="poly.app.core.entities.VeBan" table="ve_ban" catalog="du_an_1" optimistic-lock="version">
+        <id name="id" type="string">
+            <column name="id" length="15" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="gheNgoi" class="poly.app.core.entities.GheNgoi" fetch="join">
+            <column name="ghe_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="giaVe" class="poly.app.core.entities.GiaVe" fetch="join">
+            <column name="gia_ve_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="nguoiDung" class="poly.app.core.entities.NguoiDung" fetch="join">
+            <column name="nhan_vien_id" length="15" />
+        </many-to-one>
+        <many-to-one name="suatChieu" class="poly.app.core.entities.SuatChieu" fetch="join">
+            <column name="suat_chieu_id" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="veDat" class="poly.app.core.entities.VeDat" fetch="select">
+            <column name="ve_dat_id" length="15" />
+        </many-to-one>
+        <property name="ngayBan" type="date">
+            <column name="ngay_ban" length="10" not-null="true" />
+        </property>
+        <property name="tongTien" type="int">
+            <column name="tong_tien" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

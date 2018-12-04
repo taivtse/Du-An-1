@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 3, 2018 2:21:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="poly.app.core.entities.MaXacNhan" table="ma_xac_nhan" catalog="du_an_1" optimistic-lock="version">
+        <id name="nguoiDungId" type="string">
+            <column name="nguoi_dung_id" length="15" />
+            <generator class="foreign">
+                <param name="property">nguoiDung</param>
+            </generator>
+        </id>
+        <one-to-one name="nguoiDung" class="poly.app.core.entities.NguoiDung" constrained="true"></one-to-one>
+        <property name="maXacNhan" type="string">
+            <column name="ma_xac_nhan" length="15" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 7, 2018 7:54:44 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="poly.app.core.entities.GheNgoi" table="ghe_ngoi" catalog="du_an_1" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="loaiGhe" class="poly.app.core.entities.LoaiGhe" fetch="join">
+            <column name="loai_ghe_id" length="2" not-null="true" />
+        </many-to-one>
+        <many-to-one name="phongChieu" class="poly.app.core.entities.PhongChieu" fetch="join">
+            <column name="phong_chieu_id" not-null="true" />
+        </many-to-one>
+        <property name="viTriDay" type="string">
+            <column name="vi_tri_day" length="1" not-null="true" />
+        </property>
+        <property name="viTriCot" type="int">
+            <column name="vi_tri_cot" not-null="true" />
+        </property>
+        <set name="veBans" table="ve_ban" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ghe_id" not-null="true" />
+            </key>
+            <one-to-many class="poly.app.core.entities.VeBan" />
+        </set>
+    </class>
+</hibernate-mapping>

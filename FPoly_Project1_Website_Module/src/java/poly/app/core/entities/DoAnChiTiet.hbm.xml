@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 9, 2018 10:03:06 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="poly.app.core.entities.DoAnChiTiet" table="do_an_chi_tiet" catalog="du_an_1">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned"></generator>
+        </id>
+        <many-to-one name="doAn" class="poly.app.core.entities.DoAn" fetch="join">
+            <column name="do_an_id" length="15" not-null="true" />
+        </many-to-one>
+        <many-to-one name="kichCoDoAn" class="poly.app.core.entities.KichCoDoAn" fetch="join">
+            <column name="kich_co_do_an_id" length="10" not-null="true" />
+        </many-to-one>
+        <property name="donGia" type="int">
+            <column name="don_gia" not-null="true" />
+        </property>
+        <property name="dangBan" type="java.lang.Boolean">
+            <column name="dang_ban" />
+        </property>
+        <set name="hoaDonChiTiets" table="hoa_don_chi_tiet" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="do_an_chi_tiet_id" not-null="true" />
+            </key>
+            <one-to-many class="poly.app.core.entities.HoaDonChiTiet" />
+        </set>
+    </class>
+</hibernate-mapping>

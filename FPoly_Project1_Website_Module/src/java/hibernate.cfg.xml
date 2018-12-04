@@ -46,25 +46,25 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/du_an_1?autoReconnect=true&amp;useSSL=false</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">123456789</property>
-    <mapping resource="e/VeBan.hbm.xml"/>
-    <mapping resource="e/DinhDangPhim.hbm.xml"/>
-    <mapping resource="e/LoaiPhim.hbm.xml"/>
-    <mapping resource="e/KichCoDoAn.hbm.xml"/>
-    <mapping resource="e/KhachHang.hbm.xml"/>
-    <mapping resource="e/LoaiDoAn.hbm.xml"/>
-    <mapping resource="e/MaXacNhan.hbm.xml"/>
-    <mapping resource="e/HoaDon.hbm.xml"/>
-    <mapping resource="e/GiaVe.hbm.xml"/>
-    <mapping resource="e/PhongChieu.hbm.xml"/>
-    <mapping resource="e/HoaDonChiTiet.hbm.xml"/>
-    <mapping resource="e/LoaiGhe.hbm.xml"/>
-    <mapping resource="e/VaiTro.hbm.xml"/>
-    <mapping resource="e/SuatChieu.hbm.xml"/>
-    <mapping resource="e/Phim.hbm.xml"/>
-    <mapping resource="e/VeDat.hbm.xml"/>
-    <mapping resource="e/DoAn.hbm.xml"/>
-    <mapping resource="e/GheNgoi.hbm.xml"/>
-    <mapping resource="e/DoAnChiTiet.hbm.xml"/>
-    <mapping resource="e/NguoiDung.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/GiaVe.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/HoaDonChiTiet.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/GheNgoi.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/LoaiPhim.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/PhongChieu.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/LoaiDoAn.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/KhachHang.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/Phim.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/DoAn.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/DoAnChiTiet.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/VaiTro.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/SuatChieu.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/NguoiDung.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/HoaDon.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/VeDat.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/LoaiGhe.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/VeBan.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/DinhDangPhim.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/KichCoDoAn.hbm.xml"/>
+    <mapping resource="poly/app/core/entities/MaXacNhan.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
