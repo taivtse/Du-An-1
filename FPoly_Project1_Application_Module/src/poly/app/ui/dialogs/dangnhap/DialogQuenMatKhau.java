@@ -113,7 +113,7 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
         });
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(199, 12, 18));
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("<html>Mã xác nhận sẽ được gửi đến<br>điện thoại của bạn");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);

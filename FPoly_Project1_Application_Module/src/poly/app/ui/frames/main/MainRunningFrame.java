@@ -253,6 +253,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
         btnDangXuat.setText("Đăng xuất");
         btnDangXuat.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 10, 0, 15));
         btnDangXuat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDangXuat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnDangXuatMouseReleased(evt);
+            }
+        });
 
         lblTenTaiKhoan.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         lblTenTaiKhoan.setForeground(new java.awt.Color(255, 255, 255));
@@ -622,6 +627,12 @@ public class MainRunningFrame extends javax.swing.JFrame {
             lblTenTaiKhoan.setText(ShareHelper.USER.getHoTen());
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnDangXuatMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDangXuatMouseReleased
+        ShareHelper.USER = null;
+        this.setVisible(false);
+        this.showLoginDialog();
+    }//GEN-LAST:event_btnDangXuatMouseReleased
 
     /**
      * @param args the command line arguments

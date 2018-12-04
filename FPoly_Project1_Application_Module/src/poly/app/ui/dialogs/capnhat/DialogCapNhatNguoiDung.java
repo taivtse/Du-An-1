@@ -124,6 +124,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         btnHuy = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -228,6 +229,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
 
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
+        btnLuu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnLuu.setText("Lưu");
         btnLuu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLuu.setPreferredSize(new java.awt.Dimension(75, 33));
@@ -240,6 +242,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel5.add(btnLuu, gridBagConstraints);
 
+        btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnHuy.setText("Huỷ");
         btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHuy.setPreferredSize(new java.awt.Dimension(75, 33));

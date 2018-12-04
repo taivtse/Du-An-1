@@ -181,7 +181,7 @@ public class NewJFrame extends javax.swing.JFrame implements ActionListener {
                         .addComponent(jLabel2)
                         .addGap(248, 248, 248))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 223, Short.MAX_VALUE))
+                .addGap(0, 600, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +191,7 @@ public class NewJFrame extends javax.swing.JFrame implements ActionListener {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 151, Short.MAX_VALUE))
+                .addGap(0, 432, Short.MAX_VALUE))
         );
 
         pack();
