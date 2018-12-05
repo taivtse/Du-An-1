@@ -5,20 +5,23 @@
  */
 package poly.app.ui.dialogs.capnhat;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
+import org.apache.commons.codec.digest.DigestUtils;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
-import poly.app.core.daoimpl.VaiTroDaoImpl;
 import poly.app.core.entities.NguoiDung;
-import poly.app.core.entities.VaiTro;
 import poly.app.core.helper.DialogHelper;
+import poly.app.core.helper.ShareHelper;
+import poly.app.core.utils.FileFactoryUtil;
+import poly.app.ui.utils.ValidationUtil;
 
 /**
  *
  * @author vothanhtai
  */
 public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
-
-    NguoiDung nguoiDung;
 
     /**
      * Creates new form DialogThemNhanVien
@@ -27,48 +30,26 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-
-    }
-
-    public DialogCapNhatThongTinCaNhan(java.awt.Frame parent, boolean modal, NguoiDung nguoiDung) {
-        this(parent, modal);
-
-        this.nguoiDung = nguoiDung;
-    }
-
-    private void loadVaiTroToCombobox() {
-        VaiTroDaoImpl vaiTroDaoImpl = new VaiTroDaoImpl();
-        DefaultComboBoxModel dcbm = (DefaultComboBoxModel) cboVaiTro.getModel();
-        for (VaiTro vaiTro : vaiTroDaoImpl.getAll()) {
-            dcbm.addElement(vaiTro);
-        }
+        ((DefaultComboBoxModel) cboVaiTro.getModel()).addElement(ShareHelper.USER.getVaiTro());
+        cboTrangThai.setSelectedIndex(ShareHelper.USER.getDangLam() ? 0 : 1);
     }
 
     private void setModelToInput() {
-
-        txtHoTen.setText(nguoiDung.getHoTen());
-        txtDiaChi.setText(nguoiDung.getDiaChi());
-        txtCMND.setText(nguoiDung.getSoCmnd());
-        dcNgayVaoLam.setDate(nguoiDung.getNgayVaoLam());
-        txtSoDienThoai.setText(nguoiDung.getSoDienThoai());
-        rdoNu.setSelected(!nguoiDung.isGioiTinhNam());
-        txtEmail.setText(nguoiDung.getEmail());
-        cboVaiTro.getModel().setSelectedItem(nguoiDung.getVaiTro());
-        cboTrangThai.setSelectedIndex(nguoiDung.getDangLam() ? 0 : 1);
+        txtHoTen.setText(ShareHelper.USER.getHoTen());
+        txtDiaChi.setText(ShareHelper.USER.getDiaChi());
+        txtCMND.setText(ShareHelper.USER.getSoCmnd());
+        dcNgayVaoLam.setDate(ShareHelper.USER.getNgayVaoLam());
+        txtSoDienThoai.setText(ShareHelper.USER.getSoDienThoai());
+        rdoNu.setSelected(!ShareHelper.USER.isGioiTinhNam());
+        txtEmail.setText(ShareHelper.USER.getEmail());
     }
 
     private NguoiDung getModelFromInput() {
-        nguoiDung.setHoTen(txtHoTen.getText());
-        nguoiDung.setDiaChi(txtDiaChi.getText());
-        nguoiDung.setSoCmnd(txtCMND.getText());
-        nguoiDung.setNgayVaoLam(dcNgayVaoLam.getDate());
-        nguoiDung.setSoDienThoai(txtSoDienThoai.getText());
-        nguoiDung.setGioiTinh(rdoNam.isSelected());
-        nguoiDung.setEmail(txtEmail.getText());
-        nguoiDung.setVaiTro((VaiTro) cboVaiTro.getModel().getSelectedItem());
-        nguoiDung.setDangLam(cboTrangThai.getSelectedIndex() == 0 ? true : false);
+        ShareHelper.USER.setDiaChi(txtDiaChi.getText());
+        ShareHelper.USER.setSoDienThoai(txtSoDienThoai.getText());
+        ShareHelper.USER.setEmail(txtEmail.getText());
 
-        return nguoiDung;
+        return ShareHelper.USER;
     }
 
     private boolean updateModelToDatabase() {
@@ -80,6 +61,75 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         }
 
         return false;
+    }
+
+    private boolean validateInput() {
+        if (ValidationUtil.isEmpty(String.valueOf(txtMatKhauCu.getPassword()))) {
+            DialogHelper.message(this, "Mật khẩu cũ không được để trống", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (String.valueOf(txtMatKhauMoi.getPassword()).startsWith("$$")) {
+            DialogHelper.message(this, "Mật khẩu mới không được bắt đầu bằng ký tự \"$$\"", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!ValidationUtil.isLenghtEnought(String.valueOf(txtMatKhauMoi.getPassword()), 3)) {
+            DialogHelper.message(this, "Mật khẩu phải từ 3 ký tự trở lên", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (ValidationUtil.isEmpty(String.valueOf(txtMatKhauMoi.getPassword()))) {
+            DialogHelper.message(this, "Mật khẩu mới không được để trống", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (ValidationUtil.isEmpty(String.valueOf(txtReMatKhauMoi.getPassword()))) {
+            DialogHelper.message(this, "Xác nhận mật khẩu mới không được để trống", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (!String.valueOf(txtMatKhauMoi.getPassword()).equals(String.valueOf(txtReMatKhauMoi.getPassword()))) {
+            DialogHelper.message(this, "Mật khẩu mới không trùng khớp", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean updateMatKhau() {
+        String newPassword = DigestUtils.md5Hex(String.valueOf(txtMatKhauMoi.getPassword())).toUpperCase();
+        ShareHelper.USER.setMatKhau(newPassword);
+        return new NguoiDungDaoImpl().update(ShareHelper.USER);
+    }
+
+    private void saveAccountToFile() {
+        Map<String, String> account = new HashMap<String, String>();
+        account.put("username", ShareHelper.USER.getId());
+        account.put("password", String.valueOf(txtMatKhauMoi.getPassword()));
+
+        FileFactoryUtil.writeObject(account, new File("accounnt.bin").getAbsolutePath());
+    }
+
+    private boolean checkInput() {
+        if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
+            DialogHelper.message(this, "Không được bỏ bỏ trống số điện thoại", DialogHelper.ERROR_MESSAGE);
+            return false;
+        } else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
+            DialogHelper.message(this, "Số điện thoại phải chỉ bằng 10", DialogHelper.ERROR_MESSAGE);
+            return false;
+        } else if (ValidationUtil.isEmpty(txtEmail.getText())) {
+            DialogHelper.message(this, "Không được bỏ bỏ trống Email", DialogHelper.ERROR_MESSAGE);
+            return false;
+        } else if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
+            DialogHelper.message(this, "Định dạng Email sai", DialogHelper.ERROR_MESSAGE);
+            return false;
+        } else if (ValidationUtil.isEmpty(txtDiaChi.getText())) {
+            DialogHelper.message(this, "Không được bỏ bỏ trống Địa chỉ", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+        
+            return true;
     }
 
     /**
@@ -128,12 +178,12 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         btnCapNhatMatKhau = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        txtSoDienThoai1 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        txtEmail1 = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        txtDiaChi1 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        txtMatKhauCu = new javax.swing.JPasswordField();
+        txtMatKhauMoi = new javax.swing.JPasswordField();
+        txtReMatKhauMoi = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -185,6 +235,7 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         rdoNam.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         rdoNam.setSelected(true);
         rdoNam.setText("Nam");
+        rdoNam.setEnabled(false);
 
         jPanel6.setOpaque(false);
         jPanel6.setLayout(new java.awt.GridBagLayout());
@@ -213,6 +264,7 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
 
         rdoNu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         rdoNu.setText("Nữ");
+        rdoNu.setEnabled(false);
 
         jLabel16.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel16.setText("Ngày vào làm");
@@ -254,6 +306,11 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         btnCapNhatThongTin.setText("Lưu");
         btnCapNhatThongTin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCapNhatThongTin.setPreferredSize(new java.awt.Dimension(75, 33));
+        btnCapNhatThongTin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatThongTinActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel7.add(btnCapNhatThongTin, gridBagConstraints);
@@ -364,6 +421,11 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         btnCapNhatMatKhau.setText("Lưu");
         btnCapNhatMatKhau.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCapNhatMatKhau.setPreferredSize(new java.awt.Dimension(75, 33));
+        btnCapNhatMatKhau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatMatKhauActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel8.add(btnCapNhatMatKhau, gridBagConstraints);
@@ -373,20 +435,20 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
 
         jPanel9.setOpaque(false);
 
-        txtSoDienThoai1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-
         jLabel12.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel12.setText("Mật khẩu mới");
-
-        txtEmail1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 
         jLabel17.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel17.setText("Nhập lại mật khẩu");
 
-        txtDiaChi1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-
         jLabel11.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel11.setText("Mật khẩu cũ");
+
+        txtMatKhauCu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+
+        txtMatKhauMoi.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+
+        txtReMatKhauMoi.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -394,19 +456,19 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txtReMatKhauMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(txtSoDienThoai1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(txtMatKhauCu, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(txtEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel9Layout.createSequentialGroup()
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(txtDiaChi1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtMatKhauMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
         jPanel9Layout.setVerticalGroup(
@@ -414,15 +476,15 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSoDienThoai1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMatKhauCu, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEmail1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMatKhauMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDiaChi1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtReMatKhauMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -481,10 +543,31 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-//        loadVaiTroToCombobox();
-//        setModelToInput();
-
+        setModelToInput();
     }//GEN-LAST:event_formWindowOpened
+
+    private void btnCapNhatMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatMatKhauActionPerformed
+        if (validateInput()) {
+            if (updateMatKhau()) {
+                saveAccountToFile();
+                DialogHelper.message(this, "Cập nhật mật khẩu thành công!\nSử dụng mật khẩu mới cho lần đăng nhập sau", DialogHelper.INFORMATION_MESSAGE);
+            } else {
+                DialogHelper.message(this, "Cập nhật mật khẩu thất bại!\nVui lòng thử lại", DialogHelper.ERROR_MESSAGE);
+            }
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCapNhatMatKhauActionPerformed
+
+    private void btnCapNhatThongTinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatThongTinActionPerformed
+        if (checkInput()) {
+            if (updateModelToDatabase()) {
+                DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+            } else {
+                DialogHelper.message(this, "Cập nhật dữ liệu thất bại!\nVui lòng thử lại", DialogHelper.ERROR_MESSAGE);
+            }
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnCapNhatThongTinActionPerformed
 
     /**
      * @param args the command line arguments
@@ -572,11 +655,11 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
     private javax.swing.JRadioButton rdoNu;
     private javax.swing.JTextField txtCMND;
     private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JTextField txtDiaChi1;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtEmail1;
     private javax.swing.JTextField txtHoTen;
+    private javax.swing.JPasswordField txtMatKhauCu;
+    private javax.swing.JPasswordField txtMatKhauMoi;
+    private javax.swing.JPasswordField txtReMatKhauMoi;
     private javax.swing.JTextField txtSoDienThoai;
-    private javax.swing.JTextField txtSoDienThoai1;
     // End of variables declaration//GEN-END:variables
 }

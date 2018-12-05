@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
+import org.apache.commons.codec.digest.DigestUtils;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
@@ -31,7 +32,8 @@ public class DialogDatLaiMatKhau extends javax.swing.JDialog {
     }
 
     private boolean updateMatKhau(){
-        ShareHelper.USER.setMatKhau(txtMatKhauMoi.getText());
+        String newPassword = DigestUtils.md5Hex(String.valueOf(txtMatKhauMoi.getPassword())).toUpperCase();
+        ShareHelper.USER.setMatKhau(newPassword);
         return new NguoiDungDaoImpl().update(ShareHelper.USER);
     }
     
@@ -71,6 +73,10 @@ public class DialogDatLaiMatKhau extends javax.swing.JDialog {
         account.put("password", String.valueOf(txtMatKhauMoi.getPassword()));
         
         FileFactoryUtil.writeObject(account, new File("accounnt.bin").getAbsolutePath());
+    }
+    
+    private void unSaveAccountToFile(){
+        new File("accounnt.bin").deleteOnExit();
     }
     
     /**
@@ -234,6 +240,8 @@ public class DialogDatLaiMatKhau extends javax.swing.JDialog {
             if (isUpdated) {
                 if (chkLuuTaiKhoan.isSelected()) {
                     saveAccountToFile();
+                }else{
+                    unSaveAccountToFile();
                 }
                 DialogHelper.message(this, "Cập nhật mật khẩu thành công!\nSử dụng mật khẩu mới cho lần đăng nhập sau", DialogHelper.INFORMATION_MESSAGE);
                 this.dispose();

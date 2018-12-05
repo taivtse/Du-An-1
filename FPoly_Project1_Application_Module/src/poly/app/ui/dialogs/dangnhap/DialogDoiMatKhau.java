@@ -8,6 +8,7 @@ package poly.app.ui.dialogs.dangnhap;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.codec.digest.DigestUtils;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
@@ -65,7 +66,8 @@ public class DialogDoiMatKhau extends javax.swing.JDialog {
     }
     
     private boolean updateMatKhau(){
-        ShareHelper.USER.setMatKhau(String.valueOf(txtMatKhauMoi.getPassword()));
+        String newPassword = DigestUtils.md5Hex(String.valueOf(txtMatKhauMoi.getPassword())).toUpperCase();
+        ShareHelper.USER.setMatKhau(newPassword);
         return new NguoiDungDaoImpl().update(ShareHelper.USER);
     }
     

@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JFrame;
+import org.apache.commons.codec.digest.DigestUtils;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
@@ -56,8 +57,6 @@ public class DialogDangNhap extends javax.swing.JDialog {
     private void unSaveAccountToFile(){
         new File("accounnt.bin").deleteOnExit();
     }
-    
-    
     
     private boolean isSavedAccountInFile(){
         File account = new File("accounnt.bin");
@@ -249,6 +248,8 @@ public class DialogDangNhap extends javax.swing.JDialog {
         if (validateInput()) {
             String idNguoiDung = txtMaNv.getText();
             String matKhau = String.valueOf(txtMatKhau.getPassword());
+            matKhau = DigestUtils.md5Hex(matKhau).toUpperCase();
+            
             ShareHelper.USER = new NguoiDungDaoImpl().getByIdAndPassword(idNguoiDung, matKhau);
             if (ShareHelper.USER != null) {
                 if (chkLuuTaiKhoan.isSelected()) {
@@ -257,7 +258,7 @@ public class DialogDangNhap extends javax.swing.JDialog {
                     unSaveAccountToFile();
                 }
                 this.dispose();
-                if (ShareHelper.USER.getMatKhau().startsWith("$$")) {
+                if (String.valueOf(txtMatKhau.getPassword()).startsWith("$$")) {
                     new DialogDatLaiMatKhau((JFrame)this.getOwner(), true).setVisible(true);
                 }
                 ((JFrame)this.getOwner()).setVisible(true);

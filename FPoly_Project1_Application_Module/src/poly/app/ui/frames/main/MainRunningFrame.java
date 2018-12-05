@@ -12,6 +12,7 @@ import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
 import poly.app.core.utils.HibernateUtil;
 import poly.app.ui.custom.ClosableTabbedPane;
+import poly.app.ui.dialogs.capnhat.DialogCapNhatThongTinCaNhan;
 import poly.app.ui.utils.ColorUtil;
 import poly.app.ui.dialogs.dangnhap.DialogDangNhap;
 import poly.app.ui.dialogs.orther.DialogSplashScreen;
@@ -44,7 +45,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
     private FrameBanDoAn frameBanDoAn;
     private FrameBanVe frameBanVe;
-    
+
     private int numberOfThreadLoaded = 0;
     private final int maxnumberOfThreadLoaded = 3;
 
@@ -58,7 +59,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         renderChildFrame();
         showSplashScreen();
     }
-    
+
     private void changeAppIcon() {
         setIconImage(ShareHelper.APP_ICON);
 //        Application.getApplication().setDockIconImage(ShareHelper.APP_ICON);
@@ -77,7 +78,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         new Thread(() -> {
             initComponents();
             reRenderUI();
-            
+
             System.out.println("main ui");
             numberOfThreadLoaded++;
             if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
@@ -89,7 +90,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private void loadHibernateSession() {
         new Thread(() -> {
             HibernateUtil.getSessionFactory();
-            
+
             System.out.println("hibernate");
             numberOfThreadLoaded++;
             if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
@@ -110,7 +111,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
             frameBanDoAn = new FrameBanDoAn();
             frameBanVe = new FrameBanVe();
-            
+
             System.out.println("child ui");
             numberOfThreadLoaded++;
             if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
@@ -140,10 +141,18 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private void disposeSplashScreen() {
         splashScreen.dispose();
     }
-    
-    private void showLoginDialog(){
+
+    private void showLoginDialog() {
         disposeSplashScreen();
         new DialogDangNhap(this, true).setVisible(true);
+    }
+
+    private void setStartVaiTroTab() {
+        if (ShareHelper.USER.getVaiTro().getId().equals("NV")) {
+            btnToolBarBanHangMouseReleased(null);
+        }else if (ShareHelper.USER.getVaiTro().getId().equals("TR")) {
+            btnToolBarThongKeMouseReleased(null);
+        }
     }
 
     /**
@@ -177,7 +186,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarVe = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
         jPanel3 = new javax.swing.JPanel();
-        tbpMainContent = new ClosableTabbedPane();
+        tbpMainContent = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -265,6 +274,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
         lblTenTaiKhoan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/user.png"))); // NOI18N
         lblTenTaiKhoan.setText("name");
         lblTenTaiKhoan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblTenTaiKhoan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lblTenTaiKhoanMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -570,18 +584,30 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnToolBarThongKeMouseExited
 
     private void btnToolBarDanhMucMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolBarDanhMucMouseReleased
-        setBtnToolBarClickEvent(btnToolBarDanhMuc);
-        ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar1");
+        if (ShareHelper.USER.getVaiTro().getId().equals("NV")) {
+            DialogHelper.message(this, "Bạn không có quyền truy cập vào tính năng này", DialogHelper.ERROR_MESSAGE);
+        } else {
+            setBtnToolBarClickEvent(btnToolBarDanhMuc);
+            ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar1");
+        }
     }//GEN-LAST:event_btnToolBarDanhMucMouseReleased
 
     private void btnToolBarBanHangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolBarBanHangMouseReleased
-        setBtnToolBarClickEvent(btnToolBarBanHang);
-        ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar2");
+        if (ShareHelper.USER.getVaiTro().getId().equals("QL")) {
+            DialogHelper.message(this, "Bạn không có quyền truy cập vào tính năng này", DialogHelper.ERROR_MESSAGE);
+        } else {
+            setBtnToolBarClickEvent(btnToolBarBanHang);
+            ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar2");
+        }
     }//GEN-LAST:event_btnToolBarBanHangMouseReleased
 
     private void btnToolBarThongKeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnToolBarThongKeMouseReleased
-        setBtnToolBarClickEvent(btnToolBarThongKe);
-        ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar3");
+        if (ShareHelper.USER.getVaiTro().getId().equals("TR")) {
+            setBtnToolBarClickEvent(btnToolBarThongKe);
+            ((CardLayout) toolBarContainer.getLayout()).show(toolBarContainer, "toolbar3");
+        } else {
+            DialogHelper.message(this, "Bạn không có quyền truy cập vào tính năng này", DialogHelper.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnToolBarThongKeMouseReleased
 
     private void itemDanhMucToolBarPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemDanhMucToolBarPhimActionPerformed
@@ -624,7 +650,8 @@ public class MainRunningFrame extends javax.swing.JFrame {
         if (ShareHelper.USER == null) {
             DialogHelper.message(this, "Hệ thống đã xảy ra lỗi", DialogHelper.ERROR_MESSAGE);
             System.exit(0);
-        }else{
+        } else {
+            setStartVaiTroTab();
             lblTenTaiKhoan.setText(ShareHelper.USER.getHoTen());
         }
     }//GEN-LAST:event_formWindowOpened
@@ -633,7 +660,12 @@ public class MainRunningFrame extends javax.swing.JFrame {
         ShareHelper.USER = null;
         this.setVisible(false);
         this.showLoginDialog();
+        formWindowOpened(null);
     }//GEN-LAST:event_btnDangXuatMouseReleased
+
+    private void lblTenTaiKhoanMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTenTaiKhoanMouseReleased
+        new DialogCapNhatThongTinCaNhan(this, true).setVisible(true);
+    }//GEN-LAST:event_lblTenTaiKhoanMouseReleased
 
     /**
      * @param args the command line arguments
@@ -695,7 +727,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JLabel lblTenTaiKhoan;
-    private ClosableTabbedPane tbpMainContent;
+    private javax.swing.JTabbedPane tbpMainContent;
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 

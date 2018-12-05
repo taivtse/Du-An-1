@@ -225,6 +225,9 @@
                       <Color id="Hand Cursor"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblTenTaiKhoanMouseReleased"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
