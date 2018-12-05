@@ -18,64 +18,20 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import poly.app.ui.custom.HoaDonReport;
+import poly.app.ui.report.HoaDonReportParameter;
+import poly.app.ui.report.VeBanReportParameter;
+import poly.app.ui.utils.ReportPrinterUtil;
 
 public class JasperTableExample {
 
     public static void main(String[] args) {
-        try {
-//            /* List to hold Items */
-//            List<HoaDonReport> listItems = new ArrayList<>();
-//            listItems.add(new HoaDonReport("Cocacola", "10", "99,000", "999,000"));
-//            listItems.add(new HoaDonReport("Bắp rang bơ", "20", "1,000", "20,000"));
+//        HoaDonReportParameter reportParameter = new HoaDonReportParameter("HD9212341", "Võ Thành Tài", new Date(), "100,000");
+//        reportParameter.addHoaDonReportBean("Cocacola", "10", "99,000", "999,000");
+//        reportParameter.addHoaDonReportBean("Bắp rang bơ", "20", "1,000", "20,000");
 //
-//
-//            /* Convert List to JRBeanCollectionDataSource */
-//            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listItems);
-//
-//            /* Map to hold Jasper report Parameters */
-//            Map<String, Object> parameters = new HashMap<String, Object>();
-//            parameters.put("ItemDataSource", itemsJRBean);
-//            parameters.put("InvoiceID", "HD9212341");
-//            parameters.put("EmployeeName", "Võ Thành Tài");
-//            parameters.put("CreatedDate", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
-//            parameters.put("TotalPrice", "200,000,000");
-//
-//            File f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
-////            if (!f.exists()) {
-////                JasperCompileManager.compileReportToFile("src/poly/app/ui/custom/HoaDonReportTemplate.jrxml", "src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
-////                f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
-////            }
-//
-//            JasperReport jr = (JasperReport) JRLoader.loadObject(f);
-//
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parameters, new JREmptyDataSource());
-//
-//            JRDesignStyle jrDesignStyle = new JRDesignStyle();
-//            /*Set the Encoding to UTF-8 for pdf and embed font to arial*/
-//            jrDesignStyle.setDefault(true);
-//            String fontPath = "src/poly/app/ui/fonts/DejaVuSans.ttf";
-//            jrDesignStyle.setPdfFontName(fontPath);
-//            jrDesignStyle.setPdfEncoding("Identity-H");
-//            jrDesignStyle.setPdfEmbedded(true);
-//            jasperPrint.addStyle(jrDesignStyle);
-//
-//            
-//            JasperViewer.viewReport(jasperPrint, false);
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            parameters.put("FilmName", "Phim con bò xấu xí");
-            parameters.put("TicketPrice", "20,000");
-            parameters.put("MovieFormat", "IMAX");
-            parameters.put("ShowScreen", "3");
-            parameters.put("ShowDate", new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-            parameters.put("ShowTime", new SimpleDateFormat("HH:mm:ss").format(new Date()));
-            parameters.put("SeatPosition", "A10");
-            File f = new File("src/poly/app/ui/custom/VeBanReportTemplate.jasper");
-            JasperReport jr = (JasperReport) JRLoader.loadObject(f);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parameters, new JREmptyDataSource());
-            JasperViewer.viewReport(jasperPrint, false);
-        } catch (JRException ex) {
-            ex.printStackTrace();
-        }
+//        ReportPrinterUtil.showPreview(reportParameter, ReportPrinterUtil.HOADON_REPORT_URL);
+
+        VeBanReportParameter veBanReportParameter = new VeBanReportParameter("ahihi", "20,000", "IMAX", "4", new Date(), new Date(), "A19");
+        ReportPrinterUtil.showPreview(veBanReportParameter, ReportPrinterUtil.VEBAN_REPORT_URL);
     }
 }
