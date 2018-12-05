@@ -15,6 +15,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 import poly.app.ui.custom.HoaDonReport;
@@ -24,43 +25,49 @@ public class JasperTableExample {
     public static void main(String[] args) {
         try {
             /* List to hold Items */
-//            List<HoaDonReport> listItems = new ArrayList<>();
-//            listItems.add(new HoaDonReport("Cocacola", "10", "99,000", "999,000"));
-//            listItems.add(new HoaDonReport("Bắp rang bơ haha an ngon lam luon a", "20", "1,000", "20,000"));
-            
+            List<HoaDonReport> listItems = new ArrayList<>();
+            listItems.add(new HoaDonReport("Cocacola", "10", "99,000", "999,000"));
+            listItems.add(new HoaDonReport("Bắp rang bơ", "20", "1,000", "20,000"));
+
 
             /* Convert List to JRBeanCollectionDataSource */
-//            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listItems);
+            JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(listItems);
 
             /* Map to hold Jasper report Parameters */
-//            Map<String, Object> parameters = new HashMap<String, Object>();
-//            parameters.put("ItemDataSource", itemsJRBean);
-//            parameters.put("InvoiceID", "HD9212341");
-//            parameters.put("EmployeeName", "Võ Thành Tài");
-//            parameters.put("CreatedDate", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
-//            parameters.put("TotalPrice", "200,000,000");
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("ItemDataSource", itemsJRBean);
+            parameters.put("InvoiceID", "HD9212341");
+            parameters.put("EmployeeName", "Võ Thành Tài");
+            parameters.put("CreatedDate", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()));
+            parameters.put("TotalPrice", "200,000,000");
 
-//            File f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
+            File f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
 //            if (!f.exists()) {
 //                JasperCompileManager.compileReportToFile("src/poly/app/ui/custom/HoaDonReportTemplate.jrxml", "src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
 //                f = new File("src/poly/app/ui/custom/HoaDonReportTemplate.jasper");
 //            }
-            
-//            JasperReport jr = (JasperReport) JRLoader.loadObject(f);
-//
-//
-//            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parameters, new JREmptyDataSource());
-//            JasperViewer.viewReport(jasperPrint, false);
-            
-            
-            File f = new File("src/poly/app/ui/custom/VeBanReportTemplate.jasper");
+
             JasperReport jr = (JasperReport) JRLoader.loadObject(f);
 
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, parameters, new JREmptyDataSource());
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, null, new JREmptyDataSource());
+            JRDesignStyle jrDesignStyle = new JRDesignStyle();
+            /*Set the Encoding to UTF-8 for pdf and embed font to arial*/
+            jrDesignStyle.setDefault(true);
+            String fontPath = "src/poly/app/ui/fonts/DejaVuSans.ttf";
+            jrDesignStyle.setPdfFontName(fontPath);
+            jrDesignStyle.setPdfEncoding("Identity-H");
+            jrDesignStyle.setPdfEmbedded(true);
+            jasperPrint.addStyle(jrDesignStyle);
+
             JasperViewer.viewReport(jasperPrint, false);
+
+//            File f = new File("src/poly/app/ui/custom/VeBanReportTemplate.jasper");
+//            JasperReport jr = (JasperReport) JRLoader.loadObject(f);
+//            JasperPrint jasperPrint = JasperFillManager.fillReport(jr, null, new JREmptyDataSource());
+//            JasperViewer.viewReport(jasperPrint, false);
         } catch (JRException ex) {
             ex.printStackTrace();
-        } 
+        }
     }
 }
