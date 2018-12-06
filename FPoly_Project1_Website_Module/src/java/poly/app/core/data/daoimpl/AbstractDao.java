@@ -109,7 +109,7 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
     }
 
     @Override
-    public boolean insert(T entity) {
+    public boolean insert(T entity) throws Exception{
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -118,14 +118,14 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             return true;
         } catch (HibernateException ex) {
             transaction.rollback();
-            throw ex;
+            throw new Exception(ex);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public boolean update(T entity) {
+    public boolean update(T entity) throws Exception{
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -135,14 +135,14 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             return true;
         } catch (HibernateException ex) {
             transaction.rollback();
-            throw ex;
+            throw new Exception(ex);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public boolean delete(T entity) {
+    public boolean delete(T entity) throws Exception{
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -152,14 +152,14 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             return true;
         } catch (HibernateException ex) {
             transaction.rollback();
-            throw ex;
+            throw new Exception(ex);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public boolean deleteById(ID id) {
+    public boolean deleteById(ID id) throws Exception{
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -170,14 +170,14 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             return true;
         } catch (HibernateException ex) {
             transaction.rollback();
-            throw ex;
+            throw new Exception(ex);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public int multipleDelete(List<T> entities) {
+    public int multipleDelete(List<T> entities) throws Exception{
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         int countDeleted = 0;
@@ -189,7 +189,7 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             transaction.commit();
         } catch (HibernateException ex) {
             transaction.rollback();
-            throw ex;
+            throw new Exception(ex);
         } finally {
             session.close();
         }
@@ -197,7 +197,7 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
     }
 
     @Override
-    public boolean saveOrUpdate(T entity) {
+    public boolean saveOrUpdate(T entity) throws Exception{
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -206,7 +206,7 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             return true;
         } catch (HibernateException ex) {
             transaction.rollback();
-            throw ex;
+            throw new Exception(ex);
         } finally {
             session.close();
         }
