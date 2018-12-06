@@ -20,7 +20,7 @@
         <property name="dangBan" type="java.lang.Boolean">
             <column name="dang_ban" />
         </property>
-        <set name="hoaDonChiTiets" table="hoa_don_chi_tiet" inverse="true" lazy="true" fetch="select">
+        <set name="hoaDonChiTiets" table="hoa_don_chi_tiet" inverse="true" lazy="true" fetch="select" >
             <key>
                 <column name="do_an_chi_tiet_id" not-null="true" />
             </key>

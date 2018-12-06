@@ -2,6 +2,8 @@ package poly.app.core.daoimpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
@@ -55,18 +57,18 @@ public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements 
     }
 
     @Override
-    public boolean updateAnhHuongSuatChieuSau(SuatChieu suatChieu, int durationChange) {
+    public boolean updateAnhHuongSuatChieuSau(SuatChieu suatChieu, int durationChange) throws Exception{
         try {
             this.update(suatChieu);
             updateThoiGianCacSuatChieu(suatChieu, durationChange);
-        } catch (HibernateException e) {
-            throw e;
+        } catch (Exception ex) {
+            throw ex;
         }
         return true;
     }
 
     @Override
-    public void updateThoiGianCacSuatChieu(SuatChieu suatChieu, int durationChange){
+    public void updateThoiGianCacSuatChieu(SuatChieu suatChieu, int durationChange) throws Exception{
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {

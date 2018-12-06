@@ -20,6 +20,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import poly.app.core.dao.VeBanDao;
 import poly.app.core.daoimpl.GiaVeDaoImpl;
 import poly.app.core.daoimpl.VeBanDaoImpl;
 import poly.app.core.entities.GheNgoi;
@@ -471,6 +472,8 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInVeActionPerformed
+        boolean isSuccess = true;
+        VeBanDao veBanDao = new VeBanDaoImpl();
         for (int i = 0; i < tblThongTin.getRowCount(); i++) {
             GheNgoi gheNgoi = selectedGheNgoiMap.get(tblThongTin.getValueAt(i, 0));
             GiaVe giaVe = (GiaVe) tblThongTin.getValueAt(i, 3);
@@ -479,13 +482,18 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
             VeBan veBan = new VeBan("", gheNgoi, giaVe, suatChieu, new Date(), tongTien);
             veBan.setNguoiDung(ShareHelper.USER);
             try {
-                new VeBanDaoImpl().insert(veBan);
-                DialogHelper.message(this, "Thêm vé bán thành công", DialogHelper.INFORMATION_MESSAGE);
-                this.dispose();
+                veBanDao.insert(veBan);
             } catch (Exception e) {
                 e.printStackTrace();
-                DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);
+                isSuccess = false;
             }
+        }
+        
+        if (isSuccess) {
+            DialogHelper.message(this, "Thêm vé bán thành công", DialogHelper.INFORMATION_MESSAGE);
+                this.dispose();
+        }else{
+            DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnInVeActionPerformed
 

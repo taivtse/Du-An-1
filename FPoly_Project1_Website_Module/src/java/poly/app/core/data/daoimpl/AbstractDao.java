@@ -123,9 +123,9 @@ public class AbstractDao<ID extends Serializable, T> implements GenericDao<ID, T
             session.close();
         }
     }
-
+    
     @Override
-    public boolean update(T entity) throws Exception{
+    public boolean update(T entity) throws Exception {
         Session session = this.getSession();
         Transaction transaction = session.beginTransaction();
         try {

@@ -19,6 +19,6 @@ import poly.app.core.entities.SuatChieu;
 public interface SuatChieuDao extends GenericDao<String, SuatChieu>{
     public List<SuatChieu> getSuatChieuHienTaiByPhim(Phim phim);
     public List<SuatChieu> getSuatChieuByNgayVaByPhong(Date date, PhongChieu phongChieu);
-    public boolean updateAnhHuongSuatChieuSau(SuatChieu suatChieu, int durationChange);
-    public void updateThoiGianCacSuatChieu(SuatChieu suatChieu, int durationChange);
+    public boolean updateAnhHuongSuatChieuSau(SuatChieu suatChieu, int durationChange) throws Exception;
+    public void updateThoiGianCacSuatChieu(SuatChieu suatChieu, int durationChange) throws Exception;
 }

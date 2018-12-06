@@ -15,21 +15,21 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import poly.app.core.dao.DoAnChiTietDao;
-import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
-import poly.app.core.entities.DoAnChiTiet;
+import poly.app.core.dao.DoAnDao;
+import poly.app.core.daoimpl.DoAnDaoImpl;
+import poly.app.core.entities.DoAn;
 import poly.app.core.utils.JsonFactoryUtil;
 
-@Path("do-an-chi-tiet")
-public class DoAnChiTietAPI {
+@Path("do-an")
+public class DoAnAPI {
 
-    DoAnChiTietDao doAnChiTietDao = new DoAnChiTietDaoImpl();
+    DoAnDao doAnDao = new DoAnDaoImpl();
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@PathParam("id") Integer id) {
-        DoAnChiTiet entity = doAnChiTietDao.getById(id);
+    public Response get(@PathParam("id") String id) {
+        DoAn entity = doAnDao.getById(id);
         if (entity == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + id).build();
         }
@@ -47,22 +47,7 @@ public class DoAnChiTietAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
-        List<DoAnChiTiet> list = doAnChiTietDao.getAll();
-        String json;
-        try {
-            json = JsonFactoryUtil.toJson(list);
-        } catch (JsonProcessingException ex) {
-            Logger.getLogger(DinhDangPhimAPI.class.getName()).log(Level.SEVERE, null, ex);
-            return Response.serverError().entity(ex).build();
-        }
-        return Response.ok(json, MediaType.APPLICATION_JSON).build();
-    }
-
-    @GET
-    @Path("order")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllAndOrderBySize() {
-        List<DoAnChiTiet> list = doAnChiTietDao.getAllAndOrderBySize();
+        List<DoAn> list = doAnDao.getAll();
         String json;
         try {
             json = JsonFactoryUtil.toJson(list);
@@ -76,13 +61,13 @@ public class DoAnChiTietAPI {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response insert(String json) {
-        DoAnChiTiet doAnChiTiet = null;
+        DoAn doAn = null;
         try {
-            doAnChiTiet = JsonFactoryUtil.toObject(json, new TypeReference<DoAnChiTiet>() {
+            doAn = JsonFactoryUtil.toObject(json, new TypeReference<DoAn>() {
             });
-            doAnChiTietDao.insert(doAnChiTiet);
+            doAnDao.insert(doAn);
         } catch (Exception ex) {
-            Logger.getLogger(DoAnChiTietAPI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoAnAPI.class.getName()).log(Level.SEVERE, null, ex);
             return Response.serverError().entity(ex.getMessage()).build();
         }
 
@@ -92,13 +77,13 @@ public class DoAnChiTietAPI {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(String json) {
-        DoAnChiTiet doAnChiTiet = null;
+        DoAn doAn = null;
         try {
-            doAnChiTiet = JsonFactoryUtil.toObject(json, new TypeReference<DoAnChiTiet>() {
+            doAn = JsonFactoryUtil.toObject(json, new TypeReference<DoAn>() {
             });
-            doAnChiTietDao.update(doAnChiTiet);
+            doAnDao.update(doAn);
         } catch (Exception ex) {
-            Logger.getLogger(DoAnChiTietAPI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoAnAPI.class.getName()).log(Level.SEVERE, null, ex);
             return Response.serverError().entity(ex.getMessage()).build();
         }
 
@@ -108,13 +93,13 @@ public class DoAnChiTietAPI {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(String json) {
-        DoAnChiTiet doAnChiTiet = null;
+        DoAn doAn = null;
         try {
-            doAnChiTiet = JsonFactoryUtil.toObject(json, new TypeReference<DoAnChiTiet>() {
+            doAn = JsonFactoryUtil.toObject(json, new TypeReference<DoAn>() {
             });
-            doAnChiTietDao.delete(doAnChiTiet);
+            doAnDao.delete(doAn);
         } catch (Exception ex) {
-            Logger.getLogger(DoAnChiTietAPI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoAnAPI.class.getName()).log(Level.SEVERE, null, ex);
             return Response.serverError().entity(ex.getMessage()).build();
         }
 
@@ -123,11 +108,11 @@ public class DoAnChiTietAPI {
     
     @DELETE
     @Path("{id}")
-    public Response deleteById(@PathParam("id") Integer id) {
+    public Response deleteById(@PathParam("id") String id) {
         try {
-            doAnChiTietDao.deleteById(id);
+            doAnDao.deleteById(id);
         } catch (Exception ex) {
-            Logger.getLogger(DoAnChiTietAPI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DoAnAPI.class.getName()).log(Level.SEVERE, null, ex);
             return Response.serverError().entity(ex.getMessage()).build();
         }
 

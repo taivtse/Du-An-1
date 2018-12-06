@@ -21,7 +21,7 @@ public class DoAnNGTest {
     }
 
     @Test
-    public void insert() {
+    public void insert() throws Exception {
         LoaiDoAn loaiDoAn = new LoaiDoAnDaoImpl().getById("DA");
         DoAn doAn = new DoAn("", loaiDoAn, "Haha", true);
         new DoAnDaoImpl().insert(doAn);
