@@ -242,6 +242,14 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         cboDinhDang.getModel().setSelectedItem(updatingSuatChieu.getDinhDangPhim());
         spnGioBatDau.setValue(updatingSuatChieu.getGioBatDau());
         spnGioKetThuc.setValue(updatingSuatChieu.getGioKetThuc());
+
+        if (updatingSuatChieu.getGioBatDau().compareTo(new Date()) < 0) {
+            btnSaveOrUpdate.setEnabled(false);
+            btnResetOrDelete.setEnabled(false);
+        } else {
+            btnSaveOrUpdate.setEnabled(true);
+            btnResetOrDelete.setEnabled(true);
+        }
     }
 
     private void loadDataToCboPhongChieu() {
@@ -285,6 +293,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                 ((PanelSuatChieuItem) component).setItemUnSelected();
             }
         }
+        updatingIndex = -1;
     }
 
     private void setUpdatingState() {
@@ -293,9 +302,9 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         btnResetOrDelete.setText("Xoá");
     }
 
-    private Date getMergeDateAndTime(Date inputDate) {
-        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(dcsNgayChieu.getDate());
-        String timeStr = new SimpleDateFormat("HH:mm:ss").format(inputDate);
+    private Date getMergeDateAndTime(Date inputTime, Date inputDate) {
+        String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(inputDate);
+        String timeStr = new SimpleDateFormat("HH:mm:ss").format(inputTime);
         LocalDateTime dt = LocalDateTime.of(LocalDate.parse(dateStr), LocalTime.parse(timeStr));
 
         return Date.from(dt.atZone(ZoneId.systemDefault()).toInstant());
@@ -303,7 +312,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
     private boolean checkGioBatDauSuatChieu() {
         Date newGioBatDau = (Date) spnGioBatDau.getValue();
-        newGioBatDau = getMergeDateAndTime(newGioBatDau);
+        newGioBatDau = getMergeDateAndTime(newGioBatDau, dcsNgayChieu.getDate());
 
         for (PanelSuatChieuItem panelSuatChieuItem : suatChieuItemList) {
             SuatChieu curSuatChieu = panelSuatChieuItem.getSuatChieu();
@@ -326,8 +335,8 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         Date newGioBatDau = (Date) spnGioBatDau.getValue();
         Date newGioKetThuc = (Date) spnGioKetThuc.getValue();
 
-        newGioBatDau = getMergeDateAndTime(newGioBatDau);
-        newGioKetThuc = getMergeDateAndTime(newGioKetThuc);
+        newGioBatDau = getMergeDateAndTime(newGioBatDau, dcsNgayChieu.getDate());
+        newGioKetThuc = getMergeDateAndTime(newGioKetThuc, dcsNgayChieu.getDate());
 
         for (PanelSuatChieuItem panelSuatChieuItem : suatChieuItemList) {
             SuatChieu curSuatChieu = panelSuatChieuItem.getSuatChieu();
@@ -356,13 +365,13 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         return true;
     }
 
-    private boolean updateSuatChieu() {
+    private Boolean updateSuatChieu() {
         SuatChieu updatingSuatChieu = suatChieuItemList.get(updatingIndex).getSuatChieu();
         boolean isUpdated = true;
         Date newGioBatDau = (Date) spnGioBatDau.getValue();
 
         if (!checkGioBatDauSuatChieu()) {
-            return false;
+            return null;
         }
 
         Date newGioKetThuc = (Date) spnGioKetThuc.getValue();
@@ -373,8 +382,16 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         updatingSuatChieu.setPhim(phim);
         updatingSuatChieu.setDinhDangPhim(dinhDangPhim);
 
-        updatingSuatChieu.setGioBatDau(getMergeDateAndTime(newGioBatDau));
-        updatingSuatChieu.setGioKetThuc(getMergeDateAndTime(newGioKetThuc));
+        newGioBatDau = getMergeDateAndTime(newGioBatDau, dcsNgayChieu.getDate());
+        
+        if (newGioKetThuc.compareTo(newGioBatDau) < 0) {
+            newGioKetThuc = getMergeDateAndTime(newGioKetThuc, DateHelper.rollDays(dcsNgayChieu.getDate(), 1));
+        }else{
+            newGioKetThuc = getMergeDateAndTime(newGioKetThuc, dcsNgayChieu.getDate());
+        }
+        
+        updatingSuatChieu.setGioBatDau(newGioBatDau);
+        updatingSuatChieu.setGioKetThuc(newGioKetThuc);
 
         SuatChieu nextSuatChieu = null;
         if (updatingIndex + 1 < suatChieuItemList.size()) {
@@ -389,6 +406,8 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
                     e.printStackTrace();
                     isUpdated = false;
                 }
+            } else {
+                return null;
             }
         } else {
             isUpdated = new SuatChieuDaoImpl().update(updatingSuatChieu);
@@ -398,8 +417,8 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
     }
 
     private SuatChieu insertSuatChieu() {
-        Date gioBatDau = getMergeDateAndTime((Date) spnGioBatDau.getValue());
-        Date gioKetThuc = getMergeDateAndTime((Date) spnGioKetThuc.getValue());
+        Date gioBatDau = getMergeDateAndTime((Date) spnGioBatDau.getValue(), dcsNgayChieu.getDate());
+        Date gioKetThuc = getMergeDateAndTime((Date) spnGioKetThuc.getValue(), dcsNgayChieu.getDate());
 
         if (!checkThoiGianSuatChieu()) {
             return null;
@@ -806,17 +825,19 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
 
     private void btnSaveOrUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveOrUpdateActionPerformed
         if (btnSaveOrUpdate.getText().equals("Cập nhật")) {
-            boolean isUpdated = updateSuatChieu();
+            Boolean isUpdated = updateSuatChieu();
 
-            if (isUpdated) {
-                DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-                loadTimeLine();
+            if (isUpdated != null) {
+                if (isUpdated) {
+                    DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                    loadTimeLine();
 
-                suatChieuItemList.get(updatingIndex).setItemSelected();
+                    suatChieuItemList.get(updatingIndex).setItemSelected();
 
-                setUpdatingState();
-            } else {
-                DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+                    setUpdatingState();
+                } else {
+                    DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+                }
             }
         } else {
             SuatChieu newSuatChieu = insertSuatChieu();

@@ -185,6 +185,10 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemBanHangToolBarThucAn = new javax.swing.JButton();
         itemBanHangToolBarVe = new javax.swing.JButton();
         jToolBar3 = new javax.swing.JToolBar();
+        itemThongKeToolBarVeBan = new javax.swing.JButton();
+        itemThongKeToolBarDoAn = new javax.swing.JButton();
+        itemThongKeToolBarPhim = new javax.swing.JButton();
+        itemThongKeToolBarTongDoanhThu = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         tbpMainContent = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
@@ -203,7 +207,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         btnToolBarDanhMuc.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         btnToolBarDanhMuc.setForeground(new java.awt.Color(52, 83, 104));
         btnToolBarDanhMuc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnToolBarDanhMuc.setText("Danh mục");
+        btnToolBarDanhMuc.setText("Quản lý");
         btnToolBarDanhMuc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnToolBarDanhMuc.setOpaque(true);
         btnToolBarDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -466,6 +470,71 @@ public class MainRunningFrame extends javax.swing.JFrame {
         jToolBar3.setFloatable(false);
         jToolBar3.setRollover(true);
         jToolBar3.setOpaque(false);
+
+        itemThongKeToolBarVeBan.setBackground(new java.awt.Color(255, 255, 255));
+        itemThongKeToolBarVeBan.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        itemThongKeToolBarVeBan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/tickets.png"))); // NOI18N
+        itemThongKeToolBarVeBan.setText("Thống kê vé bán");
+        itemThongKeToolBarVeBan.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        itemThongKeToolBarVeBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemThongKeToolBarVeBan.setFocusable(false);
+        itemThongKeToolBarVeBan.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        itemThongKeToolBarVeBan.setMargin(new java.awt.Insets(5, 10, 5, 10));
+        itemThongKeToolBarVeBan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemThongKeToolBarVeBanActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(itemThongKeToolBarVeBan);
+
+        itemThongKeToolBarDoAn.setBackground(new java.awt.Color(255, 255, 255));
+        itemThongKeToolBarDoAn.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        itemThongKeToolBarDoAn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/popcorn.png"))); // NOI18N
+        itemThongKeToolBarDoAn.setText("Thống kê đồ ăn");
+        itemThongKeToolBarDoAn.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        itemThongKeToolBarDoAn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemThongKeToolBarDoAn.setFocusable(false);
+        itemThongKeToolBarDoAn.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        itemThongKeToolBarDoAn.setMargin(new java.awt.Insets(5, 10, 5, 10));
+        itemThongKeToolBarDoAn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemThongKeToolBarDoAnActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(itemThongKeToolBarDoAn);
+
+        itemThongKeToolBarPhim.setBackground(new java.awt.Color(255, 255, 255));
+        itemThongKeToolBarPhim.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        itemThongKeToolBarPhim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/film-reel.png"))); // NOI18N
+        itemThongKeToolBarPhim.setText("Thống kê doanh thu phim");
+        itemThongKeToolBarPhim.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        itemThongKeToolBarPhim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemThongKeToolBarPhim.setFocusable(false);
+        itemThongKeToolBarPhim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        itemThongKeToolBarPhim.setMargin(new java.awt.Insets(5, 10, 5, 10));
+        itemThongKeToolBarPhim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemThongKeToolBarPhimActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(itemThongKeToolBarPhim);
+
+        itemThongKeToolBarTongDoanhThu.setBackground(new java.awt.Color(255, 255, 255));
+        itemThongKeToolBarTongDoanhThu.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
+        itemThongKeToolBarTongDoanhThu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/analytics.png"))); // NOI18N
+        itemThongKeToolBarTongDoanhThu.setText("Thống kê tổng doanh thu");
+        itemThongKeToolBarTongDoanhThu.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        itemThongKeToolBarTongDoanhThu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        itemThongKeToolBarTongDoanhThu.setFocusable(false);
+        itemThongKeToolBarTongDoanhThu.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        itemThongKeToolBarTongDoanhThu.setMargin(new java.awt.Insets(5, 10, 5, 10));
+        itemThongKeToolBarTongDoanhThu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemThongKeToolBarTongDoanhThuActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(itemThongKeToolBarTongDoanhThu);
+
         toolBarContainer.add(jToolBar3, "card4");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -649,7 +718,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         if (ShareHelper.USER == null) {
             DialogHelper.message(this, "Hệ thống đã xảy ra lỗi", DialogHelper.ERROR_MESSAGE);
-            System.exit(0);
+            this.dispose();
         } else {
             setStartVaiTroTab();
             lblTenTaiKhoan.setText(ShareHelper.USER.getHoTen());
@@ -666,6 +735,22 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private void lblTenTaiKhoanMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblTenTaiKhoanMouseReleased
         new DialogCapNhatThongTinCaNhan(this, true).setVisible(true);
     }//GEN-LAST:event_lblTenTaiKhoanMouseReleased
+
+    private void itemThongKeToolBarVeBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarVeBanActionPerformed
+        
+    }//GEN-LAST:event_itemThongKeToolBarVeBanActionPerformed
+
+    private void itemThongKeToolBarDoAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarDoAnActionPerformed
+        
+    }//GEN-LAST:event_itemThongKeToolBarDoAnActionPerformed
+
+    private void itemThongKeToolBarPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarPhimActionPerformed
+        
+    }//GEN-LAST:event_itemThongKeToolBarPhimActionPerformed
+
+    private void itemThongKeToolBarTongDoanhThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarTongDoanhThuActionPerformed
+        
+    }//GEN-LAST:event_itemThongKeToolBarTongDoanhThuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -717,6 +802,10 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JButton itemDanhMucToolBarSuatChieu;
     private javax.swing.JButton itemDanhMucToolBarThucAn;
     private javax.swing.JButton itemDanhMucToolBarVe;
+    private javax.swing.JButton itemThongKeToolBarDoAn;
+    private javax.swing.JButton itemThongKeToolBarPhim;
+    private javax.swing.JButton itemThongKeToolBarTongDoanhThu;
+    private javax.swing.JButton itemThongKeToolBarVeBan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

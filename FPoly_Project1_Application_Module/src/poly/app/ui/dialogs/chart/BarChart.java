@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.dialogs.chart;
+package poly.app.ui.frames.chart;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -34,7 +34,7 @@ public class BarChart {
         chart.getStyler().setDecimalPattern("#,###,###");
 
         chart.addSeries("Tên đồ ăn", xData, yData);
-        JPanel panel = new XChartPanel<CategoryChart>(chart);
+        JPanel panel = new XChartPanel(chart);
         JDialog dialog = new JDialog(parent,true);
         
         dialog.add(panel);
