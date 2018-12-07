@@ -13,10 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.daoimpl.SuatChieuDaoImpl;
+import poly.app.core.daoimpl.VeDatDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.entities.VeDat;
 import poly.app.core.helper.DialogHelper;
 import poly.app.ui.dialogs.banhang.DialogChonGheNgoi;
+import poly.app.ui.dialogs.banhang.DialogThongTinVeDat;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -43,7 +46,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         //        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblSuatChieu);
         tblRenderer.changeHeaderStyle();
-        
+
         tblRenderer.setColoumnWidthByPersent(0, 5);
         tblRenderer.setColoumnWidthByPersent(3, 20);
 
@@ -76,6 +79,7 @@ public class FrameBanVe extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnBan = new javax.swing.JButton();
+        btnXuatVe = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSuatChieu = new javax.swing.JTable();
@@ -166,6 +170,14 @@ public class FrameBanVe extends javax.swing.JFrame {
             }
         });
 
+        btnXuatVe.setText("Xuất vé Online");
+        btnXuatVe.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXuatVe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatVeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -173,13 +185,17 @@ public class FrameBanVe extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnBan)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnXuatVe)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(btnBan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXuatVe, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -296,7 +312,7 @@ public class FrameBanVe extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void tblSuatChieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSuatChieuMouseClicked
-        if (evt.getClickCount() >= 2 && tblSuatChieu.getSelectedRow() >=0 ) {
+        if (evt.getClickCount() >= 2 && tblSuatChieu.getSelectedRow() >= 0) {
             btnBanActionPerformed(null);
         }
     }//GEN-LAST:event_tblSuatChieuMouseClicked
@@ -305,24 +321,45 @@ public class FrameBanVe extends javax.swing.JFrame {
         if (tblPhim.getSelectedRow() >= 0) {
             String tenPhim = (String) tblPhim.getValueAt(tblPhim.getSelectedRow(), 1);
             loadDataToTableSuatChieu(phimMap.get(tenPhim));
-        }        
+        }
     }//GEN-LAST:event_tblPhimMouseClicked
 
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
         if (tblSuatChieu.getRowCount() > 0 && tblSuatChieu.getSelectedRow() >= 0) {
             int index = tblSuatChieu.getSelectedRow();
             String trangThai = (String) tblSuatChieu.getValueAt(index, 7);
-            
+
             if (trangThai.equals("Đã chiếu")) {
                 DialogHelper.message(this, "Suất vừa chọn đã chiếu. \nVui lòng chọn suất chiếu khác!", DialogHelper.ERROR_MESSAGE);
             } else {
                 String suatChieuId = (String) tblSuatChieu.getValueAt(index, 1);
                 new DialogChonGheNgoi(this, true, suatChieuMap.get(suatChieuId)).setVisible(true);
             }
-        }else{
+        } else {
             DialogHelper.message(this, "Vui lòng chọn suất chiếu!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBanActionPerformed
+
+    private void btnXuatVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatVeActionPerformed
+        VeDat veDat = null;
+        boolean isEntered = true;
+        do {
+            String maVeDat;
+            maVeDat = DialogHelper.prompt(this, "Nhập mã vé đặt");
+            if (maVeDat == null) {
+                isEntered = false;
+                break;
+            }
+            veDat = new VeDatDaoImpl().getById(maVeDat);
+            if (veDat == null) {
+                DialogHelper.message(this, "Mã vé đặt không tồn tại", DialogHelper.ERROR_MESSAGE);
+            }
+        } while (veDat == null);
+        if (isEntered) {
+            new DialogThongTinVeDat(this, true, veDat).setVisible(true);
+        }
+
+    }//GEN-LAST:event_btnXuatVeActionPerformed
 
     private void loadDataToTableSuatChieu(Phim phim) {
         suatChieuMap.clear();
@@ -343,7 +380,7 @@ public class FrameBanVe extends javax.swing.JFrame {
                         suatChieu.getId(),
                         suatChieu.getNgayChieu(),
                         new SimpleDateFormat("HH:mm:ss").format(suatChieu.getGioBatDau()) + " - "
-                            + new SimpleDateFormat("HH:mm:ss").format(suatChieu.getGioKetThuc()),
+                        + new SimpleDateFormat("HH:mm:ss").format(suatChieu.getGioKetThuc()),
                         suatChieu.getDinhDangPhim().getId(),
                         suatChieu.getPhim().getNgonNgu(),
                         "Phòng " + suatChieu.getPhongChieu().getId(),
@@ -409,6 +446,7 @@ public class FrameBanVe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBan;
     private javax.swing.JLabel btnCollapse;
+    private javax.swing.JButton btnXuatVe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

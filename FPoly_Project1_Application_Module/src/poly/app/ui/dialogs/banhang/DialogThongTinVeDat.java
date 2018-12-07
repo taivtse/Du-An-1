@@ -5,29 +5,15 @@
  */
 package poly.app.ui.dialogs.banhang;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.swing.AbstractButton;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.dao.VeBanDao;
-import poly.app.core.daoimpl.GiaVeDaoImpl;
 import poly.app.core.daoimpl.VeBanDaoImpl;
 import poly.app.core.entities.GheNgoi;
-import poly.app.core.entities.GiaVe;
-import poly.app.core.entities.LoaiGhe;
 import poly.app.core.entities.SuatChieu;
 import poly.app.core.entities.VeBan;
+import poly.app.core.entities.VeDat;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
 import poly.app.ui.utils.TableRendererUtil;
@@ -36,36 +22,31 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class DialogThongTinVeBan extends javax.swing.JDialog {
-
-    SuatChieu suatChieu;
-    Map<String, GheNgoi> selectedGheNgoiMap = new HashMap<>();
-    List<GiaVe> giaveList;
+public class DialogThongTinVeDat extends javax.swing.JDialog {
+    
+    VeDat veDat;
 
     /**
      * Creates new form DialogThongTinVeBan
      */
-    public DialogThongTinVeBan(java.awt.Frame parent, boolean modal) {
+    public DialogThongTinVeDat(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
     }
-
-    public DialogThongTinVeBan(java.awt.Frame parent, boolean modal, SuatChieu suatChieu, Map<String, GheNgoi> selectedGheNgoiMap) {
+    
+    public DialogThongTinVeDat(java.awt.Frame parent, boolean modal, VeDat veDat) {
         this(parent, modal);
-
-        this.suatChieu = suatChieu;
-        this.selectedGheNgoiMap = selectedGheNgoiMap;
-
-        giaveList = new GiaVeDaoImpl().getAll();
-
+        
+        this.veDat = veDat;
+        
         reRenderUI();
         setDataToInput();
         setDataToTable();
-
+        
         tinhTongTien();
     }
-
+    
     private void reRenderUI() {
         //        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblThongTin);
@@ -74,46 +55,10 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
         tblRenderer.setColoumnWidthByPersent(2, 5);
         tblRenderer.setColoumnWidthByPersent(4, 5);
         tblRenderer.setColoumnWidthByPersent(6, 5);
-
-        JComboBox comboBox = new JComboBox();
-        for (Component component : comboBox.getComponents()) {
-            if (component instanceof AbstractButton) {
-                if (component.isVisible()) {
-                    component.setVisible(false);
-                }
-            }
-        }
-
-        comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < tblThongTin.getRowCount(); i++) {
-                    LoaiGhe loaiGhe = (LoaiGhe) tblThongTin.getValueAt(i, 1);
-                    GiaVe giaVe = (GiaVe) tblThongTin.getValueAt(i, 3);
-
-                    int phuThuSuatChieu = Integer.parseInt(tblThongTin.getValueAt(i, 5).toString().replace(",", ""));
-
-                    tblThongTin.setValueAt(new DecimalFormat("#,###,###").format(giaVe.getDonGia()), i, 4);
-
-                    tblThongTin.setValueAt(new DecimalFormat("#,###,###").format(loaiGhe.getPhuThu() + giaVe.getDonGia() + phuThuSuatChieu), i, 6);
-                }
-
-                tinhTongTien();
-            }
-        });
-        DefaultComboBoxModel defaultComboBoxModel = (DefaultComboBoxModel) comboBox.getModel();
-        for (GiaVe giaVe : giaveList) {
-            defaultComboBoxModel.addElement(giaVe);
-        }
-
-        tblThongTin.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBox));
-
-        DefaultTableCellRenderer renderer
-                = new DefaultTableCellRenderer();
-        renderer.setToolTipText("Click để chọn đối tượng");
-        tblThongTin.getColumnModel().getColumn(3).setCellRenderer(renderer);
     }
-
+    
     private void setDataToInput() {
+        SuatChieu suatChieu = veDat.getVeBans().iterator().next().getSuatChieu();
         txtMaSuatChieu.setText(suatChieu.getId());
         txtNgayChieu.setText(new SimpleDateFormat("dd-MM-yyyy").format(suatChieu.getNgayChieu()));
         txtTenPhim.setText(suatChieu.getPhim().getTen());
@@ -122,35 +67,34 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
         txtDinhDang.setText(suatChieu.getDinhDangPhim().getTen());
         txtPhongChieu.setText("Phòng " + suatChieu.getPhongChieu().getId());
     }
-
+    
     private void setDataToTable() {
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblThongTin.getModel();
-
+        
         DecimalFormat df = new DecimalFormat("#,###,###");
-
-        for (Map.Entry<String, GheNgoi> entry : selectedGheNgoiMap.entrySet()) {
-            String viTriGhe = entry.getKey();
-            GheNgoi gheNgoi = entry.getValue();
-
+        
+        SuatChieu suatChieu = veDat.getVeBans().iterator().next().getSuatChieu();
+        for (VeBan veBan : veDat.getVeBans()) {
+            GheNgoi gheNgoi = veBan.getGheNgoi();
             defaultTableModel.addRow(new Object[]{
-                viTriGhe,
+                gheNgoi.getViTriDay() + gheNgoi.getViTriCot(),
                 gheNgoi.getLoaiGhe(),
                 df.format(gheNgoi.getLoaiGhe().getPhuThu()),
-                giaveList.get(0),
-                df.format(giaveList.get(0).getDonGia()),
+                veBan.getGiaVe().getTen(),
+                df.format(veBan.getGiaVe().getDonGia()),
                 df.format(suatChieu.getDinhDangPhim().getPhuThu()),
-                df.format(gheNgoi.getLoaiGhe().getPhuThu() + giaveList.get(0).getDonGia() + suatChieu.getDinhDangPhim().getPhuThu())
+                df.format(gheNgoi.getLoaiGhe().getPhuThu() + veBan.getGiaVe().getDonGia() + suatChieu.getDinhDangPhim().getPhuThu())
             });
         }
     }
-
+    
     private void tinhTongTien() {
         int total = 0;
-
+        
         for (int i = 0; i < tblThongTin.getRowCount(); i++) {
             total += Integer.parseInt(tblThongTin.getValueAt(i, 6).toString().replace(",", ""));
         }
-
+        
         lblTongTien.setText(new DecimalFormat("#,###,###").format(total) + " vnd");
     }
 
@@ -205,7 +149,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Open Sans", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(52, 83, 104));
-        jLabel1.setText("Thông tin vé bán");
+        jLabel1.setText("Thông tin vé đặt online");
 
         jLabel3.setFont(new java.awt.Font("Open Sans", 0, 15)); // NOI18N
         jLabel3.setText("Vui lòng kiểm tra trước khi in");
@@ -239,7 +183,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,26 +419,20 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
         boolean isSuccess = true;
         VeBanDao veBanDao = new VeBanDaoImpl();
         try {
-            for (int i = 0; i < tblThongTin.getRowCount(); i++) {
-                GheNgoi gheNgoi = selectedGheNgoiMap.get(tblThongTin.getValueAt(i, 0));
-                GiaVe giaVe = (GiaVe) tblThongTin.getValueAt(i, 3);
-                int tongTien = Integer.parseInt(tblThongTin.getValueAt(i, 6).toString().replace(",", ""));
-
-                VeBan veBan = new VeBan("", gheNgoi, giaVe, suatChieu, new Date(), tongTien);
+            for (VeBan veBan : veDat.getVeBans()) {
                 veBan.setNguoiDung(ShareHelper.USER);
-
-                veBanDao.insert(veBan);
+                veBanDao.update(veBan);
             }
         } catch (Exception e) {
             e.printStackTrace();
             isSuccess = false;
         }
-
+        
         if (isSuccess) {
-            DialogHelper.message(this, "Thêm vé bán thành công", DialogHelper.INFORMATION_MESSAGE);
+            DialogHelper.message(this, "In vé thành công", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
         } else {
-            DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình in vé!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnInVeActionPerformed
 
@@ -517,26 +455,27 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DialogThongTinVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogThongTinVeDat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DialogThongTinVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogThongTinVeDat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DialogThongTinVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogThongTinVeDat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DialogThongTinVeBan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DialogThongTinVeDat.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DialogThongTinVeBan dialog = new DialogThongTinVeBan(new javax.swing.JFrame(), true);
+                DialogThongTinVeDat dialog = new DialogThongTinVeDat(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
