@@ -5,7 +5,9 @@
  */
 package poly.app.ui.dialogs.them;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
@@ -14,6 +16,7 @@ import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.entities.KichCoDoAn;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.utils.ValidationUtil;
 
 /**
  *
@@ -61,34 +64,83 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
         model.setDoAn(doAn);
         model.setDonGia(Integer.parseInt(ftfDonGia.getValue().toString()));
 
-        if (cboTrangThai.getSelectedItem().toString().equals("Đang được bán")) {
-            model.setDangBan(true);
-        } else {
-            model.setDangBan(false);
-        }
+        model.setDangBan(doAn.isDangBan());
 
         return model;
     }
 
     public boolean insertDACT() {
         try {
-            Set<DoAnChiTiet> dact = doAn.getDoAnChiTiets();
-            DoAnChiTiet model = getModelFromInput();
-
-            for (DoAnChiTiet item : dact) {
-                if (item.getKichCoDoAn().getId().equals(model.getKichCoDoAn().getId())) {
-                    DialogHelper.message(this, "Đã có " + model.getKichCoDoAn().getTen().toUpperCase() + " trong " + doAn.getTen().toUpperCase(), HEIGHT);
-                    return false;
-                }
-            }
             DoAnChiTietDaoImpl insertDACT = new DoAnChiTietDaoImpl();
+            DoAnChiTiet model = getModelFromInput();
             insertDACT.insert(model);
             doAn.getDoAnChiTiets().add(model);
             return true;
         } catch (Exception e) {
-            
+
         }
         return false;
+    }
+
+    private boolean validateInput() {
+        if (ftfDonGia.getValue() == null) {
+            DialogHelper.message(this, "Nhập giá của đồ ăn !", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        DoAnChiTiet model = getModelFromInput();
+
+        Map<String, DoAnChiTiet> existedDoAnChiTiet = new HashMap<>();
+        for (DoAnChiTiet doAnChiTiet : doAn.getDoAnChiTiets()) {
+            existedDoAnChiTiet.put(doAnChiTiet.getKichCoDoAn().getId(), doAnChiTiet);
+        }
+
+        if (existedDoAnChiTiet.containsKey(model.getKichCoDoAn().getId())) {
+            DialogHelper.message(this, "Đã có " + model.getKichCoDoAn().getTen().toUpperCase() + " trong " + doAn.getTen().toUpperCase(), DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (model.getKichCoDoAn().getId().equals("S")) {
+            if (existedDoAnChiTiet.containsKey("M") && model.getDonGia() >= existedDoAnChiTiet.get("M").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ nhỏ không được lớn hơn cỡ vừa ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (existedDoAnChiTiet.containsKey("L") && model.getDonGia() >= existedDoAnChiTiet.get("L").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ nhỏ không được lớn hơn cỡ lớn ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        if (model.getKichCoDoAn().getId().equals("M")) {
+            if (existedDoAnChiTiet.containsKey("S") && model.getDonGia() <= existedDoAnChiTiet.get("S").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ vừa không được nhỏ hơn cỡ nhỏ ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (existedDoAnChiTiet.containsKey("L") && model.getDonGia() >= existedDoAnChiTiet.get("L").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ vừa không được lớn hơn cỡ lớn ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if (model.getKichCoDoAn().getId().equals("L")) {
+            if (existedDoAnChiTiet.containsKey("S") && model.getDonGia() <= existedDoAnChiTiet.get("S").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ lớn không được nhỏ hơn cỡ nhỏ ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (existedDoAnChiTiet.containsKey("M") && model.getDonGia() <= existedDoAnChiTiet.get("M").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ lớn không được nhỏ hơn cỡ vừa ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+        }
+
+        if (doAn.isDangBan() == false && cboTrangThai.getSelectedIndex() == 0) {
+            DialogHelper.message(this, "Đồ ăn này đã ngưng bán !", HEIGHT);
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -99,7 +151,6 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -138,6 +189,11 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
 
         ftfDonGia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
         ftfDonGia.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        ftfDonGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftfDonGiaKeyTyped(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel5.setText("Trạng thái");
@@ -182,29 +238,21 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
 
         btnThem.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnThem.setText("Lưu");
-        btnThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnThem.setPreferredSize(new java.awt.Dimension(75, 33));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel3.add(btnThem, gridBagConstraints);
+        jPanel3.add(btnThem, new java.awt.GridBagConstraints());
 
         btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnHuy.setText("Huỷ");
-        btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnHuy.setPreferredSize(new java.awt.Dimension(75, 33));
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel3.add(btnHuy, gridBagConstraints);
+        jPanel3.add(btnHuy, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -269,17 +317,26 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        if (this.insertDACT()) {
-            DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-            this.dispose();
-        } else {
-            DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.INFORMATION_MESSAGE);
+        if (validateInput()) {
+            if (this.insertDACT()) {
+                DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+
+                this.dispose();
+            } else {
+                DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void ftfDonGiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfDonGiaKeyTyped
+        if (String.valueOf(evt.getKeyChar()).matches("\\D")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_ftfDonGiaKeyTyped
 
     /**
      * @param args the command line arguments

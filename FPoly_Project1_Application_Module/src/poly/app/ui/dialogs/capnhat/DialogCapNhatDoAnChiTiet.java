@@ -5,10 +5,16 @@
  */
 package poly.app.ui.dialogs.capnhat;
 
+import java.awt.event.KeyEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import javax.swing.DefaultComboBoxModel;
 import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.KichCoDoAnDaoImpl;
+import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.entities.KichCoDoAn;
 import poly.app.core.helper.DialogHelper;
@@ -23,21 +29,31 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
      * Creates new form DialogCapNhatDoAnChiTiet
      */
     DoAnChiTiet doAnChiTiet;
+    DoAn doAn;
+    Map<String, DoAnChiTiet> mapSize = new TreeMap<>();
 
     public DialogCapNhatDoAnChiTiet(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
 
-    public DialogCapNhatDoAnChiTiet(java.awt.Frame parent, boolean modal, DoAnChiTiet doanchitiet) {
+    public DialogCapNhatDoAnChiTiet(java.awt.Frame parent, boolean modal, DoAnChiTiet doanchitiet, DoAn doan) {
         this(parent, modal);
 
+        this.doAn = doan;
         this.doAnChiTiet = doanchitiet;
         setLocationRelativeTo(null);
         this.loadDataToComboBox();
         this.setModelToInput();
+        this.loadSetDACT();
     }
-
+    public void loadSetDACT()
+    {
+        Set<DoAnChiTiet> setdoanchitiet = doAn.getDoAnChiTiets();
+        for (DoAnChiTiet item : setdoanchitiet) {
+            mapSize.put(item.getKichCoDoAn().getId(), item);
+        }
+    }
     public void loadDataToComboBox() {
         DefaultComboBoxModel modelComboBox = (DefaultComboBoxModel) cboKichCo.getModel();
         modelComboBox.removeAllElements();
@@ -53,17 +69,25 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         ftfDonGia.setValue(doAnChiTiet.getDonGia());
         txtDoAn.setEditable(false);
         cboKichCo.getModel().setSelectedItem(doAnChiTiet.getKichCoDoAn());
+        if (doAnChiTiet.isDangBan() == true) {
+            cboTrangThai.setSelectedIndex(0);
+        } else {
+            cboTrangThai.setSelectedIndex(1);
+        }
         cboKichCo.setEditable(false);
     }
 
     public DoAnChiTiet getModelFromInput() {
-        doAnChiTiet.setDonGia(Integer.parseInt(ftfDonGia.getValue().toString()));
-        if (cboTrangThai.getSelectedItem().toString().equals("Đang được bán")) {
-            doAnChiTiet.setDangBan(true);
+        DoAnChiTiet model = doAnChiTiet;
+        model.setDonGia(Integer.parseInt(ftfDonGia.getValue().toString()));
+        if (cboTrangThai.getSelectedIndex()==0) {
+            model.setDangBan(true);
         } else {
-            doAnChiTiet.setDangBan(false);
+            model.setDangBan(false);
         }
-        return doAnChiTiet;
+        System.out.println(model.isDangBan()+"      ----------DACT : " +doAnChiTiet.isDangBan());
+        return model;
+        
     }
 
     public boolean updateModelToDatabase() {
@@ -77,6 +101,54 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         return false;
     }
 
+    private boolean validateInput() {
+        if (ftfDonGia.getValue() == null) {
+            DialogHelper.message(this, "Nhập giá của đồ ăn !", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if (((KichCoDoAn)cboKichCo.getSelectedItem()).getId().equals("S")) {
+            if (mapSize.containsKey("M") && Integer.parseInt(ftfDonGia.getValue().toString()) >= mapSize.get("M").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ nhỏ không được lớn hơn cỡ vừa ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+            
+            if (mapSize.containsKey("L") && Integer.parseInt(ftfDonGia.getValue().toString()) >= mapSize.get("L").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ nhỏ không được lớn hơn cỡ lớn ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        
+        if (((KichCoDoAn)cboKichCo.getSelectedItem()).getId().equals("M")) {
+            if (mapSize.containsKey("S") && Integer.parseInt(ftfDonGia.getValue().toString()) <= mapSize.get("S").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ vừa không được nhỏ hơn cỡ nhỏ ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+            
+            if (mapSize.containsKey("L") && Integer.parseInt(ftfDonGia.getValue().toString()) >= mapSize.get("L").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ vừa không được lớn hơn cỡ lớn ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if (((KichCoDoAn)cboKichCo.getSelectedItem()).getId().equals("L")) {
+            if (mapSize.containsKey("S") && Integer.parseInt(ftfDonGia.getValue().toString()) <= mapSize.get("S").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ lớn không được nhỏ hơn cỡ nhỏ ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+            
+            if (mapSize.containsKey("M") && Integer.parseInt(ftfDonGia.getValue().toString()) <= mapSize.get("M").getDonGia()) {
+                DialogHelper.message(this, "Giá cỡ lớn không được nhỏ hơn cỡ vừa ", DialogHelper.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if (doAn.isDangBan() == false && cboTrangThai.getSelectedIndex() == 0) {
+            DialogHelper.message(this, "Đồ ăn này đã ngưng bán !", HEIGHT);
+            return false;
+        }
+        
+        return true;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,7 +157,6 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -102,7 +173,7 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnCapNhat = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnHuy = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -126,6 +197,11 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
 
         ftfDonGia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
         ftfDonGia.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        ftfDonGia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ftfDonGiaKeyTyped(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel5.setText("Trạng thái");
@@ -169,30 +245,22 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         btnCapNhat.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnCapNhat.setText("Lưu");
-        btnCapNhat.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCapNhat.setPreferredSize(new java.awt.Dimension(75, 33));
+        btnCapNhat.setText("Cập nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel3.add(btnCapNhat, gridBagConstraints);
+        jPanel3.add(btnCapNhat, new java.awt.GridBagConstraints());
 
-        jButton2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jButton2.setText("Huỷ");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setPreferredSize(new java.awt.Dimension(75, 33));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        btnHuy.setText("Huỷ");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnHuyActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel3.add(jButton2, gridBagConstraints);
+        jPanel3.add(btnHuy, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -257,17 +325,26 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
-        if (this.updateModelToDatabase()) {
-            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-            this.dispose();
-        } else {
-            DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+        if (validateInput()) {
+            if (this.updateModelToDatabase()) {
+                DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                this.dispose();
+            } else {
+                DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+            }
         }
+
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void ftfDonGiaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ftfDonGiaKeyTyped
+        if (String.valueOf(evt.getKeyChar()).matches("\\D")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_ftfDonGiaKeyTyped
 
     /**
      * @param args the command line arguments
@@ -314,10 +391,10 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCapNhat;
+    private javax.swing.JButton btnHuy;
     private javax.swing.JComboBox<String> cboKichCo;
     private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JFormattedTextField ftfDonGia;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

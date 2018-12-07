@@ -7,22 +7,35 @@ package poly.app.ui.frames.thongke;
 
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import org.apache.poi.hpsf.Decimal;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import poly.app.core.daoimpl.LoaiDoAnDaoImpl;
 import poly.app.core.data.daoimpl.ProcedureDaoImpl;
 import poly.app.core.entities.LoaiDoAn;
 import poly.app.core.helper.DialogHelper;
-import poly.app.ui.dialogs.chart.BarChart;
+import poly.app.ui.frames.chart.BarChart;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -36,20 +49,24 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
      */
     List<Object[]> listDoAn = new ArrayList<>();
     ProcedureDaoImpl sp_tk = new ProcedureDaoImpl();
-    
+    DecimalFormat decimalFormat = new DecimalFormat("##,###,###");
+    Calendar cal = Calendar.getInstance();
+
     public FrameTKDoanhThuTheoDoAn() {
         initComponents();
         setLocationRelativeTo(null);
         reRenderUI();
-    }
-    
+    } 
+
     private void reRenderUI() {
         //        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblThongKe);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
-        dcsTuNgay.setDate(new Date());
-        dcsDenNgay.setDate(new Date());
+
+        tblRenderer.setColumnAlignment(4, TableRendererUtil.CELL_ALIGN_RIGHT);
+        tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_RIGHT);
+        dcsTheoNgay.setDate(new Date());
     }
 
     /**
@@ -73,16 +90,13 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         cboTheoThang = new javax.swing.JComboBox<>();
         cboNamTheoThang = new javax.swing.JComboBox<>();
         cboTheoNam = new javax.swing.JComboBox<>();
-        rdoTheoKhoangThoiGian = new javax.swing.JRadioButton();
-        dcsTuNgay = new com.toedter.calendar.JDateChooser();
-        dcsDenNgay = new com.toedter.calendar.JDateChooser();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        rdoTheoNgay = new javax.swing.JRadioButton();
+        dcsTheoNgay = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnSua = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnInThongKe = new javax.swing.JButton();
+        btnXemBieuDo = new javax.swing.JButton();
+        btnXuatExcel = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblThongKe = new javax.swing.JTable();
@@ -169,32 +183,21 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             }
         });
 
-        btgrFilter.add(rdoTheoKhoangThoiGian);
-        rdoTheoKhoangThoiGian.setSelected(true);
-        rdoTheoKhoangThoiGian.setText("Theo ngày");
-        rdoTheoKhoangThoiGian.addActionListener(new java.awt.event.ActionListener() {
+        btgrFilter.add(rdoTheoNgay);
+        rdoTheoNgay.setSelected(true);
+        rdoTheoNgay.setText("Theo ngày");
+        rdoTheoNgay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoTheoKhoangThoiGianActionPerformed(evt);
+                rdoTheoNgayActionPerformed(evt);
             }
         });
 
-        dcsTuNgay.setDateFormatString("dd-MM-yyyy");
-        dcsTuNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        dcsTheoNgay.setDateFormatString("dd-MM-yyyy");
+        dcsTheoNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                dcsTuNgayPropertyChange(evt);
+                dcsTheoNgayPropertyChange(evt);
             }
         });
-
-        dcsDenNgay.setDateFormatString("dd-MM-yyyy");
-        dcsDenNgay.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                dcsDenNgayPropertyChange(evt);
-            }
-        });
-
-        jLabel2.setText("Đến");
-
-        jLabel3.setText("Từ");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -202,12 +205,13 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(rdoTheoKhoangThoiGian)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(rdoTheoNgay)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dcsTheoNgay, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cboTheoNam, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
                                 .addComponent(rdoTheoNam)
@@ -216,34 +220,19 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(rdoTheoThang)
-                                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(jPanel7Layout.createSequentialGroup()
-                                            .addComponent(jLabel3)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(dcsTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(cboTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cboNamTheoThang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(dcsDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(cboTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(46, 46, 46)
+                        .addComponent(cboNamTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(14, 14, 14))))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(rdoTheoKhoangThoiGian)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(dcsTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(dcsDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
+                .addComponent(rdoTheoNgay)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dcsTheoNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
                 .addComponent(rdoTheoThang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -289,26 +278,26 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
 
         jPanel4.setOpaque(false);
 
-        btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        btnThem.setText("In thống kê");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnInThongKe.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btnInThongKe.setText("In thống kê");
+        btnInThongKe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnInThongKeActionPerformed(evt);
             }
         });
 
-        btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        btnSua.setText("Xem biểu đồ");
-        btnSua.addActionListener(new java.awt.event.ActionListener() {
+        btnXemBieuDo.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btnXemBieuDo.setText("Xem biểu đồ");
+        btnXemBieuDo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaActionPerformed(evt);
+                btnXemBieuDoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Xuất file excel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnXuatExcel.setText("Xuất file excel");
+        btnXuatExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnXuatExcelActionPerformed(evt);
             }
         });
 
@@ -318,11 +307,11 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(btnThem)
+                .addComponent(btnInThongKe)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSua)
+                .addComponent(btnXemBieuDo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(btnXuatExcel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -330,9 +319,9 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem)
-                    .addComponent(btnSua)
-                    .addComponent(jButton2))
+                    .addComponent(btnInThongKe)
+                    .addComponent(btnXemBieuDo)
+                    .addComponent(btnXuatExcel))
                 .addContainerGap())
         );
 
@@ -456,19 +445,21 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this.loadThongKeTheoKhoangThoiGian();
+        this.setDefaultSelectedComboBox();
+        this.loadThongKeTheoNgay();
         this.loadDataToTable();
         this.loadLoaiDoAnToCombobox();
         this.loadNamToComboBox();
     }//GEN-LAST:event_formWindowOpened
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+    private void btnInThongKeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInThongKeActionPerformed
         this.inThongKe();
-    }//GEN-LAST:event_btnThemActionPerformed
+    }//GEN-LAST:event_btnInThongKeActionPerformed
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+    private void btnXemBieuDoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemBieuDoActionPerformed
+
         this.xemBieuDo();
-    }//GEN-LAST:event_btnSuaActionPerformed
+    }//GEN-LAST:event_btnXemBieuDoActionPerformed
 
     private void cboLoaiDoAnPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cboLoaiDoAnPropertyChange
         // TODO add your handling code here:
@@ -501,23 +492,21 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cboNamTheoThangItemStateChanged
 
-    private void rdoTheoKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTheoKhoangThoiGianActionPerformed
+    private void rdoTheoNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTheoNgayActionPerformed
         this.checkRadioButton();
-        if (rdoTheoKhoangThoiGian.isSelected()) {
-            this.loadThongKeTheoKhoangThoiGian();
+        if (rdoTheoNgay.isSelected()) {
+            this.loadThongKeTheoNgay();
             this.loadDataToTable();
         }
-    }//GEN-LAST:event_rdoTheoKhoangThoiGianActionPerformed
+    }//GEN-LAST:event_rdoTheoNgayActionPerformed
 
-    private void dcsTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcsTuNgayPropertyChange
-        this.loadThongKeTheoKhoangThoiGian();
-        this.loadDataToTable();
-    }//GEN-LAST:event_dcsTuNgayPropertyChange
+    private void dcsTheoNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcsTheoNgayPropertyChange
+        if (rdoTheoNgay.isSelected()) {
+            this.loadThongKeTheoNgay();
+            this.loadDataToTable();
+        }
 
-    private void dcsDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcsDenNgayPropertyChange
-        this.loadThongKeTheoKhoangThoiGian();
-        this.loadDataToTable();
-    }//GEN-LAST:event_dcsDenNgayPropertyChange
+    }//GEN-LAST:event_dcsTheoNgayPropertyChange
 
     private void rdoTheoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTheoNamActionPerformed
         this.checkRadioButton();
@@ -534,30 +523,42 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboTheoNamItemStateChanged
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.xuatFileExcel(tblThongKe);
-    }//GEN-LAST:event_jButton2ActionPerformed
-    
+    private void btnXuatExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatExcelActionPerformed
+        if(tblThongKe.getRowCount()<=0)
+        {
+            DialogHelper.message(this, "Không có dữ liệu xuất file !", DialogHelper.ERROR_MESSAGE);
+        }
+        else
+        {
+            this.xuatFileExcel();
+        }
+        
+    }//GEN-LAST:event_btnXuatExcelActionPerformed
+
     public void inThongKe() {
         PrinterJob job = PrinterJob.getPrinterJob();
         job.setJobName("Print Data");
-        
+
     }
-    
+    public void setDefaultSelectedComboBox() {
+        cboTheoThang.setSelectedIndex(cal.get(Calendar.MONTH));
+        cboNamTheoThang.getModel().setSelectedItem(cal.get(Calendar.YEAR));
+        cboTheoNam.getModel().setSelectedItem(cal.get(Calendar.YEAR));
+    }
     public void loadDataToTable() {
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
         modelTable.setRowCount(0);
         int i = 1;
         for (Object[] fill : listDoAn) {
             Object[] record = new Object[]{
-                i++, fill[0], fill[1], fill[3], fill[4]
+                i++, fill[0], fill[1], fill[3], decimalFormat.format(fill[4])
             };
             modelTable.addRow(record);
         }
     }
 
     private void loadLoaiDoAnToCombobox() {
-        
+
         DefaultComboBoxModel modelComboBox = (DefaultComboBoxModel) cboLoaiDoAn.getModel();
         LoaiDoAnDaoImpl lda = new LoaiDoAnDaoImpl();
         List<LoaiDoAn> listLDA = lda.getAll();
@@ -565,16 +566,16 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             modelComboBox.addElement(fill);
         }
     }
-    
+
     private void loadNamToComboBox() {
-        
+
         Calendar calendar = Calendar.getInstance();
         for (int i = 2015; i <= calendar.get(Calendar.YEAR); i++) {
-            cboTheoNam.addItem(i + "");
+            cboTheoNam.addItem(i+"");
             cboNamTheoThang.addItem(i + "");
         }
     }
-    
+
     private void filterLoaiDoAn() {
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
         modelTable.setRowCount(0);
@@ -591,55 +592,30 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
                 };
                 modelTable.addRow(record);
             }
-            
+
         }
     }
-    
-    private void loadThongKeTheoKhoangThoiGian() {
-        listDoAn = sp_tk.execute("sp_DoanhThuDoAnTheoKhoangThoiGian", dcsTuNgay.getDate(), dcsDenNgay.getDate());
+
+    private void loadThongKeTheoNgay() {
+        
+        listDoAn = sp_tk.execute("sp_DoanhThuDoAnTheoNgay", dcsTheoNgay.getDate());
     }
-    
+
     private void loadThongKeTheoThang() {
         listDoAn = sp_tk.execute("sp_DoanhThuDoAnTheoThang", cboTheoThang.getSelectedIndex() + 1, Integer.parseInt(cboNamTheoThang.getSelectedItem().toString()));
     }
-    
+
     private void loadThongKeTheoNam() {
         listDoAn = sp_tk.execute("sp_DoanhThuDoAnTheoNam", Integer.parseInt(cboTheoNam.getSelectedItem().toString()));
     }
-    
+
     private void checkRadioButton() {
-        dcsTuNgay.setEnabled(rdoTheoKhoangThoiGian.isSelected());
-        dcsDenNgay.setEnabled(rdoTheoKhoangThoiGian.isSelected());
-        
+        dcsTheoNgay.setEnabled(rdoTheoNgay.isSelected());
+
         cboTheoThang.setEnabled(rdoTheoThang.isSelected());
         cboNamTheoThang.setEnabled(rdoTheoThang.isSelected());
-        
-        cboTheoNam.setEnabled(rdoTheoNam.isSelected());
-    }
 
-    public void toExcel(JTable table, File file) {
-        try {
-            TableModel model = table.getModel();
-            FileWriter excel = new FileWriter(file);
-            
-            for (int i = 0; i < model.getColumnCount(); i++) {
-                excel.write(model.getColumnName(i) + "\t");
-            }
-            
-            excel.write("\n");
-            
-            for (int i = 0; i < model.getRowCount(); i++) {
-                for (int j = 0; j < model.getColumnCount(); j++) {
-                    excel.write(model.getValueAt(i, j).toString() + "\t");
-                }
-                excel.write("\n");
-            }
-            
-            excel.close();
-            
-        } catch (IOException e) {            
-            System.out.println(e);
-        }
+        cboTheoNam.setEnabled(rdoTheoNam.isSelected());
     }
 
     /**
@@ -687,18 +663,15 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btgrFilter;
     private javax.swing.JLabel btnCollapse;
-    private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnInThongKe;
+    private javax.swing.JButton btnXemBieuDo;
+    private javax.swing.JButton btnXuatExcel;
     private javax.swing.JComboBox<String> cboLoaiDoAn;
     private javax.swing.JComboBox<String> cboNamTheoThang;
     private javax.swing.JComboBox<String> cboTheoNam;
     private javax.swing.JComboBox<String> cboTheoThang;
-    private com.toedter.calendar.JDateChooser dcsDenNgay;
-    private com.toedter.calendar.JDateChooser dcsTuNgay;
-    private javax.swing.JButton jButton2;
+    private com.toedter.calendar.JDateChooser dcsTheoNgay;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -707,8 +680,8 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton rdoTheoKhoangThoiGian;
     private javax.swing.JRadioButton rdoTheoNam;
+    private javax.swing.JRadioButton rdoTheoNgay;
     private javax.swing.JRadioButton rdoTheoThang;
     private javax.swing.JTable tblThongKe;
     // End of variables declaration//GEN-END:variables
@@ -717,44 +690,99 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         //tạo list dữ liệu theo trục x và trục y
         List<String> xData = new ArrayList<String>();
         List<Integer> yData = new ArrayList<>();
-        
+
         for (int i = 0; i < tblThongKe.getRowCount(); i++) {
             String xValue = (String) tblThongKe.getValueAt(i, 1);
-            Integer yValue = Integer.parseInt(tblThongKe.getValueAt(i, 4).toString());
+            Integer yValue = Integer.parseInt(tblThongKe.getValueAt(i, 4).toString().replace(",",""));
             System.out.println(yValue);
             xData.add(xValue);
             yData.add(yValue);
         }
         if (xData.isEmpty() || yData.isEmpty()) {
-            DialogHelper.message(this, "Khong co du lieu thong ke", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(this, "Không có dữ liệu thống kê !", DialogHelper.ERROR_MESSAGE);
         } else {
             new BarChart().displayChart(xData, yData, "Thống Kê Doanh Thu Theo Đồ Ăn", this);
         }
-        
+
     }
-    
-    public void xuatFileExcel(JTable table) {
+
+    private static HSSFCellStyle createStyleForTitle(HSSFWorkbook workbook) {
+        HSSFFont font = workbook.createFont();
+        font.setBold(true);
+        HSSFCellStyle style = workbook.createCellStyle();
+        style.setFont(font);
+        return style;
+    }
+
+    public void xuatFileExcel() {
+
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet();
+       
+        int rownum = 0;
+        Cell cell;
+        Row row;
+
+        //set thuoc tinh cho o cua workbook
+        HSSFCellStyle style = createStyleForTitle(wb);
+        style.setWrapText(true);
+        row = sheet.createRow(rownum);
+
+        //tao tieu de
+        for (int i = 0; i < tblThongKe.getColumnCount(); i++) {
+            cell = row.createCell(i, CellType.STRING);
+            cell.setCellValue(tblThongKe.getColumnName(i));
+            cell.setCellStyle(style);
+            sheet.autoSizeColumn(i);
+        }
+        //nhap du lieu
+        for (int i = 0; i < tblThongKe.getRowCount(); i++) {
+            rownum++;
+            row = sheet.createRow(rownum);
+            
+            int stt = Integer.parseInt(tblThongKe.getValueAt(i, 0).toString());
+            String tendoan = (String) tblThongKe.getValueAt(i, 1);
+            String loaidoan = (String) tblThongKe.getValueAt(i, 2);
+            int soluong = Integer.parseInt(tblThongKe.getValueAt(i, 3).toString());
+            int doanhthu = Integer.parseInt(tblThongKe.getValueAt(i, 4).toString().replace(",", ""));
+
+            cell = row.createCell(0, CellType.NUMERIC);
+            cell.setCellValue(stt);
+
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue(tendoan);
+
+            cell = row.createCell(2, CellType.STRING);
+            cell.setCellValue(loaidoan);
+
+            cell = row.createCell(3, CellType.NUMERIC);
+            cell.setCellValue(soluong);
+
+            cell = row.createCell(4, CellType.NUMERIC);
+            cell.setCellValue(doanhthu);
+
+        }
+        //chọn thư muc để lưu file excel
+        File f = new File("thongkedoan.xls");
         JFileChooser fc = new JFileChooser();
+        fc.setSelectedFile(f);
         int option = fc.showSaveDialog(FrameTKDoanhThuTheoDoAn.this);
         if (option == JFileChooser.APPROVE_OPTION) {
-            String filename = fc.getSelectedFile().getName();            
+            String filename = fc.getSelectedFile().getName();
             String path = fc.getSelectedFile().getParentFile().getPath();
-            
-            int len = filename.length();
-            String ext = "";
-            String file = "";
-            
-            if (len > 4) {
-                ext = filename.substring(len - 4, len);
+            //ghi file excel
+            try {
+                File file = new File(path+"\\"+filename+".xls");
+                FileOutputStream outFile;
+                outFile = new FileOutputStream(file);
+                wb.write(outFile);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FrameTKDoanhThuTheoDoAn.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(FrameTKDoanhThuTheoDoAn.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            if (ext.equals(".xls")) {
-                file = path + "\\" + filename;                
-            } else {
-                file = path + "\\" + filename + ".xls";                
-            }
-            toExcel(table, new File(file));
+
         }
     }
-    
+
 }

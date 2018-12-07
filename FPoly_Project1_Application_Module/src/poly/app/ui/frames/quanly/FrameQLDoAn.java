@@ -8,7 +8,6 @@ package poly.app.ui.frames.quanly;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -76,8 +75,8 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         tblRenderer.changeHeaderStyle();
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
     }
-    
-    public JPanel getMainPanel(){
+
+    public JPanel getMainPanel() {
         formWindowOpened(null);
         return this.pnlMain;
     }
@@ -101,6 +100,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         chkTheoTen = new javax.swing.JCheckBox();
         chkTheoLoaiDoAn = new javax.swing.JCheckBox();
         cboLoaiDoAn = new javax.swing.JComboBox<>();
+        btnDatLai = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
@@ -178,9 +178,16 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         cboLoaiDoAn.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         cboLoaiDoAn.setEnabled(false);
-        cboLoaiDoAn.addActionListener(new java.awt.event.ActionListener() {
+        cboLoaiDoAn.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboLoaiDoAnItemStateChanged(evt);
+            }
+        });
+
+        btnDatLai.setText("Đặt lại");
+        btnDatLai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboLoaiDoAnActionPerformed(evt);
+                btnDatLaiActionPerformed(evt);
             }
         });
 
@@ -207,7 +214,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTraCuuDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnDatLai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +239,9 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addComponent(chkTheoLoaiDoAn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnDatLai)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -237,7 +250,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnThem.setText("Thêm đồ ăn");
-        btnThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -246,7 +258,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSua.setText("Cập nhật đồ ăn");
-        btnSua.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
@@ -254,7 +265,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         });
 
         btnThemKichCo.setText("Thêm kích cỡ");
-        btnThemKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThemKichCo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemKichCoActionPerformed(evt);
@@ -263,7 +273,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnSuaKichCo.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSuaKichCo.setText("Cập nhật kích cỡ");
-        btnSuaKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSuaKichCo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaKichCoActionPerformed(evt);
@@ -290,10 +299,10 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThemKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSuaKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThem)
+                    .addComponent(btnSua)
+                    .addComponent(btnThemKichCo)
+                    .addComponent(btnSuaKichCo))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -327,7 +336,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         tblDoAn.setRowHeight(20);
         tblDoAn.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblDoAn.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblDoAn.setShowGrid(false);
         tblDoAn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDoAnMouseClicked(evt);
@@ -356,7 +364,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         tblDoAnChiTiet.setRowHeight(20);
         tblDoAnChiTiet.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblDoAnChiTiet.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tblDoAnChiTiet.setShowGrid(false);
         tblDoAnChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDoAnChiTietMouseClicked(evt);
@@ -380,7 +387,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addGap(10, 10, 10))
         );
@@ -465,13 +472,26 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         this.insertDA();
+        this.loadDataToTable();
+        DefaultTableModel model = (DefaultTableModel) tblDoAnChiTiet.getModel();
+        model.setRowCount(0);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDoAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoAnMouseClicked
         if (tblDoAn.getSelectedRow() >= 0) {
             if (evt.getClickCount() >= 2) {
+                int index = tblDoAn.getSelectedRow();
+                String maDA = (String) tblDoAn.getValueAt(index, 1);
                 this.updateDA();
+                this.loadDataToTable();
                 this.searchDoAnByName();
+                for (int i = 0; i <= tblDoAn.getRowCount(); i++) {
+                    if (tblDoAn.getValueAt(i, 1).equals(maDA)) {
+                        tblDoAn.setRowSelectionInterval(i, i);
+                        break;
+                    }
+                }
+                this.loadDoAnChiTiet();
             }
             if (evt.getClickCount() == 1) {
                 this.loadDoAnChiTiet();
@@ -481,11 +501,32 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDoAnMouseClicked
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        this.updateDA();
+        int index = tblDoAn.getSelectedRow();
+        if (tblDoAn.getSelectedRow() < 0) {
+            DialogHelper.message(this, "Chưa chọn đồ ăn để cập nhật !", DialogHelper.ERROR_MESSAGE);
+        } else {
+            String maDA = (String) tblDoAn.getValueAt(index, 1);
+            this.updateDA();
+            this.loadDataToTable();
+            this.searchDoAnByName();
+            for (int i = 0; i <= tblDoAn.getRowCount(); i++) {
+                if (tblDoAn.getValueAt(i, 1).equals(maDA)) {
+                    tblDoAn.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+            this.loadDoAnChiTiet();
+        }
+
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnSuaKichCoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaKichCoActionPerformed
-        this.updateDACT();
+        if (tblDoAnChiTiet.getSelectedRow() < 0) {
+            DialogHelper.message(this, "Chưa chọn cỡ !", DialogHelper.ERROR_MESSAGE);
+        } else {
+            this.updateDACT();
+            this.loadDoAnChiTiet();
+        }
     }//GEN-LAST:event_btnSuaKichCoActionPerformed
 
     private void txtTraCuuDoAnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTraCuuDoAnKeyReleased
@@ -522,27 +563,44 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_rdoDaNgungBanActionPerformed
 
     private void chkTheoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenActionPerformed
-        txtTraCuuDoAn.setText("");
-        txtTraCuuDoAn.setEditable(chkTheoTen.isSelected());
+        txtTraCuuDoAn.setText(null);
+        this.checkBox();
         this.searchDoAnByName();
     }//GEN-LAST:event_chkTheoTenActionPerformed
 
     private void chkTheoTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTrangThaiActionPerformed
-        rdoDangDuocBan.setEnabled(chkTheoTrangThai.isSelected());
-        rdoDaNgungBan.setEnabled(chkTheoTrangThai.isSelected());
+        this.checkBox();
         this.searchDoAnByName();
     }//GEN-LAST:event_chkTheoTrangThaiActionPerformed
 
     private void chkTheoLoaiDoAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoLoaiDoAnActionPerformed
-        cboLoaiDoAn.setEnabled(chkTheoLoaiDoAn.isSelected());
+        this.checkBox();
         this.searchDoAnByName();
     }//GEN-LAST:event_chkTheoLoaiDoAnActionPerformed
 
-    private void cboLoaiDoAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiDoAnActionPerformed
+    private void btnDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLaiActionPerformed
+        chkTheoTen.setSelected(true);
+        chkTheoTrangThai.setSelected(false);
+        chkTheoLoaiDoAn.setSelected(false);
+        txtTraCuuDoAn.setText("");
+        this.checkBox();
+        DefaultTableModel model = (DefaultTableModel) tblDoAnChiTiet.getModel();
+        model.setRowCount(0);
+        this.loadDataToTable();
+    }//GEN-LAST:event_btnDatLaiActionPerformed
+
+    private void cboLoaiDoAnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboLoaiDoAnItemStateChanged
         this.searchDoAnByName();
-    }//GEN-LAST:event_cboLoaiDoAnActionPerformed
+    }//GEN-LAST:event_cboLoaiDoAnItemStateChanged
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void checkBox() {
+        txtTraCuuDoAn.setEnabled(chkTheoTen.isSelected());
+        rdoDangDuocBan.setEnabled(chkTheoTrangThai.isSelected());
+        rdoDaNgungBan.setEnabled(chkTheoTrangThai.isSelected());
+        cboLoaiDoAn.setEnabled(chkTheoLoaiDoAn.isSelected());
+    }
+
     public void loadDataToTable() {
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
@@ -587,7 +645,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
     public void insertDA() {
         new DialogThemDoAn(this, true).setVisible(true);
-        this.loadDataToTable();
     }
 
     public void updateDA() {
@@ -596,18 +653,17 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             DialogHelper.message(this, "Chưa chọn đồ ăn!", DialogHelper.ERROR_MESSAGE);
         }
         String idDA = (String) tblDoAn.getValueAt(index, 1);
-        new DialogCapNhatDoAn(this, true, mapDoAn.get(idDA)).setVisible(true);
+        DoAn doAn = mapDoAn.get(idDA);
+        new DialogCapNhatDoAn(this, true, doAn).setVisible(true);
         DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
         modelDACT.setRowCount(0);
-        this.loadDataToTable();
-
     }
 
     public void searchDA() {
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
         DoAnDaoImpl search = new DoAnDaoImpl();
-        Map<String, Object> mapSearch = new HashMap<String, Object>();
+        Map<String, Object> mapSearch = new TreeMap<String, Object>();
         mapSearch.put("ten", txtTraCuuDoAn.getText());
         List<DoAn> listSearch = search.getByProperties(mapSearch);
         for (DoAn fill : listSearch) {
@@ -622,7 +678,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }
 
     public void searchDoAnByName() {
-        Map<String, DoAn> mapSearchDoAn = new HashMap<>();
+        Map<String, DoAn> mapSearchDoAn = new TreeMap<>();
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
 
@@ -682,17 +738,15 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         int indexDACT = tblDoAnChiTiet.getSelectedRow();
 
         DoAn doan = (DoAn) mapDoAn.get(idDA);
-        Set<DoAnChiTiet> doanchitiet = doan.getDoAnChiTiets();
+        Set<DoAnChiTiet> setdoanchitiet = doan.getDoAnChiTiets();
 
-        if (indexDACT < 0) {
-            DialogHelper.message(this, "Chưa chọn cỡ !", DialogHelper.ERROR_MESSAGE);
-        } else {
-            String dactTen = (String) tblDoAnChiTiet.getValueAt(indexDACT, 0);
-            for (DoAnChiTiet item : doanchitiet) {
-                if (item.getKichCoDoAn().getTen().equals(dactTen)) {
-                    new DialogCapNhatDoAnChiTiet(this, true, item).setVisible(true);
-                    break;
-                }
+        String dactTen = (String) tblDoAnChiTiet.getValueAt(indexDACT, 0);
+
+        for (DoAnChiTiet item : setdoanchitiet) {
+            if (item.getKichCoDoAn().getTen().equals(dactTen)) {
+                DialogCapNhatDoAnChiTiet dialogCNDACT = new DialogCapNhatDoAnChiTiet(this, true, item, doan);
+                dialogCNDACT.setVisible(true);
+                break;
             }
         }
     }
@@ -748,6 +802,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
+    private javax.swing.JButton btnDatLai;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnSuaKichCo;
     private javax.swing.JButton btnThem;

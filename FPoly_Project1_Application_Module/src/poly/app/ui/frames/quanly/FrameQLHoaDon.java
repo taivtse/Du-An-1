@@ -1,5 +1,6 @@
 package poly.app.ui.frames.quanly;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
     List<HoaDon> listHoaDon = new ArrayList<>();
     List<HoaDonChiTiet> listHoaDonCT = new ArrayList<>();
     Map<String, HoaDon> mapHoaDon = new TreeMap<>();
-
+    DecimalFormat df = new DecimalFormat("##,###,###");
     /**
      * Creates new form FrameQLNhanVien
      */
@@ -200,7 +201,6 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jButton1.setText("In hoá đơn");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -209,7 +209,6 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
 
         btnRefresh.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnRefresh.setText("Refresh");
-        btnRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
@@ -232,8 +231,8 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1)
+                    .addComponent(btnRefresh))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -419,11 +418,14 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
         if (chkKhoangThoiGian.isSelected()) {
             dcTuNgay.setEnabled(true);
             dcDenNgay.setEnabled(true);
+            dcTuNgay.setDate(new Date());
+            dcDenNgay.setDate(new Date());
         } else {
             dcTuNgay.setDate(null);
             dcDenNgay.setDate(null);
             dcTuNgay.setEnabled(false);
             dcDenNgay.setEnabled(false);
+            this.searchHD();
         }
     }//GEN-LAST:event_chkKhoangThoiGianActionPerformed
 
@@ -482,7 +484,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                 i++,
                 fill.getId(),
                 fill.getNgayBan(),
-                tongTienHD,
+                df.format(tongTienHD),
                 fill.getNguoiDung().getHoTen()
             };
             modelHD.addRow(record);
@@ -505,7 +507,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
                 hdct.getDoAnChiTiet().getDoAn().getTen(),
                 hdct.getDoAnChiTiet().getKichCoDoAn().getTen(),
                 hdct.getSoLuong(),
-                hdct.getDoAnChiTiet().getDonGia()
+                df.format(hdct.getDoAnChiTiet().getDonGia())
             };
             modelHDCT.addRow(record);
         }
