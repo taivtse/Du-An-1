@@ -3,21 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.frames.chart;
+package poly.app.ui.dialogs.chart;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.knowm.xchart.CategoryChart;
 import org.knowm.xchart.CategoryChartBuilder;
-import org.knowm.xchart.Histogram;
-import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XChartPanel;
-import org.knowm.xchart.demo.charts.ExampleChart;
-import org.knowm.xchart.demo.charts.bar.BarChart06;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
 /**
@@ -43,10 +37,12 @@ public class OverlappedChart {
         chart.addSeries("Vé IMAX", xData, y3Data);
 
         JPanel jp = new XChartPanel(chart);
-        JDialog jd = new JDialog();
-        jd.add(jp);
-        jd.pack();
-        jd.setLocationRelativeTo(null);
-        jd.setVisible(true);
+        
+        JFrame wrapperFrame = new JFrame();
+        wrapperFrame.add(jp);
+        wrapperFrame.pack();
+        wrapperFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        wrapperFrame.setLocationRelativeTo(null);
+        wrapperFrame.setVisible(true);
     }
 }

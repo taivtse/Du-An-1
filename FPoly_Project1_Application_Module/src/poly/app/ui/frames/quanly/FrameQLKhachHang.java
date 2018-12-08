@@ -5,6 +5,10 @@
  */
 package poly.app.ui.frames.quanly;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.KhachHangDaoImpl;
 import poly.app.core.entities.KhachHang;
+import poly.app.core.helper.DialogHelper;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatKhachHang;
 import poly.app.ui.dialogs.them.DialogThemKhachHang;
 import poly.app.ui.utils.TableRendererUtil;
@@ -23,8 +28,9 @@ import poly.app.ui.utils.TableRendererUtil;
  * @author vothanhtai
  */
 public class FrameQLKhachHang extends javax.swing.JFrame {
-    
+
     List<KhachHang> listKH = new ArrayList<>();
+
     /**
      * Creates new form FrameQLNhanVien
      */
@@ -41,16 +47,17 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         TableRendererUtil tblRenderer = new TableRendererUtil(tblKhachHang);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
-        
+
         tblRenderer.setColoumnWidthByPersent(0, 5);
         tblRenderer.setColoumnWidthByPersent(2, 20);
-        
+
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_CENTER);
+
     }
-    
-    public JPanel getMainPanel(){
+
+    public JPanel getMainPanel() {
         formWindowOpened(null);
         return this.pnlMain;
     }
@@ -104,11 +111,6 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         });
 
         txtTen.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        txtTen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTenActionPerformed(evt);
-            }
-        });
         txtTen.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtTenKeyReleased(evt);
@@ -154,24 +156,30 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(chkNgayDangKy)
+                                    .addComponent(chkTen)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 61, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(chkNgayDangKy)
-                            .addComponent(chkTen)
-                            .addComponent(txtTen, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                            .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
-                            .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel1)))
-                .addContainerGap(10, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dcDenNgay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dcTuNgay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTen, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(chkTen)
@@ -225,17 +233,17 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel5.setOpaque(false);
 
-        tblKhachHang.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        tblKhachHang.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -259,15 +267,14 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblKhachHang.setRowHeight(20);
+        tblKhachHang.setRowHeight(22);
         tblKhachHang.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblKhachHang.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblKhachHang.setShowHorizontalLines(false);
+        tblKhachHang.setShowVerticalLines(false);
         tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblKhachHangMouseClicked(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblKhachHangMouseReleased(evt);
             }
         });
         jScrollPane1.setViewportView(tblKhachHang);
@@ -278,14 +285,14 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -368,10 +375,6 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         loadAllDataToTable();
     }//GEN-LAST:event_formWindowOpened
 
-    private void tblKhachHangMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblKhachHangMouseReleased
-
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         new DialogThemKhachHang(null, true).setVisible(true);
         listKH = new KhachHangDaoImpl().getAll();
@@ -379,18 +382,42 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        String idKH = (String) tblKhachHang.getValueAt(tblKhachHang.getSelectedRow(), 1);
-        new DialogCapNhatKhachHang(this, true, idKH).setVisible(true);
-        listKH = new KhachHangDaoImpl().getAll();
-        loadDataToTable(search());
+        int index = tblKhachHang.getSelectedRow();
+        if (index >= 0) {
+            String idKH = (String) tblKhachHang.getValueAt(tblKhachHang.getSelectedRow(), 1);
+            new DialogCapNhatKhachHang(this, true, idKH).setVisible(true);
+            listKH = new KhachHangDaoImpl().getAll();
+            loadDataToTable(search());
+            
+            for (int i = 0; i < tblKhachHang.getRowCount(); i++) {
+                String currentKey = tblKhachHang.getValueAt(i, 1).toString();
+                if ( currentKey.equals(idKH) ) {
+                    tblKhachHang.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
+            tblKhachHang.setRowSelectionInterval(index, index);
+        }else
+            {
+                DialogHelper.message(this, "Chưa chọn khách hàng cần cập nhật !", DialogHelper.ERROR_MESSAGE);
+            }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
-        if ( evt.getClickCount() >= 2 ) {
+        if (evt.getClickCount() >= 2) {
             String id = this.tblKhachHang.getValueAt(this.tblKhachHang.getSelectedRow(), 1).toString();
             new DialogCapNhatKhachHang(this, true, id).setVisible(true);
             listKH = new KhachHangDaoImpl().getAll();
             loadDataToTable(search());
+            System.out.println(""+id);
+            for (int i = 0; i < tblKhachHang.getRowCount(); i++) {
+                String currentKey = tblKhachHang.getValueAt(i, 1).toString();
+                if ( currentKey.equals(id) ) {
+                    System.out.println("i: "+i);
+                    tblKhachHang.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
         }
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
@@ -408,29 +435,29 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         if (chkNgayDangKy.isSelected()) {
             dcTuNgay.setEnabled(true);
             dcDenNgay.setEnabled(true);
-        } else {         
+            dcTuNgay.setDate(new Date());
+            dcDenNgay.setDate(new Date());
+        } else {
             dcTuNgay.setDate(null);
             dcDenNgay.setDate(null);
             dcTuNgay.setEnabled(false);
             dcDenNgay.setEnabled(false);
             loadDataToTable(search());
         }
-    }//GEN-LAST:event_chkNgayDangKyActionPerformed
 
-    private void txtTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTenActionPerformed
+
+    }//GEN-LAST:event_chkNgayDangKyActionPerformed
 
     private void txtTenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKeyReleased
         loadDataToTable(search());
     }//GEN-LAST:event_txtTenKeyReleased
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
-        if ( chkNgayDangKy.isSelected() ) {
+        if (chkNgayDangKy.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
-            if ( min != null && max != null ) {
-                if ( max.compareTo(min) < 0 ) {
+            if (min != null && max != null) {
+                if (max.compareTo(min) < 0) {
                     dcTuNgay.setDate(max);
                 }
             }
@@ -439,11 +466,11 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
-        if (chkNgayDangKy.isSelected()){
+        if (chkNgayDangKy.isSelected()) {
             Date min = dcTuNgay.getDate();
             Date max = dcDenNgay.getDate();
-            if ( min != null && max != null ) {
-                if ( min.compareTo(max) > 0 ) {
+            if (min != null && max != null) {
+                if (min.compareTo(max) > 0) {
                     dcDenNgay.setDate(min);
                 }
             }
@@ -451,10 +478,11 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
-    public void loadDataToTable( List<KhachHang> listKhachHang ) {
+    public void loadDataToTable(List<KhachHang> listKhachHang) {
         DefaultTableModel modelTblKH = (DefaultTableModel) tblKhachHang.getModel();
         modelTblKH.setRowCount(0);
-        
+        SimpleDateFormat fm = new SimpleDateFormat("dd-MM-yyyy");
+
         for (int i = 0; i < listKhachHang.size(); i++) {
             KhachHang kh = listKhachHang.get(i);
             Object[] record = new Object[]{
@@ -464,38 +492,36 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
                 kh.getSoCmnd(),
                 kh.getSoDienThoai(),
                 kh.getEmail(),
-                kh.getNgayDangKy(),
+                fm.format(kh.getNgayDangKy()),
                 kh.isGioiTinhNam() ? "Nam" : "Nữ"
             };
             modelTblKH.addRow(record);
         }
     }
-    
+
     public void loadAllDataToTable() {
         KhachHangDaoImpl khachHangDaoImpl = new KhachHangDaoImpl();
         listKH = khachHangDaoImpl.getAll();
         loadDataToTable(listKH);
     }
-    
+
     public List<KhachHang> search() {
         List<KhachHang> listKhachHangTimKiem = new ArrayList<KhachHang>();
         Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
 
-        min = min==null? dcTuNgay.getMinSelectableDate() : min;
-        max = max==null? dcDenNgay.getMaxSelectableDate() : max ;
-        
+        min = min == null ? dcTuNgay.getMinSelectableDate() : min;
+        max = max == null ? dcDenNgay.getMaxSelectableDate() : max;
+
         LocalDate localDate = min.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         min = java.sql.Date.valueOf(localDate);
-        
+
         localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         max = java.sql.Date.valueOf(localDate);
-        
-        for ( KhachHang kh : listKH ) {
-            if ( 
-                    kh.getHoTen().toLowerCase().contains(txtTen.getText().toLowerCase())
+
+        for (KhachHang kh : listKH) {
+            if (kh.getHoTen().toLowerCase().contains(txtTen.getText().toLowerCase())
                     && kh.getNgayDangKy().compareTo(min) >= 0
-                    && kh.getNgayDangKy().compareTo(max) <= 0
-            ) {
+                    && kh.getNgayDangKy().compareTo(max) <= 0) {
                 listKhachHangTimKiem.add(kh);
             }
         }

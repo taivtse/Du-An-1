@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.entities.NguoiDung;
+import poly.app.core.helper.DialogHelper;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatNguoiDung;
 import poly.app.ui.dialogs.them.DialogThemNguoiDung;
 
@@ -50,8 +51,8 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_CENTER);
     }
-    
-    public JPanel getMainPanel(){
+
+    public JPanel getMainPanel() {
         formWindowOpened(null);
         return this.pnlMain;
     }
@@ -109,7 +110,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
     public void loadAllDataToTable() {
         nguoiDungMap.clear();
         int i = 1;
-
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         DefaultTableModel defaultTableModel = (DefaultTableModel) tblNguoiDung.getModel();
         defaultTableModel.setRowCount(0);
 
@@ -121,7 +122,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
                         nd.getHoTen(),
                         nd.getSoDienThoai(),
                         nd.getEmail(),
-                        nd.getNgayVaoLam(),
+                        formatter.format(nd.getNgayVaoLam()),
                         nd.isGioiTinhNam() ? "Nam" : "Nữ",
                         nd.getVaiTro().toString(),
                         nd.getDangLam() ? "Đang làm" : "Đã nghỉ"}
@@ -155,7 +156,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNguoiDung = new javax.swing.JTable();
@@ -226,27 +226,30 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(chkTheoTen)
+                            .addComponent(jLabel3)
+                            .addComponent(chkTheoNgayVaoLam))))
+                .addContainerGap(73, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dcTuNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(30, 30, 30)
-                            .addComponent(jLabel1))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(chkTheoTen)
-                                .addComponent(jLabel3)
-                                .addComponent(chkTheoNgayVaoLam)
-                                .addComponent(txtSearchTen, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(10, Short.MAX_VALUE))
+                    .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtSearchTen))
+                .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(chkTheoTen)
@@ -287,10 +290,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jButton1.setText("Xoá");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -300,24 +299,21 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel5.setOpaque(false);
 
-        tblNguoiDung.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        tblNguoiDung.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tblNguoiDung.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -341,9 +337,11 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblNguoiDung.setRowHeight(20);
+        tblNguoiDung.setRowHeight(22);
         tblNguoiDung.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblNguoiDung.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblNguoiDung.setShowHorizontalLines(false);
+        tblNguoiDung.setShowVerticalLines(false);
         tblNguoiDung.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblNguoiDungMouseClicked(evt);
@@ -357,14 +355,14 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -442,28 +440,44 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadAllDataToTable();
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         new DialogThemNguoiDung(this, true).setVisible(true);
 //        loadAllDataToTable();
+        loadAllDataToTable();
         loadDataToTable(search());
+        NguoiDung nd = new NguoiDung();
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        String id = tblNguoiDung.getValueAt(tblNguoiDung.getSelectedRow(), 1).toString();
-        new DialogCapNhatNguoiDung(this, true, nguoiDungMap.get(id)).setVisible(true);
-        loadAllDataToTable();
-        loadDataToTable(search());
+
+        int index = tblNguoiDung.getSelectedRow();
+        if (tblNguoiDung.getSelectedRow() < 0) {
+            DialogHelper.message(this, "Chưa chọn người dùng để cập nhật!", DialogHelper.ERROR_MESSAGE);
+        } else {
+            String id = tblNguoiDung.getValueAt(index, 1).toString();
+            new DialogCapNhatNguoiDung(this, true, nguoiDungMap.get(id)).setVisible(true);
+            loadAllDataToTable();
+            loadDataToTable(search());
+            for (int i = 0; i < tblNguoiDung.getRowCount(); i++) {
+                if (tblNguoiDung.getValueAt(i, 1).toString().equals(id)) {
+                    tblNguoiDung.setRowSelectionInterval(i, i);
+                    System.out.println(id);
+                    break;
+                }
+            }
+        }
+
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblNguoiDungMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNguoiDungMouseClicked
         if (evt.getClickCount() >= 2) {
-            String id = tblNguoiDung.getValueAt(tblNguoiDung.getSelectedRow(), 1).toString();
-            new DialogCapNhatNguoiDung(this, true, nguoiDungMap.get(id)).setVisible(true);
-            loadDataToTable(search());
+            int index = tblNguoiDung.getSelectedRow();
+            btnSuaActionPerformed(null);
         }
-
 
     }//GEN-LAST:event_tblNguoiDungMouseClicked
 
@@ -490,6 +504,9 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
         if (chkTheoNgayVaoLam.isSelected()) {
             dcTuNgay.setEnabled(true);
             dcDenNgay.setEnabled(true);
+            dcTuNgay.setDate(new Date());
+            dcDenNgay.setDate(new Date());
+
         } else {
             dcTuNgay.setDate(null);
             dcDenNgay.setDate(null);
@@ -571,7 +588,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkTheoTen;
     private com.toedter.calendar.JDateChooser dcDenNgay;
     private com.toedter.calendar.JDateChooser dcTuNgay;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

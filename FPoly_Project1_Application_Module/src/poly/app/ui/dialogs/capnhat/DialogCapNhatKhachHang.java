@@ -5,11 +5,13 @@
  */
 package poly.app.ui.dialogs.capnhat;
 
+import java.util.Date;
 import javax.swing.ButtonGroup;
 import poly.app.core.daoimpl.KhachHangDaoImpl;
 import poly.app.core.entities.KhachHang;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.utils.StringUtil;
+import poly.app.ui.utils.ValidationUtil;
 
 /**
  *
@@ -73,6 +75,45 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         }
         return false;
     }
+    private boolean checkInput() {
+        if (ValidationUtil.isEmpty(txtHoTen.getText())) {
+            DialogHelper.message(this, " Không được bỏ trống họ và tên", DialogHelper.ERROR_MESSAGE);
+            return true;
+            
+        }else if (ValidationUtil.isEmpty(txtCMND.getText())) {
+            DialogHelper.message(this, " Không được bỏ trống Chứng minh nhân dân", DialogHelper.ERROR_MESSAGE);
+            return true;
+            
+        }else if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
+            DialogHelper.message(this, " Không được bỏ trống số điện thoại ", DialogHelper.ERROR_MESSAGE);
+            return true;
+        }else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
+            DialogHelper.message(this, "Số điện thoại phải là 10 số", DialogHelper.ERROR_MESSAGE);
+            return true;  
+        }else if(!ValidationUtil.isNumber(txtSoDienThoai.getText())){
+            DialogHelper.message(this, " Số điện thoại phải bắt đầu là số O ", DialogHelper.ERROR_MESSAGE);
+            return true;
+        }else if (ValidationUtil.isEmpty(txtEmail.getText())) {
+            DialogHelper.message(this, " Không được bỏ trống Email", DialogHelper.ERROR_MESSAGE);
+            return true;  
+        }else if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
+            DialogHelper.message(this, "Sai định dạng Email", DialogHelper.ERROR_MESSAGE);
+            return true; 
+        }else if (ValidationUtil.isEmpty(txtDiaChi.getText())) {
+            DialogHelper.message(this, " Chưa nhập địa chỉ", DialogHelper.ERROR_MESSAGE);
+            return true;
+            
+        }else if(dcNgayVaoLam.getDate()== null){
+            DialogHelper.message(this,"không được bỏ trống ngày vào làm", DialogHelper.ERROR_MESSAGE);
+            return true;
+            
+        }else if(dcNgaySinh.getDate() == null){
+            DialogHelper.message(this,"không được bỏ trống ngày sinh", DialogHelper.ERROR_MESSAGE);
+            return true;
+        }else {
+            return false;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,7 +123,6 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -183,11 +223,22 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         jLabel9.setText("Giới tính");
 
         txtHoTen.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        txtHoTen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHoTenKeyTyped(evt);
+            }
+        });
 
         rdoNam.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        rdoNam.setSelected(true);
         rdoNam.setText("Nam");
 
         txtCMND.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        txtCMND.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCMNDKeyTyped(evt);
+            }
+        });
 
         rdoNu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         rdoNu.setText("Nữ");
@@ -196,6 +247,7 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         jLabel2.setText("CMND");
 
         dcNgayVaoLam.setDateFormatString("dd-MM-yyyy");
+        dcNgayVaoLam.setEnabled(false);
         dcNgayVaoLam.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         dcNgayVaoLam.setOpaque(false);
 
@@ -204,28 +256,20 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         btnLuu.setText("Lưu");
-        btnLuu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnLuu.setPreferredSize(new java.awt.Dimension(75, 33));
         btnLuu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLuuActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel3.add(btnLuu, gridBagConstraints);
+        jPanel3.add(btnLuu, new java.awt.GridBagConstraints());
 
         btnHuy.setText("Huỷ");
-        btnHuy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnHuy.setPreferredSize(new java.awt.Dimension(75, 33));
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel3.add(btnHuy, gridBagConstraints);
+        jPanel3.add(btnHuy, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -324,17 +368,28 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (updateModelToDatabase()) {
+        if (checkInput()== false){
+            updateModelToDatabase();
             DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
-        } else {
-            DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void txtHoTenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHoTenKeyTyped
+        if (txtHoTen.getText().length()==50) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtHoTenKeyTyped
+
+    private void txtCMNDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCMNDKeyTyped
+       if (txtCMND.getText().length()==12) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCMNDKeyTyped
 
     /**
      * @param args the command line arguments

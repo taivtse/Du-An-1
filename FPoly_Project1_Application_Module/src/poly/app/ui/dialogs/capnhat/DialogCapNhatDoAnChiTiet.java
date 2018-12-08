@@ -157,6 +157,7 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -251,7 +252,9 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
                 btnCapNhatActionPerformed(evt);
             }
         });
-        jPanel3.add(btnCapNhat, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel3.add(btnCapNhat, gridBagConstraints);
 
         btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnHuy.setText("Huỷ");
@@ -260,7 +263,9 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
                 btnHuyActionPerformed(evt);
             }
         });
-        jPanel3.add(btnHuy, new java.awt.GridBagConstraints());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel3.add(btnHuy, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

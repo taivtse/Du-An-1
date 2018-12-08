@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package poly.app.ui.frames.chart;
+package poly.app.ui.dialogs.chart;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.knowm.xchart.PieChart;
 import org.knowm.xchart.PieChartBuilder;
@@ -26,7 +24,7 @@ public class PieCharts {
         PieChart chart = new PieChartBuilder().width(800).height(600).title(title).build();
 
         // Customize Chart
-        Color[] sliceColors = new Color[]{new Color(29,255,92), new Color(11,78,156), new Color(53,49,18), new Color(143,210,49), new Color(164,116,179)};
+        Color[] sliceColors = new Color[]{Color.decode("#1C8FD6"), Color.decode("#78579D"), Color.decode("#CE3933"), Color.decode("#DA6F13"), Color.decode("#23A0A4"), Color.decode("#CC3178"), Color.decode("#6FAC18")};
         chart.getStyler().setSeriesColors(sliceColors);
 
         // Series
@@ -36,10 +34,11 @@ public class PieCharts {
         }
 
         JPanel jp = new XChartPanel(chart);
-        JDialog jd = new JDialog();
-        jd.add(jp);
-        jd.pack();
-        jd.setLocationRelativeTo(null);
-        jd.setVisible(true);
+        JFrame wrapperFrame = new JFrame();
+        wrapperFrame.add(jp);
+        wrapperFrame.pack();
+        wrapperFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        wrapperFrame.setLocationRelativeTo(null);
+        wrapperFrame.setVisible(true);
     }
 }

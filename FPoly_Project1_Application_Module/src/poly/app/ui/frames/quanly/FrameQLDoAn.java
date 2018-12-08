@@ -67,8 +67,13 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         TableRendererUtil tblRenderer = new TableRendererUtil(tblDoAn);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
+       
         tblRenderer.setColoumnWidthByPersent(0, 5);
+        tblRenderer.setColoumnWidthByPersent(1, 10);
+        tblRenderer.setColoumnWidthByPersent(2, 30);
+        tblRenderer.setColumnAlignment(0, TableRendererUtil.CELL_ALIGN_LEFT);
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
+        
 
         tblRenderer = new TableRendererUtil(tblDoAnChiTiet);
         tblRenderer.setCellEditable(false);
@@ -89,6 +94,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlMain = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -100,7 +106,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         chkTheoTen = new javax.swing.JCheckBox();
         chkTheoLoaiDoAn = new javax.swing.JCheckBox();
         cboLoaiDoAn = new javax.swing.JComboBox<>();
-        btnDatLai = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
@@ -184,13 +189,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
 
-        btnDatLai.setText("Đặt lại");
-        btnDatLai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDatLaiActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -208,22 +206,18 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                             .addComponent(chkTheoLoaiDoAn)
                             .addComponent(rdoDangDuocBan)
                             .addComponent(rdoDaNgungBan))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 125, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTraCuuDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnDatLai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                    .addComponent(txtTraCuuDoAn)
+                    .addComponent(cboLoaiDoAn, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(chkTheoTen)
@@ -239,9 +233,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addComponent(chkTheoLoaiDoAn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cboLoaiDoAn, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnDatLai)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -250,6 +242,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnThem.setText("Thêm đồ ăn");
+        btnThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemActionPerformed(evt);
@@ -258,6 +251,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSua.setText("Cập nhật đồ ăn");
+        btnSua.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
@@ -265,6 +259,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         });
 
         btnThemKichCo.setText("Thêm kích cỡ");
+        btnThemKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThemKichCo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnThemKichCoActionPerformed(evt);
@@ -273,6 +268,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         btnSuaKichCo.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btnSuaKichCo.setText("Cập nhật kích cỡ");
+        btnSuaKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSuaKichCo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaKichCoActionPerformed(evt);
@@ -288,7 +284,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnThemKichCo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSuaKichCo)
@@ -297,18 +293,21 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThem)
-                    .addComponent(btnSua)
-                    .addComponent(btnThemKichCo)
-                    .addComponent(btnSuaKichCo))
-                .addContainerGap(16, Short.MAX_VALUE))
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnThemKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSuaKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel5.setOpaque(false);
+        jPanel5.setLayout(new java.awt.GridBagLayout());
 
-        tblDoAn.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(0, 0));
+
+        tblDoAn.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tblDoAn.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -333,9 +332,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
         tblDoAn.setGridColor(new java.awt.Color(238, 238, 238));
-        tblDoAn.setRowHeight(20);
+        tblDoAn.setRowHeight(22);
         tblDoAn.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblDoAn.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblDoAn.setShowHorizontalLines(false);
+        tblDoAn.setShowVerticalLines(false);
         tblDoAn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDoAnMouseClicked(evt);
@@ -343,7 +344,18 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblDoAn);
 
-        tblDoAnChiTiet.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.6;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 10, 0);
+        jPanel5.add(jScrollPane1, gridBagConstraints);
+
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(0, 0));
+
+        tblDoAnChiTiet.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tblDoAnChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -361,9 +373,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
         tblDoAnChiTiet.setGridColor(new java.awt.Color(238, 238, 238));
-        tblDoAnChiTiet.setRowHeight(20);
+        tblDoAnChiTiet.setRowHeight(22);
         tblDoAnChiTiet.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblDoAnChiTiet.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblDoAnChiTiet.setShowHorizontalLines(false);
+        tblDoAnChiTiet.setShowVerticalLines(false);
         tblDoAnChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDoAnChiTietMouseClicked(evt);
@@ -371,26 +385,14 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblDoAnChiTiet);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
-                .addGap(10, 10, 10))
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.4;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 6, 10, 10);
+        jPanel5.add(jScrollPane2, gridBagConstraints);
 
         btnCollapse.setBackground(new java.awt.Color(52, 83, 104));
         btnCollapse.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
@@ -578,17 +580,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         this.searchDoAnByName();
     }//GEN-LAST:event_chkTheoLoaiDoAnActionPerformed
 
-    private void btnDatLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLaiActionPerformed
-        chkTheoTen.setSelected(true);
-        chkTheoTrangThai.setSelected(false);
-        chkTheoLoaiDoAn.setSelected(false);
-        txtTraCuuDoAn.setText("");
-        this.checkBox();
-        DefaultTableModel model = (DefaultTableModel) tblDoAnChiTiet.getModel();
-        model.setRowCount(0);
-        this.loadDataToTable();
-    }//GEN-LAST:event_btnDatLaiActionPerformed
-
     private void cboLoaiDoAnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboLoaiDoAnItemStateChanged
         this.searchDoAnByName();
     }//GEN-LAST:event_cboLoaiDoAnItemStateChanged
@@ -732,7 +723,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }
 
     public void updateDACT() {
-
         int indexDA = tblDoAn.getSelectedRow();
         String idDA = (String) tblDoAn.getValueAt(indexDA, 1);
         int indexDACT = tblDoAnChiTiet.getSelectedRow();
@@ -802,7 +792,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
-    private javax.swing.JButton btnDatLai;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnSuaKichCo;
     private javax.swing.JButton btnThem;

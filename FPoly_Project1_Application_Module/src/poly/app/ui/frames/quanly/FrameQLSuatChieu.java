@@ -19,6 +19,7 @@ import poly.app.core.daoimpl.SuatChieuDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
+import poly.app.core.helper.DateHelper;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatSuatChieu;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -95,7 +96,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                         i++,
                         sc.getId(),
                         sc.getPhim().getTen(),
-                        sc.getNgayChieu(),
+                        DateHelper.OUT_DATE_FORMAT.format(sc.getNgayChieu()),
                         sdf.format(sc.getGioBatDau()) + " - " + sdf.format(sc.getGioKetThuc()),
                         sc.getDinhDangPhim().getId(),
                         sc.getPhim().getNgonNgu(),
@@ -321,25 +322,29 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(jLabel2)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 82, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(dcNgayHienThi, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboPhongChieu, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkTenPhim)
-                    .addComponent(rdoDaChieu)
-                    .addComponent(rdoDangChieu)
-                    .addComponent(rdoSapChieu)
-                    .addComponent(chkTrangThai))
-                .addContainerGap(10, Short.MAX_VALUE))
+                    .addComponent(dcNgayHienThi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboPhongChieu, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(rdoDaChieu)
+                            .addComponent(rdoDangChieu)
+                            .addComponent(rdoSapChieu)
+                            .addComponent(chkTrangThai)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(cboPhim, javax.swing.GroupLayout.Alignment.LEADING, 0, 260, Short.MAX_VALUE)
+                                .addComponent(chkTenPhim, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(jLabel2)
@@ -361,7 +366,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                 .addComponent(rdoDangChieu, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rdoDaChieu, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -389,14 +394,14 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addComponent(btnTimeline, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel5.setOpaque(false);
 
-        tblSuatChieu.setFont(new java.awt.Font("Open Sans", 0, 13)); // NOI18N
+        tblSuatChieu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         tblSuatChieu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -420,7 +425,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblSuatChieu.setRowHeight(20);
+        tblSuatChieu.setRowHeight(22);
         tblSuatChieu.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblSuatChieu.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblSuatChieu.setShowHorizontalLines(false);
@@ -438,13 +443,13 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 

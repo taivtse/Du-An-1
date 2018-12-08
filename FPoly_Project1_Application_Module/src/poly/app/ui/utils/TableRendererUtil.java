@@ -3,12 +3,9 @@ package poly.app.ui.utils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.util.Arrays;
 import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -83,7 +80,7 @@ public class TableRendererUtil {
 
     public void changeHeaderStyle() {
         JTableHeader jTableHeader = this.jTable.getTableHeader();
-        jTableHeader.setFont(new Font("Open sans", Font.PLAIN, 13)); // font name style size
+        jTableHeader.setFont(new Font("Open sans", Font.PLAIN, 14)); // font name style size
         // canh giua man hinh
         ((DefaultTableCellRenderer) jTableHeader.getDefaultRenderer())
                 .setHorizontalAlignment(JLabel.CENTER);
