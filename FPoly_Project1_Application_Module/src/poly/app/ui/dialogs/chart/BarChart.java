@@ -6,6 +6,7 @@
  */
 package poly.app.ui.dialogs.chart;
 
+import java.awt.Color;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -39,6 +40,8 @@ public class BarChart {
 
     public void displayChart() {
         CategoryChart chart = new CategoryChartBuilder().title(title).xAxisTitle(this.xAsisTitle).yAxisTitle(this.yAxixTitle).build();
+        Color[] sliceColors = new Color[]{Color.decode("#1D95F6")};
+        chart.getStyler().setSeriesColors(sliceColors);
         chart.getStyler().setHasAnnotations(true);
         chart.getStyler().setDecimalPattern("##,###,###,###");
 

@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -52,6 +53,8 @@ public class FrameTKVeBan extends javax.swing.JFrame {
     public FrameTKVeBan() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Thống kê vé bán");
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
     }
 
@@ -72,6 +75,11 @@ public class FrameTKVeBan extends javax.swing.JFrame {
         tblRenderer.setColumnAlignment(7, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(8, TableRendererUtil.CELL_ALIGN_RIGHT);
     }
+    
+    public JPanel getMainPanel() {
+        formWindowOpened(null);
+        return pnlMain;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,7 +91,7 @@ public class FrameTKVeBan extends javax.swing.JFrame {
     private void initComponents() {
 
         btngr = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        pnlMain = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         rdoTheoThang = new javax.swing.JRadioButton();
@@ -368,7 +376,7 @@ public class FrameTKVeBan extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -399,25 +407,23 @@ public class FrameTKVeBan extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
+        pnlMain.setLayout(pnlMainLayout);
+        pnlMainLayout.setHorizontalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlMainLayout.setVerticalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -426,11 +432,11 @@ public class FrameTKVeBan extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -590,7 +596,7 @@ public class FrameTKVeBan extends javax.swing.JFrame {
             map.put(key, tongVe);
             tongVe = 0;
         }
-        new PieCharts().displayChart(map, "Thống Kê Doanh Thu Loại Vé Của " + title);
+        new PieCharts().displayChart(map, "Thống Kê Loại Vé " + title);
     }
 
     public void bieuDoLoaiVeDat(String title) {
@@ -604,7 +610,7 @@ public class FrameTKVeBan extends javax.swing.JFrame {
             map.put(key, tongVe);
             tongVe = 0;
         }
-        new PieCharts().displayChart(map, "Thống Kê Doanh Thu Loại Vé Của " + title);
+        new PieCharts().displayChart(map, "Thống Kê Đặt Vé " + title);
     }
 
     public void loadDataToTable() {
@@ -871,7 +877,6 @@ public class FrameTKVeBan extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboTheoThang;
     private com.toedter.calendar.JDateChooser dcsTheoNgay;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -879,6 +884,7 @@ public class FrameTKVeBan extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTong;
+    private javax.swing.JPanel pnlMain;
     private javax.swing.JRadioButton rdoTheoNam;
     private javax.swing.JRadioButton rdoTheoNgay;
     private javax.swing.JRadioButton rdoTheoThang;

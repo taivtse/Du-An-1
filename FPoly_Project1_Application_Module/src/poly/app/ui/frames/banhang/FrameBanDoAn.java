@@ -31,8 +31,8 @@ import poly.app.core.entities.HoaDon;
 import poly.app.core.entities.HoaDonChiTiet;
 import poly.app.core.entities.LoaiDoAn;
 import poly.app.core.entities.NguoiDung;
-import poly.app.core.helper.DateHelper;
 import poly.app.core.helper.DialogHelper;
+import poly.app.core.helper.ShareHelper;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -57,7 +57,6 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         setTitle("Bán đồ ăn");
         reRenderUI();
     }
-
 
     private void reRenderUI() {
         //        Render lại giao diện cho table
@@ -210,9 +209,9 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         jLabel3.setText("Loại đồ ăn");
 
         cboLoaiDoAn.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        cboLoaiDoAn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboLoaiDoAnActionPerformed(evt);
+        cboLoaiDoAn.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboLoaiDoAnItemStateChanged(evt);
             }
         });
 
@@ -351,7 +350,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE)
                 .addGap(10, 10, 10))
         );
 
@@ -377,7 +376,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -485,9 +484,9 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tblDoAnMousePressed
 
-    private void cboLoaiDoAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiDoAnActionPerformed
+    private void cboLoaiDoAnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboLoaiDoAnItemStateChanged
         this.filterDoAnTheoLoaiDoAn();
-    }//GEN-LAST:event_cboLoaiDoAnActionPerformed
+    }//GEN-LAST:event_cboLoaiDoAnItemStateChanged
 
     public void orderBySoLuong(String key, HoaDonChiTiet hdct) {
         hdct.setSoLuong(hdct.getSoLuong() + Integer.parseInt(spnSoLuong.getValue().toString()));
@@ -572,8 +571,6 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         lblTongTien.setText(decimalFormat.format(tongtien) + " vnd");
     }
 
-    
-    
     public void loadDataToComboBox() {
         DefaultComboBoxModel modelCBB = (DefaultComboBoxModel) cboLoaiDoAn.getModel();
         LoaiDoAnDaoImpl ldaDAO = new LoaiDoAnDaoImpl();
@@ -582,16 +579,15 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         modelCBB.addElement(new LoaiDoAn("", "Tất cả"));
         for (LoaiDoAn fill : listLDA) {
             modelCBB.addElement(fill);
-
         }
     }
+
     public void filterDoAnTheoLoaiDoAn() {
         DefaultTableModel modelTable = (DefaultTableModel) tblDoAn.getModel();
         modelTable.setRowCount(0);
-        LoaiDoAn lda = (LoaiDoAn) cboLoaiDoAn.getSelectedItem();
+        LoaiDoAn lda = (LoaiDoAn) cboLoaiDoAn.getModel().getSelectedItem();
         for (Map.Entry<String, DoAnChiTiet> entry : mapDoAn.entrySet()) {
-            if(lda.getId().equals(""))
-            {
+            if (lda.getId().equals("")) {
                 Object[] record = new Object[]{
                     entry.getValue().getDoAn().getId(),
                     entry.getValue().getDoAn().getTen(),
@@ -601,7 +597,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
                 modelTable.addRow(record);
                 continue;
             }
-            if(entry.getValue().getDoAn().getLoaiDoAn().getId().compareTo(lda.getId()) == 0) {
+            if (entry.getValue().getDoAn().getLoaiDoAn().getId().equals(lda.getId())) {
                 Object[] record = new Object[]{
                     entry.getValue().getDoAn().getId(),
                     entry.getValue().getDoAn().getTen(),
@@ -615,7 +611,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
     public void Ban() {
         //get nguoi dung de them vao hoa don
-        NguoiDung nd = new NguoiDungDaoImpl().getById("NV00001");
+        NguoiDung nd = ShareHelper.USER;
 
         //tao hoa don moi
         HoaDon newHD = new HoaDon();

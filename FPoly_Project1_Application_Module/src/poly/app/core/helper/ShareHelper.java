@@ -26,7 +26,7 @@ public class ShareHelper {
     /**
      * Đối tượng này chứa thông tin người sử dụng sau khi đăng nhập
      */
-    public static NguoiDung USER = new NguoiDungDaoImpl().getById("TR00001");
+    public static NguoiDung USER;
 
     /**
      * Xóa thông tin của người sử dụng khi có yêu cầu đăng xuất

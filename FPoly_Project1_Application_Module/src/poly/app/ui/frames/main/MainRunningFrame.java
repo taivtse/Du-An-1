@@ -25,6 +25,10 @@ import poly.app.ui.frames.quanly.FrameQLKhachHang;
 import poly.app.ui.frames.quanly.FrameQLNguoiDung;
 import poly.app.ui.frames.quanly.FrameQLSuatChieu;
 import poly.app.ui.frames.quanly.FrameQLVeBan;
+import poly.app.ui.frames.thongke.FrameTKDoanhThuTheoDoAn;
+import poly.app.ui.frames.thongke.FrameTKDoanhThuTheoPhim;
+import poly.app.ui.frames.thongke.FrameTKTongDoanhThu;
+import poly.app.ui.frames.thongke.FrameTKVeBan;
 
 /**
  *
@@ -45,6 +49,12 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
     private FrameBanDoAn frameBanDoAn;
     private FrameBanVe frameBanVe;
+    
+    private FrameTKVeBan frameTKVeBan;
+    private FrameTKDoanhThuTheoDoAn frameTKDoanhThuTheoDoAn;
+    private FrameTKDoanhThuTheoPhim frameTKDoanhThuTheoPhim;
+    private FrameTKTongDoanhThu frameTKTongDoanhThu;
+    
 
     private int numberOfThreadLoaded = 0;
     private final int maxnumberOfThreadLoaded = 3;
@@ -79,7 +89,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
             initComponents();
             reRenderUI();
 
-            System.out.println("main ui");
+            System.out.println("main ui loaded");
             numberOfThreadLoaded++;
             if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
                 showLoginDialog();
@@ -91,7 +101,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         new Thread(() -> {
             HibernateUtil.getSessionFactory();
 
-            System.out.println("hibernate");
+            System.out.println("hibernate loaded");
             numberOfThreadLoaded++;
             if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
                 showLoginDialog();
@@ -111,8 +121,13 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
             frameBanDoAn = new FrameBanDoAn();
             frameBanVe = new FrameBanVe();
+            
+            frameTKVeBan = new FrameTKVeBan();
+            frameTKDoanhThuTheoDoAn = new FrameTKDoanhThuTheoDoAn();
+            frameTKDoanhThuTheoPhim = new FrameTKDoanhThuTheoPhim();
+            frameTKTongDoanhThu = new FrameTKTongDoanhThu();
 
-            System.out.println("child ui");
+            System.out.println("child ui loaded");
             numberOfThreadLoaded++;
             if (numberOfThreadLoaded == maxnumberOfThreadLoaded) {
                 showLoginDialog();
@@ -190,7 +205,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemThongKeToolBarPhim = new javax.swing.JButton();
         itemThongKeToolBarTongDoanhThu = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        tbpMainContent = new javax.swing.JTabbedPane();
+        tbpMainContent = new ClosableTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -506,7 +521,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
         itemThongKeToolBarPhim.setBackground(new java.awt.Color(255, 255, 255));
         itemThongKeToolBarPhim.setFont(new java.awt.Font("Open Sans", 0, 16)); // NOI18N
         itemThongKeToolBarPhim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/film-reel.png"))); // NOI18N
-        itemThongKeToolBarPhim.setText("Thống kê doanh thu phim");
+        itemThongKeToolBarPhim.setText("Thống kê phim");
         itemThongKeToolBarPhim.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 10, 5, 10));
         itemThongKeToolBarPhim.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         itemThongKeToolBarPhim.setFocusable(false);
@@ -737,19 +752,19 @@ public class MainRunningFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_lblTenTaiKhoanMouseReleased
 
     private void itemThongKeToolBarVeBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarVeBanActionPerformed
-        
+        tbpMainContent.addTab(frameTKVeBan.getTitle(), frameTKVeBan.getMainPanel());
     }//GEN-LAST:event_itemThongKeToolBarVeBanActionPerformed
 
     private void itemThongKeToolBarDoAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarDoAnActionPerformed
-        
+        tbpMainContent.addTab(frameTKDoanhThuTheoDoAn.getTitle(), frameTKDoanhThuTheoDoAn.getMainPanel());
     }//GEN-LAST:event_itemThongKeToolBarDoAnActionPerformed
 
     private void itemThongKeToolBarPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarPhimActionPerformed
-        
+        tbpMainContent.addTab(frameTKDoanhThuTheoPhim.getTitle(), frameTKDoanhThuTheoPhim.getMainPanel());
     }//GEN-LAST:event_itemThongKeToolBarPhimActionPerformed
 
     private void itemThongKeToolBarTongDoanhThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemThongKeToolBarTongDoanhThuActionPerformed
-        
+        tbpMainContent.addTab(frameTKTongDoanhThu.getTitle(), frameTKTongDoanhThu.getMainPanel());
     }//GEN-LAST:event_itemThongKeToolBarTongDoanhThuActionPerformed
 
     /**
@@ -816,7 +831,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JLabel lblTenTaiKhoan;
-    private javax.swing.JTabbedPane tbpMainContent;
+    private ClosableTabbedPane tbpMainContent;
     private javax.swing.JPanel toolBarContainer;
     // End of variables declaration//GEN-END:variables
 

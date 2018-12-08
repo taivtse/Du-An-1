@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -50,6 +51,8 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     public FrameTKDoanhThuTheoDoAn() {
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Thống kê đồ ăn");
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
     } 
 
@@ -66,6 +69,11 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_RIGHT);
         dcsTheoNgay.setDate(new Date());
     }
+    
+    public JPanel getMainPanel() {
+        formWindowOpened(null);
+        return pnlMain;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,7 +85,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     private void initComponents() {
 
         btgrFilter = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
+        pnlMain = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
@@ -279,7 +287,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
@@ -421,17 +429,17 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
             .addComponent(btnCollapse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
+        pnlMain.setLayout(pnlMainLayout);
+        pnlMainLayout.setHorizontalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        pnlMainLayout.setVerticalGroup(
+            pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -440,11 +448,11 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -704,7 +712,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboTheoThang;
     private com.toedter.calendar.JDateChooser dcsTheoNgay;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -713,6 +720,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTong;
+    private javax.swing.JPanel pnlMain;
     private javax.swing.JRadioButton rdoTheoNam;
     private javax.swing.JRadioButton rdoTheoNgay;
     private javax.swing.JRadioButton rdoTheoThang;
@@ -727,7 +735,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         for (int i = 0; i < tblThongKe.getRowCount(); i++) {
             String xValue = (String) tblThongKe.getValueAt(i, 1);
             Integer yValue = Integer.parseInt(tblThongKe.getValueAt(i, 4).toString().replace(",",""));
-            System.out.println(yValue);
             xData.add(xValue);
             yData.add(yValue);
         }

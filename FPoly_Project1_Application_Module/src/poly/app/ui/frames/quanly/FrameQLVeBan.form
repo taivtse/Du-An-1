@@ -63,9 +63,6 @@
       </Layout>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel2">
-          <Properties>
-            <Property name="opaque" type="boolean" value="false"/>
-          </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
@@ -195,7 +192,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jPanel5" max="32767" attributes="0"/>
                   </Group>
                   <Component id="btnCollapse" alignment="0" max="32767" attributes="0"/>
