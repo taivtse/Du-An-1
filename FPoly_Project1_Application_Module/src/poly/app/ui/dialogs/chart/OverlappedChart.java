@@ -5,8 +5,8 @@
  */
 package poly.app.ui.dialogs.chart;
 
+import java.awt.Color;
 import java.util.List;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.knowm.xchart.CategoryChart;
@@ -25,6 +25,9 @@ public class OverlappedChart {
         // Create Chart
         CategoryChart chart = new CategoryChartBuilder().width(800).height(600).title("Thống Kê Vé").xAxisTitle(xTitle).yAxisTitle(yTitle).build();
 
+        Color[] sliceColors = new Color[]{Color.decode("#1D95F6"), Color.decode("#7CBA29"), Color.decode("#FBB300"), Color.decode("#29B998"), Color.decode("#F98300"), Color.decode("#CE3933"), Color.decode("#DA6F13")};
+        chart.getStyler().setSeriesColors(sliceColors);
+        
         // Customize Chart
         chart.getStyler().setLegendPosition(LegendPosition.OutsideE);
         chart.getStyler().setAvailableSpaceFill(0.9);

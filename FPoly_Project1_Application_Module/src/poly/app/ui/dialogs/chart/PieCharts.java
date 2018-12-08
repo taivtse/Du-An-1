@@ -24,7 +24,7 @@ public class PieCharts {
         PieChart chart = new PieChartBuilder().width(800).height(600).title(title).build();
 
         // Customize Chart
-        Color[] sliceColors = new Color[]{Color.decode("#1C8FD6"), Color.decode("#78579D"), Color.decode("#CE3933"), Color.decode("#DA6F13"), Color.decode("#23A0A4"), Color.decode("#CC3178"), Color.decode("#6FAC18")};
+        Color[] sliceColors = new Color[]{Color.decode("#1D95F6"), Color.decode("#7CBA29"), Color.decode("#FBB300"), Color.decode("#29B998"), Color.decode("#F98300"), Color.decode("#CE3933"), Color.decode("#DA6F13")};
         chart.getStyler().setSeriesColors(sliceColors);
 
         // Series
