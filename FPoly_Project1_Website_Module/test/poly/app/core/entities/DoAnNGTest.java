@@ -5,6 +5,7 @@
  */
 package poly.app.core.entities;
 
+import java.util.Date;
 import javax.persistence.GenerationType;
 import static org.testng.Assert.*;
 import org.testng.annotations.Test;
@@ -20,12 +21,12 @@ public class DoAnNGTest {
     public DoAnNGTest() {
     }
 
-    @Test
     public void insert() throws Exception {
-        LoaiDoAn loaiDoAn = new LoaiDoAnDaoImpl().getById("DA");
-        DoAn doAn = new DoAn("", loaiDoAn, "Haha", true);
-        new DoAnDaoImpl().insert(doAn);
-        System.out.println(doAn.getId());
+        
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(new Date().getTime());
     }
     
 }

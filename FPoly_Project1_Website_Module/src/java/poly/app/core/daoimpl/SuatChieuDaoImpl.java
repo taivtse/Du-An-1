@@ -1,9 +1,9 @@
 package poly.app.core.daoimpl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
@@ -16,20 +16,18 @@ import poly.app.core.data.daoimpl.AbstractDao;
 import poly.app.core.entities.Phim;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
-import poly.app.core.helper.DateHelper;
 
 public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements SuatChieuDao {
 
     @Override
-    public List<SuatChieu> getSuatChieuHienTaiByPhim(Phim phim) {
+    public List<SuatChieu> getSuatChieuTrongKhoangThoiGianByPhim(Phim phim, Date start, Date end) {
         List<SuatChieu> list;
         Session session = this.getSession();
         try {
             Criteria cr = session.createCriteria(this.getPersistenceClass());
             cr.add(Restrictions.eq("phim", phim));
-            cr.add(Restrictions.between("ngayChieu", new Date(), DateHelper.rollDays(new Date(), 1)));
+            cr.add(Restrictions.between("ngayChieu", start, end));
             cr.addOrder(Order.asc("gioBatDau"));
-            
 
             list = cr.list();
         } catch (HibernateException ex) {
@@ -94,5 +92,12 @@ public class SuatChieuDaoImpl extends AbstractDao<String, SuatChieu> implements 
         }finally{
             session.close();
         }
+    }
+
+    @Override
+    public List<SuatChieu> getSuatChieuByNgay(Date date) {
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("ngayChieu", date);
+        return this.getByProperties(conditions);
     }
 }
