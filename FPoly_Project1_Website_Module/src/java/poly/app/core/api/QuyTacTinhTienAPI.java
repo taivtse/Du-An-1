@@ -30,8 +30,8 @@ public class QuyTacTinhTienAPI {
         
         Map<String, Object> result = new HashMap<>();
         result.put("giaVe", giaVe);
-        result.put("dinhDangPhim", dinhDangPhim);
-        result.put("loaiGhe", loaiGhe);
+        result.put("phuThuPhim", dinhDangPhim);
+        result.put("phuThuGhe", loaiGhe);
         
         String json;
         try {
