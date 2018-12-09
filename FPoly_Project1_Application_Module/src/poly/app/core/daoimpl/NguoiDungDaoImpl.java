@@ -1,9 +1,6 @@
 package poly.app.core.daoimpl;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import poly.app.core.dao.NguoiDungDao;

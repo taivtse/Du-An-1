@@ -12,10 +12,15 @@ import java.util.Date;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.entities.NguoiDung;
 import javax.swing.DefaultComboBoxModel;
+import org.apache.commons.lang.WordUtils;
+import poly.app.core.daoimpl.KhachHangDaoImpl;
 import poly.app.core.daoimpl.VaiTroDaoImpl;
+import poly.app.core.entities.KhachHang;
 import poly.app.core.entities.VaiTro;
 import poly.app.core.helper.DialogHelper;
+import poly.app.core.utils.SMSUtil;
 import poly.app.core.utils.StringUtil;
+import static poly.app.ui.dialogs.them.DialogThemKhachHang.md5;
 import poly.app.ui.utils.ValidationUtil;
 
 /**
@@ -23,6 +28,8 @@ import poly.app.ui.utils.ValidationUtil;
  * @author vothanhtai
  */
 public class DialogThemNguoiDung extends javax.swing.JDialog {
+
+    String randomMatKhau = "";
 
     /**
      * Creates new form DialogThemNhanVien
@@ -69,7 +76,8 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
         nguoiDung.setEmail(this.txtEmail.getText());
         nguoiDung.setVaiTro((VaiTro) cboVaiTro.getModel().getSelectedItem());
         nguoiDung.setDangLam(cboTrangThai.getSelectedIndex() == 0 ? true : false);
-        nguoiDung.setMatKhau(md5("$$" + StringUtil.randomString()));
+        randomMatKhau = "$$" + StringUtil.randomString();
+        nguoiDung.setMatKhau(md5(randomMatKhau));
         System.out.println(nguoiDung.getMatKhau());
         nguoiDung.setId("");
         return nguoiDung;
@@ -108,7 +116,7 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
         } else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
             DialogHelper.message(this, "Số điện thoại phải chỉ bằng 10", DialogHelper.ERROR_MESSAGE);
             return false;
-        }else if(!txtSoDienThoai.getText().startsWith("0")){
+        } else if (!txtSoDienThoai.getText().startsWith("0")) {
             DialogHelper.message(this, "Số điện thoại phải bắt đầu bằng 0", DialogHelper.ERROR_MESSAGE);
             return false;
         } else if (ValidationUtil.isEmpty(txtEmail.getText())) {
@@ -123,10 +131,28 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
         } else if (dcNgayVaoLam.getDate() == null) {
             DialogHelper.message(this, "Không được bỏ trống ngày vào làm", DialogHelper.ERROR_MESSAGE);
             return false;
-        } else {
+        } else if (new NguoiDungDaoImpl().getBySoDienThoai(txtSoDienThoai.getText()) != null) {
+            DialogHelper.message(this,"Số điện thoại: " + txtSoDienThoai.getText()
+                    + " đã được đăng ký!", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }else {
             return true;
         }
 
+    }
+
+    private boolean sendAccountInfoBySMS() {
+        String soDienThoai = txtSoDienThoai.getText();
+        NguoiDung nguoiDung = new NguoiDungDaoImpl().getBySoDienThoai(soDienThoai);
+        String message = "HE THONG CINES";
+        message += "\n\nThong tin nguoi dung: ";
+        message += "\n-Ma nguoi dung: " + nguoiDung.getId();
+        message += "\n-Ho va ten: " + WordUtils.capitalize(StringUtil.covertUnicodeToASCIIString(nguoiDung.getHoTen()));
+        message += "\n-So dien thoai: " + nguoiDung.getSoDienThoai();
+        message += "\n-Ten dang nhap: " + nguoiDung.getId();
+        message += "\n-Mat khau: " + randomMatKhau;
+
+        return SMSUtil.sendSMS(message, soDienThoai);
     }
 
     /**
@@ -187,6 +213,11 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
         txtHoTen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtHoTenActionPerformed(evt);
+            }
+        });
+        txtHoTen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHoTenKeyTyped(evt);
             }
         });
 
@@ -449,13 +480,14 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
         if (checkInput()) {
             if (insertModelToDatabase()) {
                 DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                new Thread(() -> {
+                    sendAccountInfoBySMS();
+                }).start();
                 this.dispose();
             } else {
-                DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+                DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.INFORMATION_MESSAGE);
             }
         }
-
-
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
@@ -468,21 +500,26 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
     }//GEN-LAST:event_txtHoTenActionPerformed
 
     private void txtCMNDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCMNDKeyReleased
-
+        
     }//GEN-LAST:event_txtCMNDKeyReleased
 
     private void txtCMNDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCMNDKeyTyped
-        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtCMND.getText().length() >= 12) {
+        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtCMND.getText().length() == 12) {
             evt.consume();
         }
     }//GEN-LAST:event_txtCMNDKeyTyped
 
     private void txtSoDienThoaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKeyTyped
-        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtSoDienThoai.getText().length() >= 10) {
+        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtSoDienThoai.getText().length() == 10) {
             evt.consume();
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_txtSoDienThoaiKeyTyped
+
+    private void txtHoTenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHoTenKeyTyped
+        if (txtHoTen.getText().length()==50) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtHoTenKeyTyped
 
     /**
      * @param args the command line arguments

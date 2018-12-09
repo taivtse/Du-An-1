@@ -1,8 +1,8 @@
 package poly.app.core.daoimpl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import poly.app.core.dao.KhachHangDao;
 import poly.app.core.data.daoimpl.AbstractDao;
 import poly.app.core.entities.KhachHang;
@@ -11,14 +11,15 @@ public class KhachHangDaoImpl extends AbstractDao<String, KhachHang> implements 
 
     @Override
     public KhachHang getBySoDienThoai(String soDienThoai) {
-        Map<String, Object> conditions = new HashMap<>();
-        conditions.put("soDienThoai", soDienThoai);
-        List<KhachHang> list = this.getByProperties(conditions);
-        
-        if (list.size() == 0) {
-            return null;
+        Session session = this.getSession();
+        try {
+            Criteria cr = session.createCriteria(this.getPersistenceClass());
+            cr.add(Restrictions.eq("soDienThoai", soDienThoai));
+            return (KhachHang) cr.uniqueResult();
+        } catch (Exception ex) {
+            throw ex;
+        }finally{
+            session.close();
         }
-
-        return list.get(0);
     }
 }

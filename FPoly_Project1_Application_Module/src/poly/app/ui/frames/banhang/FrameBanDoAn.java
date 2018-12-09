@@ -587,7 +587,7 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         modelTable.setRowCount(0);
         LoaiDoAn lda = (LoaiDoAn) cboLoaiDoAn.getModel().getSelectedItem();
         for (Map.Entry<String, DoAnChiTiet> entry : mapDoAn.entrySet()) {
-            if (lda.getId().equals("")) {
+            if (lda != null && lda.getId().equals("")) {
                 Object[] record = new Object[]{
                     entry.getValue().getDoAn().getId(),
                     entry.getValue().getDoAn().getTen(),

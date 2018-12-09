@@ -6,6 +6,7 @@
 package poly.app.core.dao;
 
 import poly.app.core.data.dao.GenericDao;
+import poly.app.core.entities.KhachHang;
 import poly.app.core.entities.NguoiDung;
 
 /**

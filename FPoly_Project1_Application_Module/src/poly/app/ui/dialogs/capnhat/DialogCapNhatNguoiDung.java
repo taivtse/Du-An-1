@@ -82,6 +82,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
 
         return false;
     }
+
     private boolean checkInput() {
         if (ValidationUtil.isEmpty(txtHoTen.getText())) {
             DialogHelper.message(this, "Không được bỏ trống họ và tên", DialogHelper.ERROR_MESSAGE);
@@ -92,7 +93,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         } else if (ValidationUtil.isEmpty(txtCMND.getText())) {
             DialogHelper.message(this, "Không được bỏ bỏ trống CMND", DialogHelper.ERROR_MESSAGE);
             return false;
-        } else if (!ValidationUtil.isLenghtEqual(txtCMND.getText(), 9)&&!ValidationUtil.isLenghtEqual(txtCMND.getText(),12)) {
+        } else if (!ValidationUtil.isLenghtEqual(txtCMND.getText(), 9) && !ValidationUtil.isLenghtEqual(txtCMND.getText(), 12)) {
             DialogHelper.message(this, "CMND chỉ có 9 hoặc 12 số ", DialogHelper.ERROR_MESSAGE);
             return false;
         } else if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
@@ -101,8 +102,8 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         } else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
             DialogHelper.message(this, "Số điện thoại phải chỉ bằng 10", DialogHelper.ERROR_MESSAGE);
             return false;
-         
-        }else if(!txtSoDienThoai.getText().startsWith("0")){
+
+        } else if (!txtSoDienThoai.getText().startsWith("0")) {
             DialogHelper.message(this, "Số điện thoại phải bắt đầu bằng 0", DialogHelper.ERROR_MESSAGE);
             return false;
         } else if (ValidationUtil.isEmpty(txtEmail.getText())) {
@@ -279,6 +280,16 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         jLabel16.setText("Ngày vào làm");
 
         txtHoTen.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        txtHoTen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtHoTenActionPerformed(evt);
+            }
+        });
+        txtHoTen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHoTenKeyTyped(evt);
+            }
+        });
 
         jPanel5.setLayout(new java.awt.GridBagLayout());
 
@@ -429,14 +440,14 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-      if (checkInput()) {
-            if(updateModelToDatabase()){
-            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-            this.dispose();
-            }else{
-                    DialogHelper.message(this, "Cập nhật dữ liệu dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+        if (checkInput()) {
+            if (updateModelToDatabase()) {
+                DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                this.dispose();
+            } else {
+                DialogHelper.message(this, "Cập nhật dữ liệu dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
             }
-        } 
+        }
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
@@ -444,20 +455,26 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void txtCMNDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCMNDKeyTyped
-        
-        if(String.valueOf(evt.getKeyChar()).matches("\\D") || txtCMND.getText().length()>=12)
-        {
-           evt.consume();
-        }// TODO add your handling code here:
+        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtCMND.getText().length() == 12) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtCMNDKeyTyped
 
     private void txtSoDienThoaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKeyTyped
-        if(String.valueOf(evt.getKeyChar()).matches("\\D") || txtSoDienThoai.getText().length()>=10)
-        {
-           evt.consume();
+        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtSoDienThoai.getText().length() == 10) {
+            evt.consume();
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_txtSoDienThoaiKeyTyped
+
+    private void txtHoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoTenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHoTenActionPerformed
+
+    private void txtHoTenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHoTenKeyTyped
+        if (txtHoTen.getText().length()==50) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtHoTenKeyTyped
 
     /**
      * @param args the command line arguments

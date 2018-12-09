@@ -75,42 +75,43 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         }
         return false;
     }
+
     private boolean checkInput() {
         if (ValidationUtil.isEmpty(txtHoTen.getText())) {
             DialogHelper.message(this, " Không được bỏ trống họ và tên", DialogHelper.ERROR_MESSAGE);
             return true;
-            
-        }else if (ValidationUtil.isEmpty(txtCMND.getText())) {
+
+        } else if (ValidationUtil.isEmpty(txtCMND.getText())) {
             DialogHelper.message(this, " Không được bỏ trống Chứng minh nhân dân", DialogHelper.ERROR_MESSAGE);
             return true;
-            
-        }else if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
+
+        } else if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
             DialogHelper.message(this, " Không được bỏ trống số điện thoại ", DialogHelper.ERROR_MESSAGE);
             return true;
-        }else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
+        } else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
             DialogHelper.message(this, "Số điện thoại phải là 10 số", DialogHelper.ERROR_MESSAGE);
-            return true;  
-        }else if(!ValidationUtil.isNumber(txtSoDienThoai.getText())){
+            return true;
+        } else if (!ValidationUtil.isNumber(txtSoDienThoai.getText())) {
             DialogHelper.message(this, " Số điện thoại phải bắt đầu là số O ", DialogHelper.ERROR_MESSAGE);
             return true;
-        }else if (ValidationUtil.isEmpty(txtEmail.getText())) {
+        } else if (ValidationUtil.isEmpty(txtEmail.getText())) {
             DialogHelper.message(this, " Không được bỏ trống Email", DialogHelper.ERROR_MESSAGE);
-            return true;  
-        }else if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
+            return true;
+        } else if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
             DialogHelper.message(this, "Sai định dạng Email", DialogHelper.ERROR_MESSAGE);
-            return true; 
-        }else if (ValidationUtil.isEmpty(txtDiaChi.getText())) {
+            return true;
+        } else if (ValidationUtil.isEmpty(txtDiaChi.getText())) {
             DialogHelper.message(this, " Chưa nhập địa chỉ", DialogHelper.ERROR_MESSAGE);
             return true;
-            
-        }else if(dcNgayVaoLam.getDate()== null){
-            DialogHelper.message(this,"không được bỏ trống ngày vào làm", DialogHelper.ERROR_MESSAGE);
+
+        } else if (dcNgayVaoLam.getDate() == null) {
+            DialogHelper.message(this, "không được bỏ trống ngày vào làm", DialogHelper.ERROR_MESSAGE);
             return true;
-            
-        }else if(dcNgaySinh.getDate() == null){
-            DialogHelper.message(this,"không được bỏ trống ngày sinh", DialogHelper.ERROR_MESSAGE);
+
+        } else if (dcNgaySinh.getDate() == null) {
+            DialogHelper.message(this, "không được bỏ trống ngày sinh", DialogHelper.ERROR_MESSAGE);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
@@ -253,6 +254,11 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         dcNgayVaoLam.setOpaque(false);
 
         txtSoDienThoai.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        txtSoDienThoai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSoDienThoaiKeyTyped(evt);
+            }
+        });
 
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
@@ -379,7 +385,7 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (checkInput()== false){
+        if (checkInput() == false) {
             updateModelToDatabase();
             DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
@@ -391,16 +397,22 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void txtHoTenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHoTenKeyTyped
-        if (txtHoTen.getText().length()==50) {
+        if (txtHoTen.getText().length() == 50) {
             evt.consume();
         }
     }//GEN-LAST:event_txtHoTenKeyTyped
 
     private void txtCMNDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCMNDKeyTyped
-       if (txtCMND.getText().length()==12) {
+        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtCMND.getText().length() == 12) {
             evt.consume();
         }
     }//GEN-LAST:event_txtCMNDKeyTyped
+
+    private void txtSoDienThoaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKeyTyped
+        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtSoDienThoai.getText().length() == 10) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSoDienThoaiKeyTyped
 
     /**
      * @param args the command line arguments

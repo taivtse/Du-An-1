@@ -6,6 +6,7 @@
 package poly.app.ui.dialogs.thongtin;
 
 import poly.app.core.entities.VeBan;
+import poly.app.core.helper.DateHelper;
 
 /**
  *
@@ -314,7 +315,7 @@ public class DialogXemChiTietVe extends javax.swing.JDialog {
         txtTenPhim.setText(veBan.getSuatChieu().getPhim().getTen());
         txtGioiHanTuoi.setText(veBan.getSuatChieu().getPhim().getGioiHanTuoi() + "");
         txtNgayChieu.setText(veBan.getSuatChieu().getNgayChieu()+ "");
-        txtGioChieu.setText(veBan.getSuatChieu().getGioBatDau() + " - " +veBan.getSuatChieu().getGioKetThuc()) ;
+        txtGioChieu.setText(DateHelper.OUT_TIME_FORMAT.format(veBan.getSuatChieu().getGioBatDau()) + " - " + DateHelper.OUT_TIME_FORMAT.format(veBan.getSuatChieu().getGioKetThuc())) ;
         txtPhongChieu.setText(veBan.getSuatChieu().getPhongChieu().getId()+"");
         txtViTriGhe.setText(veBan.getGheNgoi().getViTriDay() + veBan.getGheNgoi().getViTriCot());
         txtLoaiVe.setText(veBan.getGiaVe().getTen());

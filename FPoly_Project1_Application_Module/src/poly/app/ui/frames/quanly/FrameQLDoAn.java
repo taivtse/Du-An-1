@@ -240,7 +240,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
         jPanel4.setOpaque(false);
 
-        btnThem.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btnThem.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnThem.setText("Thêm đồ ăn");
         btnThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +249,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
 
-        btnSua.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btnSua.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnSua.setText("Cập nhật đồ ăn");
         btnSua.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -258,6 +258,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
 
+        btnThemKichCo.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnThemKichCo.setText("Thêm kích cỡ");
         btnThemKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnThemKichCo.addActionListener(new java.awt.event.ActionListener() {
@@ -266,7 +267,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         });
 
-        btnSuaKichCo.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btnSuaKichCo.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnSuaKichCo.setText("Cập nhật kích cỡ");
         btnSuaKichCo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSuaKichCo.addActionListener(new java.awt.event.ActionListener() {
