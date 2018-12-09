@@ -58,8 +58,21 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
     }
     
     public JPanel getMainPanel(){
+        resetSearchForm();
         formWindowOpened(null);
         return this.pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        chkTheoMaHoaDon.setSelected(true);
+        txtMaHoaDon.setEnabled(true);
+        txtMaHoaDon.setText("");
+
+        chkKhoangThoiGian.setSelected(false);
+        dcTuNgay.setDate(null);
+        dcDenNgay.setDate(null);
+        dcTuNgay.setEnabled(false);
+        dcDenNgay.setEnabled(false);
     }
 
     /**
@@ -429,7 +442,7 @@ public class FrameQLHoaDon extends javax.swing.JFrame {
 
     private void chkTheoMaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoMaHoaDonActionPerformed
         txtMaHoaDon.setText("");
-        txtMaHoaDon.setEditable(chkTheoMaHoaDon.isSelected());
+        txtMaHoaDon.setEnabled(chkTheoMaHoaDon.isSelected());
     }//GEN-LAST:event_chkTheoMaHoaDonActionPerformed
 
     private void chkKhoangThoiGianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkKhoangThoiGianActionPerformed

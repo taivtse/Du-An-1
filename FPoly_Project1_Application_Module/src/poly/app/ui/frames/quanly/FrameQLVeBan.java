@@ -55,8 +55,15 @@ public class FrameQLVeBan extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return this.pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        txtTheoMaVe.setText("");
+
+        dcNgayHienThi.setDate(new Date());
     }
 
     /**

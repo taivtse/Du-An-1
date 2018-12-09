@@ -55,8 +55,21 @@ public class FrameQLPhim extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return this.pnlMain;
+    }
+
+    private void resetSearchForm() {
+        chkTenPhim.setSelected(true);
+        txtTenPhim.setEnabled(true);
+        txtTenPhim.setText("");
+
+        chkKhoangThoiGian.setSelected(false);
+        dcTuNgay.setDate(null);
+        dcDenNgay.setDate(null);
+        dcTuNgay.setEnabled(false);
+        dcDenNgay.setEnabled(false);
     }
 
     /**
@@ -410,7 +423,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
             String id = tblPhim.getValueAt(index, 1) + "";
             new DialogCapNhatPhim(this, true, id).setVisible(true);
             loadAllDataToTable();
-            
+
             for (int i = 0; i < tblPhim.getRowCount(); i++) {
                 String currentKey = tblPhim.getValueAt(i, 1).toString();
                 if (currentKey.equals(id)) {
@@ -445,9 +458,9 @@ public class FrameQLPhim extends javax.swing.JFrame {
     private void chkTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTenPhimActionPerformed
         // TODO add your handling code here:
         if (chkTenPhim.isSelected()) {
-            txtTenPhim.setEditable(true);
+            txtTenPhim.setEnabled(true);
         } else {
-            txtTenPhim.setEditable(false);
+            txtTenPhim.setEnabled(false);
             txtTenPhim.setText("");
             loadDataToTable(searchAdvance());
         }

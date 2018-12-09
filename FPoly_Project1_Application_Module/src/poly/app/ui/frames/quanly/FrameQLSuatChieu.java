@@ -42,6 +42,7 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         setTitle("Quản lý suất chiếu");
         reRenderUI();
+        loadDataToCboPhongChieu();
     }
 
     private void reRenderUI() {
@@ -67,8 +68,24 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        dcNgayHienThi.setDate(new Date());
+        cboPhongChieu.setSelectedIndex(0);
+        
+        chkTenPhim.setSelected(false);
+        cboPhim.setSelectedIndex(0);
+        cboPhim.setEnabled(false);
+        
+        chkTrangThai.setSelected(false);
+        rdoSapChieu.setSelected(true);
+        rdoSapChieu.setEnabled(false);
+        rdoDangChieu.setEnabled(false);
+        rdoDaChieu.setEnabled(false);
     }
     
     private void loadDataToCboPhongChieu(){
@@ -526,7 +543,6 @@ public class FrameQLSuatChieu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        loadDataToCboPhongChieu();
         loadAllToTable();
         loadTenPhimCombobox();
     }//GEN-LAST:event_formWindowOpened

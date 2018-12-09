@@ -53,8 +53,21 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return this.pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        chkTheoTen.setSelected(true);
+        txtSearchTen.setEnabled(true);
+        txtSearchTen.setText("");
+
+        chkTheoNgayVaoLam.setSelected(false);
+        dcTuNgay.setDate(null);
+        dcDenNgay.setDate(null);
+        dcTuNgay.setEnabled(false);
+        dcDenNgay.setEnabled(false);
     }
 
     private Map<String, NguoiDung> search() {
@@ -440,7 +453,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadAllDataToTable();
-
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed

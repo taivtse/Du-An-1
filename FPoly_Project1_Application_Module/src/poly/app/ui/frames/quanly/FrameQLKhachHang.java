@@ -54,8 +54,21 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return this.pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        chkTen.setSelected(true);
+        txtTen.setEnabled(true);
+        txtTen.setText("");
+
+        chkNgayDangKy.setSelected(false);
+        dcTuNgay.setDate(null);
+        dcDenNgay.setDate(null);
+        dcTuNgay.setEnabled(false);
+        dcDenNgay.setEnabled(false);
     }
 
     /**

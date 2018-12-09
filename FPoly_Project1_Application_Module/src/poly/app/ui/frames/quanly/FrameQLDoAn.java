@@ -35,7 +35,7 @@ import poly.app.ui.utils.TableRendererUtil;
  * @author vothanhtai
  */
 public class FrameQLDoAn extends javax.swing.JFrame {
-
+    
     List<DoAn> listDoAn = new ArrayList<>();
     List<DoAnChiTiet> listDoAnCT = new ArrayList<>();
     Map<String, DoAn> mapDoAn = new TreeMap<>();
@@ -52,8 +52,9 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         setTitle("Quản lý đồ ăn");
         this.setRadio();
         reRenderUI();
+        this.loadDataToComboBox();
     }
-
+    
     public void setRadio() {
         btngr.add(rdoDangDuocBan);
         btngr.add(rdoDaNgungBan);
@@ -61,28 +62,44 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         rdoDaNgungBan.setEnabled(false);
         cboLoaiDoAn.setEnabled(false);
     }
-
+    
     private void reRenderUI() {
         //        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblDoAn);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
-
+        
         tblRenderer.setColoumnWidthByPersent(0, 5);
         tblRenderer.setColoumnWidthByPersent(1, 10);
         tblRenderer.setColoumnWidthByPersent(2, 30);
         tblRenderer.setColumnAlignment(0, TableRendererUtil.CELL_ALIGN_LEFT);
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
-
+        
         tblRenderer = new TableRendererUtil(tblDoAnChiTiet);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
     }
-
+    
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return this.pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        chkTheoTen.setSelected(true);
+        txtTraCuuDoAn.setEnabled(true);
+        txtTraCuuDoAn.setText("");
+        
+        chkTheoTrangThai.setSelected(false);
+        rdoDaNgungBan.setEnabled(false);
+        rdoDangDuocBan.setEnabled(false);
+        rdoDangDuocBan.setSelected(true);
+        
+        chkTheoLoaiDoAn.setSelected(false);
+        cboLoaiDoAn.setSelectedIndex(0);
+        cboLoaiDoAn.setEnabled(false);
     }
 
     /**
@@ -469,7 +486,6 @@ public class FrameQLDoAn extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.loadDataToTable();
-        this.loadDataToComboBox();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -478,7 +494,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         this.loadDataToTable();
         DefaultTableModel model = (DefaultTableModel) tblDoAnChiTiet.getModel();
         model.setRowCount(0);
-
+        
         if (beforeInsertSize != mapDoAn.size()) {
             int lastIndex = tblDoAn.getRowCount() - 1;
             tblDoAn.setRowSelectionInterval(lastIndex, lastIndex);
@@ -561,12 +577,12 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_tblDoAnChiTietMouseClicked
 
     private void rdoDangDuocBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDangDuocBanActionPerformed
-
+        
         this.searchDoAnByName();
     }//GEN-LAST:event_rdoDangDuocBanActionPerformed
 
     private void rdoDaNgungBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaNgungBanActionPerformed
-
+        
         this.searchDoAnByName();
     }//GEN-LAST:event_rdoDaNgungBanActionPerformed
 
@@ -597,7 +613,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         rdoDaNgungBan.setEnabled(chkTheoTrangThai.isSelected());
         cboLoaiDoAn.setEnabled(chkTheoLoaiDoAn.isSelected());
     }
-
+    
     public void loadDataToTable() {
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
@@ -616,20 +632,20 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             mapDoAn.put(fill.getId(), fill);
         }
     }
-
+    
     public void loadDoAnChiTiet() {
         int index = tblDoAn.getSelectedRow();
         String id = (String) tblDoAn.getValueAt(index, 1);
         DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
         modelDACT.setRowCount(0);
-
+        
         DoAn doan = (DoAn) mapDoAn.get(id);
         Set<DoAnChiTiet> dact = doan.getDoAnChiTiets();
-
+        
         List<DoAnChiTiet> dactList = dact.stream()
                 .sorted(Comparator.comparing(DoAnChiTiet::getDonGia)) //comparator - how you want to sort it
                 .collect(Collectors.toList());
-
+        
         for (DoAnChiTiet fill : dactList) {
             Object[] record = new Object[]{
                 fill.getKichCoDoAn().getTen(),
@@ -639,11 +655,11 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             modelDACT.addRow(record);
         }
     }
-
+    
     public void insertDA() {
         new DialogThemDoAn(this, true).setVisible(true);
     }
-
+    
     public void updateDA() {
         int index = tblDoAn.getSelectedRow();
         if (tblDoAn.getSelectedRow() < 0) {
@@ -655,7 +671,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
         modelDACT.setRowCount(0);
     }
-
+    
     public void searchDA() {
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
@@ -673,19 +689,19 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             modelDA.addRow(record);
         }
     }
-
+    
     public void searchDoAnByName() {
         Map<String, DoAn> mapSearchDoAn = new TreeMap<>();
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
-
+        
         for (Entry<String, DoAn> entry : mapDoAn.entrySet()) {
             DoAn doAn = entry.getValue();
-
+            
             if (!entry.getValue().getTen().toLowerCase().contains(txtTraCuuDoAn.getText().toLowerCase())) {
                 continue;
             }
-
+            
             if (chkTheoTrangThai.isSelected()) {
                 if (rdoDangDuocBan.isSelected() && !doAn.isDangBan()) {
                     continue;
@@ -693,16 +709,16 @@ public class FrameQLDoAn extends javax.swing.JFrame {
                     continue;
                 }
             }
-
+            
             if (chkTheoLoaiDoAn.isSelected()) {
                 if (!((LoaiDoAn) cboLoaiDoAn.getModel().getSelectedItem()).getId().equals(doAn.getLoaiDoAn().getId())) {
                     continue;
                 }
             }
-
+            
             mapSearchDoAn.put(doAn.getId(), doAn);
         }
-
+        
         int i = 1;
         for (Entry<String, DoAn> entry : mapSearchDoAn.entrySet()) {
             DoAn doAn = entry.getValue();
@@ -716,7 +732,7 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             modelDA.addRow(record);
         }
     }
-
+    
     public void insertDACT() {
         if (tblDoAn.getSelectedRow() < 0) {
             DialogHelper.message(this, "Chưa chọn đồ ăn!", DialogHelper.ERROR_MESSAGE);
@@ -725,19 +741,19 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             DoAn doAn = (DoAn) mapDoAn.get(idDA);
             new DialogThemDoAnChiTiet(this, true, doAn).setVisible(true);
         }
-
+        
     }
-
+    
     public void updateDACT() {
         int indexDA = tblDoAn.getSelectedRow();
         String idDA = (String) tblDoAn.getValueAt(indexDA, 1);
         int indexDACT = tblDoAnChiTiet.getSelectedRow();
-
+        
         DoAn doan = (DoAn) mapDoAn.get(idDA);
         Set<DoAnChiTiet> setdoanchitiet = doan.getDoAnChiTiets();
-
+        
         String dactTen = (String) tblDoAnChiTiet.getValueAt(indexDACT, 0);
-
+        
         for (DoAnChiTiet item : setdoanchitiet) {
             if (item.getKichCoDoAn().getTen().equals(dactTen)) {
                 DialogCapNhatDoAnChiTiet dialogCNDACT = new DialogCapNhatDoAnChiTiet(this, true, item, doan);
@@ -746,15 +762,14 @@ public class FrameQLDoAn extends javax.swing.JFrame {
             }
         }
     }
-
+    
     public void loadDataToComboBox() {
         DefaultComboBoxModel modelCBB = (DefaultComboBoxModel) cboLoaiDoAn.getModel();
         LoaiDoAnDaoImpl ldaDAO = new LoaiDoAnDaoImpl();
         List<LoaiDoAn> listLDA = ldaDAO.getAll();
         modelCBB.removeAllElements();
         for (LoaiDoAn fill : listLDA) {
-            modelCBB.addElement(fill);
-
+            modelCBB.addElement(fill);       
         }
     }
 
