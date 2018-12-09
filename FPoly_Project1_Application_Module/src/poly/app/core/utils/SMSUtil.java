@@ -1,86 +1,41 @@
 package poly.app.core.utils;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import poly.app.core.daoimpl.KhachHangDaoImpl;
-import poly.app.core.entities.KhachHang;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 public class SMSUtil {
 
-    private static final String API_KEY = "OwLaf+jOXs4-DQ6GYLlDvYypJ3TPg99zcDL6V3lW0Y";
-    private static final String SENDER_NAME = "CINES";
+    public static final String ACCOUNT_SID
+            = "AC801901f600770984f749e25ce29942f8";
+    public static final String AUTH_TOKEN
+            = "c5c7a33285655cc98d09f54ffadd00dd";
+
+    public static final String SERVER_PHONE_NUMBER
+            = "+17029034955";
+
+    static {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+    }
 
     public static boolean sendSMS(String sendMessage, String sendNumber) {
         sendNumber = SMSUtil.convertToInternationalPhoneNumber(sendNumber);
         try {
-            // Construct data
-            String apiKey = "apikey=" + API_KEY;
-            String message = "&message=" + sendMessage;
-            String sender = "&sender=" + SENDER_NAME;
-            String numbers = "&numbers=" + sendNumber;
-
-            // Send data
-            HttpURLConnection conn = (HttpURLConnection) new URL("https://api.txtlocal.com/send/?").openConnection();
-            String data = apiKey + numbers + message + sender;
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
-            conn.getOutputStream().write(data.getBytes("UTF-8"));
-            final BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            final StringBuffer stringBuffer = new StringBuffer();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                stringBuffer.append(line);
-            }
-            rd.close();
-            System.out.println(stringBuffer.toString());
-            return isSuccess(stringBuffer.toString());
+            Message.creator(
+                    new PhoneNumber(sendNumber), // to
+                    new PhoneNumber(SMSUtil.SERVER_PHONE_NUMBER), // from
+                    sendMessage)
+                    .create();
+            return true;
         } catch (Exception e) {
-            System.out.println("Error SMS " + e);
             e.printStackTrace();
         }
         return false;
     }
 
-    private static boolean isSuccess(String responseJSON) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            map = mapper.readValue(responseJSON, new TypeReference<Map<String, Object>>() {
-            });
-        } catch (IOException ex) {
-            Logger.getLogger(SMSUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return map.get("status").equals("success");
-    }
-
     public static String convertToInternationalPhoneNumber(String phoneNumber) {
-        String phoneFormated = "84";
+        String phoneFormated = "+84";
         phoneFormated += phoneNumber.substring(1);
         return phoneFormated;
-    }
-    
-    public static void main(String[] args) {
-        String soDienThoai = "0932938178";
-//        KhachHang khachHang = new KhachHangDaoImpl().getBySoDienThoai(soDienThoai);
-        String message = "Updating property file: /Users/vothanhtai/Documents/WorkSpace/Java/FPT-Polytechnic/semester4-project1/FPoly_Project1_Application_Module";
-//        message += "\nMa khach hang: " + khachHang.getId();
-//        message += "\nHo va ten: " + StringUtil.covertUnicodeToASCIIString(khachHang.getHoTen());
-//        message += "\nSo dien thoai: " + khachHang.getSoDienThoai();
-//        message += "\nThong tin dang nhap: ";
-//        message += "\nTen dang nhap: KH0002";
-//        message += "\nMat khau: " + "123123";
-
-        SMSUtil.sendSMS(message, soDienThoai);
-        System.out.println("thanh cong");
     }
 }

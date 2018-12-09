@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import javax.swing.ButtonGroup;
+import org.apache.commons.lang.WordUtils;
 import poly.app.core.daoimpl.KhachHangDaoImpl;
 import poly.app.core.entities.KhachHang;
 import poly.app.core.helper.DialogHelper;
@@ -68,13 +69,13 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
     private boolean sendAccountInfoBySMS(){
         String soDienThoai = txtSoDienThoai.getText();
         KhachHang khachHang = new KhachHangDaoImpl().getBySoDienThoai(soDienThoai);
-        String message = "He thong CINES \nThong tin khach hang: ";
-        message += "\nMa khach hang: " + khachHang.getId();
-        message += "\nHo va ten: " + StringUtil.covertUnicodeToASCIIString(khachHang.getHoTen());
-        message += "\nSo dien thoai: " + khachHang.getSoDienThoai();
-        message += "\nThong tin dang nhap: ";
-        message += "\nTen dang nhap: " + khachHang.getId();
-        message += "\nMat khau: " + randomMatKhau;
+        String message = "HE THONG CINES";
+        message += "\nThong tin tai khoan khach hang: ";
+        message += "\n-Ma khach hang: " + khachHang.getId();
+        message += "\n-Ho va ten: " + WordUtils.capitalize(StringUtil.covertUnicodeToASCIIString(khachHang.getHoTen()));
+        message += "\n-So dien thoai: " + khachHang.getSoDienThoai();
+        message += "\n-Ten dang nhap: " + khachHang.getId();
+        message += "\n-Mat khau: " + randomMatKhau;
 
         return SMSUtil.sendSMS(message, soDienThoai);
     }

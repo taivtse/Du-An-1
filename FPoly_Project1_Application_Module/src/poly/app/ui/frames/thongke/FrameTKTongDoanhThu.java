@@ -62,6 +62,12 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
         TableRendererUtil tblRenderer = new TableRendererUtil(tblThongKe);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
+        
+        tblRenderer.setColumnAlignment(0, TableRendererUtil.CELL_ALIGN_CENTER);
+        tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_RIGHT);
+        tblRenderer.setColumnAlignment(2, TableRendererUtil.CELL_ALIGN_RIGHT);
+        tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_RIGHT);
+        
     }
 
     private void loadThongKeTheoThang() {

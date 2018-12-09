@@ -11,6 +11,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.HibernateException;
@@ -28,6 +30,7 @@ import poly.app.ui.utils.TableRendererUtil;
 public class FrameQLPhim extends javax.swing.JFrame {
 
     List<Phim> listPhim;
+    Map<String, Phim> mapPhim = new TreeMap<>();
 
     public FrameQLPhim() {
         initComponents();
@@ -70,12 +73,12 @@ public class FrameQLPhim extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         chkTenPhim = new javax.swing.JCheckBox();
-        txtTenPhim = new javax.swing.JTextField();
         chkKhoangThoiGian = new javax.swing.JCheckBox();
         jLabel2 = new javax.swing.JLabel();
         dcTuNgay = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
         dcDenNgay = new com.toedter.calendar.JDateChooser();
+        txtTenPhim = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
@@ -103,18 +106,6 @@ public class FrameQLPhim extends javax.swing.JFrame {
         chkTenPhim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkTenPhimActionPerformed(evt);
-            }
-        });
-
-        txtTenPhim.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        txtTenPhim.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTenPhimActionPerformed(evt);
-            }
-        });
-        txtTenPhim.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTenPhimKeyReleased(evt);
             }
         });
 
@@ -148,13 +139,19 @@ public class FrameQLPhim extends javax.swing.JFrame {
             }
         });
 
+        txtTenPhim.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTenPhimKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
@@ -167,12 +164,12 @@ public class FrameQLPhim extends javax.swing.JFrame {
                                     .addComponent(chkKhoangThoiGian)
                                     .addComponent(chkTenPhim))))
                         .addGap(0, 82, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTenPhim, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(dcTuNgay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dcDenNgay, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dcTuNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dcDenNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTenPhim))))
                 .addGap(10, 10, 10))
         );
         jPanel2Layout.setVerticalGroup(
@@ -182,7 +179,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(22, 22, 22)
                 .addComponent(chkTenPhim)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtTenPhim, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22)
                 .addComponent(chkKhoangThoiGian)
@@ -194,7 +191,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dcDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(272, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -447,6 +444,8 @@ public class FrameQLPhim extends javax.swing.JFrame {
         if (chkKhoangThoiGian.isSelected()) {
             dcTuNgay.setEnabled(true);
             dcDenNgay.setEnabled(true);
+            dcTuNgay.setDate(new Date());
+            dcDenNgay.setDate(new Date());
         } else {
             dcTuNgay.setDate(null);
             dcDenNgay.setDate(null);
@@ -455,11 +454,6 @@ public class FrameQLPhim extends javax.swing.JFrame {
             loadDataToTable(searchAdvance());
         }
     }//GEN-LAST:event_chkKhoangThoiGianActionPerformed
-
-    private void txtTenPhimKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenPhimKeyReleased
-        // TODO add your handling code here:
-        loadDataToTable(searchAdvance());
-    }//GEN-LAST:event_txtTenPhimKeyReleased
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
         // TODO add your handling code here:
@@ -475,13 +469,6 @@ public class FrameQLPhim extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
-    private void txtTenPhimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenPhimActionPerformed
-        // TODO add your handling code here:
-        if (chkKhoangThoiGian.isSelected()) {
-            loadDataToTable(searchAdvance());
-        }
-    }//GEN-LAST:event_txtTenPhimActionPerformed
-
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
         // TODO add your handling code here:
         if (chkKhoangThoiGian.isSelected()) {
@@ -496,22 +483,33 @@ public class FrameQLPhim extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
-    public List<Phim> searchByTen() {
+    private void txtTenPhimKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenPhimKeyReleased
+        this.searchAdvance();
+        
+    }//GEN-LAST:event_txtTenPhimKeyReleased
+
+    public Map<String, Phim> searchByTen() {
         String tenTimKiem = txtTenPhim.getText().toLowerCase();
+        Map<String, Phim> mapPhimTheoTen = new TreeMap<>();
         if (!tenTimKiem.equals("")) {
-            List<Phim> listPhimTheoTen = new ArrayList<>();
-            for (Phim phim : listPhim) {
-                if (phim.getTen().toLowerCase().contains(tenTimKiem)) {
-                    listPhimTheoTen.add(phim);
+            
+            for (Map.Entry<String, Phim> phim : mapPhim.entrySet()) {
+                if (phim.getValue().getTen().toLowerCase().contains(tenTimKiem)) {
+                    mapPhimTheoTen.put(phim.getKey(), phim.getValue());
+                    System.out.println(phim.getValue().getTen().contains(tenTimKiem)+"");
                 }
             }
-            return listPhimTheoTen;
+            for (Map.Entry<String, Phim> phim : mapPhimTheoTen.entrySet()) {
+                System.out.println(phim.getKey()+"   "+ phim.getValue().getTen());
+            }
+            return mapPhimTheoTen;     
+            
         }
-        return listPhim;
+        return mapPhim;     
     }
 
-    public List<Phim> searchAdvance() {
-        List<Phim> listPhimTimKiem = new ArrayList<Phim>();
+    public Map<String, Phim> searchAdvance() {
+        Map<String, Phim> mapTimKiem = new TreeMap<>();
         Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
 
         min = min == null ? dcTuNgay.getMinSelectableDate() : min;
@@ -523,37 +521,39 @@ public class FrameQLPhim extends javax.swing.JFrame {
         localDate = max.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         max = java.sql.Date.valueOf(localDate);
 
-        for (Phim phim : listPhim) {
-            if (phim.getTen().toLowerCase().contains(txtTenPhim.getText().toLowerCase())
-                    && phim.getNgayCongChieu().compareTo(min) >= 0
-                    && phim.getNgayCongChieu().compareTo(max) <= 0) {
-                listPhimTimKiem.add(phim);
+        for (Map.Entry<String, Phim> phim : mapPhim.entrySet()) {
+            if (phim.getValue().getTen().toLowerCase().contains(txtTenPhim.getText().toLowerCase())
+                   && phim.getValue().getNgayCongChieu().compareTo(min) >= 0
+                    && phim.getValue().getNgayCongChieu().compareTo(max) <= 0) {
+                mapTimKiem.put(phim.getValue().getId(), phim.getValue());
             }
         }
-        return listPhimTimKiem;
+        return mapTimKiem;
     }
 
-    public void loadDataToTable(List<Phim> listPhimHienThi) {
+    public void loadDataToTable(Map<String, Phim> map) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         DefaultTableModel modelTable = (DefaultTableModel) tblPhim.getModel();
         modelTable.setRowCount(0);
         int i = 1;
-        for (Phim phim : listPhimHienThi) {
+        for(Map.Entry<String, Phim> p : map.entrySet())
+        {
             Object[] record = new Object[]{
                 i++,
-                phim.getId(),
-                phim.getTen(),
-                phim.getThoiLuong(),
-                phim.getGioiHanTuoi(),
-                sdf.format(phim.getNgayCongChieu()),
-                phim.getNgonNgu(),
-                phim.getQuocGia(),
-                phim.getTrangThai()
+                p.getKey(),
+                p.getValue().getTen(),
+                p.getValue().getThoiLuong(),
+                p.getValue().getGioiHanTuoi(),
+                sdf.format(p.getValue().getNgayCongChieu()),
+                p.getValue().getNgonNgu(),
+                p.getValue().getQuocGia(),
+                p.getValue().getTrangThai()
             };
+            
             modelTable.addRow(record);
         }
     }
-
+    
     public boolean deletePhim(int id) {
         Phim phim = listPhim.get(id);
         phim.setDaXoa(true);
@@ -567,7 +567,10 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
     public void loadAllDataToTable() {
         listPhim = new PhimDaoImpl().getPhimHienCo();
-        loadDataToTable(listPhim);
+        for (Phim phim : listPhim) {
+            mapPhim.put(phim.getId(), phim);
+        }
+        loadDataToTable(mapPhim);
     }
 
     /**
