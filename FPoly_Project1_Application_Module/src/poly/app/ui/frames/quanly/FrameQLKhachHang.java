@@ -51,7 +51,6 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_CENTER);
-
     }
 
     public JPanel getMainPanel() {
