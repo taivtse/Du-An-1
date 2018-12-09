@@ -67,13 +67,12 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         TableRendererUtil tblRenderer = new TableRendererUtil(tblDoAn);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
-       
+
         tblRenderer.setColoumnWidthByPersent(0, 5);
         tblRenderer.setColoumnWidthByPersent(1, 10);
         tblRenderer.setColoumnWidthByPersent(2, 30);
         tblRenderer.setColumnAlignment(0, TableRendererUtil.CELL_ALIGN_LEFT);
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
-        
 
         tblRenderer = new TableRendererUtil(tblDoAnChiTiet);
         tblRenderer.setCellEditable(false);
@@ -474,13 +473,16 @@ public class FrameQLDoAn extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int beforeInsertSize = mapDoAn.size();
         this.insertDA();
         this.loadDataToTable();
         DefaultTableModel model = (DefaultTableModel) tblDoAnChiTiet.getModel();
         model.setRowCount(0);
-        
-        int lastIndex = tblDoAn.getRowCount() - 1;
-        tblDoAn.setRowSelectionInterval(lastIndex, lastIndex);
+
+        if (beforeInsertSize != mapDoAn.size()) {
+            int lastIndex = tblDoAn.getRowCount() - 1;
+            tblDoAn.setRowSelectionInterval(lastIndex, lastIndex);
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDoAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoAnMouseClicked

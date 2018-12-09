@@ -444,12 +444,16 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int beforeInsertSize = nguoiDungMap.size();
+
         new DialogThemNguoiDung(this, true).setVisible(true);
         loadAllDataToTable();
         loadDataToTable(search());
-        
-        int lastIndex = tblNguoiDung.getRowCount() - 1;
-        tblNguoiDung.setRowSelectionInterval(lastIndex, lastIndex);
+
+        if (beforeInsertSize != nguoiDungMap.size()) {
+            int lastIndex = tblNguoiDung.getRowCount() - 1;
+            tblNguoiDung.setRowSelectionInterval(lastIndex, lastIndex);
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed

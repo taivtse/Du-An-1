@@ -381,10 +381,15 @@ public class FrameQLPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int beforeInsertSize = listPhim.size();
+
         new DialogThemPhim(this, true).setVisible(true);
         loadAllDataToTable();
-        int lastIndex = tblPhim.getRowCount() - 1;
-        tblPhim.setRowSelectionInterval(lastIndex, lastIndex);
+
+        if (beforeInsertSize != listPhim.size()) {
+            int lastIndex = tblPhim.getRowCount() - 1;
+            tblPhim.setRowSelectionInterval(lastIndex, lastIndex);
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked
@@ -405,6 +410,14 @@ public class FrameQLPhim extends javax.swing.JFrame {
             String id = tblPhim.getValueAt(index, 1) + "";
             new DialogCapNhatPhim(this, true, id).setVisible(true);
             loadAllDataToTable();
+            
+            for (int i = 0; i < tblPhim.getRowCount(); i++) {
+                String currentKey = tblPhim.getValueAt(i, 1).toString();
+                if (currentKey.equals(id)) {
+                    tblPhim.setRowSelectionInterval(i, i);
+                    break;
+                }
+            }
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
@@ -485,30 +498,28 @@ public class FrameQLPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
     private void txtTenPhimKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenPhimKeyReleased
-        this.searchAdvance();
-        
+        loadDataToTable(searchAdvance());
     }//GEN-LAST:event_txtTenPhimKeyReleased
 
-    public Map<String, Phim> searchByTen() {
-        String tenTimKiem = txtTenPhim.getText().toLowerCase();
-        Map<String, Phim> mapPhimTheoTen = new TreeMap<>();
-        if (!tenTimKiem.equals("")) {
-            
-            for (Map.Entry<String, Phim> phim : mapPhim.entrySet()) {
-                if (phim.getValue().getTen().toLowerCase().contains(tenTimKiem)) {
-                    mapPhimTheoTen.put(phim.getKey(), phim.getValue());
-                    System.out.println(phim.getValue().getTen().contains(tenTimKiem)+"");
-                }
-            }
-            for (Map.Entry<String, Phim> phim : mapPhimTheoTen.entrySet()) {
-                System.out.println(phim.getKey()+"   "+ phim.getValue().getTen());
-            }
-            return mapPhimTheoTen;     
-            
-        }
-        return mapPhim;     
-    }
-
+//    public Map<String, Phim> searchByTen() {
+//        String tenTimKiem = txtTenPhim.getText().toLowerCase();
+//        Map<String, Phim> mapPhimTheoTen = new TreeMap<>();
+//        if (!tenTimKiem.equals("")) {
+//            
+//            for (Map.Entry<String, Phim> phim : mapPhim.entrySet()) {
+//                if (phim.getValue().getTen().toLowerCase().contains(tenTimKiem)) {
+//                    mapPhimTheoTen.put(phim.getKey(), phim.getValue());
+//                    System.out.println(phim.getValue().getTen().contains(tenTimKiem)+"");
+//                }
+//            }
+//            for (Map.Entry<String, Phim> phim : mapPhimTheoTen.entrySet()) {
+//                System.out.println(phim.getKey()+"   "+ phim.getValue().getTen());
+//            }
+//            return mapPhimTheoTen;     
+//            
+//        }
+//        return mapPhim;     
+//    }
     public Map<String, Phim> searchAdvance() {
         Map<String, Phim> mapTimKiem = new TreeMap<>();
         Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();
@@ -524,7 +535,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
 
         for (Map.Entry<String, Phim> phim : mapPhim.entrySet()) {
             if (phim.getValue().getTen().toLowerCase().contains(txtTenPhim.getText().toLowerCase())
-                   && phim.getValue().getNgayCongChieu().compareTo(min) >= 0
+                    && phim.getValue().getNgayCongChieu().compareTo(min) >= 0
                     && phim.getValue().getNgayCongChieu().compareTo(max) <= 0) {
                 mapTimKiem.put(phim.getValue().getId(), phim.getValue());
             }
@@ -537,8 +548,7 @@ public class FrameQLPhim extends javax.swing.JFrame {
         DefaultTableModel modelTable = (DefaultTableModel) tblPhim.getModel();
         modelTable.setRowCount(0);
         int i = 1;
-        for(Map.Entry<String, Phim> p : map.entrySet())
-        {
+        for (Map.Entry<String, Phim> p : map.entrySet()) {
             Object[] record = new Object[]{
                 i++,
                 p.getKey(),
@@ -550,11 +560,11 @@ public class FrameQLPhim extends javax.swing.JFrame {
                 p.getValue().getQuocGia(),
                 p.getValue().getTrangThai()
             };
-            
+
             modelTable.addRow(record);
         }
     }
-    
+
     public boolean deletePhim(int id) {
         Phim phim = listPhim.get(id);
         phim.setDaXoa(true);

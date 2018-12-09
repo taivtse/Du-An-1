@@ -372,12 +372,16 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        int beforeInsertSize = listKH.size();
+
         new DialogThemKhachHang(null, true).setVisible(true);
         listKH = new KhachHangDaoImpl().getAll();
         loadDataToTable(search());
-        
-        int lastIndex = tblKhachHang.getRowCount() - 1;
-        tblKhachHang.setRowSelectionInterval(lastIndex, lastIndex);
+
+        if (beforeInsertSize != listKH.size()) {
+            int lastIndex = tblKhachHang.getRowCount() - 1;
+            tblKhachHang.setRowSelectionInterval(lastIndex, lastIndex);
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
@@ -387,19 +391,17 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             new DialogCapNhatKhachHang(this, true, idKH).setVisible(true);
             listKH = new KhachHangDaoImpl().getAll();
             loadDataToTable(search());
-            
+
             for (int i = 0; i < tblKhachHang.getRowCount(); i++) {
                 String currentKey = tblKhachHang.getValueAt(i, 1).toString();
-                if ( currentKey.equals(idKH) ) {
+                if (currentKey.equals(idKH)) {
                     tblKhachHang.setRowSelectionInterval(i, i);
                     break;
                 }
             }
-            tblKhachHang.setRowSelectionInterval(index, index);
-        }else
-            {
-                DialogHelper.message(this, "Chưa chọn khách hàng cần cập nhật !", DialogHelper.ERROR_MESSAGE);
-            }
+        } else {
+            DialogHelper.message(this, "Chưa chọn khách hàng cần cập nhật !", DialogHelper.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
@@ -408,11 +410,11 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
             new DialogCapNhatKhachHang(this, true, id).setVisible(true);
             listKH = new KhachHangDaoImpl().getAll();
             loadDataToTable(search());
-            System.out.println(""+id);
+            System.out.println("" + id);
             for (int i = 0; i < tblKhachHang.getRowCount(); i++) {
                 String currentKey = tblKhachHang.getValueAt(i, 1).toString();
-                if ( currentKey.equals(id) ) {
-                    System.out.println("i: "+i);
+                if (currentKey.equals(id)) {
+                    System.out.println("i: " + i);
                     tblKhachHang.setRowSelectionInterval(i, i);
                     break;
                 }

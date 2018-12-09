@@ -302,6 +302,9 @@
               <Font name="Open Sans" size="14" style="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="spnThoiLuongKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="spnGioiHanTuoi">
           <Properties>
@@ -309,6 +312,9 @@
               <Font name="Open Sans" size="14" style="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="spnGioiHanTuoiKeyTyped"/>
+          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dcNgayChieu">
           <Properties>

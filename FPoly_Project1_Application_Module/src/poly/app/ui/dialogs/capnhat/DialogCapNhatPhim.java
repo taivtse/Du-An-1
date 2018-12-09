@@ -14,6 +14,7 @@ import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.entities.LoaiPhim;
 import poly.app.core.entities.Phim;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.utils.ValidationUtil;
 
 /**
  *
@@ -22,6 +23,7 @@ import poly.app.core.helper.DialogHelper;
 public class DialogCapNhatPhim extends javax.swing.JDialog {
 
     Phim phim;
+
     /**
      * Creates new form DialogThemNhanVien
      */
@@ -30,23 +32,23 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
     }
-    
+
     public DialogCapNhatPhim(java.awt.Frame parent, boolean modal, String phimId) {
         this(parent, modal);
-        
+
         phim = new PhimDaoImpl().getById(phimId);
     }
-    
-    private void loadLoaiPhimToCombobox(){
+
+    private void loadLoaiPhimToCombobox() {
         List<LoaiPhim> listLoaiPhim = new LoaiPhimDaoImpl().getAll();
         DefaultComboBoxModel modelCboTheLoai = (DefaultComboBoxModel) cboTheLoai.getModel();
-        for ( LoaiPhim loaiPhim : listLoaiPhim ) {
+        for (LoaiPhim loaiPhim : listLoaiPhim) {
             modelCboTheLoai.addElement(loaiPhim);
         }
         modelCboTheLoai.setSelectedItem(listLoaiPhim.get(0));
     }
-    
-    private void setModelToInput(){
+
+    private void setModelToInput() {
 //        Do du lieu len input
         txtTen.setText(phim.getTen());
         spnThoiLuong.setValue(phim.getThoiLuong());
@@ -60,34 +62,54 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         cboTheLoai.getModel().setSelectedItem(phim.getLoaiPhim());
         txtTomTat.setText(phim.getTomTat());
     }
-    
-    private Phim getModelFromInput(){
+
+    private Phim getModelFromInput() {
 //        code lay phim tu input
 //        set lai gia tri moi cho phim
         phim.setTen(txtTen.getText());
-        phim.setThoiLuong((int)spnThoiLuong.getValue());
-        phim.setGioiHanTuoi((int)spnGioiHanTuoi.getValue());
+        phim.setThoiLuong((int) spnThoiLuong.getValue());
+        phim.setGioiHanTuoi((int) spnGioiHanTuoi.getValue());
         phim.setNgayCongChieu(dcNgayChieu.getDate());
         phim.setNgonNgu(cboNgonNgu.getSelectedItem().toString());
         phim.setNhaSanXuat(cboNSX.getSelectedItem().toString());
         phim.setDienVien(txtDienVien.getText());
         phim.setQuocGia(cboQuocGia.getSelectedItem().toString());
         phim.setTrangThai(cboTrangThai.getSelectedItem().toString());
-        phim.setLoaiPhim((LoaiPhim)cboTheLoai.getSelectedItem());
+        phim.setLoaiPhim((LoaiPhim) cboTheLoai.getSelectedItem());
         phim.setTomTat(txtTomTat.getText());
         return phim;
     }
-    
-    private boolean updateModelToDatabase(){
+
+    private boolean updateModelToDatabase() {
 //        goi ham getModelFromInput
         try {
             Phim phim = getModelFromInput();
-            
+
             return new PhimDaoImpl().update(phim);
         } catch (Exception e) {
             System.out.println(e);
         }
         return false;
+    }
+
+    public boolean checkInput() {
+        if (ValidationUtil.isEmpty(txtTen.getText())) {
+            DialogHelper.message(this, "Chưa nhập tên phim", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+        if (Integer.parseInt(spnThoiLuong.getValue().toString()) <= 0) {
+            DialogHelper.message(this, "Thời lượng không được nhỏ hơn 0 !", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+        if (Integer.parseInt(spnGioiHanTuoi.getValue().toString()) <= 0) {
+            DialogHelper.message(this, "Thời lượng không được nhỏ hơn 0 !", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+        if (dcNgayChieu.getDate() == null) {
+            DialogHelper.message(this, "Chưa chọn ngày công chiếu !", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -207,8 +229,18 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         jPanel3.add(btnHuy, gridBagConstraints);
 
         spnThoiLuong.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        spnThoiLuong.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                spnThoiLuongKeyTyped(evt);
+            }
+        });
 
         spnGioiHanTuoi.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        spnGioiHanTuoi.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                spnGioiHanTuoiKeyTyped(evt);
+            }
+        });
 
         dcNgayChieu.setDateFormatString("dd-MM-yyyy");
         dcNgayChieu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
@@ -412,17 +444,31 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (updateModelToDatabase()){
-            DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-            this.dispose();
-        }else{
-            DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+        if (checkInput()) {
+            if (updateModelToDatabase()) {
+                DialogHelper.message(this, "Cập nhật dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                this.dispose();
+            } else {
+                DialogHelper.message(this, "Cập nhật dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void spnThoiLuongKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spnThoiLuongKeyTyped
+        if (String.valueOf(evt.getKeyChar()).matches("\\D")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_spnThoiLuongKeyTyped
+
+    private void spnGioiHanTuoiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spnGioiHanTuoiKeyTyped
+        if (String.valueOf(evt.getKeyChar()).matches("\\D")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_spnGioiHanTuoiKeyTyped
 
     /**
      * @param args the command line arguments
