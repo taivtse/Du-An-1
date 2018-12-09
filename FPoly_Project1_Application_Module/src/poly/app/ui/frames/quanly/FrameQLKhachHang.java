@@ -5,9 +5,6 @@
  */
 package poly.app.ui.frames.quanly;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -379,6 +376,9 @@ public class FrameQLKhachHang extends javax.swing.JFrame {
         new DialogThemKhachHang(null, true).setVisible(true);
         listKH = new KhachHangDaoImpl().getAll();
         loadDataToTable(search());
+        
+        int lastIndex = tblKhachHang.getRowCount() - 1;
+        tblKhachHang.setRowSelectionInterval(lastIndex, lastIndex);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed

@@ -177,6 +177,7 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         btnHuy = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));

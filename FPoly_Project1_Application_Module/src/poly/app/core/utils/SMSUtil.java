@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import poly.app.core.daoimpl.KhachHangDaoImpl;
+import poly.app.core.entities.KhachHang;
 
 public class SMSUtil {
 
@@ -65,5 +67,20 @@ public class SMSUtil {
         String phoneFormated = "84";
         phoneFormated += phoneNumber.substring(1);
         return phoneFormated;
+    }
+    
+    public static void main(String[] args) {
+        String soDienThoai = "0932938178";
+//        KhachHang khachHang = new KhachHangDaoImpl().getBySoDienThoai(soDienThoai);
+        String message = "Updating property file: /Users/vothanhtai/Documents/WorkSpace/Java/FPT-Polytechnic/semester4-project1/FPoly_Project1_Application_Module";
+//        message += "\nMa khach hang: " + khachHang.getId();
+//        message += "\nHo va ten: " + StringUtil.covertUnicodeToASCIIString(khachHang.getHoTen());
+//        message += "\nSo dien thoai: " + khachHang.getSoDienThoai();
+//        message += "\nThong tin dang nhap: ";
+//        message += "\nTen dang nhap: KH0002";
+//        message += "\nMat khau: " + "123123";
+
+        SMSUtil.sendSMS(message, soDienThoai);
+        System.out.println("thanh cong");
     }
 }

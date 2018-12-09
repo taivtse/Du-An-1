@@ -37,7 +37,7 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
 
     private boolean guiMaXacNhan(String maXacNhan) {
         String soDienThoai = ShareHelper.USER.getSoDienThoai();
-        String message = "He thong CINES: \nMa xac nhan cua ban la: " + maXacNhan;
+        String message = "He thong CINES \nMa xac nhan cua ban la: " + maXacNhan;
 
         return SMSUtil.sendSMS(message, soDienThoai);
     }
