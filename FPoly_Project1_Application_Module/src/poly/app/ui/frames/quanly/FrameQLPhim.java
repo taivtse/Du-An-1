@@ -8,7 +8,6 @@ package poly.app.ui.frames.quanly;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -384,6 +383,8 @@ public class FrameQLPhim extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         new DialogThemPhim(this, true).setVisible(true);
         loadAllDataToTable();
+        int lastIndex = tblPhim.getRowCount() - 1;
+        tblPhim.setRowSelectionInterval(lastIndex, lastIndex);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblPhimMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhimMouseClicked

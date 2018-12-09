@@ -478,6 +478,9 @@ public class FrameQLDoAn extends javax.swing.JFrame {
         this.loadDataToTable();
         DefaultTableModel model = (DefaultTableModel) tblDoAnChiTiet.getModel();
         model.setRowCount(0);
+        
+        int lastIndex = tblDoAn.getRowCount() - 1;
+        tblDoAn.setRowSelectionInterval(lastIndex, lastIndex);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDoAnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDoAnMouseClicked

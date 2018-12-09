@@ -445,11 +445,11 @@ public class FrameQLNguoiDung extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         new DialogThemNguoiDung(this, true).setVisible(true);
-//        loadAllDataToTable();
         loadAllDataToTable();
         loadDataToTable(search());
-        NguoiDung nd = new NguoiDung();
-
+        
+        int lastIndex = tblNguoiDung.getRowCount() - 1;
+        tblNguoiDung.setRowSelectionInterval(lastIndex, lastIndex);
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
