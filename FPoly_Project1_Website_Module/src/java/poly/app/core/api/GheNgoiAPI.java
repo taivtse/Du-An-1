@@ -34,10 +34,15 @@ public class GheNgoiAPI {
         try {
             json = JsonFactoryUtil.toJson(list);
         } catch (JsonProcessingException ex) {
-            Logger.getLogger(DinhDangPhimAPI.class.getName()).log(Level.SEVERE, null, ex);
-            return Response.serverError().entity(ex).build();
+            Logger.getLogger(GheNgoiAPI.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.serverError()
+                    .entity(ex)
+                    .header("Access-Control-Allow-Origin", "*")
+                    .build();
         }
-        return Response.ok(json, MediaType.APPLICATION_JSON).build();
+        return Response.ok(json, MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .build();
     }
     
     @GET
@@ -50,9 +55,14 @@ public class GheNgoiAPI {
         try {
             json = JsonFactoryUtil.toJson(list);
         } catch (JsonProcessingException ex) {
-            Logger.getLogger(DinhDangPhimAPI.class.getName()).log(Level.SEVERE, null, ex);
-            return Response.serverError().entity(ex).build();
+            Logger.getLogger(GheNgoiAPI.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.serverError()
+                    .entity(ex)
+                    .header("Access-Control-Allow-Origin", "*")
+                    .build();
         }
-        return Response.ok(json, MediaType.APPLICATION_JSON).build();
+        return Response.ok(json, MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .build();
     }
 }

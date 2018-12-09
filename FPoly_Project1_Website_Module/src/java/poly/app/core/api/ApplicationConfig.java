@@ -20,7 +20,6 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(poly.app.core.api.DinhDangPhimAPI.class);
         resources.add(poly.app.core.api.GheNgoiAPI.class);
         resources.add(poly.app.core.api.PhimAPI.class);
         resources.add(poly.app.core.api.QuyTacTinhTienAPI.class);
