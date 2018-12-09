@@ -8,7 +8,6 @@ package poly.app.ui.dialogs.them;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.KichCoDoAnDaoImpl;
@@ -16,7 +15,6 @@ import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.entities.KichCoDoAn;
 import poly.app.core.helper.DialogHelper;
-import poly.app.ui.utils.ValidationUtil;
 
 /**
  *
@@ -77,7 +75,7 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
             doAn.getDoAnChiTiets().add(model);
             return true;
         } catch (Exception e) {
-
+            
         }
         return false;
     }

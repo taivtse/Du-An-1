@@ -574,7 +574,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         );
 
         btnAddNew.setBackground(new java.awt.Color(52, 83, 104));
-        btnAddNew.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        btnAddNew.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         btnAddNew.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnAddNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/poly/app/ui/icons/add.png"))); // NOI18N
         btnAddNew.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

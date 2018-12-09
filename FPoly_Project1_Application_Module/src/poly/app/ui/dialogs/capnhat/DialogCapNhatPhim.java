@@ -255,6 +255,7 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jLabel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel15.setOpaque(true);
         jLabel15.setPreferredSize(new java.awt.Dimension(140, 190));
         jPanel4.add(jLabel15, new java.awt.GridBagConstraints());

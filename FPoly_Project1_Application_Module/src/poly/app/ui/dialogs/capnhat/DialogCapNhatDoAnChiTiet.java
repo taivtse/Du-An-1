@@ -247,6 +247,7 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
 
         btnCapNhat.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnCapNhat.setText("Cập nhật");
+        btnCapNhat.setPreferredSize(new java.awt.Dimension(105, 33));
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCapNhatActionPerformed(evt);
@@ -254,10 +255,12 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel3.add(btnCapNhat, gridBagConstraints);
 
         btnHuy.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         btnHuy.setText("Huỷ");
+        btnHuy.setPreferredSize(new java.awt.Dimension(75, 33));
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHuyActionPerformed(evt);
@@ -265,6 +268,7 @@ public class DialogCapNhatDoAnChiTiet extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
         jPanel3.add(btnHuy, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
