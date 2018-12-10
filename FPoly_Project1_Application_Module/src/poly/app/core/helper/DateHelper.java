@@ -4,25 +4,25 @@ import java.util.*;
 import java.text.*;
 
 public class DateHelper {
-
+    
     public final static long SECOND_MILLIS = 1000;
     public final static long MINUTE_MILLIS = SECOND_MILLIS * 60;
     public final static long HOUR_MILLIS = MINUTE_MILLIS * 60;
     public final static long DAY_MILLIS = HOUR_MILLIS * 24;
     public final static long YEAR_MILLIS = DAY_MILLIS * 365;
-
+    
     public static DateFormat OUT_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     public static DateFormat OUT_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
     public static DateFormat OUT_DATETIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     public static DateFormat OUT_TIMESTAMP_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
-
+    
     public static DateFormat IN_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     public static DateFormat IN_TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
     public static DateFormat IN_DATETIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
-
+    
     public static Calendar calendar = new GregorianCalendar();
-
+    
     static {
         IN_DATE_FORMAT.setLenient(false);
         IN_TIME_FORMAT.setLenient(false);
@@ -66,7 +66,7 @@ public class DateHelper {
         if (earlierDate == null || laterDate == null) {
             return 0;
         }
-
+        
         return (int) ((laterDate.getTime() / SECOND_MILLIS) - (earlierDate.getTime() / SECOND_MILLIS));
     }
 
@@ -77,7 +77,7 @@ public class DateHelper {
         if (earlierDate == null || laterDate == null) {
             return 0;
         }
-
+        
         return (int) ((laterDate.getTime() / MINUTE_MILLIS) - (earlierDate.getTime() / MINUTE_MILLIS));
     }
 
@@ -88,7 +88,7 @@ public class DateHelper {
         if (earlierDate == null || laterDate == null) {
             return 0;
         }
-
+        
         return (int) ((laterDate.getTime() / HOUR_MILLIS) - (earlierDate.getTime() / HOUR_MILLIS));
     }
 
@@ -99,7 +99,7 @@ public class DateHelper {
         if (earlierDate == null || laterDate == null) {
             return 0;
         }
-
+        
         return (int) ((laterDate.getTime() / DAY_MILLIS) - (earlierDate.getTime() / DAY_MILLIS));
     }
 
@@ -182,7 +182,7 @@ public class DateHelper {
         if (d1 == null || d2 == null) {
             return false;
         }
-
+        
         return d1.getDate() == d2.getDate()
                 && d1.getMonth() == d2.getMonth()
                 && d1.getYear() == d2.getYear();
@@ -195,7 +195,7 @@ public class DateHelper {
         if (d1 == null || d2 == null) {
             return false;
         }
-
+        
         return d1.getHours() == d2.getHours()
                 && d1.getMinutes() == d2.getMinutes()
                 && d1.getSeconds() == d2.getSeconds();
@@ -208,7 +208,7 @@ public class DateHelper {
         if (d1 == null || d2 == null) {
             return false;
         }
-
+        
         return d1.getDate() == d2.getDate()
                 && d1.getMonth() == d2.getMonth()
                 && d1.getYear() == d2.getYear()
@@ -227,7 +227,7 @@ public class DateHelper {
         if (clazz == null) {
             return value;
         }
-
+        
         if (java.sql.Date.class.isAssignableFrom(clazz)) {
             return toDate(value);
         }
@@ -240,7 +240,7 @@ public class DateHelper {
         if (java.util.Date.class.isAssignableFrom(clazz)) {
             return toDateTime(value);
         }
-
+        
         return value;
     }
 
@@ -272,7 +272,7 @@ public class DateHelper {
             }
             return IN_DATETIME_FORMAT.parse((String) value);
         }
-
+        
         return IN_DATETIME_FORMAT.parse(value.toString());
     }
 
@@ -304,7 +304,7 @@ public class DateHelper {
             }
             return new java.sql.Date(IN_DATE_FORMAT.parse((String) value).getTime());
         }
-
+        
         return new java.sql.Date(IN_DATE_FORMAT.parse(value.toString()).getTime());
     }
 
@@ -336,7 +336,7 @@ public class DateHelper {
             }
             return new java.sql.Time(IN_TIME_FORMAT.parse((String) value).getTime());
         }
-
+        
         return new java.sql.Time(IN_TIME_FORMAT.parse(value.toString()).getTime());
     }
 
@@ -368,7 +368,7 @@ public class DateHelper {
             }
             return new java.sql.Timestamp(IN_TIMESTAMP_FORMAT.parse((String) value).getTime());
         }
-
+        
         return new java.sql.Timestamp(IN_TIMESTAMP_FORMAT.parse(value.toString()).getTime());
     }
 
@@ -377,51 +377,51 @@ public class DateHelper {
      */
     public static boolean isTimeInRange(java.sql.Time start, java.sql.Time end, java.util.Date d) {
         d = new java.sql.Time(d.getHours(), d.getMinutes(), d.getSeconds());
-
+        
         if (start == null || end == null) {
             return false;
         }
-
+        
         if (start.before(end) && (!(d.after(start) && d.before(end)))) {
             return false;
         }
-
+        
         if (end.before(start) && (!(d.after(end) || d.before(start)))) {
             return false;
         }
         return true;
     }
-
+    
     public static int getYear(Date date) {
         calendar.setTime(date);
         return calendar.get(Calendar.YEAR);
     }
-
+    
     public static int getMonth(Date date) {
         calendar.setTime(date);
         return calendar.get(Calendar.MONTH);
     }
-
+    
     public static int getDate(Date date) {
         calendar.setTime(date);
         return calendar.get(Calendar.DATE);
     }
-
+    
     public static int getHour(Date date) {
         calendar.setTime(date);
         return calendar.get(Calendar.HOUR);
     }
-
+    
     public static int getMinute(Date date) {
         calendar.setTime(date);
         return calendar.get(Calendar.MINUTE);
     }
-
+    
     public static int getSeconds(Date date) {
         calendar.setTime(date);
         return calendar.get(Calendar.SECOND);
     }
-
+    
     public static int getMillisecond(Date date) {
         calendar.setTime(date);
         return calendar.get(Calendar.MILLISECOND);
@@ -434,7 +434,7 @@ public class DateHelper {
         if (date == null) {
             return null;
         }
-
+        
         if (java.sql.Timestamp.class.isAssignableFrom(date.getClass())) {
             return OUT_TIMESTAMP_FORMAT.format(date);
         }
@@ -447,21 +447,27 @@ public class DateHelper {
         if (java.util.Date.class.isAssignableFrom(date.getClass())) {
             return OUT_DATETIME_FORMAT.format(date);
         }
-
+        
         throw new IllegalArgumentException("Unsupported type " + date.getClass());
     }
-    
-    
+
     /*
     MY CUSTOM CODE
-    */
+     */
     
-    public static java.util.Date addMinutes(java.util.Date date, int minutes){
-        java.util.Date result = new java.util.Date(date.getTime() + (minutes * MINUTE_MILLIS));
-        return result;
-    }
-    
-    public static String toTimeString(java.util.Date date){
+    public static String toTimeString(java.util.Date date) {
         return OUT_TIME_FORMAT.format(date);
     }
+    
+    public static Date getMidNight(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+// reset hour, minutes, seconds and millis
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        
+        return calendar.getTime();
+    }    
 }

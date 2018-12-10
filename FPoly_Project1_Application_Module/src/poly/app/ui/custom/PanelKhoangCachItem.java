@@ -10,21 +10,30 @@ package poly.app.ui.custom;
  * @author vothanhtai
  */
 public class PanelKhoangCachItem extends javax.swing.JPanel {
-    
+
     int prevSuatChieuIndex = -1;
     int khoangCach;
+
     /**
      * Creates new form PanelSuatChieuItem
      */
     public PanelKhoangCachItem() {
         initComponents();
     }
-    
+
     public PanelKhoangCachItem(int khoangCach, int prevSuatChieuIndex) {
-        this();        
+        this();
         this.khoangCach = khoangCach;
         this.prevSuatChieuIndex = prevSuatChieuIndex;
-        lblKhoangCach.setText("Thời gian chờ: " + this.khoangCach + " phút");
+        int hours = this.khoangCach / 60; //since both are ints, you get an int
+        int minutes = this.khoangCach % 60;
+        String timeStr = "";
+        if (hours > 0) {
+            timeStr = String.format("%d giờ %d phút", hours, minutes);
+        }else{
+            timeStr = String.format("%d phút", minutes);
+        }
+        lblKhoangCach.setText("Thời gian chờ: " + timeStr);
     }
 
     public int getPrevSuatChieuIndex() {
@@ -42,7 +51,7 @@ public class PanelKhoangCachItem extends javax.swing.JPanel {
     public void setKhoangCach(int khoangCach) {
         this.khoangCach = khoangCach;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -91,7 +100,15 @@ public class PanelKhoangCachItem extends javax.swing.JPanel {
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-        lblKhoangCach.setText("Thời gian chờ: " + this.khoangCach + " phút");
+        int hours = this.khoangCach / 60; //since both are ints, you get an int
+        int minutes = this.khoangCach % 60;
+        String timeStr = "";
+        if (hours > 0) {
+            timeStr = String.format("%d giờ %d phút", hours, minutes);
+        }else{
+            timeStr = String.format("%d phút", minutes);
+        }
+        lblKhoangCach.setText("Thời gian chờ: " + timeStr);
     }//GEN-LAST:event_formMouseExited
 
 
