@@ -7,6 +7,8 @@ package poly.app.ui.dialogs.banhang;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import poly.app.core.dao.VeBanDao;
 import poly.app.core.daoimpl.VeBanDaoImpl;
@@ -16,6 +18,8 @@ import poly.app.core.entities.VeBan;
 import poly.app.core.entities.VeDat;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
+import poly.app.ui.report.VeBanReportParameter;
+import poly.app.ui.utils.ReportPrinterUtil;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -96,6 +100,10 @@ public class DialogThongTinVeDat extends javax.swing.JDialog {
         }
         
         lblTongTien.setText(new DecimalFormat("#,###,###").format(total) + " vnd");
+    }
+    
+    private void inVeban(List<VeBanReportParameter> listReportParameters) {
+        ReportPrinterUtil.showMultiPrintPreview(listReportParameters, ReportPrinterUtil.VEBAN_REPORT_URL);
     }
 
     /**
@@ -418,10 +426,21 @@ public class DialogThongTinVeDat extends javax.swing.JDialog {
     private void btnInVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInVeActionPerformed
         boolean isSuccess = true;
         VeBanDao veBanDao = new VeBanDaoImpl();
+        List<VeBanReportParameter> listReportParameters = new ArrayList<>();
         try {
             for (VeBan veBan : veDat.getVeBans()) {
                 veBan.setNguoiDung(ShareHelper.USER);
                 veBanDao.update(veBan);
+                
+                VeBanReportParameter reportParameter
+                        = new VeBanReportParameter(veBan.getSuatChieu().getPhim().getTen(),
+                                veBan.getTongTien(),
+                                veBan.getSuatChieu().getDinhDangPhim().getId(),
+                                veBan.getSuatChieu().getPhongChieu().getId(),
+                                veBan.getSuatChieu().getNgayChieu(),
+                                veBan.getSuatChieu().getGioBatDau(),
+                                veBan.getGheNgoi().getViTriDay()+ veBan.getGheNgoi().getViTriCot());
+                listReportParameters.add(reportParameter);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -429,7 +448,7 @@ public class DialogThongTinVeDat extends javax.swing.JDialog {
         }
         
         if (isSuccess) {
-            DialogHelper.message(this, "In vé thành công", DialogHelper.INFORMATION_MESSAGE);
+            this.inVeban(listReportParameters);
             this.dispose();
         } else {
             DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình in vé!", DialogHelper.ERROR_MESSAGE);

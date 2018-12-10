@@ -1,5 +1,6 @@
 package poly.app.ui.report;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,18 +8,22 @@ import java.util.HashMap;
 import java.util.List;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-public class HoaDonReportParameter extends HashMap<String, Object>{
+public class HoaDonReportParameter extends HashMap<String, Object> {
 
-    public HoaDonReportParameter(String invoiceID, String employeeName, Date createdDate, String TotalPrice) {
+    public HoaDonReportParameter(String invoiceID, String employeeName, Date createdDate, int totalPrice) {
         JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(new ArrayList<HoaDonReportBean>());
         this.put("ItemDataSource", itemsJRBean);
         this.put("InvoiceID", invoiceID);
         this.put("EmployeeName", employeeName);
         this.put("CreatedDate", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(createdDate));
-        this.put("TotalPrice", TotalPrice);
+        this.put("TotalPrice", new DecimalFormat("##,###,###").format(totalPrice));
     }
     
-    public void addHoaDonReportBean(String name, String quantity, String price, String total){
+    public void setTotalPrice(int totalPrice){
+        this.put("TotalPrice", new DecimalFormat("##,###,###").format(totalPrice));
+    }
+
+    public void addHoaDonReportBean(String name, int quantity, int price, int total) {
         HoaDonReportBean bean = new HoaDonReportBean(name, quantity, price, total);
         JRBeanCollectionDataSource itemsJRBean = (JRBeanCollectionDataSource) this.get("ItemDataSource");
         List<HoaDonReportBean> beans = (List<HoaDonReportBean>) itemsJRBean.getData();
@@ -28,16 +33,17 @@ public class HoaDonReportParameter extends HashMap<String, Object>{
     }
 
     public class HoaDonReportBean {
+
         private String name;
         private String quantity;
         private String price;
         private String total;
 
-        public HoaDonReportBean(String name, String quantity, String price, String total) {
+        public HoaDonReportBean(String name, int quantity, int price, int total) {
             this.name = name;
-            this.quantity = quantity;
-            this.price = price;
-            this.total = total;
+            this.quantity = quantity + "";
+            this.price = new DecimalFormat("##,###,###").format(price);
+            this.total = new DecimalFormat("##,###,###").format(total);
         }
 
         public String getName() {

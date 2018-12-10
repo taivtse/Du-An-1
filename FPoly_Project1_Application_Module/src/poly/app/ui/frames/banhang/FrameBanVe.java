@@ -9,8 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.swing.JRViewer;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.daoimpl.SuatChieuDaoImpl;
 import poly.app.core.daoimpl.VeDatDaoImpl;
@@ -20,7 +22,10 @@ import poly.app.core.entities.VeDat;
 import poly.app.core.helper.DialogHelper;
 import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.banhang.DialogChonGheNgoi;
+import poly.app.ui.dialogs.banhang.DialogThongTinVeBan;
 import poly.app.ui.dialogs.banhang.DialogThongTinVeDat;
+import poly.app.ui.report.HoaDonReportParameter;
+import poly.app.ui.utils.ReportPrinterUtil;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -44,7 +49,7 @@ public class FrameBanVe extends javax.swing.JFrame implements ClosableTabbedPane
     }
 
     private void reRenderUI() {
-        //        Render lại giao diện cho table
+//        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblSuatChieu);
         tblRenderer.changeHeaderStyle();
 
@@ -62,8 +67,8 @@ public class FrameBanVe extends javax.swing.JFrame implements ClosableTabbedPane
         synchronizedData();
         return this.pnlMain;
     }
-    
-    public void synchronizedData(){
+
+    public void synchronizedData() {
         this.loadDataToTablePhim();
     }
 

@@ -33,6 +33,8 @@ import poly.app.core.entities.NguoiDung;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
 import poly.app.ui.custom.ClosableTabbedPane;
+import poly.app.ui.report.HoaDonReportParameter;
+import poly.app.ui.utils.ReportPrinterUtil;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -56,6 +58,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         setTitle("Bán đồ ăn");
         reRenderUI();
+        this.loadDataToComboBox();
     }
 
     private void reRenderUI() {
@@ -75,20 +78,20 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         tblRenderer.setColumnAlignment(4, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(5, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_RIGHT);
-        
-        this.loadDataToTableDoAn();
+
+        this.loadDataToComboBox();
     }
 
     public JPanel getMainPanel() {
         synchronizedData();
         return this.pnlMain;
     }
-    
-    public void synchronizedData(){
+
+    public void synchronizedData() {
         resetSearchForm();
-        this.loadDataToComboBox();
+        this.loadDataToTableDoAn();
     }
-    
+
     private void resetSearchForm() {
         cboLoaiDoAn.setSelectedIndex(0);
         spnSoLuong.setValue(0);
@@ -272,7 +275,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         jPanel4.setOpaque(false);
 
         btnBan.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnBan.setText("Bán");
+        btnBan.setText("Bán và in");
         btnBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -430,7 +433,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         if (tblDaChon.getRowCount() > 0) {
             this.Ban();
         } else {
-            DialogHelper.message(this, "Chưa chọn món !", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(this, "Chưa chọn đồ ăn!", DialogHelper.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBanActionPerformed
 
@@ -474,7 +477,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
                 hdct.setHoaDon(null);
                 this.orderByClick(key, hdct);
             } else {
-                DialogHelper.message(this, "Chưa chọn món ", DialogHelper.ERROR_MESSAGE);
+                DialogHelper.message(this, "Chưa chọn đồ ăn", DialogHelper.ERROR_MESSAGE);
             }
             tblDoAn.setSelectionMode(0);
         }
@@ -486,7 +489,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
             mapOrder.remove(key);
             this.loadDataToTableHoaDon();
         } else {
-            DialogHelper.message(this, "Chưa chọn món để xóa !", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(this, "Chưa chọn đồ ăn để xóa!", DialogHelper.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -511,38 +514,6 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         hdct.setTongTien(hdct.getSoLuong() * hdct.getDoAnChiTiet().getDonGia());
         mapOrder.put(key, hdct);
         this.loadDataToTableHoaDon();
-    }
-
-    public void inThongKe() {
-        PrinterJob job = PrinterJob.getPrinterJob();
-        job.setJobName("Print Data");
-
-        job.setPrintable(new Printable() {
-            public int print(Graphics pg, PageFormat pf, int pageNum) {
-                pf.setOrientation(PageFormat.LANDSCAPE);
-                if (pageNum > 0) {
-                    return Printable.NO_SUCH_PAGE;
-                }
-
-                Graphics2D g2 = (Graphics2D) pg;
-                g2.translate(pf.getImageableX(), pf.getImageableY());
-                g2.scale(0.24, 0.24);
-
-                tblDaChon.paint(g2);
-//          
-                return Printable.PAGE_EXISTS;
-
-            }
-        });
-
-        boolean ok = job.printDialog();
-        if (ok) {
-            try {
-
-                job.print();
-            } catch (PrinterException ex) {
-            }
-        }
     }
 
     public void loadDataToTableDoAn() {
@@ -579,7 +550,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
             modelTable.addRow(record);
             tongtien += fill.getValue().getTongTien();
         }
-        lblTongTien.setText(decimalFormat.format(tongtien) + " vnd");
+        lblTongTien.setText(decimalFormat.format(tongtien) + " VND");
     }
 
     public void loadDataToComboBox() {
@@ -634,15 +605,27 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         newHD = hdDAO.getNewestHoaDon();
         //them hoadonchitiet vao hoa don
         HoaDonChiTietDaoImpl hdctDAO = new HoaDonChiTietDaoImpl();
+        int tongCong = 0;
+        HoaDonReportParameter parameter = new HoaDonReportParameter(newHD.getId(), ShareHelper.USER.getHoTen(), new Date(), tongCong);
         for (Map.Entry<String, HoaDonChiTiet> up : mapOrder.entrySet()) {
-            up.getValue().setHoaDon(newHD);
-            hdctDAO.insert(up.getValue());
+            HoaDonChiTiet hoaDonChiTiet = up.getValue();
+            hoaDonChiTiet.setHoaDon(newHD);
+            hdctDAO.insert(hoaDonChiTiet);
+
+            tongCong += up.getValue().getTongTien();
+            parameter.addHoaDonReportBean(hoaDonChiTiet.getDoAnChiTiet().getDoAn().getTen() + " (" + hoaDonChiTiet.getDoAnChiTiet().getKichCoDoAn().getId() + ")",
+                    hoaDonChiTiet.getSoLuong(),
+                    hoaDonChiTiet.getDoAnChiTiet().getDonGia(),
+                    hoaDonChiTiet.getTongTien());
         }
+        
+        parameter.setTotalPrice(tongCong);
+        ReportPrinterUtil.showPrintPreview(parameter, ReportPrinterUtil.HOADON_REPORT_URL);
+
         DefaultTableModel modelTable = (DefaultTableModel) tblDaChon.getModel();
         mapOrder.clear();
         modelTable.setRowCount(0);
-        lblTongTien.setText("0");
-        DialogHelper.message(this, "Thêm hóa đơn thành công!", DialogHelper.INFORMATION_MESSAGE);
+        lblTongTien.setText("0 VND");
     }
 
     /**

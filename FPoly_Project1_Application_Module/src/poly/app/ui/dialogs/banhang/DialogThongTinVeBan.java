@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +19,10 @@ import javax.swing.AbstractButton;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.swing.JRViewer;
 import poly.app.core.dao.VeBanDao;
 import poly.app.core.daoimpl.GiaVeDaoImpl;
 import poly.app.core.daoimpl.VeBanDaoImpl;
@@ -30,6 +33,8 @@ import poly.app.core.entities.SuatChieu;
 import poly.app.core.entities.VeBan;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
+import poly.app.ui.report.VeBanReportParameter;
+import poly.app.ui.utils.ReportPrinterUtil;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
@@ -151,7 +156,11 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
             total += Integer.parseInt(tblThongTin.getValueAt(i, 6).toString().replace(",", ""));
         }
 
-        lblTongTien.setText(new DecimalFormat("#,###,###").format(total) + " vnd");
+        lblTongTien.setText(new DecimalFormat("##,###,###").format(total) + " VND");
+    }
+
+    private void inVeban(List<VeBanReportParameter> listReportParameters) {
+       ReportPrinterUtil.showMultiPrintPreview(listReportParameters, ReportPrinterUtil.VEBAN_REPORT_URL);
     }
 
     /**
@@ -474,6 +483,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
     private void btnInVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInVeActionPerformed
         boolean isSuccess = true;
         VeBanDao veBanDao = new VeBanDaoImpl();
+        List<VeBanReportParameter> listReportParameters = new ArrayList<>();
         try {
             for (int i = 0; i < tblThongTin.getRowCount(); i++) {
                 GheNgoi gheNgoi = selectedGheNgoiMap.get(tblThongTin.getValueAt(i, 0));
@@ -484,6 +494,16 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
                 veBan.setNguoiDung(ShareHelper.USER);
 
                 veBanDao.insert(veBan);
+
+                VeBanReportParameter reportParameter
+                        = new VeBanReportParameter(suatChieu.getPhim().getTen(),
+                                tongTien,
+                                suatChieu.getDinhDangPhim().getId(),
+                                suatChieu.getPhongChieu().getId(),
+                                suatChieu.getNgayChieu(),
+                                suatChieu.getGioBatDau(),
+                                gheNgoi.getViTriDay() + gheNgoi.getViTriCot());
+                listReportParameters.add(reportParameter);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -491,7 +511,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
         }
 
         if (isSuccess) {
-            DialogHelper.message(this, "Thêm vé bán thành công", DialogHelper.INFORMATION_MESSAGE);
+            this.inVeban(listReportParameters);
             this.dispose();
         } else {
             DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);

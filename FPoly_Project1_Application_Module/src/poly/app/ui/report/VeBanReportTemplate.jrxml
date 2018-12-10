@@ -58,15 +58,15 @@
 			<textField>
 				<reportElement x="0" y="35" width="222" height="12" uuid="d64b0d79-b9b1-4071-b78d-7f5376599ecc"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="8"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{FilmName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="39" y="50" width="103" height="10" uuid="88b0cc0b-13cc-4a64-87e7-28d1cedf6b0a"/>
+				<reportElement x="39" y="50" width="161" height="10" uuid="88b0cc0b-13cc-4a64-87e7-28d1cedf6b0a"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8"/>
+					<font fontName="DejaVu Sans" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TicketPrice}]]></textFieldExpression>
 			</textField>

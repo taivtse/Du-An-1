@@ -31,7 +31,7 @@ public class JasperTableExample {
 //
 //        ReportPrinterUtil.showPreview(reportParameter, ReportPrinterUtil.HOADON_REPORT_URL);
 
-        VeBanReportParameter veBanReportParameter = new VeBanReportParameter("ahihi", "20,000", "IMAX", "4", new Date(), new Date(), "A19");
-        ReportPrinterUtil.showPreview(veBanReportParameter, ReportPrinterUtil.VEBAN_REPORT_URL);
+//        VeBanReportParameter veBanReportParameter = new VeBanReportParameter("ahihi", "20,000", "IMAX", "4", new Date(), new Date(), "A19");
+//        ReportPrinterUtil.showPreview(veBanReportParameter, ReportPrinterUtil.VEBAN_REPORT_URL);
     }
 }
