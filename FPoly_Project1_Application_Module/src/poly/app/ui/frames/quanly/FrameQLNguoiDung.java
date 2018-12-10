@@ -54,9 +54,13 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
     }
 
     public JPanel getMainPanel() {
-        resetSearchForm();
-        formWindowOpened(null);
+        synchronizedData();
         return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
+        resetSearchForm();
+        this.loadAllDataToTable();
     }
     
     private void resetSearchForm() {

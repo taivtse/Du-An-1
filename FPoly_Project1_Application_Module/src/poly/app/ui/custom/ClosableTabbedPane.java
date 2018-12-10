@@ -18,11 +18,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.EventListener;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import poly.app.ui.frames.thongke.FrameTKVeBan;
 
 /**
  * A JTabbedPane which has a close ('X') icon on each tab.
@@ -413,7 +409,7 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
     }
     
     public interface ClosableTabbedPaneMethod{
-        public JPanel getMainPanel();
+        public void synchronizedData();
     }
 
     /**

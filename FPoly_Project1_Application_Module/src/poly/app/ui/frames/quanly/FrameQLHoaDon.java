@@ -58,11 +58,16 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
         tblRenderer.setColumnAlignment(4, TableRendererUtil.CELL_ALIGN_RIGHT);
     }
     
-    public JPanel getMainPanel(){
-        resetSearchForm();
-        formWindowOpened(null);
+    public JPanel getMainPanel() {
+        synchronizedData();
         return this.pnlMain;
     }
+    
+    public void synchronizedData(){
+        resetSearchForm();
+        this.loadDataToTable();
+    }
+    
     
     private void resetSearchForm() {
         chkTheoMaHoaDon.setSelected(true);

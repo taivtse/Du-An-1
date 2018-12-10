@@ -69,9 +69,14 @@ public class FrameQLSuatChieu extends javax.swing.JFrame implements ClosableTabb
     }
 
     public JPanel getMainPanel() {
+        synchronizedData();
+        return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
         resetSearchForm();
-        formWindowOpened(null);
-        return pnlMain;
+        this.loadAllToTable();
+        this.loadTenPhimCombobox();
     }
 
     private void resetSearchForm() {

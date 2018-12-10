@@ -60,7 +60,6 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
     }
 
     private void reRenderUI() {
-        //        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblThongKe);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
@@ -68,8 +67,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
         tblRenderer.setColumnAlignment(0, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(2, TableRendererUtil.CELL_ALIGN_RIGHT);
-        tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_RIGHT);
-        
+        tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_RIGHT);        
     }
 
     private void loadThongKeTheoThang() {
@@ -97,7 +95,6 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
     public void loadDataToTable() {
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
         modelTable.setRowCount(0);
-        int i = 1;
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         DecimalFormat decimalFormat = new DecimalFormat("##,###,###,###");
         for (Object[] fill : listDoanhThu) {
@@ -126,16 +123,13 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
     }
 
     private void checkRadioButton() {
-
         cboTheoThang.setEnabled(rdoTheoThang.isSelected());
         cboNamTheoThang.setEnabled(rdoTheoThang.isSelected());
         dcTheoNgay.setEnabled(rdoTheoNgay.isSelected());
         cboTheoNam.setEnabled(rdoTheoNam.isSelected());
-
     }
 
     private void loadNamToComboBox() {
-
         Calendar calendar = Calendar.getInstance();
         for (int i = 2015; i <= calendar.get(Calendar.YEAR); i++) {
             cboTheoNam.addItem(i + "");
@@ -229,9 +223,15 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
     }
     
     public JPanel getMainPanel() {
+        synchronizedData();
+        return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
         resetSearchForm();
-        formWindowOpened(null);
-        return pnlMain;
+        this.setDefaultSelectedComboBox();
+        this.loadThongKeTheoNgay();
+        this.loadDataToTable();
     }
     
     private void resetSearchForm() {
@@ -244,6 +244,13 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
         cboTheoNam.setEnabled(false);
     }
 
+    
+    public void setDefaultSelectedComboBox() {
+        Calendar cal = Calendar.getInstance();
+        cboTheoThang.setSelectedIndex(cal.get(Calendar.MONTH));
+        cboNamTheoThang.getModel().setSelectedItem(cal.get(Calendar.YEAR));
+        cboTheoNam.getModel().setSelectedItem(cal.get(Calendar.YEAR));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -604,10 +611,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadDataToTable();
-        Calendar calendar = Calendar.getInstance();
-        cboTheoThang.setSelectedIndex(calendar.get(Calendar.MONTH));
-        cboNamTheoThang.setSelectedIndex(cboNamTheoThang.getItemCount() - 1);
-        cboTheoNam.setSelectedIndex(cboTheoNam.getItemCount() - 1);
+        this.setDefaultSelectedComboBox();
     }//GEN-LAST:event_formWindowOpened
 
     private void cboTheoThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTheoThangActionPerformed

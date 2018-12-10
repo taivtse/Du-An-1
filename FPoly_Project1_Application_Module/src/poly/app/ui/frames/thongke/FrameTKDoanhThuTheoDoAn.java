@@ -47,7 +47,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
      */
     List<Object[]> listDoAn = new ArrayList<>();
     ProcedureDaoImpl sp_tk = new ProcedureDaoImpl();
-    Calendar cal = Calendar.getInstance();
 
     public FrameTKDoanhThuTheoDoAn() {
         initComponents();
@@ -74,9 +73,15 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
     
     public JPanel getMainPanel() {
+        synchronizedData();
+        return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
         resetSearchForm();
-        formWindowOpened(null);
-        return pnlMain;
+        this.setDefaultSelectedComboBox();
+        this.loadThongKeTheoNgay();
+        this.loadDataToTable();
     }
     
     private void resetSearchForm() {
@@ -594,10 +599,12 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
     
     public void setDefaultSelectedComboBox() {
+        Calendar cal = Calendar.getInstance();
         cboTheoThang.setSelectedIndex(cal.get(Calendar.MONTH));
         cboNamTheoThang.getModel().setSelectedItem(cal.get(Calendar.YEAR));
         cboTheoNam.getModel().setSelectedItem(cal.get(Calendar.YEAR));
     }
+    
     public void loadDataToTable() {
         DecimalFormat decimalFormat = new DecimalFormat("##,###,###,###");
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();

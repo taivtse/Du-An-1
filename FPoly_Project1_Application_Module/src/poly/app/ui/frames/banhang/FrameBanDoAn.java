@@ -25,7 +25,6 @@ import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.HoaDonChiTietDaoImpl;
 import poly.app.core.daoimpl.HoaDonDaoImpl;
 import poly.app.core.daoimpl.LoaiDoAnDaoImpl;
-import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.entities.HoaDon;
 import poly.app.core.entities.HoaDonChiTiet;
@@ -33,13 +32,14 @@ import poly.app.core.entities.LoaiDoAn;
 import poly.app.core.entities.NguoiDung;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
  *
  * @author vothanhtai
  */
-public class FrameBanDoAn extends javax.swing.JFrame {
+public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod {
 
     /**
      * Creates new form FrameQLNhanVien
@@ -75,11 +75,23 @@ public class FrameBanDoAn extends javax.swing.JFrame {
         tblRenderer.setColumnAlignment(4, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(5, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_RIGHT);
+        
+        this.loadDataToTableDoAn();
     }
 
     public JPanel getMainPanel() {
-        formWindowOpened(null);
-        return pnlMain;
+        synchronizedData();
+        return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
+        resetSearchForm();
+        this.loadDataToComboBox();
+    }
+    
+    private void resetSearchForm() {
+        cboLoaiDoAn.setSelectedIndex(0);
+        spnSoLuong.setValue(0);
     }
 
     /**
@@ -412,7 +424,6 @@ public class FrameBanDoAn extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.loadDataToComboBox();
-        this.loadDataToTableDoAn();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed

@@ -18,6 +18,7 @@ import poly.app.core.entities.Phim;
 import poly.app.core.entities.SuatChieu;
 import poly.app.core.entities.VeDat;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.banhang.DialogChonGheNgoi;
 import poly.app.ui.dialogs.banhang.DialogThongTinVeDat;
 import poly.app.ui.utils.TableRendererUtil;
@@ -26,7 +27,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameBanVe extends javax.swing.JFrame {
+public class FrameBanVe extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod {
 
     Map<String, Phim> phimMap = new TreeMap<>();
     Map<String, SuatChieu> suatChieuMap = new TreeMap<>();
@@ -58,8 +59,12 @@ public class FrameBanVe extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
-        formWindowOpened(null);
-        return pnlMain;
+        synchronizedData();
+        return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
+        this.loadDataToTablePhim();
     }
 
     /**

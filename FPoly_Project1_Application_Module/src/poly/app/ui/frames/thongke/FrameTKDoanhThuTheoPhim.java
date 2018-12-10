@@ -145,9 +145,15 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame implements Closa
     }
 
     public JPanel getMainPanel() {
+        synchronizedData();
+        return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
         resetSearchForm();
-        formWindowOpened(null);
-        return pnlMain;
+        this.setDefaultSelectedComboBox();
+        this.loadThongKeTheoNgay();
+        this.loadDataToTable();
     }
     
     private void resetSearchForm() {
@@ -544,11 +550,8 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame implements Closa
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setDefaultSelectedComboBox();
         this.loadThongKeTheoNgay();
-        Calendar calendar = Calendar.getInstance();
-        cboTheoThang.setSelectedIndex(calendar.get(Calendar.MONTH));
-        cboNamTheoThang.setSelectedIndex(cboNamTheoThang.getItemCount() - 1);
-        cboTheoNam.setSelectedIndex(cboTheoNam.getItemCount() - 1);
         loadDataToTable();
     }//GEN-LAST:event_formWindowOpened
 
@@ -628,6 +631,13 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame implements Closa
         }
     }//GEN-LAST:event_cboTheoPhimItemStateChanged
 
+    public void setDefaultSelectedComboBox() {
+        Calendar cal = Calendar.getInstance();
+        cboTheoThang.setSelectedIndex(cal.get(Calendar.MONTH));
+        cboNamTheoThang.getModel().setSelectedItem(cal.get(Calendar.YEAR));
+        cboTheoNam.getModel().setSelectedItem(cal.get(Calendar.YEAR));
+    }
+    
     private void loadNamToComboBox() {
         Calendar calendar = Calendar.getInstance();
         for (int i = 2015; i <= calendar.get(Calendar.YEAR); i++) {

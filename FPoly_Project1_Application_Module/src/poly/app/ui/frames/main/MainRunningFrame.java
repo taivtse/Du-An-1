@@ -133,7 +133,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
                     String tabTitle = tbpMainContent.getTitleAt(tbpMainContent.getSelectedIndex());
                     for (JFrame childFrame : childFrames) {
                         if (childFrame.getTitle().equals(tabTitle)) {
-                            ((ClosableTabbedPane.ClosableTabbedPaneMethod) childFrame).getMainPanel();
+                            ((ClosableTabbedPane.ClosableTabbedPaneMethod) childFrame).synchronizedData();
                         }
                     }
                 }

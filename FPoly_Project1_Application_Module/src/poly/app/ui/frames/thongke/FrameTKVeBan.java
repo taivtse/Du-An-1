@@ -75,12 +75,20 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(7, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(8, TableRendererUtil.CELL_ALIGN_RIGHT);
+        
+        this.loadNamToComboBox();
     }
     
     public JPanel getMainPanel() {
+        synchronizedData();
+        return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
         resetSearchForm();
-        formWindowOpened(null);
-        return pnlMain;
+        this.setDefaultSelectedComboBox();
+        this.loadThongKeTheoNgay();
+        this.loadDataToTable();
     }
     
     private void resetSearchForm() {
@@ -465,7 +473,6 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this.loadNamToComboBox();
         this.setDefaultSelectedComboBox();
         this.loadThongKeTheoNgay();
         this.loadDataToTable();
@@ -501,8 +508,6 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
             this.loadThongKeTheoThang();
             this.loadDataToTable();
         }
-
-
     }//GEN-LAST:event_rdoTheoThangActionPerformed
 
     private void cboTheoThangItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTheoThangItemStateChanged

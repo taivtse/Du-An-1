@@ -56,9 +56,13 @@ public class FrameQLPhim extends javax.swing.JFrame  implements ClosableTabbedPa
     }
 
     public JPanel getMainPanel() {
-        resetSearchForm();
-        formWindowOpened(null);
+        synchronizedData();
         return this.pnlMain;
+    }
+    
+    public void synchronizedData(){
+        resetSearchForm();
+        this.loadAllDataToTable();
     }
 
     private void resetSearchForm() {
