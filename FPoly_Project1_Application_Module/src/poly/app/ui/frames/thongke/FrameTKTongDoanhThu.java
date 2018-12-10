@@ -76,7 +76,6 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
 
     private void loadThongKeTheoNam() {
         listDoanhThu = sp_tk.execute("sp_TongDoanhThuTheoNam", Integer.parseInt(cboTheoNam.getSelectedItem().toString()));
-        System.out.println(cboTheoNam.getSelectedItem().toString());
     }
 
     private void loadThongKeTheoNgay() {
@@ -120,6 +119,8 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
             modelTable.addRow(record);
 
         }
+        
+        tongDoanhThu();
     }
 
     private void checkRadioButton() {
@@ -430,7 +431,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
         jPanel4.setOpaque(false);
 
         btnXemBieuDoCot.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnXemBieuDoCot.setText("Xem biểu đồ cột");
+        btnXemBieuDoCot.setText("Xem biểu đồ doanh thu");
         btnXemBieuDoCot.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnXemBieuDoCot.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -448,7 +449,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
         });
 
         btnXemBieuDoTron.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnXemBieuDoTron.setText("Xem biểu đồ tròn");
+        btnXemBieuDoTron.setText("Xem biểu đồ tỷ lệ");
         btnXemBieuDoTron.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnXemBieuDoTron.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

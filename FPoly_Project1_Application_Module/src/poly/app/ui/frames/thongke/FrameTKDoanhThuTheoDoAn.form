@@ -508,7 +508,7 @@
                           <Table columnCount="5" rowCount="0">
                             <Column editable="false" title="STT" type="java.lang.Integer"/>
                             <Column editable="false" title="T&#xea;n &#x111;&#x1ed3; &#x103;n" type="java.lang.String"/>
-                            <Column editable="false" title="Loai &#x111;&#x1ed3; &#x103;n" type="java.lang.String"/>
+                            <Column editable="false" title="Lo&#x1ea1;i &#x111;&#x1ed3; &#x103;n" type="java.lang.String"/>
                             <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng b&#xe1;n ra" type="java.lang.Integer"/>
                             <Column editable="false" title="Doanh thu" type="java.lang.Integer"/>
                           </Table>

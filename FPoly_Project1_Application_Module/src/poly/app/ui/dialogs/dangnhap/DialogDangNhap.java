@@ -55,7 +55,7 @@ public class DialogDangNhap extends javax.swing.JDialog {
     }
     
     private void unSaveAccountToFile(){
-        new File("accounnt.bin").deleteOnExit();
+        new File("accounnt.bin").delete();
     }
     
     private boolean isSavedAccountInFile(){

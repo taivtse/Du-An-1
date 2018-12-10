@@ -211,11 +211,11 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         tblDoAn.setSelectionBackground(new java.awt.Color(96, 116, 129));
         tblDoAn.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tblDoAn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblDoAnMouseClicked(evt);
-            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tblDoAnMousePressed(evt);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDoAnMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblDoAn);
@@ -297,7 +297,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
 
         lblTongTien.setFont(new java.awt.Font("Open Sans", 1, 14)); // NOI18N
         lblTongTien.setForeground(new java.awt.Color(211, 47, 47));
-        lblTongTien.setText("0 vnd");
+        lblTongTien.setText("0 VND");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);

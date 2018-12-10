@@ -404,6 +404,10 @@ public class FrameQLVeBan extends javax.swing.JFrame implements ClosableTabbedPa
         int i = 1;
         for (Map.Entry<String, VeBan> entry : veBanMapHienThi.entrySet()) {
             VeBan veban = entry.getValue();
+            String nguoiDungName = "";
+            if (veban.getNguoiDung() != null) {
+                nguoiDungName = veban.getNguoiDung().getHoTen();
+            }
             Object[] record = new Object[]{
                 i++,
                 veban.getId(),
@@ -411,7 +415,7 @@ public class FrameQLVeBan extends javax.swing.JFrame implements ClosableTabbedPa
                 veban.getGheNgoi().getViTriDay() + veban.getGheNgoi().getViTriCot(),
                 sdf.format(veban.getNgayBan()),
                 df.format(veban.getGiaVe().getDonGia()),
-                veban.getNguoiDung().getHoTen()
+                nguoiDungName
             };
             modelTable.addRow(record);
         }

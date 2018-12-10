@@ -63,7 +63,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         dcsNgayChieuFilter.setDate(ngayChieu);
         cboPhongChieuFilter.getModel().setSelectedItem(phongChieu);
         reRenderUI();
-        
+
         isAllComboboxLoaded = false;
         loadDataToCboPhongChieu();
         loadDataToCboPhim();
@@ -294,7 +294,7 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         btnSaveOrUpdate.setText("Thêm");
         btnResetOrDelete.setText("Reset");
         btnSaveOrUpdate.setEnabled(true);
-        
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dcsNgayChieu.getDate());
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -302,11 +302,10 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
         calendar.set(Calendar.SECOND, 0);
 
         Phim phim = (Phim) cboPhim.getModel().getSelectedItem();
-        Date newGioBatDau = calendar.getTime();        
+        Date newGioBatDau = calendar.getTime();
 
         spnGioBatDau.setValue(newGioBatDau);
         spnGioKetThuc.setValue(DateHelper.rollTime(newGioBatDau, Calendar.MINUTE, phim.getThoiLuong()));
-        
 
         Component[] components = pnlLichChieu.getComponents();
         for (Component component : components) {
@@ -380,10 +379,9 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
             SuatChieu curSuatChieu = panelSuatChieuItem.getSuatChieu();
             if (panelSuatChieuItem.getSuatChieuIndex() != updatingIndex) {
                 if ((curSuatChieu.getGioBatDau().compareTo(newGioBatDau) >= 0
-                    && curSuatChieu.getGioBatDau().compareTo(newGioKetThuc) <= 0)
-                    || 
-                        (curSuatChieu.getGioKetThuc().compareTo(newGioBatDau) >= 0
-                    && curSuatChieu.getGioKetThuc().compareTo(newGioKetThuc) <= 0)) {
+                        && curSuatChieu.getGioBatDau().compareTo(newGioKetThuc) <= 0)
+                        || (curSuatChieu.getGioKetThuc().compareTo(newGioBatDau) >= 0
+                        && curSuatChieu.getGioKetThuc().compareTo(newGioKetThuc) <= 0)) {
                     String alertStr = "Suất chiếu bị trùng với suất:\n"
                             + curSuatChieu.getPhim().getTen() + " (" + DateHelper.toTimeString(curSuatChieu.getGioBatDau())
                             + " - " + DateHelper.toTimeString(curSuatChieu.getGioKetThuc()) + ")";
@@ -895,8 +893,10 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
             loadTimeLine();
             cboPhongChieu.getModel().setSelectedItem(cboPhongChieuFilter.getModel().getSelectedItem());
 
-            updatingIndex = 0;
-            suatChieuItemClickAction(suatChieuItemList.get(0));
+            if (suatChieuItemList.size() > 0) {
+                updatingIndex = 0;
+                suatChieuItemClickAction(suatChieuItemList.get(0));
+            }
         }
     }//GEN-LAST:event_cboPhongChieuFilterItemStateChanged
 
@@ -906,8 +906,10 @@ public class DialogCapNhatSuatChieu extends javax.swing.JDialog {
             loadTimeLine();
             dcsNgayChieu.setDate(dcsNgayChieuFilter.getDate());
 
-            updatingIndex = 0;
-            suatChieuItemClickAction(suatChieuItemList.get(0));
+            if (suatChieuItemList.size() > 0) {
+                updatingIndex = 0;
+                suatChieuItemClickAction(suatChieuItemList.get(0));
+            }
         }
     }//GEN-LAST:event_dcsNgayChieuFilterPropertyChange
 

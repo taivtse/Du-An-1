@@ -130,10 +130,12 @@ public class MainRunningFrame extends javax.swing.JFrame {
                     frameTKDoanhThuTheoDoAn, frameTKDoanhThuTheoPhim, frameTKTongDoanhThu};
 
                 public void stateChanged(ChangeEvent e) {
-                    String tabTitle = tbpMainContent.getTitleAt(tbpMainContent.getSelectedIndex());
-                    for (JFrame childFrame : childFrames) {
-                        if (childFrame.getTitle().equals(tabTitle)) {
-                            ((ClosableTabbedPane.ClosableTabbedPaneMethod) childFrame).synchronizedData();
+                    if (tbpMainContent.getSelectedIndex() >= 0) {
+                        String tabTitle = tbpMainContent.getTitleAt(tbpMainContent.getSelectedIndex());
+                        for (JFrame childFrame : childFrames) {
+                            if (childFrame.getTitle().equals(tabTitle)) {
+                                ((ClosableTabbedPane.ClosableTabbedPaneMethod) childFrame).synchronizedData();
+                            }
                         }
                     }
                 }
@@ -179,6 +181,8 @@ public class MainRunningFrame extends javax.swing.JFrame {
             btnToolBarBanHangMouseReleased(null);
         } else if (ShareHelper.USER.getVaiTro().getId().equals("TR")) {
             btnToolBarThongKeMouseReleased(null);
+        }else{
+            btnToolBarDanhMucMouseReleased(null);
         }
     }
 

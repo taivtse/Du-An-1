@@ -374,7 +374,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
 
             },
             new String [] {
-                "STT", "Tên đồ ăn", "Loai đồ ăn", "Số lượng bán ra", "Doanh thu"
+                "STT", "Tên đồ ăn", "Loại đồ ăn", "Số lượng bán ra", "Doanh thu"
             }
         ) {
             Class[] types = new Class [] {
@@ -612,7 +612,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
         int i = 1;
         for (Object[] fill : listDoAn) {
             Object[] record = new Object[]{
-                i++, fill[0], fill[1], fill[3], decimalFormat.format(fill[4])
+                i++, fill[0], fill[1], fill[2], decimalFormat.format(fill[3])
             };
             modelTable.addRow(record);
         }
@@ -620,7 +620,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
 
     private void loadLoaiDoAnToCombobox() {
-
         DefaultComboBoxModel modelComboBox = (DefaultComboBoxModel) cboLoaiDoAn.getModel();
         LoaiDoAnDaoImpl lda = new LoaiDoAnDaoImpl();
         List<LoaiDoAn> listLDA = lda.getAll();
@@ -630,7 +629,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
 
     private void loadNamToComboBox() {
-
         Calendar calendar = Calendar.getInstance();
         for (int i = 2015; i <= calendar.get(Calendar.YEAR); i++) {
             cboTheoNam.addItem(i+"");

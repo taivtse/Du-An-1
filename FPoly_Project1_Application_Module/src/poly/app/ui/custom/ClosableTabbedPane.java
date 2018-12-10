@@ -18,7 +18,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.EventListener;
-import javax.swing.JPanel;
 
 /**
  * A JTabbedPane which has a close ('X') icon on each tab.
@@ -277,7 +276,6 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
 //    private boolean checkAddableTab(){
 //        return this.getTabCount() < this.maximunTabCount;
 //    }
-    
     private void selectedTabChange() {
         for (int i = 0; i < this.getTabCount(); i++) {
             this.setBackgroundAt(i, Color.decode("#EEEEEE"));
@@ -407,8 +405,9 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
         }
         return closeit;
     }
-    
-    public interface ClosableTabbedPaneMethod{
+
+    public interface ClosableTabbedPaneMethod {
+
         public void synchronizedData();
     }
 
@@ -640,6 +639,13 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
             textRect.x += xNudge;
             textRect.y += yNudge;
         }
+
+//        TAIS CODE:
+        @Override
+        protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight) {
+            return 30; // manipulate this number however you please.
+        }
+        
     }
 
     /**

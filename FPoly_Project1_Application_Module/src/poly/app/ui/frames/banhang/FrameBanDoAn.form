@@ -391,7 +391,7 @@
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="2f" green="2f" red="d3" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="0 vnd"/>
+                    <Property name="text" type="java.lang.String" value="0 VND"/>
                   </Properties>
                 </Component>
               </SubComponents>

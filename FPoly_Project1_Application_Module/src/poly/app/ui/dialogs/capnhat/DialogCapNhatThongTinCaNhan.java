@@ -64,6 +64,13 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
     }
 
     private boolean validateInput() {
+        String oldPassword = DigestUtils.md5Hex(String.valueOf(txtMatKhauCu.getPassword())).toUpperCase();
+        
+        if (!oldPassword.equals(ShareHelper.USER.getMatKhau())) {
+            DialogHelper.message(this, "Mật khẩu cũ không trùng khớp", DialogHelper.ERROR_MESSAGE);
+            return false;
+        }
+        
         if (ValidationUtil.isEmpty(String.valueOf(txtMatKhauCu.getPassword()))) {
             DialogHelper.message(this, "Mật khẩu cũ không được để trống", DialogHelper.ERROR_MESSAGE);
             return false;
@@ -74,8 +81,8 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
             return false;
         }
 
-        if (!ValidationUtil.isLenghtEnought(String.valueOf(txtMatKhauMoi.getPassword()), 3)) {
-            DialogHelper.message(this, "Mật khẩu phải từ 3 ký tự trở lên", DialogHelper.ERROR_MESSAGE);
+        if (!ValidationUtil.isLenghtEnought(String.valueOf(txtMatKhauMoi.getPassword()), 5)) {
+            DialogHelper.message(this, "Mật khẩu phải từ 5 ký tự trở lên", DialogHelper.ERROR_MESSAGE);
             return false;
         }
 
@@ -115,8 +122,8 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
             DialogHelper.message(this, "Không được bỏ bỏ trống số điện thoại", DialogHelper.ERROR_MESSAGE);
             return false;
-        } else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
-            DialogHelper.message(this, "Số điện thoại phải chỉ bằng 10", DialogHelper.ERROR_MESSAGE);
+        } else if (!txtSoDienThoai.getText().startsWith("0")) {
+            DialogHelper.message(this, "Số điện thoại phải bắt đầu bằng 0", DialogHelper.ERROR_MESSAGE);
             return false;
         } else if (ValidationUtil.isEmpty(txtEmail.getText())) {
             DialogHelper.message(this, "Không được bỏ bỏ trống Email", DialogHelper.ERROR_MESSAGE);
@@ -277,6 +284,11 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
         jLabel1.setText("Họ tên");
 
         txtSoDienThoai.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        txtSoDienThoai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtSoDienThoaiKeyTyped(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel8.setText("Địa chỉ");
@@ -569,6 +581,12 @@ public class DialogCapNhatThongTinCaNhan extends javax.swing.JDialog {
             this.dispose();
         }
     }//GEN-LAST:event_btnCapNhatThongTinActionPerformed
+
+    private void txtSoDienThoaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKeyTyped
+        if (txtSoDienThoai.getText().length() == 10 || (evt.getKeyChar() + "").matches("\\D")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSoDienThoaiKeyTyped
 
     /**
      * @param args the command line arguments
