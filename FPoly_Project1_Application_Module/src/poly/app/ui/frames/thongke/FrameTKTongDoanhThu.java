@@ -32,6 +32,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.chart.BarChart;
 import poly.app.ui.dialogs.chart.PieCharts;
 
@@ -39,7 +40,7 @@ import poly.app.ui.dialogs.chart.PieCharts;
  *
  * @author vothanhtai
  */
-public class FrameTKTongDoanhThu extends javax.swing.JFrame {
+public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     ProcedureDaoImpl sp_tk = new ProcedureDaoImpl();
     List<Object[]> listDoanhThu = new ArrayList<>();
@@ -55,6 +56,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
         dcTheoNgay.setDate(new Date());
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
+        loadNamToComboBox();
     }
 
     private void reRenderUI() {
@@ -71,7 +73,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
     }
 
     private void loadThongKeTheoThang() {
-        listDoanhThu = sp_tk.execute("sp_TongDoanhThuTheoThang", cbbThang.getSelectedIndex() + 1, Integer.parseInt(cboNamTheoThang.getSelectedItem().toString()));
+        listDoanhThu = sp_tk.execute("sp_TongDoanhThuTheoThang", cboTheoThang.getSelectedIndex() + 1, Integer.parseInt(cboNamTheoThang.getSelectedItem().toString()));
     }
 
     private void loadThongKeTheoNam() {
@@ -111,8 +113,6 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
     public void loadDataToTableTheoNam() {
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
         modelTable.setRowCount(0);
-        int i = 1;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         DecimalFormat decimalFormat = new DecimalFormat("###,###,###");
 
         for (Object[] fill : listDoanhThu) {
@@ -127,7 +127,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
 
     private void checkRadioButton() {
 
-        cbbThang.setEnabled(rdoTheoThang.isSelected());
+        cboTheoThang.setEnabled(rdoTheoThang.isSelected());
         cboNamTheoThang.setEnabled(rdoTheoThang.isSelected());
         dcTheoNgay.setEnabled(rdoTheoNgay.isSelected());
         cboTheoNam.setEnabled(rdoTheoNam.isSelected());
@@ -229,8 +229,19 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
     }
     
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        rdoTheoNgay.setSelected(true);
+        rdoTheoThang.setSelected(false);
+        rdoTheoNam.setSelected(false);
+        
+        cboTheoThang.setEnabled(false);
+        cboNamTheoThang.setEnabled(false);
+        cboTheoNam.setEnabled(false);
     }
 
     /**
@@ -248,7 +259,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         rdoTheoThang = new javax.swing.JRadioButton();
         rdoTheoNam = new javax.swing.JRadioButton();
-        cbbThang = new javax.swing.JComboBox<>();
+        cboTheoThang = new javax.swing.JComboBox<>();
         cboNamTheoThang = new javax.swing.JComboBox<>();
         cboTheoNam = new javax.swing.JComboBox<>();
         rdoTheoNgay = new javax.swing.JRadioButton();
@@ -292,20 +303,22 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
             }
         });
 
-        cbbThang.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        cbbThang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
-        cbbThang.addItemListener(new java.awt.event.ItemListener() {
+        cboTheoThang.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboTheoThang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12" }));
+        cboTheoThang.setEnabled(false);
+        cboTheoThang.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbbThangItemStateChanged(evt);
+                cboTheoThangItemStateChanged(evt);
             }
         });
-        cbbThang.addActionListener(new java.awt.event.ActionListener() {
+        cboTheoThang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbThangActionPerformed(evt);
+                cboTheoThangActionPerformed(evt);
             }
         });
 
         cboNamTheoThang.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboNamTheoThang.setEnabled(false);
         cboNamTheoThang.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboNamTheoThangItemStateChanged(evt);
@@ -313,6 +326,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
         });
 
         cboTheoNam.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        cboTheoNam.setEnabled(false);
         cboTheoNam.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cboTheoNamItemStateChanged(evt);
@@ -352,7 +366,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
                             .addComponent(rdoTheoNam))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(cbbThang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                         .addComponent(cboNamTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(dcTheoNgay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -369,7 +383,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
                 .addComponent(rdoTheoThang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbThang, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboNamTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(rdoTheoNam)
@@ -590,21 +604,15 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadDataToTable();
-        loadNamToComboBox();
-        cbbThang.setEnabled(false);
-        cboNamTheoThang.setEnabled(false);
-        cboTheoNam.setEnabled(false);
         Calendar calendar = Calendar.getInstance();
-        cbbThang.setSelectedIndex(calendar.get(Calendar.MONTH));
+        cboTheoThang.setSelectedIndex(calendar.get(Calendar.MONTH));
         cboNamTheoThang.setSelectedIndex(cboNamTheoThang.getItemCount() - 1);
         cboTheoNam.setSelectedIndex(cboTheoNam.getItemCount() - 1);
-
-
     }//GEN-LAST:event_formWindowOpened
 
-    private void cbbThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbThangActionPerformed
+    private void cboTheoThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTheoThangActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbbThangActionPerformed
+    }//GEN-LAST:event_cboTheoThangActionPerformed
 
     private void cboTheoNamItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTheoNamItemStateChanged
         if (rdoTheoNam.isSelected()) {
@@ -620,22 +628,20 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
             this.loadThongKeTheoThang();
             this.loadDataToTable();
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_rdoTheoThangActionPerformed
 
-    private void cbbThangItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbbThangItemStateChanged
+    private void cboTheoThangItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTheoThangItemStateChanged
         if (rdoTheoThang.isSelected()) {
             this.loadThongKeTheoThang();
             this.loadDataToTable();
         }
-// TODO add your handling code here:
-    }//GEN-LAST:event_cbbThangItemStateChanged
+    }//GEN-LAST:event_cboTheoThangItemStateChanged
 
     private void cboNamTheoThangItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboNamTheoThangItemStateChanged
         if (rdoTheoThang.isSelected()) {
             this.loadThongKeTheoThang();
             this.loadDataToTable();
-        }   // TODO add your handling code here:
+        }
     }//GEN-LAST:event_cboNamTheoThangItemStateChanged
 
     private void rdoTheoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTheoNamActionPerformed
@@ -643,7 +649,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
         if (rdoTheoNam.isSelected()) {
             this.loadThongKeTheoNam();
             this.loadDataToTableTheoNam();
-        }// TODO add your handling code here:
+        }
     }//GEN-LAST:event_rdoTheoNamActionPerformed
 
     private void btnXemBieuDoCotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemBieuDoCotActionPerformed
@@ -652,7 +658,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 this.xemBieuDo("Ngày " + formatter.format(dcTheoNgay.getDate()), "Ngày");
             } else if (rdoTheoThang.isSelected()) {
-                this.xemBieuDo(cbbThang.getSelectedItem().toString() + "-" + cboNamTheoThang.getSelectedItem().toString(), "Ngày");
+                this.xemBieuDo(cboTheoThang.getSelectedItem().toString() + "-" + cboNamTheoThang.getSelectedItem().toString(), "Ngày");
             } else {
                 this.xemBieuDo("Năm " + cboTheoNam.getSelectedItem().toString(), "Tháng");
             }
@@ -695,7 +701,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 this.XemBieuDoTron((formatter.format(dcTheoNgay.getDate())));
             } else if (rdoTheoThang.isSelected()) {
-                this.XemBieuDoTron(cbbThang.getSelectedItem().toString() + "-" + cboNamTheoThang.getSelectedItem().toString());
+                this.XemBieuDoTron(cboTheoThang.getSelectedItem().toString() + "-" + cboNamTheoThang.getSelectedItem().toString());
             } else {
                 this.XemBieuDoTron(cboTheoNam.getSelectedItem().toString());
             }
@@ -808,9 +814,9 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame {
     private javax.swing.JButton btnXemBieuDoTron;
     private javax.swing.JButton btnXuatFile;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbbThang;
     private javax.swing.JComboBox<String> cboNamTheoThang;
     private javax.swing.JComboBox<String> cboTheoNam;
+    private javax.swing.JComboBox<String> cboTheoThang;
     private com.toedter.calendar.JDateChooser dcTheoNgay;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;

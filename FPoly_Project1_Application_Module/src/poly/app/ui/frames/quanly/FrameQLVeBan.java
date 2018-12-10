@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.VeBanDaoImpl;
 import poly.app.core.entities.VeBan;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.thongtin.DialogXemChiTietVe;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -23,7 +24,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameQLVeBan extends javax.swing.JFrame {
+public class FrameQLVeBan extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod {
 
     /**
      * Creates new form FrameQLNhanVien

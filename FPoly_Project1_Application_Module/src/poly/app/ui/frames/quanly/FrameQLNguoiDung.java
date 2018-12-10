@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.entities.NguoiDung;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatNguoiDung;
 import poly.app.ui.dialogs.them.DialogThemNguoiDung;
 
@@ -25,7 +26,7 @@ import poly.app.ui.dialogs.them.DialogThemNguoiDung;
  *
  * @author vothanhtai
  */
-public class FrameQLNguoiDung extends javax.swing.JFrame {
+public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     Map<String, NguoiDung> nguoiDungMap = new TreeMap<>();
 

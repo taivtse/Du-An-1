@@ -31,6 +31,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import poly.app.core.data.daoimpl.ProcedureDaoImpl;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.chart.OverlappedChart;
 import poly.app.ui.dialogs.chart.PieCharts;
 import poly.app.ui.utils.TableRendererUtil;
@@ -39,7 +40,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameTKVeBan extends javax.swing.JFrame {
+public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     /**
      * Creates new form FrameQLNhanVien
@@ -77,8 +78,19 @@ public class FrameTKVeBan extends javax.swing.JFrame {
     }
     
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        rdoTheoNgay.setSelected(true);
+        rdoTheoThang.setSelected(false);
+        rdoTheoNam.setSelected(false);
+        
+        cboTheoThang.setEnabled(false);
+        cboNamTheoThang.setEnabled(false);
+        cboTheoNam.setEnabled(false);
     }
 
     /**
@@ -338,7 +350,7 @@ public class FrameTKVeBan extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Thời gian", "2D", "3D", "4D", "IMAX", "Offline", "Online", "Doanh Thu"
+                "STT", "Thời gian", "2D", "3D", "4D", "IMAX", "Online", "Offline", "Doanh Thu"
             }
         ) {
             Class[] types = new Class [] {
@@ -621,7 +633,6 @@ public class FrameTKVeBan extends javax.swing.JFrame {
         for (Object[] fill : listVeBan) {
             if (rdoTheoNam.isSelected()) {
                 Object[] record = new Object[]{
-//                    fm.format(fill[0]).substring(3, 10)
                     i++, fill[0], fill[1], fill[2], fill[3], fill[4], fill[5], fill[6], decimalFormat.format(fill[7])
                 };
                 modelTable.addRow(record);

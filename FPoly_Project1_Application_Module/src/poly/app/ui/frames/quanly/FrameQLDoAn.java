@@ -24,6 +24,7 @@ import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 import poly.app.core.entities.LoaiDoAn;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatDoAn;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatDoAnChiTiet;
 import poly.app.ui.dialogs.them.DialogThemDoAn;
@@ -34,7 +35,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameQLDoAn extends javax.swing.JFrame {
+public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
     
     List<DoAn> listDoAn = new ArrayList<>();
     List<DoAnChiTiet> listDoAnCT = new ArrayList<>();

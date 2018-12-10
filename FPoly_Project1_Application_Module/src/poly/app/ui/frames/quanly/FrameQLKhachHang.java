@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.KhachHangDaoImpl;
 import poly.app.core.entities.KhachHang;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatKhachHang;
 import poly.app.ui.dialogs.them.DialogThemKhachHang;
 import poly.app.ui.utils.TableRendererUtil;
@@ -24,7 +25,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameQLKhachHang extends javax.swing.JFrame {
+public class FrameQLKhachHang extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     List<KhachHang> listKH = new ArrayList<>();
 

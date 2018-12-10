@@ -5,14 +5,10 @@
  */
 package poly.app.ui.dialogs.orther;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import poly.app.core.helper.ShareHelper;
 
 /**
  *
@@ -27,9 +23,14 @@ public class DialogSplashScreen extends javax.swing.JDialog {
      */
     public DialogSplashScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        changeAppIcon();
         initComponents();
         setLocationRelativeTo(null);
         initLoadingState();
+    }
+    
+    private void changeAppIcon() {
+        setIconImage(ShareHelper.APP_ICON);
     }
 
     private void initLoadingState() {

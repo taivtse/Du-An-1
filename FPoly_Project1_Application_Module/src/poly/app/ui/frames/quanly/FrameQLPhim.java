@@ -18,6 +18,7 @@ import org.hibernate.HibernateException;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatPhim;
 import poly.app.ui.dialogs.them.DialogThemPhim;
 import poly.app.ui.utils.TableRendererUtil;
@@ -26,7 +27,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameQLPhim extends javax.swing.JFrame {
+public class FrameQLPhim extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     List<Phim> listPhim;
     Map<String, Phim> mapPhim = new TreeMap<>();

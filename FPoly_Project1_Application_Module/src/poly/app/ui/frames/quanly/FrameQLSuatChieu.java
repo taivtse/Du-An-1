@@ -20,6 +20,7 @@ import poly.app.core.entities.Phim;
 import poly.app.core.entities.PhongChieu;
 import poly.app.core.entities.SuatChieu;
 import poly.app.core.helper.DateHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.capnhat.DialogCapNhatSuatChieu;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -27,7 +28,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameQLSuatChieu extends javax.swing.JFrame {
+public class FrameQLSuatChieu extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     List<SuatChieu> suatChieuList = new ArrayList<>();
     Map<String, Phim> phimMap = new TreeMap<>();

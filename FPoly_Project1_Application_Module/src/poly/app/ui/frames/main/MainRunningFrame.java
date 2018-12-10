@@ -7,7 +7,10 @@ package poly.app.ui.frames.main;
 
 //import com.apple.eawt.Application;
 import java.awt.CardLayout;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.helper.ShareHelper;
 import poly.app.core.utils.HibernateUtil;
@@ -49,12 +52,11 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
     private FrameBanDoAn frameBanDoAn;
     private FrameBanVe frameBanVe;
-    
+
     private FrameTKVeBan frameTKVeBan;
     private FrameTKDoanhThuTheoDoAn frameTKDoanhThuTheoDoAn;
     private FrameTKDoanhThuTheoPhim frameTKDoanhThuTheoPhim;
     private FrameTKTongDoanhThu frameTKTongDoanhThu;
-    
 
     private int numberOfThreadLoaded = 0;
     private final int maxnumberOfThreadLoaded = 3;
@@ -63,16 +65,10 @@ public class MainRunningFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainRunningFrame() {
-        changeAppIcon();
         renderMainUIInBackground();
         loadHibernateSession();
         renderChildFrame();
         showSplashScreen();
-    }
-
-    private void changeAppIcon() {
-        setIconImage(ShareHelper.APP_ICON);
-//        Application.getApplication().setDockIconImage(ShareHelper.APP_ICON);
     }
 
     private void reRenderUI() {
@@ -121,11 +117,27 @@ public class MainRunningFrame extends javax.swing.JFrame {
 
             frameBanDoAn = new FrameBanDoAn();
             frameBanVe = new FrameBanVe();
-            
+
             frameTKVeBan = new FrameTKVeBan();
             frameTKDoanhThuTheoDoAn = new FrameTKDoanhThuTheoDoAn();
             frameTKDoanhThuTheoPhim = new FrameTKDoanhThuTheoPhim();
             frameTKTongDoanhThu = new FrameTKTongDoanhThu();
+
+            tbpMainContent.addChangeListener(new ChangeListener() {
+                private final JFrame[] childFrames = new JFrame[]{frameQLPhim, frameQLSuatChieu,
+                    frameQLDoAn, frameQLNguoiDung, frameQLKhachHang, frameQLHoaDon,
+                    frameQLVeBan, frameBanDoAn, frameBanVe, frameTKVeBan,
+                    frameTKDoanhThuTheoDoAn, frameTKDoanhThuTheoPhim, frameTKTongDoanhThu};
+
+                public void stateChanged(ChangeEvent e) {
+                    String tabTitle = tbpMainContent.getTitleAt(tbpMainContent.getSelectedIndex());
+                    for (JFrame childFrame : childFrames) {
+                        if (childFrame.getTitle().equals(tabTitle)) {
+                            ((ClosableTabbedPane.ClosableTabbedPaneMethod) childFrame).getMainPanel();
+                        }
+                    }
+                }
+            });
 
             System.out.println("child ui loaded");
             numberOfThreadLoaded++;
@@ -165,7 +177,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
     private void setStartVaiTroTab() {
         if (ShareHelper.USER.getVaiTro().getId().equals("NV")) {
             btnToolBarBanHangMouseReleased(null);
-        }else if (ShareHelper.USER.getVaiTro().getId().equals("TR")) {
+        } else if (ShareHelper.USER.getVaiTro().getId().equals("TR")) {
             btnToolBarThongKeMouseReleased(null);
         }
     }
@@ -735,6 +747,7 @@ public class MainRunningFrame extends javax.swing.JFrame {
             DialogHelper.message(this, "Hệ thống đã xảy ra lỗi", DialogHelper.ERROR_MESSAGE);
             this.dispose();
         } else {
+            tbpMainContent.removeAll();
             setStartVaiTroTab();
             lblTenTaiKhoan.setText(ShareHelper.USER.getHoTen());
         }

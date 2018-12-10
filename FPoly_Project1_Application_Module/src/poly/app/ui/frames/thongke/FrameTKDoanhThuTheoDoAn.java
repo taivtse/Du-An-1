@@ -32,6 +32,7 @@ import poly.app.core.daoimpl.LoaiDoAnDaoImpl;
 import poly.app.core.data.daoimpl.ProcedureDaoImpl;
 import poly.app.core.entities.LoaiDoAn;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.dialogs.chart.BarChart;
 import poly.app.ui.utils.TableRendererUtil;
 
@@ -39,7 +40,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
+public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     /**
      * Creates new form FrameQLNhanVien
@@ -54,6 +55,8 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         setTitle("Thống kê đồ ăn");
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
+        this.loadLoaiDoAnToCombobox();
+        this.loadNamToComboBox();
     } 
 
     private void reRenderUI() {
@@ -71,8 +74,21 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
     }
     
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        cboLoaiDoAn.setSelectedIndex(0);
+        
+        rdoTheoNgay.setSelected(true);
+        rdoTheoThang.setSelected(false);
+        rdoTheoNam.setSelected(false);
+        
+        cboTheoThang.setEnabled(false);
+        cboNamTheoThang.setEnabled(false);
+        cboTheoNam.setEnabled(false);
     }
 
     /**
@@ -472,8 +488,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame {
         this.setDefaultSelectedComboBox();
         this.loadThongKeTheoNgay();
         this.loadDataToTable();
-        this.loadLoaiDoAnToCombobox();
-        this.loadNamToComboBox();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnXemBieuDoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemBieuDoActionPerformed

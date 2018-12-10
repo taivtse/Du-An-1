@@ -471,8 +471,8 @@
                             <Column editable="true" title="3D" type="java.lang.Integer"/>
                             <Column editable="true" title="4D" type="java.lang.Integer"/>
                             <Column editable="true" title="IMAX" type="java.lang.Integer"/>
-                            <Column editable="true" title="Offline" type="java.lang.Integer"/>
                             <Column editable="true" title="Online" type="java.lang.Integer"/>
+                            <Column editable="true" title="Offline" type="java.lang.Integer"/>
                             <Column editable="true" title="Doanh Thu" type="java.lang.Integer"/>
                           </Table>
                         </Property>

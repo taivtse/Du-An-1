@@ -35,6 +35,7 @@ import org.apache.poi.ss.usermodel.Row;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.data.daoimpl.ProcedureDaoImpl;
 import poly.app.core.helper.DialogHelper;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.custom.JComboBoxListener;
 import poly.app.ui.dialogs.chart.BarChart;
 import poly.app.ui.utils.TableRendererUtil;
@@ -43,7 +44,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
+public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     /**
      * Creates new form FrameQLNhanVien
@@ -58,6 +59,7 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
         setTitle("Thống kê phim");
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
+        this.loadNamToComboBox();
     }
 
     private void reRenderUI() {
@@ -143,8 +145,22 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
     }
 
     public JPanel getMainPanel() {
+        resetSearchForm();
         formWindowOpened(null);
         return pnlMain;
+    }
+    
+    private void resetSearchForm() {
+        ((JTextField) cboTheoPhim.getEditor().getEditorComponent()).setFocusable(false);
+        ((JTextField) cboTheoPhim.getEditor().getEditorComponent()).setText("");
+        
+        rdoTheoNgay.setSelected(true);
+        rdoTheoThang.setSelected(false);
+        rdoTheoNam.setSelected(false);
+        
+        cboTheoThang.setEnabled(false);
+        cboNamTheoThang.setEnabled(false);
+        cboTheoNam.setEnabled(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -528,7 +544,6 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCollapseMouseReleased
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this.loadNamToComboBox();
         this.loadThongKeTheoNgay();
         Calendar calendar = Calendar.getInstance();
         cboTheoThang.setSelectedIndex(calendar.get(Calendar.MONTH));

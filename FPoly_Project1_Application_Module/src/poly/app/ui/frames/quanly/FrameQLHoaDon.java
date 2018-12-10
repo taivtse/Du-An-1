@@ -15,13 +15,14 @@ import javax.swing.table.DefaultTableModel;
 import poly.app.core.daoimpl.HoaDonDaoImpl;
 import poly.app.core.entities.HoaDon;
 import poly.app.core.entities.HoaDonChiTiet;
+import poly.app.ui.custom.ClosableTabbedPane;
 import poly.app.ui.utils.TableRendererUtil;
 
 /**
  *
  * @author vothanhtai
  */
-public class FrameQLHoaDon extends javax.swing.JFrame {
+public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
 
     List<HoaDon> listHoaDon = new ArrayList<>();
     List<HoaDonChiTiet> listHoaDonCT = new ArrayList<>();
