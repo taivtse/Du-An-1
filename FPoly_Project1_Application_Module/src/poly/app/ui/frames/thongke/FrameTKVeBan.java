@@ -57,6 +57,7 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
         setTitle("Thống kê vé bán");
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
+        this.setDefaultSelectedComboBox();
     }
 
     private void reRenderUI() {
@@ -86,20 +87,17 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
     }
     
     public void synchronizedData(){
-        resetSearchForm();
-        this.setDefaultSelectedComboBox();
-        this.loadThongKeTheoNgay();
-        this.loadDataToTable();
+        reloadData();
     }
     
-    private void resetSearchForm() {
-        rdoTheoNgay.setSelected(true);
-        rdoTheoThang.setSelected(false);
-        rdoTheoNam.setSelected(false);
-        
-        cboTheoThang.setEnabled(false);
-        cboNamTheoThang.setEnabled(false);
-        cboTheoNam.setEnabled(false);
+    private void reloadData() {
+        if (rdoTheoNgay.isSelected()) {
+            rdoTheoNgayActionPerformed(null);
+        }else if(rdoTheoThang.isSelected()){
+            rdoTheoThangActionPerformed(null);
+        }else if (rdoTheoNam.isSelected()) {
+            rdoTheoNamActionPerformed(null);
+        }
     }
 
     /**

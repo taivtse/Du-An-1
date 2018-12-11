@@ -150,24 +150,20 @@ public class FrameTKDoanhThuTheoPhim extends javax.swing.JFrame implements Closa
     }
     
     public void synchronizedData(){
-        resetSearchForm();
-        this.setDefaultSelectedComboBox();
-        this.loadThongKeTheoNgay();
-        this.loadDataToTable();
+        reloadData();
+        cboTheoPhimItemStateChanged(null);
     }
     
-    private void resetSearchForm() {
-        ((JTextField) cboTheoPhim.getEditor().getEditorComponent()).setFocusable(false);
-        ((JTextField) cboTheoPhim.getEditor().getEditorComponent()).setText("");
-        
-        rdoTheoNgay.setSelected(true);
-        rdoTheoThang.setSelected(false);
-        rdoTheoNam.setSelected(false);
-        
-        cboTheoThang.setEnabled(false);
-        cboNamTheoThang.setEnabled(false);
-        cboTheoNam.setEnabled(false);
+    private void reloadData() {
+        if (rdoTheoNgay.isSelected()) {
+            rdoTheoNgayActionPerformed(null);
+        }else if(rdoTheoThang.isSelected()){
+            rdoTheoThangActionPerformed(null);
+        }else if (rdoTheoNam.isSelected()) {
+            rdoTheoNamActionPerformed(null);
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -64,24 +64,9 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
     }
     
     public void synchronizedData(){
-        resetSearchForm();
         this.loadDataToTable();
-    }
-    
-    
-    private void resetSearchForm() {
-        chkTheoMaHoaDon.setSelected(true);
-        txtMaHoaDon.setEnabled(true);
-        txtMaHoaDon.setText("");
-
-        chkKhoangThoiGian.setSelected(false);
-        dcTuNgay.setDate(null);
-        dcDenNgay.setDate(null);
-        dcTuNgay.setEnabled(false);
-        dcDenNgay.setEnabled(false);
-        
-        DefaultTableModel modelHDCT = (DefaultTableModel) tblHoaDonChiTiet.getModel();
-        modelHDCT.setRowCount(0);
+        this.searchHD();
+        ((DefaultTableModel) tblHoaDonChiTiet.getModel()).setRowCount(0);
     }
 
     /**

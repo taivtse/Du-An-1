@@ -74,24 +74,9 @@ public class FrameQLSuatChieu extends javax.swing.JFrame implements ClosableTabb
     }
     
     public void synchronizedData(){
-        resetSearchForm();
         this.loadAllToTable();
         this.loadTenPhimCombobox();
-    }
-
-    private void resetSearchForm() {
-        dcNgayHienThi.setDate(new Date());
-        cboPhongChieu.setSelectedIndex(0);
-
-        chkTenPhim.setSelected(false);
-        cboPhim.setSelectedIndex(0);
-        cboPhim.setEnabled(false);
-
-        chkTrangThai.setSelected(false);
-        rdoSapChieu.setSelected(true);
-        rdoSapChieu.setEnabled(false);
-        rdoDangChieu.setEnabled(false);
-        rdoDaChieu.setEnabled(false);
+        loadFilterDataToTable(searchAdvanced());
     }
 
     private void loadDataToCboPhongChieu() {

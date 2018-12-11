@@ -60,20 +60,8 @@ public class FrameQLKhachHang extends javax.swing.JFrame  implements ClosableTab
     }
     
     public void synchronizedData(){
-        resetSearchForm();
         this.loadAllDataToTable();
-    }
-    
-    private void resetSearchForm() {
-        chkTen.setSelected(true);
-        txtTen.setEnabled(true);
-        txtTen.setText("");
-
-        chkNgayDangKy.setSelected(false);
-        dcTuNgay.setDate(null);
-        dcDenNgay.setDate(null);
-        dcTuNgay.setEnabled(false);
-        dcDenNgay.setEnabled(false);
+        loadDataToTable(search());
     }
 
     /**

@@ -16,8 +16,9 @@ public class DoAnChiTietDaoImpl extends AbstractDao<Integer, DoAnChiTiet> implem
         List<String> sortExpression = new ArrayList<String>();
         sortExpression.add("doAn");
         sortExpression.add("kichCoDoAn");
-        
-        return this.getByProperties(null, sortExpression, CoreConstant.SORT_ASC, null, null);
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("dangBan", true);
+        return this.getByProperties(conditions, sortExpression, CoreConstant.SORT_ASC, null, null);
     }
 
     @Override

@@ -89,24 +89,8 @@ public class FrameQLDoAn extends javax.swing.JFrame implements ClosableTabbedPan
     }
 
     public void synchronizedData() {
-        resetSearchForm();
         this.loadDataToTable();
-    }
-
-    private void resetSearchForm() {
-        chkTheoTen.setSelected(true);
-        txtTraCuuDoAn.setEnabled(true);
-        txtTraCuuDoAn.setText("");
-
-        chkTheoTrangThai.setSelected(false);
-        rdoDaNgungBan.setEnabled(false);
-        rdoDangDuocBan.setEnabled(false);
-        rdoDangDuocBan.setSelected(true);
-
-        chkTheoLoaiDoAn.setSelected(false);
-        cboLoaiDoAn.setSelectedIndex(0);
-        cboLoaiDoAn.setEnabled(false);
-
+        this.searchAdvanced();
         ((DefaultTableModel) tblDoAnChiTiet.getModel()).setRowCount(0);
     }
 

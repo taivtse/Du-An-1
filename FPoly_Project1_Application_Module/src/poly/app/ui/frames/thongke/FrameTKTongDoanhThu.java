@@ -57,6 +57,7 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
         this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         reRenderUI();
         loadNamToComboBox();
+        this.setDefaultSelectedComboBox();
     }
 
     private void reRenderUI() {
@@ -229,22 +230,18 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
     }
     
     public void synchronizedData(){
-        resetSearchForm();
-        this.setDefaultSelectedComboBox();
-        this.loadThongKeTheoNgay();
-        this.loadDataToTable();
+        reloadData();
     }
     
-    private void resetSearchForm() {
-        rdoTheoNgay.setSelected(true);
-        rdoTheoThang.setSelected(false);
-        rdoTheoNam.setSelected(false);
-        
-        cboTheoThang.setEnabled(false);
-        cboNamTheoThang.setEnabled(false);
-        cboTheoNam.setEnabled(false);
+    private void reloadData() {
+        if (rdoTheoNgay.isSelected()) {
+            rdoTheoNgayActionPerformed(null);
+        }else if(rdoTheoThang.isSelected()){
+            rdoTheoThangActionPerformed(null);
+        }else if (rdoTheoNam.isSelected()) {
+            rdoTheoNamActionPerformed(null);
+        }
     }
-
     
     public void setDefaultSelectedComboBox() {
         Calendar cal = Calendar.getInstance();
@@ -624,7 +621,6 @@ public class FrameTKTongDoanhThu extends javax.swing.JFrame implements ClosableT
             this.loadThongKeTheoNam();
             this.loadDataToTableTheoNam();
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_cboTheoNamItemStateChanged
 
     private void rdoTheoThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTheoThangActionPerformed

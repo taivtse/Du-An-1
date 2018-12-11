@@ -56,6 +56,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
         reRenderUI();
         this.loadLoaiDoAnToCombobox();
         this.loadNamToComboBox();
+        setDefaultSelectedComboBox();
     }
 
     private void reRenderUI() {
@@ -78,22 +79,18 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
 
     public void synchronizedData() {
-        resetSearchForm();
-        this.setDefaultSelectedComboBox();
-        this.loadThongKeTheoNgay();
-        this.loadDataToTable();
+        reloadData();
+        this.filterLoaiDoAn();
     }
 
-    private void resetSearchForm() {
-        cboLoaiDoAn.setSelectedIndex(0);
-
-        rdoTheoNgay.setSelected(true);
-        rdoTheoThang.setSelected(false);
-        rdoTheoNam.setSelected(false);
-
-        cboTheoThang.setEnabled(false);
-        cboNamTheoThang.setEnabled(false);
-        cboTheoNam.setEnabled(false);
+    private void reloadData() {
+        if (rdoTheoNgay.isSelected()) {
+            rdoTheoNgayActionPerformed(null);
+        }else if(rdoTheoThang.isSelected()){
+            rdoTheoThangActionPerformed(null);
+        }else if (rdoTheoNam.isSelected()) {
+            rdoTheoNamActionPerformed(null);
+        }
     }
 
     /**
@@ -630,18 +627,19 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
 
     private void filterLoaiDoAn() {
+        DecimalFormat decimalFormat = new DecimalFormat("##,###,###,###");
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
         modelTable.setRowCount(0);
         int i = 1;
         for (Object[] objArr : listDoAn) {
             if (cboLoaiDoAn.getSelectedIndex() == 0) {
                 Object[] record = new Object[]{
-                    i++, objArr[0], objArr[1], objArr[2], objArr[3]
+                    i++, objArr[0], objArr[1], objArr[2], decimalFormat.format(objArr[3])
                 };
                 modelTable.addRow(record);
             } else if (objArr[1].toString().equals(cboLoaiDoAn.getSelectedItem().toString())) {
                 Object[] record = new Object[]{
-                    i++, objArr[0], objArr[1], objArr[2], objArr[3]
+                    i++, objArr[0], objArr[1], objArr[2], decimalFormat.format(objArr[3])
                 };
                 modelTable.addRow(record);
             }
@@ -650,7 +648,6 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
 
     private void loadThongKeTheoNgay() {
-
         listDoAn = sp_tk.execute("sp_DoanhThuDoAnTheoNgay", dcsTheoNgay.getDate());
     }
 

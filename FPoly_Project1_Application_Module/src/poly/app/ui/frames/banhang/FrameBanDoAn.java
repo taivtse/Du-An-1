@@ -5,12 +5,6 @@
  */
 package poly.app.ui.frames.banhang;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,13 +82,8 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
     }
 
     public void synchronizedData() {
-        resetSearchForm();
         this.loadDataToTableDoAn();
-    }
-
-    private void resetSearchForm() {
-        cboLoaiDoAn.setSelectedIndex(0);
-        spnSoLuong.setValue(0);
+        cboLoaiDoAnItemStateChanged(null);
     }
 
     /**

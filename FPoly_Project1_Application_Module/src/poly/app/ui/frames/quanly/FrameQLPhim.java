@@ -61,20 +61,8 @@ public class FrameQLPhim extends javax.swing.JFrame  implements ClosableTabbedPa
     }
     
     public void synchronizedData(){
-        resetSearchForm();
         this.loadAllDataToTable();
-    }
-
-    private void resetSearchForm() {
-        chkTenPhim.setSelected(true);
-        txtTenPhim.setEnabled(true);
-        txtTenPhim.setText("");
-
-        chkKhoangThoiGian.setSelected(false);
-        dcTuNgay.setDate(null);
-        dcDenNgay.setDate(null);
-        dcTuNgay.setEnabled(false);
-        dcDenNgay.setEnabled(false);
+        loadDataToTable(searchAdvance());
     }
 
     /**

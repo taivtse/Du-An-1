@@ -60,20 +60,8 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
     }
     
     public void synchronizedData(){
-        resetSearchForm();
         this.loadAllDataToTable();
-    }
-    
-    private void resetSearchForm() {
-        chkTheoTen.setSelected(true);
-        txtSearchTen.setEnabled(true);
-        txtSearchTen.setText("");
-
-        chkTheoNgayVaoLam.setSelected(false);
-        dcTuNgay.setDate(null);
-        dcDenNgay.setDate(null);
-        dcTuNgay.setEnabled(false);
-        dcDenNgay.setEnabled(false);
+        loadDataToTable(search());
     }
 
     private Map<String, NguoiDung> search() {
@@ -528,10 +516,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
     }//GEN-LAST:event_chkTheoTenActionPerformed
 
     private void txtSearchTenKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchTenKeyReleased
-
         loadDataToTable(search());
-
-// TODO add your handling code here:
     }//GEN-LAST:event_txtSearchTenKeyReleased
 
     private void chkTheoNgayVaoLamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoNgayVaoLamActionPerformed

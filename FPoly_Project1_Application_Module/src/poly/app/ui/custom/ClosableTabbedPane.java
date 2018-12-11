@@ -407,7 +407,6 @@ public class ClosableTabbedPane extends JTabbedPane implements MouseListener, Mo
     }
 
     public interface ClosableTabbedPaneMethod {
-
         public void synchronizedData();
     }
 
