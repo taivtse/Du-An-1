@@ -105,6 +105,8 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         chkTheoLoaiDoAn.setSelected(false);
         cboLoaiDoAn.setSelectedIndex(0);
         cboLoaiDoAn.setEnabled(false);
+        
+        ((DefaultTableModel)tblDoAnChiTiet.getModel()).setRowCount(0);
     }
 
     /**
@@ -562,7 +564,6 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         if (txtTraCuuDoAn.getText().equals("")) {
             this.loadDataToTable();
         } else {
-//            this.searchDA();
             this.searchDoAnByName();
         }
     }//GEN-LAST:event_txtTraCuuDoAnKeyReleased
@@ -582,12 +583,10 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
     }//GEN-LAST:event_tblDoAnChiTietMouseClicked
 
     private void rdoDangDuocBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDangDuocBanActionPerformed
-        
         this.searchDoAnByName();
     }//GEN-LAST:event_rdoDangDuocBanActionPerformed
 
     private void rdoDaNgungBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaNgungBanActionPerformed
-        
         this.searchDoAnByName();
     }//GEN-LAST:event_rdoDaNgungBanActionPerformed
 

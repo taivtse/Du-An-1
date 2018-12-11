@@ -50,6 +50,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
         tblRenderer.setColoumnWidthByPersent(0, 5);
         tblRenderer.setColoumnWidthByPersent(2, 20);
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
+        tblRenderer.setColumnAlignment(5, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_CENTER);
     }
 

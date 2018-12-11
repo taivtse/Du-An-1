@@ -79,6 +79,9 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
         dcDenNgay.setDate(null);
         dcTuNgay.setEnabled(false);
         dcDenNgay.setEnabled(false);
+        
+        DefaultTableModel modelHDCT = (DefaultTableModel) tblHoaDonChiTiet.getModel();
+        modelHDCT.setRowCount(0);
     }
 
     /**
@@ -103,8 +106,6 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
         dcDenNgay = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        btnRefresh = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblHoaDon = new javax.swing.JTable();
@@ -226,43 +227,15 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
 
         jPanel4.setOpaque(false);
 
-        jButton1.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        jButton1.setText("In hoá đơn");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        btnRefresh.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
-        btnRefresh.setText("Refresh");
-        btnRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRefreshActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRefresh)
-                .addContainerGap())
+            .addGap(0, 231, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+            .addGap(0, 63, Short.MAX_VALUE)
         );
 
         jPanel5.setOpaque(false);
@@ -492,16 +465,6 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
         }
     }//GEN-LAST:event_dcDenNgayPropertyChange
 
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        DefaultTableModel modelHDCT = (DefaultTableModel) tblHoaDonChiTiet.getModel();
-        modelHDCT.setRowCount(0);
-        this.loadDataToTable();
-    }//GEN-LAST:event_btnRefreshActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.printHoaDon();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     public void loadDataToTable() {
         DefaultTableModel modelHD = (DefaultTableModel) tblHoaDon.getModel();
         modelHD.setRowCount(0);
@@ -588,10 +551,6 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
             }
         }
     }
-    public void printHoaDon()
-    {
-        
-    }
 
     /**
      * @param args the command line arguments
@@ -637,12 +596,10 @@ public class FrameQLHoaDon extends javax.swing.JFrame  implements ClosableTabbed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCollapse;
-    private javax.swing.JButton btnRefresh;
     private javax.swing.JCheckBox chkKhoangThoiGian;
     private javax.swing.JCheckBox chkTheoMaHoaDon;
     private com.toedter.calendar.JDateChooser dcDenNgay;
     private com.toedter.calendar.JDateChooser dcTuNgay;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

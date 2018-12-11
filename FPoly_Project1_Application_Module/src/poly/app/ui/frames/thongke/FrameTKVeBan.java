@@ -65,7 +65,7 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
         tblRenderer.changeHeaderStyle();
         
         tblRenderer.setColoumnWidthByPersent(0, 5);
-        tblRenderer.setColoumnWidthByPersent(8, 20);
+        tblRenderer.setColoumnWidthByPersent(9, 20);
         
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
         tblRenderer.setColumnAlignment(2, TableRendererUtil.CELL_ALIGN_RIGHT);
@@ -75,6 +75,7 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
         tblRenderer.setColumnAlignment(6, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(7, TableRendererUtil.CELL_ALIGN_RIGHT);
         tblRenderer.setColumnAlignment(8, TableRendererUtil.CELL_ALIGN_RIGHT);
+        tblRenderer.setColumnAlignment(9, TableRendererUtil.CELL_ALIGN_RIGHT);
         
         this.loadNamToComboBox();
     }
@@ -358,14 +359,14 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
 
             },
             new String [] {
-                "STT", "Thời gian", "2D", "3D", "4D", "IMAX", "Online", "Offline", "Doanh Thu"
+                "STT", "Thời gian", "2D", "3D", "4D", "IMAX", "Online", "Offline", "Tổng vé", "Doanh Thu"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, true, true, true, true, true, true, true
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -591,7 +592,7 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
     public void tongDoanhThu() {
         Long tong = Long.valueOf(0);
         for (int i = 0; i < tblThongKe.getRowCount(); i++) {
-            tong += Integer.parseInt(tblThongKe.getValueAt(i, 8).toString().replace(",", ""));
+            tong += Integer.parseInt(tblThongKe.getValueAt(i, 9).toString().replace(",", ""));
         }
         lblTong.setText("Tổng doanh thu: " + decimalFormat.format(tong) + " VND");
     }
@@ -638,12 +639,12 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
         for (Object[] fill : listVeBan) {
             if (rdoTheoNam.isSelected()) {
                 Object[] record = new Object[]{
-                    i++, fill[0], fill[1], fill[2], fill[3], fill[4], fill[5], fill[6], decimalFormat.format(fill[7])
+                    i++, fill[0], fill[1], fill[2], fill[3], fill[4], fill[5], fill[6], fill[7], decimalFormat.format(fill[8])
                 };
                 modelTable.addRow(record);
             } else {
                 Object[] record = new Object[]{
-                    i++, fm.format(fill[0]), fill[1], fill[2], fill[3], fill[4], fill[5], fill[6], decimalFormat.format(fill[7])
+                    i++, fm.format(fill[0]), fill[1], fill[2], fill[3], fill[4], fill[5], fill[6], fill[7], decimalFormat.format(fill[8])
                 };
                 modelTable.addRow(record);
             }
@@ -665,11 +666,9 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
         HSSFCellStyle style = workbook.createCellStyle();
         style.setFont(font);
         return style;
-
     }
 
     public void xuatFileExcel() {
-
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet();
 
@@ -702,7 +701,8 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
             int imax = Integer.parseInt(tblThongKe.getValueAt(i, 5).toString());
             int online = Integer.parseInt(tblThongKe.getValueAt(i, 6).toString());
             int offline = Integer.parseInt(tblThongKe.getValueAt(i, 7).toString());
-            int doanhthu = Integer.parseInt(tblThongKe.getValueAt(i, 8).toString().replace(",", ""));
+            int tongVe = Integer.parseInt(tblThongKe.getValueAt(i, 8).toString());
+            int doanhthu = Integer.parseInt(tblThongKe.getValueAt(i, 9).toString().replace(",", ""));
 
             cell = row.createCell(0, CellType.NUMERIC);
             cell.setCellValue(stt);
@@ -727,11 +727,14 @@ public class FrameTKVeBan extends javax.swing.JFrame  implements ClosableTabbedP
 
             cell = row.createCell(7, CellType.NUMERIC);
             cell.setCellValue(online);
-
+            
             cell = row.createCell(8, CellType.NUMERIC);
+            cell.setCellValue(online);
+
+            cell = row.createCell(9, CellType.NUMERIC);
             cell.setCellValue(doanhthu);
 
-            for (int j = 0; j < 9; j++) {
+            for (int j = 0; j < 10; j++) {
                 sheet.autoSizeColumn(i);
             }
 

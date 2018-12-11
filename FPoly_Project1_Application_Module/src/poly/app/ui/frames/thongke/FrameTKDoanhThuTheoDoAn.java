@@ -40,7 +40,7 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod{
+public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod {
 
     /**
      * Creates new form FrameQLNhanVien
@@ -56,7 +56,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
         reRenderUI();
         this.loadLoaiDoAnToCombobox();
         this.loadNamToComboBox();
-    } 
+    }
 
     private void reRenderUI() {
         //        Render lại giao diện cho table
@@ -71,26 +71,26 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
         tblRenderer.setColumnAlignment(3, TableRendererUtil.CELL_ALIGN_RIGHT);
         dcsTheoNgay.setDate(new Date());
     }
-    
+
     public JPanel getMainPanel() {
         synchronizedData();
         return this.pnlMain;
     }
-    
-    public void synchronizedData(){
+
+    public void synchronizedData() {
         resetSearchForm();
         this.setDefaultSelectedComboBox();
         this.loadThongKeTheoNgay();
         this.loadDataToTable();
     }
-    
+
     private void resetSearchForm() {
         cboLoaiDoAn.setSelectedIndex(0);
-        
+
         rdoTheoNgay.setSelected(true);
         rdoTheoThang.setSelected(false);
         rdoTheoNam.setSelected(false);
-        
+
         cboTheoThang.setEnabled(false);
         cboNamTheoThang.setEnabled(false);
         cboTheoNam.setEnabled(false);
@@ -496,18 +496,13 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }//GEN-LAST:event_formWindowOpened
 
     private void btnXemBieuDoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemBieuDoActionPerformed
-        if(rdoTheoNgay.isSelected())
-        {
+        if (rdoTheoNgay.isSelected()) {
             SimpleDateFormat fm = new SimpleDateFormat("dd-MM-YYYY");
-            this.xemBieuDo("Ngày "+fm.format(dcsTheoNgay.getDate()));
-        }
-        else if(rdoTheoThang.isSelected())
-        {
-            this.xemBieuDo(cboTheoThang.getSelectedItem().toString()+"-"+cboNamTheoThang.getSelectedItem().toString());
-        }
-        else
-        {
-            this.xemBieuDo("Năm "+cboTheoNam.getSelectedItem().toString());
+            this.xemBieuDo("Ngày " + fm.format(dcsTheoNgay.getDate()));
+        } else if (rdoTheoThang.isSelected()) {
+            this.xemBieuDo(cboTheoThang.getSelectedItem().toString() + "-" + cboNamTheoThang.getSelectedItem().toString());
+        } else {
+            this.xemBieuDo("Năm " + cboTheoNam.getSelectedItem().toString());
         }
     }//GEN-LAST:event_btnXemBieuDoActionPerformed
 
@@ -554,6 +549,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
         if (rdoTheoNgay.isSelected()) {
             this.loadThongKeTheoNgay();
             this.loadDataToTable();
+            filterLoaiDoAn();
         }
 
     }//GEN-LAST:event_dcsTheoNgayPropertyChange
@@ -574,15 +570,12 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }//GEN-LAST:event_cboTheoNamItemStateChanged
 
     private void btnXuatExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatExcelActionPerformed
-        if(tblThongKe.getRowCount()<=0)
-        {
+        if (tblThongKe.getRowCount() <= 0) {
             DialogHelper.message(this, "Không có dữ liệu xuất file !", DialogHelper.ERROR_MESSAGE);
-        }
-        else
-        {
+        } else {
             this.xuatFileExcel();
         }
-        
+
     }//GEN-LAST:event_btnXuatExcelActionPerformed
 
     private void cboNamTheoThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNamTheoThangActionPerformed
@@ -592,19 +585,19 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     public void tongDoanhThu() {
         DecimalFormat decimalFormat = new DecimalFormat("##,###,###,###");
         Long tong = Long.valueOf(0);
-        for (int i = 0; i<tblThongKe.getRowCount(); i++) {
-            tong += Integer.parseInt(tblThongKe.getValueAt(i, 4).toString().replace(",",""));
+        for (int i = 0; i < tblThongKe.getRowCount(); i++) {
+            tong += Integer.parseInt(tblThongKe.getValueAt(i, 4).toString().replace(",", ""));
         }
-        lblTong.setText("Tổng doanh thu: " + decimalFormat.format(tong)+" VND");
+        lblTong.setText("Tổng doanh thu: " + decimalFormat.format(tong) + " VND");
     }
-    
+
     public void setDefaultSelectedComboBox() {
         Calendar cal = Calendar.getInstance();
         cboTheoThang.setSelectedIndex(cal.get(Calendar.MONTH));
         cboNamTheoThang.getModel().setSelectedItem(cal.get(Calendar.YEAR));
         cboTheoNam.getModel().setSelectedItem(cal.get(Calendar.YEAR));
     }
-    
+
     public void loadDataToTable() {
         DecimalFormat decimalFormat = new DecimalFormat("##,###,###,###");
         DefaultTableModel modelTable = (DefaultTableModel) tblThongKe.getModel();
@@ -631,7 +624,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     private void loadNamToComboBox() {
         Calendar calendar = Calendar.getInstance();
         for (int i = 2015; i <= calendar.get(Calendar.YEAR); i++) {
-            cboTheoNam.addItem(i+"");
+            cboTheoNam.addItem(i + "");
             cboNamTheoThang.addItem(i + "");
         }
     }
@@ -643,12 +636,12 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
         for (Object[] objArr : listDoAn) {
             if (cboLoaiDoAn.getSelectedIndex() == 0) {
                 Object[] record = new Object[]{
-                    i++, objArr[0], objArr[1], objArr[3], objArr[4]
+                    i++, objArr[0], objArr[1], objArr[2], objArr[3]
                 };
                 modelTable.addRow(record);
             } else if (objArr[1].toString().equals(cboLoaiDoAn.getSelectedItem().toString())) {
                 Object[] record = new Object[]{
-                    i++, objArr[0], objArr[1], objArr[3], objArr[4]
+                    i++, objArr[0], objArr[1], objArr[2], objArr[3]
                 };
                 modelTable.addRow(record);
             }
@@ -657,7 +650,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
     }
 
     private void loadThongKeTheoNgay() {
-        
+
         listDoAn = sp_tk.execute("sp_DoanhThuDoAnTheoNgay", dcsTheoNgay.getDate());
     }
 
@@ -753,14 +746,14 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
 
         for (int i = 0; i < tblThongKe.getRowCount(); i++) {
             String xValue = (String) tblThongKe.getValueAt(i, 1);
-            Integer yValue = Integer.parseInt(tblThongKe.getValueAt(i, 4).toString().replace(",",""));
+            Integer yValue = Integer.parseInt(tblThongKe.getValueAt(i, 4).toString().replace(",", ""));
             xData.add(xValue);
             yData.add(yValue);
         }
         if (xData.isEmpty() || yData.isEmpty()) {
-            DialogHelper.message(this, "Không có dữ liệu thống kê !", DialogHelper.ERROR_MESSAGE);
+            DialogHelper.message(this, "Không có dữ liệu thống kê!", DialogHelper.ERROR_MESSAGE);
         } else {
-            new BarChart(xData, yData, "Thống Kê Doanh Thu Đồ Ăn Của "+title, this, "Món ăn", "Doanh Thu", "Doanh Thu").displayChart();
+            new BarChart(xData, yData, "Thống Kê Doanh Thu Đồ Ăn Của " + title, this, "Món ăn", "Doanh Thu", "Doanh Thu").displayChart();
         }
 
     }
@@ -777,7 +770,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
 
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet();
-       
+
         int rownum = 0;
         Cell cell;
         Row row;
@@ -798,7 +791,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
         for (int i = 0; i < tblThongKe.getRowCount(); i++) {
             rownum++;
             row = sheet.createRow(rownum);
-            
+
             int stt = Integer.parseInt(tblThongKe.getValueAt(i, 0).toString());
             String tendoan = (String) tblThongKe.getValueAt(i, 1);
             String loaidoan = (String) tblThongKe.getValueAt(i, 2);
@@ -819,7 +812,7 @@ public class FrameTKDoanhThuTheoDoAn extends javax.swing.JFrame implements Closa
 
             cell = row.createCell(4, CellType.NUMERIC);
             cell.setCellValue(doanhthu);
-            
+
             for (int j = 0; j < 5; j++) {
                 sheet.autoSizeColumn(i);
             }

@@ -428,11 +428,9 @@ public class FrameQLKhachHang extends javax.swing.JFrame  implements ClosableTab
             new DialogCapNhatKhachHang(this, true, id).setVisible(true);
             listKH = new KhachHangDaoImpl().getAll();
             loadDataToTable(search());
-            System.out.println("" + id);
             for (int i = 0; i < tblKhachHang.getRowCount(); i++) {
                 String currentKey = tblKhachHang.getValueAt(i, 1).toString();
                 if (currentKey.equals(id)) {
-                    System.out.println("i: " + i);
                     tblKhachHang.setRowSelectionInterval(i, i);
                     break;
                 }

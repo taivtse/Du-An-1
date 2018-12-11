@@ -225,6 +225,7 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         jLabel9.setText("Giới tính");
 
         txtHoTen.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        txtHoTen.setEnabled(false);
         txtHoTen.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtHoTenKeyTyped(evt);
@@ -234,8 +235,10 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
         rdoNam.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         rdoNam.setSelected(true);
         rdoNam.setText("Nam");
+        rdoNam.setEnabled(false);
 
         txtCMND.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        txtCMND.setEnabled(false);
         txtCMND.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCMNDKeyTyped(evt);
@@ -244,6 +247,7 @@ public class DialogCapNhatKhachHang extends javax.swing.JDialog {
 
         rdoNu.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         rdoNu.setText("Nữ");
+        rdoNu.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel2.setText("CMND");
