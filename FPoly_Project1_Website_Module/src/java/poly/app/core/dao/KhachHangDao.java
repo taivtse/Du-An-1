@@ -13,5 +13,5 @@ import poly.app.core.entities.KhachHang;
  * @author vothanhtai
  */
 public interface KhachHangDao extends GenericDao<String, KhachHang> {
-    
+    public KhachHang getByIdAndPassword(String id, String matKhau);
 }
