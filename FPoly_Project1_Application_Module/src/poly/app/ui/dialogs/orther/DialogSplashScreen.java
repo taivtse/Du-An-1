@@ -8,7 +8,6 @@ package poly.app.ui.dialogs.orther;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import poly.app.core.helper.ShareHelper;
 
 /**
  *
@@ -23,14 +22,9 @@ public class DialogSplashScreen extends javax.swing.JDialog {
      */
     public DialogSplashScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        changeAppIcon();
         initComponents();
         setLocationRelativeTo(null);
         initLoadingState();
-    }
-    
-    private void changeAppIcon() {
-        setIconImage(ShareHelper.APP_ICON);
     }
 
     private void initLoadingState() {

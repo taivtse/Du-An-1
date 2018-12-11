@@ -65,10 +65,15 @@ public class MainRunningFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainRunningFrame() {
+        changeAppIcon();
         renderMainUIInBackground();
         loadHibernateSession();
         renderChildFrame();
         showSplashScreen();
+    }
+    
+    private void changeAppIcon() {
+        setIconImage(ShareHelper.APP_ICON);
     }
 
     private void reRenderUI() {

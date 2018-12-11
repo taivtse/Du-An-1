@@ -13,14 +13,11 @@ import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.entities.NguoiDung;
 import javax.swing.DefaultComboBoxModel;
 import org.apache.commons.lang.WordUtils;
-import poly.app.core.daoimpl.KhachHangDaoImpl;
 import poly.app.core.daoimpl.VaiTroDaoImpl;
-import poly.app.core.entities.KhachHang;
 import poly.app.core.entities.VaiTro;
 import poly.app.core.helper.DialogHelper;
 import poly.app.core.utils.SMSUtil;
 import poly.app.core.utils.StringUtil;
-import static poly.app.ui.dialogs.them.DialogThemKhachHang.md5;
 import poly.app.ui.utils.ValidationUtil;
 
 /**
@@ -152,7 +149,15 @@ public class DialogThemNguoiDung extends javax.swing.JDialog {
         message += "\n-Ten dang nhap: " + nguoiDung.getId();
         message += "\n-Mat khau: " + randomMatKhau;
 
-        return SMSUtil.sendSMS(message, soDienThoai);
+        try {
+            SMSUtil.sendSMS(message, soDienThoai);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogHelper.message(this, "Tài khoản Twillo miễn phí không hỗ trợ số điện thoại của người dùng!\nVui lòng kiểm tra email để xem thông tin.", DialogHelper.ERROR_MESSAGE);
+        }
+        
+        return false;
     }
 
     /**

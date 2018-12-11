@@ -30,28 +30,28 @@
 			<staticText>
 				<reportElement x="86" y="0" width="114" height="8" uuid="f43c859b-e9be-408f-aab2-52fb4c8d9957"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6"/>
+					<font fontName="DejaVu Sans" size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Level 4, Garden Shopping Center]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="86" y="8" width="114" height="8" uuid="42d2bb4b-e28e-4d2f-af9b-0561e8181058"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6"/>
+					<font fontName="DejaVu Sans" size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Me Tri Tu Liem Dist, Ha Noi]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="86" y="16" width="114" height="8" uuid="95ff231b-c334-4115-9236-e66b9ba7d899"/>
 				<textElement verticalAlignment="Middle">
-					<font size="6"/>
+					<font fontName="DejaVu Sans" size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tax: 01024314975]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="25" width="29" height="10" forecolor="#000000" uuid="d4dfe3bf-0061-4c92-a269-02e58e084e99"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[Film]]></text>
@@ -74,7 +74,7 @@
 			<staticText>
 				<reportElement x="0" y="63" width="39" height="10" forecolor="#000000" uuid="fc3cc9fb-9585-4abc-9681-35f7022de09f"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[Format]]></text>
@@ -82,56 +82,56 @@
 			<textField>
 				<reportElement x="39" y="63" width="44" height="10" uuid="3c2c0333-36a7-4a24-9e5c-4816206fd04a"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font fontName="DejaVu Sans" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{MovieFormat}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="86" y="63" width="39" height="10" forecolor="#000000" uuid="b89035de-aabc-4f6c-884c-9b12b82921c2"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Screen]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="125" y="63" width="34" height="10" uuid="0c8c3a08-641c-4236-8f30-e9e780c16cda"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font fontName="DejaVu Sans" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ShowScreen}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="86" y="76" width="39" height="10" forecolor="#000000" uuid="e9f46371-2b06-4e1a-a3c0-c400cb1eca8a"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Time]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="86" y="86" width="56" height="10" uuid="5d0b658c-1ebe-49b3-bd47-561913cbf0eb"/>
+				<reportElement x="86" y="86" width="73" height="10" uuid="5d0b658c-1ebe-49b3-bd47-561913cbf0eb"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font fontName="DejaVu Sans" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ShowTime}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="172" y="76" width="39" height="10" forecolor="#000000" uuid="2a9c384e-01d6-4793-867e-14a2cbc1de3e"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Seat]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="172" y="86" width="17" height="10" uuid="51b4faef-dc91-4650-8183-c128b7c08152"/>
+				<reportElement x="172" y="86" width="39" height="10" uuid="51b4faef-dc91-4650-8183-c128b7c08152"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font fontName="DejaVu Sans" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{SeatPosition}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="50" width="39" height="10" forecolor="#000000" uuid="c6feadf4-e1eb-4639-87ad-e810e3130166"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[Price]]></text>
@@ -139,7 +139,7 @@
 			<textField>
 				<reportElement x="0" y="86" width="69" height="10" uuid="5a97a40a-b7f2-490b-a48d-50e0ed334ef5"/>
 				<textElement verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font fontName="DejaVu Sans" size="8" isBold="false"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ShowDate}]]></textFieldExpression>
@@ -147,7 +147,7 @@
 			<staticText>
 				<reportElement x="0" y="76" width="39" height="10" forecolor="#000000" uuid="14765876-e15a-4f1b-9b46-7e323453d8ad"/>
 				<textElement>
-					<font size="8" isBold="true"/>
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
 					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[Date]]></text>

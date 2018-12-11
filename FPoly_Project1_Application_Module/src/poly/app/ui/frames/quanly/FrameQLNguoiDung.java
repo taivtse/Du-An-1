@@ -26,7 +26,7 @@ import poly.app.ui.dialogs.them.DialogThemNguoiDung;
  *
  * @author vothanhtai
  */
-public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
+public class FrameQLNguoiDung extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod {
 
     Map<String, NguoiDung> nguoiDungMap = new TreeMap<>();
 
@@ -58,8 +58,8 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
         synchronizedData();
         return this.pnlMain;
     }
-    
-    public void synchronizedData(){
+
+    public void synchronizedData() {
         this.loadAllDataToTable();
         loadDataToTable(search());
     }
@@ -466,6 +466,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
         int beforeInsertSize = nguoiDungMap.size();
 
         new DialogThemNguoiDung(this, true).setVisible(true);
+
         loadAllDataToTable();
         loadDataToTable(search());
 

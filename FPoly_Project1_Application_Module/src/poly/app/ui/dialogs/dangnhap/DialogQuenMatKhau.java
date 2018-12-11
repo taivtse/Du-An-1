@@ -39,7 +39,15 @@ public class DialogQuenMatKhau extends javax.swing.JDialog {
         String soDienThoai = ShareHelper.USER.getSoDienThoai();
         String message = "He thong CINES \nMa xac nhan cua ban la: " + maXacNhan;
 
-        return SMSUtil.sendSMS(message, soDienThoai);
+        try {
+            SMSUtil.sendSMS(message, soDienThoai);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogHelper.message(this, "Tài khoản Twillo miễn phí không hỗ trợ số điện thoại của người dùng!\nVui lòng kiểm tra email để xem thông tin.", DialogHelper.ERROR_MESSAGE);
+        }
+
+        return false;
     }
 
     private boolean xoaMaXacNhan() {

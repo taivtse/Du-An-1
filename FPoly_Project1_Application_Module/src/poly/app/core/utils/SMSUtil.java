@@ -18,19 +18,13 @@ public class SMSUtil {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
     }
 
-    public static boolean sendSMS(String sendMessage, String sendNumber) {
+    public static void sendSMS(String sendMessage, String sendNumber) throws Exception{
         sendNumber = SMSUtil.convertToInternationalPhoneNumber(sendNumber);
-        try {
             Message.creator(
                     new PhoneNumber(sendNumber), // to
                     new PhoneNumber(SMSUtil.SERVER_PHONE_NUMBER), // from
                     sendMessage)
                     .create();
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     public static String convertToInternationalPhoneNumber(String phoneNumber) {

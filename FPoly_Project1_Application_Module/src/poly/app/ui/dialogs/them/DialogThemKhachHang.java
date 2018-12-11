@@ -49,7 +49,7 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
         khachHang.setSoDienThoai(this.txtSoDienThoai.getText());
         khachHang.setGioiTinh(this.rdoNam.isSelected());
         khachHang.setEmail(this.txtEmail.getText());
-        randomMatKhau = "$$"+StringUtil.randomString();
+        randomMatKhau = "$$" + StringUtil.randomString();
         khachHang.setMatKhau(md5(randomMatKhau));
         khachHang.setNgaySinh(this.dcNgaySinh.getDate());
         return khachHang;
@@ -65,8 +65,8 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
         }
         return false;
     }
-    
-    private boolean sendAccountInfoBySMS(){
+
+    private boolean sendAccountInfoBySMS() {
         String soDienThoai = txtSoDienThoai.getText();
         KhachHang khachHang = new KhachHangDaoImpl().getBySoDienThoai(soDienThoai);
         String message = "HE THONG CINES";
@@ -77,46 +77,54 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
         message += "\n-Ten dang nhap: " + khachHang.getId();
         message += "\n-Mat khau: " + randomMatKhau;
 
-        return SMSUtil.sendSMS(message, soDienThoai);
+        try {
+            SMSUtil.sendSMS(message, soDienThoai);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            DialogHelper.message(this, "Tài khoản Twillo miễn phí không hỗ trợ số điện thoại của người dùng!\nVui lòng kiểm tra email để xem thông tin.", DialogHelper.ERROR_MESSAGE);
+        }
+        
+        return false;
     }
 
     private boolean checkInput() {
         if (ValidationUtil.isEmpty(txtHoTen.getText())) {
             DialogHelper.message(this, "Không được bỏ trống họ và tên", DialogHelper.ERROR_MESSAGE);
             return false;
-        }else if (ValidationUtil.isEmpty(txtCMND.getText())) {
+        } else if (ValidationUtil.isEmpty(txtCMND.getText())) {
             DialogHelper.message(this, "Không được bỏ trống chứng minh nhân dân", DialogHelper.ERROR_MESSAGE);
             return false;
-        }else if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
+        } else if (ValidationUtil.isEmpty(txtSoDienThoai.getText())) {
             DialogHelper.message(this, "Không được bỏ trống số điện thoại", DialogHelper.ERROR_MESSAGE);
             return false;
-        }else if(!ValidationUtil.isNumber(txtSoDienThoai.getText())){
+        } else if (!ValidationUtil.isNumber(txtSoDienThoai.getText())) {
             DialogHelper.message(this, "Số điện thoại phải bắt đầu là số O", DialogHelper.ERROR_MESSAGE);
             return false;
-        }else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
+        } else if (!ValidationUtil.isLenghtEqual(txtSoDienThoai.getText(), 10)) {
             DialogHelper.message(this, "Số điện thoại phải là 10 số", DialogHelper.ERROR_MESSAGE);
-            return false;  
-        }else if (ValidationUtil.isEmpty(txtEmail.getText())) {
+            return false;
+        } else if (ValidationUtil.isEmpty(txtEmail.getText())) {
             DialogHelper.message(this, "Không được bỏ trống email", DialogHelper.ERROR_MESSAGE);
-            return false;  
-        }else if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
+            return false;
+        } else if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
             DialogHelper.message(this, "Sai định dạng email", DialogHelper.ERROR_MESSAGE);
-            return false; 
-        }else if (ValidationUtil.isEmpty(txtDiaChi.getText())) {
+            return false;
+        } else if (ValidationUtil.isEmpty(txtDiaChi.getText())) {
             DialogHelper.message(this, "Không được bỏ trống địa chỉ", DialogHelper.ERROR_MESSAGE);
             return false;
-        }else if(dcNgayVaoLam.getDate()== null){
-            DialogHelper.message(this,"Không được bỏ trống ngày vào làm", DialogHelper.ERROR_MESSAGE);
+        } else if (dcNgayVaoLam.getDate() == null) {
+            DialogHelper.message(this, "Không được bỏ trống ngày vào làm", DialogHelper.ERROR_MESSAGE);
             return false;
-        }else if(dcNgaySinh.getDate() == null){
-            DialogHelper.message(this,"Không được bỏ trống ngày sinh", DialogHelper.ERROR_MESSAGE);
+        } else if (dcNgaySinh.getDate() == null) {
+            DialogHelper.message(this, "Không được bỏ trống ngày sinh", DialogHelper.ERROR_MESSAGE);
             return false;
         } else if (new KhachHangDaoImpl().getBySoDienThoai(txtSoDienThoai.getText()) != null) {
-            DialogHelper.message(this,"Số điện thoại: " + txtSoDienThoai.getText()
+            DialogHelper.message(this, "Số điện thoại: " + txtSoDienThoai.getText()
                     + " đã được đăng ký!", DialogHelper.ERROR_MESSAGE);
             return false;
         }
-        
+
         return true;
     }
 
@@ -389,14 +397,14 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if(checkInput()){
+        if (checkInput()) {
             if (insertModelToDatabase()) {
                 DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
                 new Thread(() -> {
                     sendAccountInfoBySMS();
                 }).start();
                 this.dispose();
-            }else{
+            } else {
                 DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.INFORMATION_MESSAGE);
             }
         }
@@ -407,13 +415,13 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void txtHoTenKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHoTenKeyTyped
-        if (txtHoTen.getText().length()==50) {
+        if (txtHoTen.getText().length() == 50) {
             evt.consume();
         }
     }//GEN-LAST:event_txtHoTenKeyTyped
 
     private void txtCMNDKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCMNDKeyTyped
-        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtCMND.getText().length()==12) {
+        if (String.valueOf(evt.getKeyChar()).matches("\\D") || txtCMND.getText().length() == 12) {
             evt.consume();
         }
     }//GEN-LAST:event_txtCMNDKeyTyped
@@ -465,20 +473,21 @@ public class DialogThemKhachHang extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
-    }   
-    public static String md5(String str){
-		String result = "";
-		MessageDigest digest;
-		try {
-			digest = MessageDigest.getInstance("MD5");
-			digest.update(str.getBytes());
-			BigInteger bigInteger = new BigInteger(1,digest.digest());
-			result = bigInteger.toString(16).toUpperCase();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+    }
+
+    public static String md5(String str) {
+        String result = "";
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("MD5");
+            digest.update(str.getBytes());
+            BigInteger bigInteger = new BigInteger(1, digest.digest());
+            result = bigInteger.toString(16).toUpperCase();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHuy;
