@@ -175,6 +175,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
         jPanel4 = new javax.swing.JPanel();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNguoiDung = new javax.swing.JTable();
@@ -309,6 +310,15 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
             }
         });
 
+        btnXoa.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        btnXoa.setText("Xoá");
+        btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -318,6 +328,8 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnXoa)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -326,7 +338,8 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
                 .addGap(15, 15, 15)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -475,7 +488,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-
         int index = tblNguoiDung.getSelectedRow();
         if (tblNguoiDung.getSelectedRow() < 0) {
             DialogHelper.message(this, "Chưa chọn người dùng để cập nhật!", DialogHelper.ERROR_MESSAGE);
@@ -536,7 +548,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
             dcDenNgay.setEnabled(false);
             loadDataToTable(search());
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_chkTheoNgayVaoLamActionPerformed
 
     private void dcTuNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcTuNgayPropertyChange
@@ -550,7 +561,6 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
                 }
             }
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_dcTuNgayPropertyChange
 
     private void dcDenNgayPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dcDenNgayPropertyChange
@@ -566,6 +576,27 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_dcDenNgayPropertyChange
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        if (tblNguoiDung.getSelectedRow() >= 0) {
+            if (DialogHelper.confirm(this, "Bạn có chắc chắn muốn xoá?")) {
+                String maNguoiDung = tblNguoiDung.getValueAt(tblNguoiDung.getSelectedRow(), 1).toString();
+                NguoiDung nguoiDung = nguoiDungMap.get(maNguoiDung);
+                nguoiDung.setDaXoa(true);
+                try {
+                    new NguoiDungDaoImpl().update(nguoiDung);
+                    nguoiDungMap.remove(maNguoiDung);
+                    DialogHelper.message(this, "Xoá dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                    this.loadDataToTable(search());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogHelper.message(this, "Xoá dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            DialogHelper.message(this, "Chọn đồ ăn cần xoá", DialogHelper.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -606,6 +637,7 @@ public class FrameQLNguoiDung extends javax.swing.JFrame  implements ClosableTab
     private javax.swing.JLabel btnCollapse;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JCheckBox chkTheoNgayVaoLam;
     private javax.swing.JCheckBox chkTheoTen;
     private com.toedter.calendar.JDateChooser dcDenNgay;

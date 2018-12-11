@@ -1,5 +1,8 @@
 package poly.app.core.daoimpl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -9,6 +12,13 @@ import poly.app.core.entities.NguoiDung;
 
 public class NguoiDungDaoImpl extends AbstractDao<String, NguoiDung> implements NguoiDungDao{
 
+    @Override
+    public List<NguoiDung> getAll() {
+        Map<String, Object> conditions = new HashMap<>();
+        conditions.put("daXoa", false);
+        return this.getByProperties(conditions);
+    }
+    
     @Override
     public NguoiDung getByIdAndPassword(String id, String matKhau) {
         Session session = this.getSession();
