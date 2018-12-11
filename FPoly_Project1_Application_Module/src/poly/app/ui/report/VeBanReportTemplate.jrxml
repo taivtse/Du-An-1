@@ -10,6 +10,7 @@
 	<parameter name="ShowDate" class="java.lang.String"/>
 	<parameter name="ShowTime" class="java.lang.String"/>
 	<parameter name="SeatPosition" class="java.lang.String"/>
+	<parameter name="BackgroundURL" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -17,7 +18,7 @@
 		<band height="99" splitType="Stretch">
 			<image scaleImage="RealHeight" hAlign="Right" vAlign="Bottom">
 				<reportElement x="159" y="0" width="63" height="99" uuid="45dc9850-4c51-4c91-9234-6c3913fdad9b"/>
-				<imageExpression><![CDATA["/Users/vothanhtai/Documents/WorkSpace/Java/FPT-Polytechnic/semester4-project1/FPoly_Project1_Application_Module/src/poly/app/ui/icons/kisspng-triangle-yellow-pattern-personalized-diamond-lattice-gradient-background-5a91ef91c81131.6370130715195134898195 copy.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$P{BackgroundURL}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="83" height="24" forecolor="#FFFFFF" backcolor="#000000" uuid="22174bbe-a27b-4a8b-8a16-1e98d9c21b77"/>
