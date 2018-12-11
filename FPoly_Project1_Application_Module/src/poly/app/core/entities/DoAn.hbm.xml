@@ -17,6 +17,9 @@
         <property name="dangBan" type="boolean">
             <column name="dang_ban" not-null="true" />
         </property>
+        <property name="daXoa" type="java.lang.Boolean">
+            <column name="da_xoa" />
+        </property>
         <set name="doAnChiTiets" table="do_an_chi_tiet" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="do_an_id" length="15" not-null="true" />

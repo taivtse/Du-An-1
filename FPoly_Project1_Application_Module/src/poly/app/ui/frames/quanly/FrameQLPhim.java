@@ -519,25 +519,6 @@ public class FrameQLPhim extends javax.swing.JFrame  implements ClosableTabbedPa
         loadDataToTable(searchAdvance());
     }//GEN-LAST:event_txtTenPhimKeyReleased
 
-//    public Map<String, Phim> searchByTen() {
-//        String tenTimKiem = txtTenPhim.getText().toLowerCase();
-//        Map<String, Phim> mapPhimTheoTen = new TreeMap<>();
-//        if (!tenTimKiem.equals("")) {
-//            
-//            for (Map.Entry<String, Phim> phim : mapPhim.entrySet()) {
-//                if (phim.getValue().getTen().toLowerCase().contains(tenTimKiem)) {
-//                    mapPhimTheoTen.put(phim.getKey(), phim.getValue());
-//                    System.out.println(phim.getValue().getTen().contains(tenTimKiem)+"");
-//                }
-//            }
-//            for (Map.Entry<String, Phim> phim : mapPhimTheoTen.entrySet()) {
-//                System.out.println(phim.getKey()+"   "+ phim.getValue().getTen());
-//            }
-//            return mapPhimTheoTen;     
-//            
-//        }
-//        return mapPhim;     
-//    }
     public Map<String, Phim> searchAdvance() {
         Map<String, Phim> mapTimKiem = new TreeMap<>();
         Date min = dcTuNgay.getDate(), max = dcDenNgay.getDate();

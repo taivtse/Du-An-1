@@ -18,6 +18,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.DoAnDaoImpl;
 import poly.app.core.daoimpl.LoaiDoAnDaoImpl;
 import poly.app.core.entities.DoAn;
@@ -35,8 +36,8 @@ import poly.app.ui.utils.TableRendererUtil;
  *
  * @author vothanhtai
  */
-public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPane.ClosableTabbedPaneMethod{
-    
+public class FrameQLDoAn extends javax.swing.JFrame implements ClosableTabbedPane.ClosableTabbedPaneMethod {
+
     List<DoAn> listDoAn = new ArrayList<>();
     List<DoAnChiTiet> listDoAnCT = new ArrayList<>();
     Map<String, DoAn> mapDoAn = new TreeMap<>();
@@ -55,7 +56,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         reRenderUI();
         this.loadDataToComboBox();
     }
-    
+
     public void setRadio() {
         btngr.add(rdoDangDuocBan);
         btngr.add(rdoDaNgungBan);
@@ -63,50 +64,50 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         rdoDaNgungBan.setEnabled(false);
         cboLoaiDoAn.setEnabled(false);
     }
-    
+
     private void reRenderUI() {
         //        Render lại giao diện cho table
         TableRendererUtil tblRenderer = new TableRendererUtil(tblDoAn);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
-        
+
         tblRenderer.setColoumnWidthByPersent(0, 5);
         tblRenderer.setColoumnWidthByPersent(1, 10);
         tblRenderer.setColoumnWidthByPersent(2, 30);
         tblRenderer.setColumnAlignment(0, TableRendererUtil.CELL_ALIGN_LEFT);
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
-        
+
         tblRenderer = new TableRendererUtil(tblDoAnChiTiet);
         tblRenderer.setCellEditable(false);
         tblRenderer.changeHeaderStyle();
         tblRenderer.setColumnAlignment(1, TableRendererUtil.CELL_ALIGN_CENTER);
     }
-    
+
     public JPanel getMainPanel() {
         synchronizedData();
         return this.pnlMain;
     }
-    
-    public void synchronizedData(){
+
+    public void synchronizedData() {
         resetSearchForm();
         this.loadDataToTable();
     }
-    
+
     private void resetSearchForm() {
         chkTheoTen.setSelected(true);
         txtTraCuuDoAn.setEnabled(true);
         txtTraCuuDoAn.setText("");
-        
+
         chkTheoTrangThai.setSelected(false);
         rdoDaNgungBan.setEnabled(false);
         rdoDangDuocBan.setEnabled(false);
         rdoDangDuocBan.setSelected(true);
-        
+
         chkTheoLoaiDoAn.setSelected(false);
         cboLoaiDoAn.setSelectedIndex(0);
         cboLoaiDoAn.setEnabled(false);
-        
-        ((DefaultTableModel)tblDoAnChiTiet.getModel()).setRowCount(0);
+
+        ((DefaultTableModel) tblDoAnChiTiet.getModel()).setRowCount(0);
     }
 
     /**
@@ -135,6 +136,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         btnSua = new javax.swing.JButton();
         btnThemKichCo = new javax.swing.JButton();
         btnSuaKichCo = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDoAn = new javax.swing.JTable();
@@ -299,6 +301,15 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
             }
         });
 
+        btnXoa.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
+        btnXoa.setText("Xoá đồ ăn");
+        btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -308,7 +319,9 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
                 .addComponent(btnThem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnXoa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
                 .addComponent(btnThemKichCo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSuaKichCo)
@@ -322,7 +335,8 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnThemKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSuaKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSuaKichCo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -501,7 +515,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         this.loadDataToTable();
         DefaultTableModel model = (DefaultTableModel) tblDoAnChiTiet.getModel();
         model.setRowCount(0);
-        
+
         if (beforeInsertSize != mapDoAn.size()) {
             int lastIndex = tblDoAn.getRowCount() - 1;
             tblDoAn.setRowSelectionInterval(lastIndex, lastIndex);
@@ -515,7 +529,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
                 String maDA = (String) tblDoAn.getValueAt(index, 1);
                 this.updateDA();
                 this.loadDataToTable();
-                this.searchDoAnByName();
+                this.searchAdvanced();
                 for (int i = 0; i <= tblDoAn.getRowCount(); i++) {
                     if (tblDoAn.getValueAt(i, 1).equals(maDA)) {
                         tblDoAn.setRowSelectionInterval(i, i);
@@ -539,7 +553,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
             String maDA = (String) tblDoAn.getValueAt(index, 1);
             this.updateDA();
             this.loadDataToTable();
-            this.searchDoAnByName();
+            this.searchAdvanced();
             for (int i = 0; i <= tblDoAn.getRowCount(); i++) {
                 if (tblDoAn.getValueAt(i, 1).equals(maDA)) {
                     tblDoAn.setRowSelectionInterval(i, i);
@@ -564,7 +578,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         if (txtTraCuuDoAn.getText().equals("")) {
             this.loadDataToTable();
         } else {
-            this.searchDoAnByName();
+            this.searchAdvanced();
         }
     }//GEN-LAST:event_txtTraCuuDoAnKeyReleased
 
@@ -583,32 +597,60 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
     }//GEN-LAST:event_tblDoAnChiTietMouseClicked
 
     private void rdoDangDuocBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDangDuocBanActionPerformed
-        this.searchDoAnByName();
+        this.searchAdvanced();
     }//GEN-LAST:event_rdoDangDuocBanActionPerformed
 
     private void rdoDaNgungBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaNgungBanActionPerformed
-        this.searchDoAnByName();
+        this.searchAdvanced();
     }//GEN-LAST:event_rdoDaNgungBanActionPerformed
 
     private void chkTheoTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTenActionPerformed
         txtTraCuuDoAn.setText(null);
         this.checkBox();
-        this.searchDoAnByName();
+        this.searchAdvanced();
     }//GEN-LAST:event_chkTheoTenActionPerformed
 
     private void chkTheoTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoTrangThaiActionPerformed
         this.checkBox();
-        this.searchDoAnByName();
+        this.searchAdvanced();
     }//GEN-LAST:event_chkTheoTrangThaiActionPerformed
 
     private void chkTheoLoaiDoAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTheoLoaiDoAnActionPerformed
         this.checkBox();
-        this.searchDoAnByName();
+        this.searchAdvanced();
     }//GEN-LAST:event_chkTheoLoaiDoAnActionPerformed
 
     private void cboLoaiDoAnItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboLoaiDoAnItemStateChanged
-        this.searchDoAnByName();
+        this.searchAdvanced();
     }//GEN-LAST:event_cboLoaiDoAnItemStateChanged
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        if (tblDoAn.getSelectedRow() >= 0) {
+            if (DialogHelper.confirm(this, "Bạn có chắc chắn muốn xoá?")) {
+                String maDoAn = tblDoAn.getValueAt(tblDoAn.getSelectedRow(), 1).toString();
+                DoAn doAn = mapDoAn.get(maDoAn);
+                doAn.setDaXoa(true);
+                try {
+                    new DoAnDaoImpl().update(doAn);
+                    
+                    for (DoAnChiTiet doAnChiTiet : doAn.getDoAnChiTiets()) {
+                        doAnChiTiet.setDangBan(false);
+                        new DoAnChiTietDaoImpl().update(doAnChiTiet);
+                    }
+                    mapDoAn.remove(maDoAn);
+                    ((DefaultTableModel)tblDoAnChiTiet.getModel()).setRowCount(0);
+                    DialogHelper.message(this, "Xoá dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+                    this.searchAdvanced();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DialogHelper.message(this, "Xoá dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            DialogHelper.message(this, "Chọn đồ ăn cần xoá", DialogHelper.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void checkBox() {
@@ -617,7 +659,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         rdoDaNgungBan.setEnabled(chkTheoTrangThai.isSelected());
         cboLoaiDoAn.setEnabled(chkTheoLoaiDoAn.isSelected());
     }
-    
+
     public void loadDataToTable() {
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
@@ -636,20 +678,20 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
             mapDoAn.put(fill.getId(), fill);
         }
     }
-    
+
     public void loadDoAnChiTiet() {
         int index = tblDoAn.getSelectedRow();
         String id = (String) tblDoAn.getValueAt(index, 1);
         DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
         modelDACT.setRowCount(0);
-        
+
         DoAn doan = (DoAn) mapDoAn.get(id);
         Set<DoAnChiTiet> dact = doan.getDoAnChiTiets();
-        
+
         List<DoAnChiTiet> dactList = dact.stream()
                 .sorted(Comparator.comparing(DoAnChiTiet::getDonGia)) //comparator - how you want to sort it
                 .collect(Collectors.toList());
-        
+
         for (DoAnChiTiet fill : dactList) {
             Object[] record = new Object[]{
                 fill.getKichCoDoAn().getTen(),
@@ -659,11 +701,11 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
             modelDACT.addRow(record);
         }
     }
-    
+
     public void insertDA() {
         new DialogThemDoAn(this, true).setVisible(true);
     }
-    
+
     public void updateDA() {
         int index = tblDoAn.getSelectedRow();
         if (tblDoAn.getSelectedRow() < 0) {
@@ -675,37 +717,19 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
         DefaultTableModel modelDACT = (DefaultTableModel) tblDoAnChiTiet.getModel();
         modelDACT.setRowCount(0);
     }
-    
-    public void searchDA() {
-        DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
-        modelDA.setRowCount(0);
-        DoAnDaoImpl search = new DoAnDaoImpl();
-        Map<String, Object> mapSearch = new TreeMap<String, Object>();
-        mapSearch.put("ten", txtTraCuuDoAn.getText());
-        List<DoAn> listSearch = search.getByProperties(mapSearch);
-        for (DoAn fill : listSearch) {
-            Object[] record = new Object[]{
-                fill.getId(),
-                fill.getTen(),
-                fill.isDangBan() ? "Đang được bán" : "Đã ngưng bán",
-                fill.getLoaiDoAn().getTen()
-            };
-            modelDA.addRow(record);
-        }
-    }
-    
-    public void searchDoAnByName() {
+
+    public void searchAdvanced() {
         Map<String, DoAn> mapSearchDoAn = new TreeMap<>();
         DefaultTableModel modelDA = (DefaultTableModel) tblDoAn.getModel();
         modelDA.setRowCount(0);
-        
+
         for (Entry<String, DoAn> entry : mapDoAn.entrySet()) {
             DoAn doAn = entry.getValue();
-            
+
             if (!entry.getValue().getTen().toLowerCase().contains(txtTraCuuDoAn.getText().toLowerCase())) {
                 continue;
             }
-            
+
             if (chkTheoTrangThai.isSelected()) {
                 if (rdoDangDuocBan.isSelected() && !doAn.isDangBan()) {
                     continue;
@@ -713,16 +737,16 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
                     continue;
                 }
             }
-            
+
             if (chkTheoLoaiDoAn.isSelected()) {
                 if (!((LoaiDoAn) cboLoaiDoAn.getModel().getSelectedItem()).getId().equals(doAn.getLoaiDoAn().getId())) {
                     continue;
                 }
             }
-            
+
             mapSearchDoAn.put(doAn.getId(), doAn);
         }
-        
+
         int i = 1;
         for (Entry<String, DoAn> entry : mapSearchDoAn.entrySet()) {
             DoAn doAn = entry.getValue();
@@ -736,7 +760,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
             modelDA.addRow(record);
         }
     }
-    
+
     public void insertDACT() {
         if (tblDoAn.getSelectedRow() < 0) {
             DialogHelper.message(this, "Chưa chọn đồ ăn!", DialogHelper.ERROR_MESSAGE);
@@ -745,19 +769,19 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
             DoAn doAn = (DoAn) mapDoAn.get(idDA);
             new DialogThemDoAnChiTiet(this, true, doAn).setVisible(true);
         }
-        
+
     }
-    
+
     public void updateDACT() {
         int indexDA = tblDoAn.getSelectedRow();
         String idDA = (String) tblDoAn.getValueAt(indexDA, 1);
         int indexDACT = tblDoAnChiTiet.getSelectedRow();
-        
+
         DoAn doan = (DoAn) mapDoAn.get(idDA);
         Set<DoAnChiTiet> setdoanchitiet = doan.getDoAnChiTiets();
-        
+
         String dactTen = (String) tblDoAnChiTiet.getValueAt(indexDACT, 0);
-        
+
         for (DoAnChiTiet item : setdoanchitiet) {
             if (item.getKichCoDoAn().getTen().equals(dactTen)) {
                 DialogCapNhatDoAnChiTiet dialogCNDACT = new DialogCapNhatDoAnChiTiet(this, true, item, doan);
@@ -766,14 +790,14 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
             }
         }
     }
-    
+
     public void loadDataToComboBox() {
         DefaultComboBoxModel modelCBB = (DefaultComboBoxModel) cboLoaiDoAn.getModel();
         LoaiDoAnDaoImpl ldaDAO = new LoaiDoAnDaoImpl();
         List<LoaiDoAn> listLDA = ldaDAO.getAll();
         modelCBB.removeAllElements();
         for (LoaiDoAn fill : listLDA) {
-            modelCBB.addElement(fill);       
+            modelCBB.addElement(fill);
         }
     }
 
@@ -821,6 +845,7 @@ public class FrameQLDoAn extends javax.swing.JFrame  implements ClosableTabbedPa
     private javax.swing.JButton btnSuaKichCo;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnThemKichCo;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cboLoaiDoAn;
     private javax.swing.JCheckBox chkTheoLoaiDoAn;
     private javax.swing.JCheckBox chkTheoTen;

@@ -7,6 +7,7 @@ package poly.app.core.dao;
 
 import java.util.List;
 import poly.app.core.data.dao.GenericDao;
+import poly.app.core.entities.DoAn;
 import poly.app.core.entities.DoAnChiTiet;
 
 /**
@@ -15,4 +16,5 @@ import poly.app.core.entities.DoAnChiTiet;
  */
 public interface DoAnChiTietDao extends GenericDao<Integer, DoAnChiTiet>{
     public List<DoAnChiTiet> getAllAndOrderBySize();
+    public List<DoAnChiTiet> getByDoAn(DoAn doAn);
 }

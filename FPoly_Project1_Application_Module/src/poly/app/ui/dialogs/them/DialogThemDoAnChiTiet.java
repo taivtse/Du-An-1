@@ -6,8 +6,10 @@
 package poly.app.ui.dialogs.them;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
 import poly.app.core.daoimpl.DoAnChiTietDaoImpl;
 import poly.app.core.daoimpl.KichCoDoAnDaoImpl;
@@ -72,7 +74,6 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
             DoAnChiTietDaoImpl insertDACT = new DoAnChiTietDaoImpl();
             DoAnChiTiet model = getModelFromInput();
             insertDACT.insert(model);
-            doAn.getDoAnChiTiets().add(model);
             return true;
         } catch (Exception e) {
             
@@ -326,8 +327,10 @@ public class DialogThemDoAnChiTiet extends javax.swing.JDialog {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         if (validateInput()) {
             if (this.insertDACT()) {
+                List<DoAnChiTiet> newDoAnChiTietList = new DoAnChiTietDaoImpl().getByDoAn(doAn);
+                Set<DoAnChiTiet> newDoAnChiTietSet = new HashSet<>(newDoAnChiTietList);
+                doAn.setDoAnChiTiets(newDoAnChiTietSet);
                 DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-
                 this.dispose();
             } else {
                 DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.ERROR_MESSAGE);

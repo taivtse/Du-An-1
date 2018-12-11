@@ -15,6 +15,7 @@ public class DoAn  implements java.io.Serializable {
      private LoaiDoAn loaiDoAn;
      private String ten;
      private boolean dangBan;
+     private Boolean daXoa;
      private Set<DoAnChiTiet> doAnChiTiets = new HashSet<DoAnChiTiet>(0);
 
     public DoAn() {
@@ -63,6 +64,15 @@ public class DoAn  implements java.io.Serializable {
     public void setDangBan(boolean dangBan) {
         this.dangBan = dangBan;
     }
+
+    public Boolean isDaXoa() {
+        return daXoa;
+    }
+
+    public void setDaXoa(Boolean daXoa) {
+        this.daXoa = daXoa;
+    }
+    
     public Set<DoAnChiTiet> getDoAnChiTiets() {
         return this.doAnChiTiets;
     }
