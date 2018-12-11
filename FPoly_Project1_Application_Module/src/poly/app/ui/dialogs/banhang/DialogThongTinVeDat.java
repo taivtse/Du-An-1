@@ -450,6 +450,7 @@ public class DialogThongTinVeDat extends javax.swing.JDialog {
         
         if (isSuccess) {
             this.inVeban(listReportParameters);
+            DialogHelper.message(this, "In vé đặt thành công!", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
         } else {
             DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình in vé!", DialogHelper.ERROR_MESSAGE);

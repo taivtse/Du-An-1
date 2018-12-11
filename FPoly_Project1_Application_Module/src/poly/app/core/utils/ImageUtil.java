@@ -1,16 +1,15 @@
 package poly.app.core.utils;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class ImageUtil {
@@ -62,15 +61,14 @@ public class ImageUtil {
         return copyOfImage;
     }
 
-    public static ImageIcon resizeImage(File file, int width, int height) {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Image dimg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        dimg.flush();
+    public static ImageIcon resizeImage(BufferedImage img, int newWidth, int newHeight) {
+        Image tmp = img.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+
         return new ImageIcon(dimg);
     }
 }

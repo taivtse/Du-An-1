@@ -5,15 +5,22 @@
  */
 package poly.app.ui.dialogs.capnhat;
 
-import static java.awt.image.ImageObserver.HEIGHT;
-import java.util.Date;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import poly.app.core.daoimpl.LoaiPhimDaoImpl;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.entities.LoaiPhim;
 import poly.app.core.entities.Phim;
+import poly.app.core.helper.APIHelper;
 import poly.app.core.helper.DialogHelper;
+import poly.app.core.utils.ImageUtil;
 import poly.app.ui.utils.ValidationUtil;
 
 /**
@@ -111,6 +118,27 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         }
         return true;
     }
+    
+    private void loadImage(){
+        try {
+            String url = APIHelper.IMAGE_URL + phim.getHinhAnh();
+            
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            
+            // optional default is GET
+            con.setRequestMethod("GET");
+            
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream is = con.getInputStream();
+                ImageIcon icon = ImageUtil.resizeImage(ImageIO.read(is), lblImage.getWidth(), lblImage.getHeight());
+                lblImage.setIcon(icon);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DialogCapNhatPhim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -147,7 +175,7 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         txtTen = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
+        lblImage = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -286,11 +314,11 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        jLabel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
-        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel15.setOpaque(true);
-        jLabel15.setPreferredSize(new java.awt.Dimension(140, 190));
-        jPanel4.add(jLabel15, new java.awt.GridBagConstraints());
+        lblImage.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        lblImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblImage.setOpaque(true);
+        lblImage.setPreferredSize(new java.awt.Dimension(140, 190));
+        jPanel4.add(lblImage, new java.awt.GridBagConstraints());
 
         jLabel2.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel2.setText("Thời lượng");
@@ -441,6 +469,7 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadLoaiPhimToCombobox();
         setModelToInput();
+        loadImage();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
@@ -542,7 +571,6 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -556,6 +584,7 @@ public class DialogCapNhatPhim extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblImage;
     private javax.swing.JSpinner spnGioiHanTuoi;
     private javax.swing.JSpinner spnThoiLuong;
     private javax.swing.JTextField txtDienVien;
