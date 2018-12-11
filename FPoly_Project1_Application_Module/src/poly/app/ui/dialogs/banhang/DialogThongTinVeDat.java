@@ -103,7 +103,8 @@ public class DialogThongTinVeDat extends javax.swing.JDialog {
     }
     
     private void inVeban(List<VeBanReportParameter> listReportParameters) {
-        ReportPrinterUtil.showMultiPrintPreview(listReportParameters, ReportPrinterUtil.VEBAN_REPORT_URL);
+        ReportPrinterUtil.printMultiReport(listReportParameters, ReportPrinterUtil.HOADON_REPORT_URL, false);
+//        ReportPrinterUtil.showMultiPrintPreview(listReportParameters, ReportPrinterUtil.VEBAN_REPORT_URL);
     }
 
     /**

@@ -609,7 +609,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
         }
         
         parameter.setTotalPrice(tongCong);
-        ReportPrinterUtil.showPrintPreview(parameter, ReportPrinterUtil.HOADON_REPORT_URL);
+        ReportPrinterUtil.printReport(parameter, ReportPrinterUtil.HOADON_REPORT_URL, false);
 
         DefaultTableModel modelTable = (DefaultTableModel) tblDaChon.getModel();
         mapOrder.clear();
