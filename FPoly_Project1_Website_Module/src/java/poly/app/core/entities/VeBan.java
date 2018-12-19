@@ -23,12 +23,13 @@ public class VeBan  implements java.io.Serializable {
     }
 
 	
-    public VeBan(String id, GheNgoi gheNgoi, GiaVe giaVe, SuatChieu suatChieu, Date ngayBan, int tongTien) {
+    public VeBan(String id, GheNgoi gheNgoi, GiaVe giaVe, SuatChieu suatChieu, Date ngayBan, VeDat veDat, int tongTien) {
         this.id = id;
         this.gheNgoi = gheNgoi;
         this.giaVe = giaVe;
         this.suatChieu = suatChieu;
         this.ngayBan = ngayBan;
+        this.veDat = veDat;
         this.tongTien = tongTien;
     }
     public VeBan(String id, GheNgoi gheNgoi, GiaVe giaVe, NguoiDung nguoiDung, SuatChieu suatChieu, Date ngayBan, int tongTien, VeDat veDat) {
