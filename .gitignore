@@ -79,3 +79,7 @@ nbdist/
 # my custom
 !libraries/*
 FPoly_Project1_Application_Module/test/
+
+# These file will be tracked, custom by Vo Thanh Tai
+!*/libraries/*
+
