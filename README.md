@@ -159,3 +159,17 @@
 ![image](https://user-images.githubusercontent.com/41563586/53812654-84f40000-3f8e-11e9-9f2d-e2aed3ba34ae.png)
 
 
+### Thống kê phim:
+![image](https://user-images.githubusercontent.com/41563586/53813214-b02b1f00-3f8f-11e9-8575-355e62373c41.png)
+
+
+### Thống kê tổng doanh thu:
+![image](https://user-images.githubusercontent.com/41563586/53813245-bfaa6800-3f8f-11e9-9871-6bb841751978.png)
+
+
+### Đổi thông tin cá nhân:
+![image](https://user-images.githubusercontent.com/41563586/53813309-ebc5e900-3f8f-11e9-9855-f60cadb26554.png)
+
+
+### Đổi mật khẩu:
+![image](https://user-images.githubusercontent.com/41563586/53813309-ebc5e900-3f8f-11e9-9855-f60cadb26554.png)
