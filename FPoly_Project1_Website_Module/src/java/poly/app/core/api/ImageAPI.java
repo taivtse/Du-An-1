@@ -29,7 +29,7 @@ public class ImageAPI {
      * The directory where the images will be stored.
      * Make sure this directory exists before you run the service.
      */
-    private static final java.nio.file.Path BASE_DIR = Paths.get(System.getProperty("user.home"), "Documents", "Project1", "Images");
+    private static final java.nio.file.Path BASE_DIR = Paths.get("/Users/vothanhtai/Documents/WorkSpace/Java/FPT-Polytechnic/semester4-project1/FPoly_Project1_Website_Module/Images");
 
     /*
      * Upload a JPEG or PNG file.
@@ -62,10 +62,10 @@ public class ImageAPI {
      * Download a image file.
      */
     @GET
-    @Path("{name}")
+    @Path("{folder}/{name}")
     @Produces("image/*")
-    public InputStream getImage(@PathParam("name") String fileName) throws IOException {
-        java.nio.file.Path dest = BASE_DIR.resolve(fileName);
+    public InputStream getImage(@PathParam("folder") String folder, @PathParam("name") String fileName) throws IOException {
+        java.nio.file.Path dest = BASE_DIR.resolve(folder).resolve(fileName);
 
         try {
             return Files.newInputStream(dest);

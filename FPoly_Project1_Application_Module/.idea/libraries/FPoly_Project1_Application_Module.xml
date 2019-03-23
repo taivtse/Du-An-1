@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="FPoly_Project1_Application_Module">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/FPoly_Project1_Application_Module.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
