@@ -5,14 +5,31 @@
  */
 package poly.app.ui.dialogs.them;
 
-import java.util.Date;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import poly.app.core.daoimpl.LoaiPhimDaoImpl;
 import poly.app.core.entities.LoaiPhim;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
 import poly.app.core.daoimpl.PhimDaoImpl;
 import poly.app.core.entities.Phim;
 import poly.app.core.helper.DialogHelper;
+import poly.app.core.utils.ImageUtil;
 import poly.app.ui.utils.ValidationUtil;
 
 /**
@@ -21,6 +38,8 @@ import poly.app.ui.utils.ValidationUtil;
  */
 public class DialogThemPhim extends javax.swing.JDialog {
 
+    JFileChooser fileChooser = new JFileChooser();
+
     /**
      * Creates new form DialogThemNhanVien
      */
@@ -28,6 +47,8 @@ public class DialogThemPhim extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        FileFilter filter = new FileNameExtensionFilter("Image", "jpeg", "jpg", "png");
+        fileChooser.setFileFilter(filter);
     }
 
     private void loadLoaiPhimToCombobox() {
@@ -57,6 +78,16 @@ public class DialogThemPhim extends javax.swing.JDialog {
         phim.setTomTat(txtTomTat.getText());
         phim.setDaXoa(false);
         return phim;
+    }
+
+    private void uploadImage() {
+        if (fileChooser.getSelectedFile() != null) {
+            try {
+                
+            } catch (Exception ex) {
+                Logger.getLogger(DialogThemPhim.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     private boolean insertModelToDatabase() {
@@ -132,7 +163,7 @@ public class DialogThemPhim extends javax.swing.JDialog {
         btnHuy = new javax.swing.JButton();
         txtDienVien = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
+        lblImage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -284,11 +315,16 @@ public class DialogThemPhim extends javax.swing.JDialog {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        jLabel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
-        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel15.setOpaque(true);
-        jLabel15.setPreferredSize(new java.awt.Dimension(140, 190));
-        jPanel4.add(jLabel15, new java.awt.GridBagConstraints());
+        lblImage.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        lblImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblImage.setOpaque(true);
+        lblImage.setPreferredSize(new java.awt.Dimension(140, 190));
+        lblImage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                lblImageMouseReleased(evt);
+            }
+        });
+        jPanel4.add(lblImage, new java.awt.GridBagConstraints());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -424,14 +460,16 @@ public class DialogThemPhim extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
-        if (checkInput()) {
-            if (insertModelToDatabase()) {
-                DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
-                this.dispose();
-            } else {
-                DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
-            }
-        }
+        uploadImage();
+//        if (checkInput()) {
+//            
+//            if (insertModelToDatabase()) {
+//                DialogHelper.message(this, "Thêm dữ liệu thành công!", DialogHelper.INFORMATION_MESSAGE);
+//                this.dispose();
+//            } else {
+//                DialogHelper.message(this, "Thêm dữ liệu thất bại!", DialogHelper.ERROR_MESSAGE);
+//            }
+//        }
     }//GEN-LAST:event_btnLuuActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
@@ -439,18 +477,30 @@ public class DialogThemPhim extends javax.swing.JDialog {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void spnThoiLuongKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spnThoiLuongKeyTyped
-        if(String.valueOf(evt.getKeyChar()).matches("\\D"))
-        {
+        if (String.valueOf(evt.getKeyChar()).matches("\\D")) {
             evt.consume();
         }
     }//GEN-LAST:event_spnThoiLuongKeyTyped
 
     private void spnGioiHanTuoiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_spnGioiHanTuoiKeyTyped
-       if(String.valueOf(evt.getKeyChar()).matches("\\D"))
-        {
+        if (String.valueOf(evt.getKeyChar()).matches("\\D")) {
             evt.consume();
         }
     }//GEN-LAST:event_spnGioiHanTuoiKeyTyped
+
+    private void lblImageMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblImageMouseReleased
+        int action = fileChooser.showOpenDialog(this);
+
+        if (action == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                ImageIcon icon = ImageUtil.resizeImage(ImageIO.read(file), lblImage.getWidth(), lblImage.getHeight());
+                lblImage.setIcon(icon);
+            } catch (IOException ex) {
+                Logger.getLogger(DialogThemPhim.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_lblImageMouseReleased
 
     /**
      * @param args the command line arguments
@@ -512,7 +562,6 @@ public class DialogThemPhim extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -526,6 +575,7 @@ public class DialogThemPhim extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblImage;
     private javax.swing.JSpinner spnGioiHanTuoi;
     private javax.swing.JSpinner spnThoiLuong;
     private javax.swing.JTextField txtDienVien;

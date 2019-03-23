@@ -44,12 +44,14 @@ public class GheNgoiAPI {
                 .header("Access-Control-Allow-Origin", "*")
                 .build();
     }
-    
+
     @GET
-        @Path("suat-chieu/{suatChieuId}")
+    @Path("suat-chieu/{suatChieuId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getGheNgoiDaDatBySuatChieu(@PathParam("suatChieuId") String suatChieuId) {
+        System.out.println(suatChieuId);
         SuatChieu suatChieu = new SuatChieuDaoImpl().getById(suatChieuId);
+        System.out.println(suatChieu.getGioBatDau());
         List<GheNgoi> list = gheNgoiDao.getGheNgoiDaDatBySuatChieu(suatChieu);
         String json;
         try {

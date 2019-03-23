@@ -5,12 +5,21 @@
  */
 package poly.app.ui.dialogs.capnhat;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import poly.app.core.daoimpl.NguoiDungDaoImpl;
 import poly.app.core.daoimpl.VaiTroDaoImpl;
 import poly.app.core.entities.NguoiDung;
 import poly.app.core.entities.VaiTro;
+import poly.app.core.helper.APIHelper;
 import poly.app.core.helper.DialogHelper;
+import poly.app.core.utils.ImageUtil;
 import poly.app.ui.utils.ValidationUtil;
 
 /**
@@ -123,6 +132,27 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         }
 
     }
+    
+    private void loadImage(){
+        try {
+            String url = APIHelper.IMAGE_URL + nguoiDung.getHinhAnh();
+            
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            
+            // optional default is GET
+            con.setRequestMethod("GET");
+            
+            int responseCode = con.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream is = con.getInputStream();
+                ImageIcon icon = ImageUtil.resizeImage(ImageIO.read(is), lblImage.getWidth(), lblImage.getHeight());
+                lblImage.setIcon(icon);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DialogCapNhatPhim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -150,7 +180,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         txtEmail = new javax.swing.JTextField();
         rdoNu = new javax.swing.JRadioButton();
         jPanel4 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
+        lblImage = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         rdoNam = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
@@ -245,11 +275,11 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
-        jLabel15.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
-        jLabel15.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel15.setOpaque(true);
-        jLabel15.setPreferredSize(new java.awt.Dimension(136, 136));
-        jPanel4.add(jLabel15, new java.awt.GridBagConstraints());
+        lblImage.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
+        lblImage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblImage.setOpaque(true);
+        lblImage.setPreferredSize(new java.awt.Dimension(136, 136));
+        jPanel4.add(lblImage, new java.awt.GridBagConstraints());
 
         jLabel4.setFont(new java.awt.Font("Open Sans", 0, 14)); // NOI18N
         jLabel4.setText("Email");
@@ -436,7 +466,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         loadVaiTroToCombobox();
         setModelToInput();
-
+        loadImage();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
@@ -532,7 +562,6 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -545,6 +574,7 @@ public class DialogCapNhatNguoiDung extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel lblImage;
     private javax.swing.JRadioButton rdoNam;
     private javax.swing.JRadioButton rdoNu;
     private javax.swing.JTextField txtCMND;

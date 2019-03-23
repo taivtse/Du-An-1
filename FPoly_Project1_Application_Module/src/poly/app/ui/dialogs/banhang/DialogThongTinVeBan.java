@@ -513,6 +513,7 @@ public class DialogThongTinVeBan extends javax.swing.JDialog {
 
         if (isSuccess) {
             this.inVeban(listReportParameters);
+            DialogHelper.message(this, "In vé bán thành công!", DialogHelper.INFORMATION_MESSAGE);
             this.dispose();
         } else {
             DialogHelper.message(this, "Đã xảy ra lỗi trong quá trình thêm vé bán!", DialogHelper.ERROR_MESSAGE);

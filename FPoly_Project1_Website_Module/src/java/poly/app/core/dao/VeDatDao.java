@@ -13,5 +13,5 @@ import poly.app.core.entities.VeDat;
  * @author vothanhtai
  */
 public interface VeDatDao extends GenericDao<String, VeDat> {
-    
+    public VeDat getNewestVeDat();
 }

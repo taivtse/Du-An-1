@@ -421,6 +421,7 @@ public class FrameBanDoAn extends javax.swing.JFrame implements ClosableTabbedPa
     private void btnBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanActionPerformed
         if (tblDaChon.getRowCount() > 0) {
             this.Ban();
+            DialogHelper.message(this, "In hoá đơn thành công!", DialogHelper.INFORMATION_MESSAGE);
         } else {
             DialogHelper.message(this, "Chưa chọn đồ ăn!", DialogHelper.ERROR_MESSAGE);
         }
