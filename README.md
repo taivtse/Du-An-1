@@ -175,3 +175,23 @@
 
 ### Đổi mật khẩu:
 ![image](https://user-images.githubusercontent.com/41563586/53813309-ebc5e900-3f8f-11e9-9855-f60cadb26554.png)
+
+
+### Giao diện trang chủ website đặt vé:
+![image](https://user-images.githubusercontent.com/41563586/57291228-3a574700-70e9-11e9-9825-482dac959339.png)
+
+
+### Giao diện đăng nhập:
+![image](https://user-images.githubusercontent.com/41563586/57291371-82766980-70e9-11e9-9474-ddf6450b3cb4.png)
+
+
+### Chọn ghế ngồi:
+![image](https://user-images.githubusercontent.com/41563586/57291532-d7b27b00-70e9-11e9-8373-9ac412ff0f4e.png)
+
+
+### Chọn loại vé:
+![image](https://user-images.githubusercontent.com/41563586/57291672-10525480-70ea-11e9-9cb9-14cf77130798.png)
+
+
+### Tin nhắn xác nhận sau khi đặt thành công:
+<img src="https://user-images.githubusercontent.com/41563586/57291820-6626fc80-70ea-11e9-879e-4f95e5e473f0.png" width="350">
