@@ -2,6 +2,8 @@
 
 # Đề tài: Phần mềm quản lý rạp chiếu phim
 
+# Thời gian thực hiện: 1 tháng 20 ngày
+
 
 ## Các chức năng chính
 
